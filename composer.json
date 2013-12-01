@@ -1,0 +1,21 @@
+{
+    "name": "phpcr/shell",
+    "description": "Shell for PHPCR",
+    "require": {
+        "symfony/console": "2.1.*",
+        "jackalope/jackalope-doctrine-dbal": "dev-master",
+        "jackalope/jackalope": "dev-master",
+        "phpcr/phpcr": "dev-master",
+        "phpcr/phpcr-utils": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "dantleech",
+            "email": "daniel@dantleech.com"
+        }
+    ],
+    "autoload": {
+        "psr-0": {"": "src"}
+    }
+}
