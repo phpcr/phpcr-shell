@@ -10,7 +10,7 @@ class StringInput extends BaseInput
 
     public function __construct($command)
     {
-        $this->rawCommand = $command;
+        $this->rawCommand = trim($command);
 
         parent::__construct($command);
     }
@@ -18,5 +18,28 @@ class StringInput extends BaseInput
     public function getRawCommand()
     {
         return $this->rawCommand;
+    }
+
+    public function validate()
+    {
+        if (false === $this->isQuery()) {
+            return parent::validate();
+        }
+    }
+
+    protected function parse()
+    {
+        if (false === $this->isQuery()) {
+            return parent::parse();
+        }
+    }
+
+    protected function isQuery()
+    {
+        if (strpos($this->rawCommand, 'select') === 0) {
+            return true;
+        }
+
+        return false;
     }
 }

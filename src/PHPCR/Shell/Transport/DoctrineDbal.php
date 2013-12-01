@@ -33,6 +33,7 @@ class DoctrineDbal implements TransportInterface
             'host' => $this->input->getOption('db_host'),
             'driver' => $this->input->getOption('db_driver'),
             'dbname' => $this->input->getOption('db_name'),
+            'path' => $this->input->getOption('db_path'),
         ));
 
         $factory = new RepositoryFactoryDoctrineDBAL();

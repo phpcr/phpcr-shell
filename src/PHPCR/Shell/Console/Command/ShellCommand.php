@@ -32,6 +32,7 @@ class ShellCommand extends Command
             new InputOption('--db_password',    '-dp',   InputOption::VALUE_OPTIONAL, 'Database Password.'),
             new InputOption('--db_host',        '-dh',   InputOption::VALUE_REQUIRED, 'Database Host.', 'localhost'),
             new InputOption('--db_driver',      '-dd',   InputOption::VALUE_REQUIRED, 'Database Transport.', 'pdo_mysql'),
+            new InputOption('--db_path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
         ));
     }
 
