@@ -43,5 +43,7 @@ class SelectCommand extends AbstractSessionCommand
         $start = microtime(true);
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
+
+        $this->getHelper('result_formatter')->format($result, $output, $elapsed);
     }
 }

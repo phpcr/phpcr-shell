@@ -11,6 +11,7 @@ use PHPCR\Shell\Console\Command\Workspace\SelectCommand;
 use PHPCR\Shell\Console\Command\Workspace\NodeTypeListCommand;
 use PHPCR\Util\Console\Helper\PhpcrConsoleDumperHelper;
 use PHPCR\Shell\Console\Command\Workspace\NodeDumpCommand;
+use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
 
 class ShellApplication extends Application
 {
@@ -23,6 +24,7 @@ class ShellApplication extends Application
         $this->add(new NodeDumpCommand());
 
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
+        $this->getHelperSet()->set(new ResultFormatterHelper());
 
         foreach ($this->all() as $command) {
             if ($command instanceof AbstractSessionCommand) {
