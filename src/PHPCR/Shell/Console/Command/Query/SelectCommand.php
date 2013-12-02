@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCR\Shell\Console\Command\Workspace;
+namespace PHPCR\Shell\Console\Command\Query;
 
 use PHPCR\Shell\Console\ShellQueryCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,6 +23,12 @@ class SelectCommand extends AbstractSessionCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $sql = $input->getRawCommand();
+
+        // trim ";" for people used to MysQL
+        if (substr($sql, -1) == ';') {
+            $sql = substr($sql, 0, -1);
+        }
+
         $language = strtoupper($input->getOption('language'));
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');

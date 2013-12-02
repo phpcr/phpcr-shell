@@ -8,6 +8,7 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Shell as BaseShell;
 use PHPCR\Shell\Console\Input\StringInput;
+use PHPCR\Shell\Context;
 
 class Shell
 {
@@ -43,6 +44,7 @@ class Shell
     {
         $this->application->setAutoExit(false);
         $this->application->setCatchExceptions(true);
+        $context = new Context('/');
 
         if ($this->hasReadline) {
             readline_read_history($this->history);
@@ -65,26 +67,7 @@ class Shell
                 readline_write_history($this->history);
             }
 
-            if ($this->processIsolation) {
-                $pb = new ProcessBuilder();
-
-                $process = $pb
-                    ->add($php)
-                    ->add($_SERVER['argv'][0])
-                    ->add($command)
-                    ->inheritEnvironmentVariables(true)
-                    ->getProcess()
-                ;
-
-                $output = $this->output;
-                $process->run(function($type, $data) use ($output) {
-                    $output->writeln($data);
-                });
-
-                $ret = $process->getExitCode();
-            } else {
-                $ret = $this->application->run(new StringInput($command), $this->output);
-            }
+            $ret = $this->application->run(new StringInput($command), $this->output);
 
             if (0 !== $ret) {
                 $this->output->writeln(sprintf('<error>The command terminated with an error status (%s)</error>', $ret));
