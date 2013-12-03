@@ -52,7 +52,11 @@ class PhpcrSession implements SessionInterface
         if (substr($path, 0, 1) == '/') {
             $absPath = $path;
         } else {
-            $absPath = $this->getCwd() . '/' . $path;
+            if ($this->cwd == '/') {
+                $absPath = sprintf('/%s', $path);
+            } else {
+                $absPath = sprintf('%s/%s', $this->getCwd(), $path);
+            }
         }
 
         return $absPath;
@@ -161,7 +165,7 @@ class PhpcrSession implements SessionInterface
 
     public function move($srcAbsPath, $destAbsPath)
     {
-        return $this->session->move($srcAbsPath, $destAbsPath);
+        return $this->session->move($this->getAbsPath($srcAbsPath), $this->getAbsPath($destAbsPath));
     }
 
     public function removeItem($path)
@@ -201,7 +205,7 @@ class PhpcrSession implements SessionInterface
 
     public function importXML($parentAbsPath, $uri, $uuidBehavior)
     {
-        return $this->session->importXML($parentAbsPath, $uri, $uuidBehavior);
+        return $this->session->importXML($this->getAbsPath($parentAbsPath), $uri, $uuidBehavior);
     }
 
     public function exportSystemView($path, $stream, $skipBinary, $noRecurse)

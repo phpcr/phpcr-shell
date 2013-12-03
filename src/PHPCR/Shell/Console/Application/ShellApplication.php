@@ -100,7 +100,6 @@ class ShellApplication extends Application
         $name = $this->getCommandName($input);
 
         if (!$name) {
-            $name = 'help';
             $input = new ArrayInput(array('command' => 'pwd'));
         }
 

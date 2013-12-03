@@ -58,7 +58,7 @@ PHPCR > select * from nt:unstructured;
 
 ## Changing the CWD
 
-The PHPCR shell (will) allows you to navigate the PHPCR document hierarchy like a file system
+The PHPCR shell allows you to navigate the PHPCR document hierarchy like a file system
 
 ````bash
 PHPCR > ls
