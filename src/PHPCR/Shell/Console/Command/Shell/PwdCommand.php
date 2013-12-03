@@ -18,7 +18,9 @@ class PwdCommand extends AbstractSessionCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln($this->getApplication()->getCwd());
+        $output->writeln(
+            '<comment>' . $this->getHelper('phpcr')->getSession()->getCwd() . '</comment>'
+        );
     }
 }
 

@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
 use PHPCR\SimpleCredentials;
+use PHPCR\Shell\PhpcrSession;
 
 class ShellCommand extends Command
 {
@@ -47,6 +48,7 @@ class ShellCommand extends Command
         );
 
         $session = $repository->login($credentials);
+        $session = new PhpcrSession($session);
 
         $application = new Shell(new ShellApplication($session));
         $application->run($input, $output);

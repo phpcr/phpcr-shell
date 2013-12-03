@@ -33,7 +33,7 @@ class SelectCommand extends AbstractSessionCommand
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
 
-        $session = $this->getSession();
+        $session = $this->getHelper('phpcr')->getSession();
         $qm = $session->getWorkspace()->getQueryManager();
 
         $query = $qm->createQuery($sql, $language);

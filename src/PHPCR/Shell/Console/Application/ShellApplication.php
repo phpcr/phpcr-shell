@@ -29,21 +29,10 @@ use PHPCR\Util\Console\Command\WorkspacePurgeCommand;
 use Symfony\Component\Console\Command\Command;
 use PHPCR\Shell\Console\Command\Shell\ChangePathCommand;
 use PHPCR\Shell\Console\Command\Shell\PwdCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 
 class ShellApplication extends Application
 {
-    protected $cwd;
-
-    public function getCwd() 
-    {
-        return $this->cwd;
-    }
-    
-    public function setCwd($cwd)
-    {
-        $this->cwd = $cwd;
-    }
-    
     public function __construct(SessionInterface $session)
     {
         parent::__construct('PHPCR', '1.0');
@@ -56,6 +45,8 @@ class ShellApplication extends Application
             ->setName('ls')
             ->setDescription('Alias for dump')
         );
+        $this->get('ls')
+            ->getDefinition()->getArgument('identifier')->setDefault(null);
         $this->add($this->wrap(new NodeMoveCommand())
             ->setName('mv')
         );
@@ -97,16 +88,22 @@ class ShellApplication extends Application
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new PhpcrHelper($session));
         $this->getHelperSet()->set(new PhpcrCliHelper($session));
-
-        foreach ($this->all() as $command) {
-            if ($command instanceof AbstractSessionCommand) {
-                $command->setSession($session);
-            }
-        }
     }
 
     public function wrap(Command $command)
     {
         return $command;
+    }
+
+    public function doRun(InputInterface $input, OutputInterface $output)
+    {
+        $name = $this->getCommandName($input);
+
+        if (!$name) {
+            $name = 'help';
+            $input = new ArrayInput(array('command' => 'pwd'));
+        }
+
+        return parent::doRun($input, $output);
     }
 }
