@@ -12,6 +12,10 @@ class StringInput extends BaseInput
     {
         $this->rawCommand = trim($command);
 
+        if (strpos(strtolower($this->rawCommand), 'select') === 0) {
+            $command = 'select' . substr($command, 6);
+        }
+
         parent::__construct($command);
     }
 
@@ -36,7 +40,7 @@ class StringInput extends BaseInput
 
     protected function isQuery()
     {
-        if (strpos($this->rawCommand, 'select') === 0) {
+        if (strpos(strtolower($this->rawCommand), 'select') === 0) {
             return true;
         }
 
