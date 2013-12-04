@@ -106,8 +106,12 @@ EOF;
         $info = readline_info();
         $text = substr($info['line_buffer'], 0, $info['end']);
 
+        $list = $this->application->getHelperSet()->get('phpcr')->getSession()->autocomplete($text);
+        return $list;
+        
+
         if ($info['point'] !== $info['end']) {
-            return true;
+            return false;
         }
 
         // task name?
@@ -119,12 +123,12 @@ EOF;
         try {
             $command = $this->application->find(substr($text, 0, strpos($text, ' ')));
         } catch (\Exception $e) {
-            return true;
+            return false;
         }
 
         $list = array('--help');
         foreach ($command->getDefinition()->getOptions() as $option) {
-            $list[] = '--'.$option->getName();
+            $list[] = '--' . $option->getName();
         }
 
         return $list;

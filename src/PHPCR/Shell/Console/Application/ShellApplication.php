@@ -45,8 +45,9 @@ class ShellApplication extends Application
             ->setName('ls')
             ->setDescription('Alias for dump')
         );
-        $this->get('ls')
-            ->getDefinition()->getArgument('identifier')->setDefault(null);
+        $ls = $this->get('ls');
+        $ls->getDefinition()->getArgument('identifier')->setDefault(null);
+
         $this->add($this->wrap(new NodeMoveCommand())
             ->setName('mv')
         );
