@@ -1,5 +1,5 @@
 {
-    "name": "phpcr/shell",
+    "name": "dantleech/phpcrsh",
     "description": "Shell for PHPCR",
     "require": {
         "symfony/console": "2.1.*",
