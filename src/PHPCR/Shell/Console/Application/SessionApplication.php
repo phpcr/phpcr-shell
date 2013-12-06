@@ -20,7 +20,7 @@ class SessionApplication extends BaseApplication
 {
     public function __construct()
     {
-        parent::__construct('PHPCR', '1.0');
+        parent::__construct('PHPCRSH', '0.1');
 
         $command = new ShellCommand();
         $command->setApplication($this);

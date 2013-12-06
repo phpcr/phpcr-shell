@@ -43,7 +43,7 @@ class ShellApplication extends Application
 
     public function __construct(InputInterface $input, $transports = array())
     {
-        parent::__construct('PHPCR', '1.0');
+        parent::__construct('PHPCRSH', '0.1');
 
         // initialize transports
         foreach (array_merge(array(
