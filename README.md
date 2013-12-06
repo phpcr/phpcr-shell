@@ -12,9 +12,9 @@ To connect to a doctrine-dbal PHPCR repository:
 Full definition:
 
 ````bash
-$ php bin/phpcr --help          
+./bin/phpcrsh --help
 Usage:
- phpcr_shell [-h|--help] [-v|--verbose] [-V|--version] [--ansi] [--no-ansi] [-t|--transport="..."] [-pu|--phpcr_username="..."] [-pp|--phpcr_password[="..."]] [-pw|--phpcr_workspace[="..."]] [-du|--db_username="..."] [-dn|--db_name="..."] [-dp|--db_password[="..."]] [-dh|--db_host="..."] [-dd|--db_driver="..."] [-dP|--db_path="..."]
+ phpcr_shell [-h|--help] [-v|--verbose] [-V|--version] [--ansi] [--no-ansi] [-t|--transport="..."] [-pu|--phpcr-username="..."] [-pp|--phpcr-password[="..."]] [-pw|--phpcr-workspace[="..."]] [-du|--db-username="..."] [-dn|--db-name="..."] [-dp|--db-password[="..."]] [-dh|--db-host="..."] [-dd|--db-driver="..."] [-dP|--db-path="..."] [-url|--repo-url="..."]
 
 Options:
  --help (-h)             Display this help message.
@@ -23,15 +23,16 @@ Options:
  --ansi                  Force ANSI output.
  --no-ansi               Disable ANSI output.
  --transport (-t)        Transport to use. (default: "doctrine-dbal")
- --phpcr_username (-pu)  PHPCR Username. (default: "admin")
- --phpcr_password (-pp)  PHPCR Password. (default: "admin")
- --phpcr_workspace (-pw) PHPCR Workspace. (default: "default")
- --db_username (-du)     Database Username. (default: "root")
- --db_name (-dn)         Database Name. (default: "phpcr")
- --db_password (-dp)     Database Password.
- --db_host (-dh)         Database Host. (default: "localhost")
- --db_driver (-dd)       Database Transport. (default: "pdo_mysql")
- --db_path (-dP)         Database Path.
+ --phpcr-username (-pu)  PHPCR Username. (default: "admin")
+ --phpcr-password (-pp)  PHPCR Password. (default: "admin")
+ --phpcr-workspace (-pw) PHPCR Workspace. (default: "default")
+ --db-username (-du)     Database Username. (default: "root")
+ --db-name (-dn)         Database Name. (default: "phpcr")
+ --db-password (-dp)     Database Password.
+ --db-host (-dh)         Database Host. (default: "localhost")
+ --db-driver (-dd)       Database Transport. (default: "pdo_mysql")
+ --db-path (-dP)         Database Path.
+ --repo-url (-url)       URL of repository (e.g. for jackrabbit). (default: "http://localhost:8080/server/")
 ````
 
 ## Executing Select Queries
@@ -39,7 +40,7 @@ Options:
 JCR_SQL2 Select queries can be executed in the same way as in the MySQL shell:
 
 ````bash
-PHPCR > select * from nt:unstructured;
+PHPCR > SELECT * FROM nt:unstructured;
 0
   nt:unstructured
     /
@@ -72,33 +73,12 @@ PHPCR > pwd
 PHPCR > mv foobar /barfoo
 ````
 
-All available commands:
+List all available commands with the `list` command:
 
 ````bash
-Welcome to the PHPCR shell (1.0).
-
-At the prompt, type help for some help,
-or list to get a list of available commands.
-
-To exit the shell, type ^D.
-
-PHPCR > help
-PHPCR version 1.0
-
-Usage:
-  [options] command [arguments]
-
-Options:
-  --help           -h Display this help message.
-  --quiet          -q Do not output any message.
-  --verbose        -v Increase verbosity of messages.
-  --version        -V Display this application version.
-  --ansi              Force ANSI output.
-  --no-ansi           Disable ANSI output.
-  --no-interaction -n Do not ask any interactive question.
-
 Available commands:
   cd                 Change the current path
+  exit               Logout and quit the shell
   help               Displays help for a command
   list               Lists commands
   ls                 Alias for dump

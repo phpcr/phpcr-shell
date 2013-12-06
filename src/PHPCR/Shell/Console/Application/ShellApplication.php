@@ -34,10 +34,12 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use PHPCR\Shell\Console\Command\Shell\ExitCommand;
 use PHPCR\Shell\Console\TransportInterface;
+use PHPCR\Shell\Console\Command\Shell\WorkspaceChangeCommand;
 
 class ShellApplication extends Application
 {
     protected $transports;
+    protected $credentials;
 
     public function __construct(InputInterface $input, $transports = array())
     {
@@ -123,6 +125,10 @@ class ShellApplication extends Application
         $session = new PhpcrSession($session);
 
         return $session;
+    }
+
+    public function changeWorkspace($workspace)
+    {
     }
 
     private function getTransport(InputInterface $input)
