@@ -8,7 +8,6 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Shell as BaseShell;
 use PHPCR\Shell\Console\Input\StringInput;
-use PHPCR\Shell\Context;
 
 class Shell
 {
@@ -44,7 +43,6 @@ class Shell
     {
         $this->application->setAutoExit(false);
         $this->application->setCatchExceptions(true);
-        $context = new Context('/');
 
         if ($this->hasReadline) {
             readline_read_history($this->history);

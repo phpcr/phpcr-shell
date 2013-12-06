@@ -2,15 +2,12 @@
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
-use PHPCR\Shell\Console\ShellQueryCommand;
+use PHPCR\PathNotFoundException;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use PHPCR\Shell\Console\Command\AbstractSessionCommand;
-use PHPCR\ItemNotFoundException;
-use PHPCR\PathNotFoundException;
 
-class ChangePathCommand extends AbstractSessionCommand
+class ChangePathCommand extends Command
 {
     protected function configure()
     {

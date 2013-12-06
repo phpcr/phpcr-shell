@@ -4,6 +4,7 @@
     "require": {
         "symfony/console": "2.1.*",
         "jackalope/jackalope-doctrine-dbal": "dev-master",
+        "jackalope/jackalope-jackrabbit": "dev-master",
         "jackalope/jackalope": "dev-master",
         "phpcr/phpcr": "dev-master",
         "phpcr/phpcr-utils": "dev-master"

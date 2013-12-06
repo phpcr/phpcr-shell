@@ -33,18 +33,31 @@ use PHPCR\Util\Console\Helper\PhpcrHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use PHPCR\Shell\Console\Command\Shell\ExitCommand;
+use PHPCR\Shell\Console\TransportInterface;
 
 class ShellApplication extends Application
 {
-    public function __construct(InputInterface $input)
+    protected $transports;
+
+    public function __construct(InputInterface $input, $transports = array())
     {
         parent::__construct('PHPCR', '1.0');
 
+        // initialize transports
+        foreach (array_merge(array(
+            new \PHPCR\Shell\Transport\DoctrineDbal($input),
+            new \PHPCR\Shell\Transport\Jackrabbit($input),
+        ), $transports) as $transport) {
+            $this->transports[$transport->getName()] = $transport;;
+        }
+
+        // add shell-specific commands
         $this->add(new SelectCommand());
         $this->add(new ChangePathCommand());
         $this->add(new PwdCommand());
         $this->add(new ExitCommand());
 
+        // wrap phpcr-util commands
         $this->add($this->wrap(new NodeDumpCommand())
             ->setName('ls')
             ->setDescription('Alias for dump')
@@ -89,7 +102,7 @@ class ShellApplication extends Application
             ->setName('workspace-purge')
         );
 
-        $session = $this->getSession($input, $workspace);
+        $session = $this->getSession($input);
 
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
         $this->getHelperSet()->set(new ResultFormatterHelper());
@@ -114,23 +127,16 @@ class ShellApplication extends Application
 
     private function getTransport(InputInterface $input)
     {
-        foreach (array(
-            new \PHPCR\Shell\Transport\DoctrineDbal($input),
-            new \PHPCR\Shell\Transport\Jackrabbit($input),
-        ) as $transport) {
-            $transports[$transport->getName()] = $transport;
-        }
-
         $transportName = $input->getOption('transport');
 
-        if (!isset($transports[$transportName])) {
+        if (!isset($this->transports[$transportName])) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown transport "%s", I have "%s"',
-                $transportName, implode(', ', array_keys($transports))
+                $transportName, implode(', ', array_keys($this->transports))
             ));
         }
 
-        $transport = $transports[$transportName];
+        $transport = $this->transports[$transportName];
 
         return $transport;
     }

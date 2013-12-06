@@ -8,8 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
-use PHPCR\SimpleCredentials;
-use PHPCR\Shell\PhpcrSession;
 
 class ShellCommand extends Command
 {
@@ -42,41 +40,7 @@ class ShellCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $transport = $this->getTransport($input);
-        $repository = $transport->getRepository();
-
-        $credentials = new SimpleCredentials(
-            $input->getOption('phpcr-username'),
-            $input->getOption('phpcr-password')
-        );
-
-        $session = $repository->login($credentials);
-        $session = new PhpcrSession($session);
-
-        $application = new Shell(new ShellApplication($session));
+        $application = new Shell(new ShellApplication($input));
         $application->run($input, $output);
-    }
-
-    protected function getTransport(InputInterface $input)
-    {
-        foreach (array(
-            new \PHPCR\Shell\Transport\DoctrineDbal($input),
-            new \PHPCR\Shell\Transport\Jackrabbit($input),
-        ) as $transport) {
-            $transports[$transport->getName()] = $transport;
-        }
-
-        $transportName = $input->getOption('transport');
-
-        if (!isset($transports[$transportName])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown transport "%s", I have "%s"',
-                $transportName, implode(', ', array_keys($transports))
-            ));
-        }
-
-        $transport = $transports[$transportName];
-
-        return $transport;
     }
 }

@@ -2,13 +2,12 @@
 
 namespace PHPCR\Shell\Console\Command\Query;
 
-use PHPCR\Shell\Console\ShellQueryCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use PHPCR\Shell\Console\Command\AbstractSessionCommand;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class SelectCommand extends AbstractSessionCommand
+class SelectCommand extends Command
 {
     protected function configure()
     {
