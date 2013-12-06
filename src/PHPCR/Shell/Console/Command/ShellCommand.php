@@ -19,22 +19,25 @@ class ShellCommand extends Command
     {
         $this->setName('phpcr_shell');
         $this->setDefinition(array(
-            new InputOption('--help',           '-h', InputOption::VALUE_NONE, 'Display this help message.'),
-            new InputOption('--verbose',        '-v', InputOption::VALUE_NONE, 'Increase verbosity of messages.'),
-            new InputOption('--version',        '-V', InputOption::VALUE_NONE, 'Display this application version.'),
-            new InputOption('--ansi',           '',   InputOption::VALUE_NONE, 'Force ANSI output.'),
-            new InputOption('--no-ansi',        '',   InputOption::VALUE_NONE, 'Disable ANSI output.'),
-            new InputOption('--transport',      '-t',   InputOption::VALUE_REQUIRED, 'Transport to use.', 'doctrine-dbal'),
-            new InputOption('--phpcr_username', '-pu',   InputOption::VALUE_REQUIRED, 'PHPCR Username.', 'admin'),
-            new InputOption('--phpcr_password', '-pp',   InputOption::VALUE_OPTIONAL, 'PHPCR Password.', 'admin'),
-            new InputOption('--phpcr_workspace','-pw',   InputOption::VALUE_OPTIONAL, 'PHPCR Workspace.', 'default'),
-            new InputOption('--db_username',    '-du',   InputOption::VALUE_REQUIRED, 'Database Username.', 'root'),
-            new InputOption('--db_name',        '-dn',   InputOption::VALUE_REQUIRED, 'Database Name.', 'phpcr'),
-            new InputOption('--db_password',    '-dp',   InputOption::VALUE_OPTIONAL, 'Database Password.'),
-            new InputOption('--db_host',        '-dh',   InputOption::VALUE_REQUIRED, 'Database Host.', 'localhost'),
-            new InputOption('--db_driver',      '-dd',   InputOption::VALUE_REQUIRED, 'Database Transport.', 'pdo_mysql'),
-            new InputOption('--db_path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
-        ));
+            new InputOption('--help',           '-h',    InputOption::VALUE_NONE, 'Display this help message.'),
+            new InputOption('--verbose',        '-v',    InputOption::VALUE_NONE, 'Increase verbosity of messages.'),
+            new InputOption('--version',        '-V',    InputOption::VALUE_NONE, 'Display this application version.'),
+            new InputOption('--ansi',           '',      InputOption::VALUE_NONE, 'Force ANSI output.'),
+            new InputOption('--no-ansi',        '',      InputOption::VALUE_NONE, 'Disable ANSI output.'),
+            new InputOption('--transport',      '-t',    InputOption::VALUE_REQUIRED, 'Transport to use.', 'doctrine-dbal'),
+            new InputOption('--phpcr-username', '-pu',   InputOption::VALUE_REQUIRED, 'PHPCR Username.', 'admin'),
+            new InputOption('--phpcr-password', '-pp',   InputOption::VALUE_OPTIONAL, 'PHPCR Password.', 'admin'),
+            new InputOption('--phpcr-workspace','-pw',   InputOption::VALUE_OPTIONAL, 'PHPCR Workspace.', 'default'),
+            new InputOption('--db-username',    '-du',   InputOption::VALUE_REQUIRED, 'Database Username.', 'root'),
+            new InputOption('--db-name',        '-dn',   InputOption::VALUE_REQUIRED, 'Database Name.', 'phpcr'),
+            new InputOption('--db-password',    '-dp',   InputOption::VALUE_OPTIONAL, 'Database Password.'),
+            new InputOption('--db-host',        '-dh',   InputOption::VALUE_REQUIRED, 'Database Host.', 'localhost'),
+            new InputOption('--db-driver',      '-dd',   InputOption::VALUE_REQUIRED, 'Database Transport.', 'pdo_mysql'),
+            new InputOption('--db-path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
+            new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).',
+                'http://localhost:8080/server/'
+            ),
+    ));
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -43,8 +46,8 @@ class ShellCommand extends Command
         $repository = $transport->getRepository();
 
         $credentials = new SimpleCredentials(
-            $input->getOption('phpcr_username'),
-            $input->getOption('phpcr_password')
+            $input->getOption('phpcr-username'),
+            $input->getOption('phpcr-password')
         );
 
         $session = $repository->login($credentials);
@@ -58,6 +61,7 @@ class ShellCommand extends Command
     {
         foreach (array(
             new \PHPCR\Shell\Transport\DoctrineDbal($input),
+            new \PHPCR\Shell\Transport\Jackrabbit($input),
         ) as $transport) {
             $transports[$transport->getName()] = $transport;
         }
@@ -67,7 +71,7 @@ class ShellCommand extends Command
         if (!isset($transports[$transportName])) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown transport "%s", I have "%s"',
-                $transportName, implode(array_keys($transports))
+                $transportName, implode(', ', array_keys($transports))
             ));
         }
 

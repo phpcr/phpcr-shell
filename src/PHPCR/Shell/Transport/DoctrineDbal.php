@@ -28,12 +28,12 @@ class DoctrineDbal implements TransportInterface
     public function getRepository()
     {
         $connection = DriverManager::getConnection($ops = array(
-            'user' => $this->input->getOption('db_username'),
-            'password' => $this->input->getOption('db_password'),
-            'host' => $this->input->getOption('db_host'),
-            'driver' => $this->input->getOption('db_driver'),
-            'dbname' => $this->input->getOption('db_name'),
-            'path' => $this->input->getOption('db_path'),
+            'user' => $this->input->getOption('db-username'),
+            'password' => $this->input->getOption('db-password'),
+            'host' => $this->input->getOption('db-host'),
+            'driver' => $this->input->getOption('db-driver'),
+            'dbname' => $this->input->getOption('db-name'),
+            'path' => $this->input->getOption('db-path'),
         ));
 
         $factory = new RepositoryFactoryDoctrineDBAL();
