@@ -7,12 +7,12 @@ Shell for PHPCR
 
 To connect to a doctrine-dbal PHPCR repository:
 
-    $ php bin/phpcr-shell --db_name=foobar --db_username=user --db_password=foobar
+    $ php bin/phpcr --db-name=foobar --db-username=user --db-password=foobar
 
 Full definition:
 
 ````bash
-./bin/phpcrsh --help
+./bin/phpcr --help
 Usage:
  phpcr_shell [-h|--help] [-v|--verbose] [-V|--version] [--ansi] [--no-ansi] [-t|--transport="..."] [-pu|--phpcr-username="..."] [-pp|--phpcr-password[="..."]] [-pw|--phpcr-workspace[="..."]] [-du|--db-username="..."] [-dn|--db-name="..."] [-dp|--db-password[="..."]] [-dh|--db-host="..."] [-dd|--db-driver="..."] [-dP|--db-path="..."] [-url|--repo-url="..."]
 

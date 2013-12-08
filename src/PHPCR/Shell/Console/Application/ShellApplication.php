@@ -41,9 +41,9 @@ class ShellApplication extends Application
     protected $transports;
     protected $credentials;
 
-    public function __construct(InputInterface $input, $transports = array())
+    public function __construct($appName, $version, InputInterface $input, $transports = array())
     {
-        parent::__construct('PHPCRSH', '0.1');
+        parent::__construct($appName, $version);
 
         // initialize transports
         foreach (array_merge(array(
@@ -161,5 +161,12 @@ class ShellApplication extends Application
         }
 
         return parent::doRun($input, $output);
+    }
+
+    public function renderException($e, $output)
+    {
+        do {
+            $output->writeln(sprintf('<fg=red>%s</fg=red>', $e->getMessage()));
+        } while ($e = $e->getPrevious());
     }
 }

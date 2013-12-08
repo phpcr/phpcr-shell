@@ -40,7 +40,11 @@ class ShellCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $application = new Shell(new ShellApplication($input));
+        $application = new Shell(new ShellApplication(
+            $this->getApplication()->getName(),
+            $this->getApplication()->getVersion(),
+            $input
+        ));
         $application->run($input, $output);
     }
 }

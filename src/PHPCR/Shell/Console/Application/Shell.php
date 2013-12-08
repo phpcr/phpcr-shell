@@ -9,6 +9,11 @@ use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Shell as BaseShell;
 use PHPCR\Shell\Console\Input\StringInput;
 
+/**
+ * This is more or less a copy of the Symfony\Component\Shell
+ *
+ * @author Daniel Leech
+ */
 class Shell
 {
     private $application;
@@ -66,10 +71,6 @@ class Shell
             }
 
             $ret = $this->application->run(new StringInput($command), $this->output);
-
-            if (0 !== $ret) {
-                $this->output->writeln(sprintf('<error>The command terminated with an error status (%s)</error>', $ret));
-            }
         }
     }
 
@@ -87,7 +88,7 @@ Welcome to the <info>{$this->application->getName()}</info> shell (<comment>{$th
 At the prompt, type <comment>help</comment> for some help,
 or <comment>list</comment> to get a list of available commands.
 
-To exit the shell, type <comment>^D</comment>.
+To exit the shell, type <comment>exit</comment>.
 
 EOF;
     }

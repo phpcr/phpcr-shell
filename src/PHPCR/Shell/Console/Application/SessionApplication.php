@@ -16,11 +16,17 @@ use Symfony\Component\Console\Command\Command;
 use PHPCR\Shell\Console\Command\ShellCommand;
 use PHPCR\Shell\Console\Input\ArgvInput;
 
+/**
+ * This application wraps a single command which accepts
+ * the connection parameters and starts an interactive shell.
+ *
+ * @author Daniel Leech <daniel@dantleech.com>
+ */
 class SessionApplication extends BaseApplication
 {
     public function __construct()
     {
-        parent::__construct('PHPCRSH', '0.1');
+        parent::__construct('PHPCR', '1.0');
 
         $command = new ShellCommand();
         $command->setApplication($this);
@@ -30,11 +36,6 @@ class SessionApplication extends BaseApplication
     public function getDefaultInputDefinition()
     {
         return new InputDefinition(array());
-    }
-
-    public function run()
-    {
-        parent::run();
     }
 
     protected function getCommandName($input)
