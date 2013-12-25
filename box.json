@@ -8,7 +8,7 @@
     "finder": [
         {
             "name": "*.php",
-            "exclude": ["Tests"],
+            "exclude": ["tests"],
             "in": "vendor"
         }
     ],
