@@ -3,6 +3,7 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Helper\TableHelper;
 use PHPCR\Query\QueryResultInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\PropertyType;
@@ -20,27 +21,32 @@ class ResultFormatterHelper extends Helper
         $selectorNames = $result->getSelectorNames();
 
         foreach ($result->getRows() as $i => $row) {
-            $output->writeln(sprintf('%s ----', $i + 1));
+            $output->writeln(sprintf($str = '| <info>Row:</info> #%d <info>Score:</info> %d',
+                $i, $row->getScore()
+            ));
+
             foreach ($selectorNames as $selectorName) {
                 $node = $row->getNode($selectorName);
                 $properties = $node->getProperties();
-                $output->writeln(sprintf(
-                    '  [%s] [path:<comment>%s</comment>] [uid:<info>%s</info>]',
+                $output->writeln(sprintf('| <info>selector:</info> %s <info>path:</info> %s <info>uid:</info> %s',
                     $selectorName, $node->getPath(), $node->getIdentifier()
                 ));
 
+                $table = new TableHelper;
+                $table->setHeaders(array('Name', 'Type', 'Multiple', 'Value'));
                 foreach ($properties as $key => $value) {
-                    $output->writeln(sprintf('    <info>%s</info> <fg=magenta>%s%s</fg=magenta>: %s',
+                    $table->addRow(array(
                         $key,
                         PropertyType::nameFromValue($value->getType()),
-                        $value->isMultiple() ? '[]' : '',
+                        $value->isMultiple() ? 'yes' : 'no',
                         $this->formatValue($value)
                     ));
                 }
+                $table->render($output);
             }
+            $output->writeln('');
         }
 
-        $output->writeln('');
         $output->writeln(sprintf('%s rows in set (%s sec)', count($result->getRows()), number_format($elapsed, 2)));
     }
 
@@ -53,17 +59,19 @@ class ResultFormatterHelper extends Helper
             $array = $value;
             $values = array();
 
-            foreach ($array->getValue() as $value) {
+            foreach ($array->getValue() as $i => $value) {
                 if ($value instanceof NodeInterface) {
-                    $values[] = $value->getPath();
+                    $value = $value->getPath();
                 } else if (is_object($value)) {
-                    $values[] = '<UNKNOWN OBJECT>';
+                    $value = '<UNKNOWN OBJECT>';
                 } else {
-                    $values[] = $value;
+                    $value = $value;
                 }
+                $value = '[' . $i . '] ' . $value;
+                $values[] = $value;
             }
 
-            return "\n     - " . implode("\n     - ", $values);
+            return implode("\n", $values);
         }
 
         switch (intval($value->getType())) {

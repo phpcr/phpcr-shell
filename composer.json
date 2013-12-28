@@ -2,7 +2,7 @@
     "name": "dantleech/phpcrsh",
     "description": "Shell for PHPCR",
     "require": {
-        "symfony/console": "2.1.*",
+        "symfony/console": "2.3.*",
         "jackalope/jackalope-doctrine-dbal": "dev-master",
         "jackalope/jackalope-jackrabbit": "dev-master",
         "jackalope/jackalope": "dev-master",
