@@ -1,6 +1,8 @@
 Shell for PHPCR
 ---------------
 
+[![Build Status](https://travis-ci.org/phpcr/phpcr-shell.png?branch=master)](https://travis-ci.org/phpcr/phpcr-shell)
+
 Shell for PHPCR
 
 ## Building
@@ -63,31 +65,39 @@ Options:
 JCR_SQL2 Select queries can be executed in the same way as in the MySQL shell:
 
 ````bash
-PHPCR > select * from [n:unstructured]                                                                                                                         
-| Row: #0 Score: 3
-| Sel: nt:unstructured Path: /foobar/barfoo UID: none
-+-----------------+--------+----------+-----------------+
-| Name            | Type   | Multiple | Value           |
-+-----------------+--------+----------+-----------------+
-| phpcr           | String | no       | foo             |
-| jcr:primaryType | Name   | no       | nt:unstructured |
-+-----------------+--------+----------+-----------------+
+PHPCR > SELECT * FROM [nt:unstructured];
 
-| Row: #1 Score: 3
-| Sel: nt:unstructured Path: /foo UID: none
-+-----------------+------+----------+-----------------+
-| Name            | Type | Multiple | Value           |
-+-----------------+------+----------+-----------------+
-| jcr:primaryType | Name | no       | nt:unstructured |
-+-----------------+------+----------+-----------------+
+| Row: #13 Score: 3
+| Sel: nt:unstructured Path: /functional/Lyon_65019 UID: e6e74fdb-d329-4405-abd6-317bd0a9a325
++--------------------+--------+----------+--------------------------------------+
+| Name               | Type   | Multiple | Value                                |
++--------------------+--------+----------+--------------------------------------+
+| phpcr:classparents | String | yes      |                                      |
+| phpcr:class        | String | no       | Doctrine\Tests\Models\CMS\CmsAddress |
+| jcr:uuid           | String | no       | e6e74fdb-d329-4405-abd6-317bd0a9a325 |
+| jcr:mixinTypes     | Name   | yes      | [0] phpcr:managed                    |
+|                    |        |          | [1] mix:referenceable                |
+| country            | String | no       | France                               |
+| jcr:primaryType    | Name   | no       | nt:unstructured                      |
+| city               | String | no       | Lyon                                 |
+| zip                | String | no       | 65019                                |
++--------------------+--------+----------+--------------------------------------+
 
-| Row: #2 Score: 3
-| Sel: nt:unstructured Path: /foobar UID: none
-+-----------------+------+----------+-----------------+
-| Name            | Type | Multiple | Value           |
-+-----------------+------+----------+-----------------+
-| jcr:primaryType | Name | no       | nt:unstructured |
-+-----------------+------+----------+-----------------+
+| Row: #14 Score: 3
+| Sel: nt:unstructured Path: /functional/anonymous UID: 40d35c13-083a-447d-a86a-04bfee2f0608
++--------------------+--------+----------+--------------------------------------+
+| Name               | Type   | Multiple | Value                                |
++--------------------+--------+----------+--------------------------------------+
+| phpcr:class        | String | no       | Doctrine\Tests\Models\CMS\CmsUser    |
+| phpcr:classparents | String | yes      |                                      |
+| jcr:uuid           | String | no       | 40d35c13-083a-447d-a86a-04bfee2f0608 |
+| jcr:mixinTypes     | Name   | yes      | [0] phpcr:managed                    |
+|                    |        |          | [1] mix:referenceable                |
+| username           | String | no       | anonymous                            |
+| jcr:primaryType    | Name   | no       | nt:unstructured                      |
++--------------------+--------+----------+--------------------------------------+
+
+2 rows in set (0.04 sec)
 ````
 
 ## Changing the CWD
@@ -106,9 +116,13 @@ PHPCR > pwd
 PHPCR > mv foobar /barfoo
 ````
 
-List all available commands with the `list` command:
+## All other commands
+
+The PHPCR shell wraps all the commands of the `phpcr-utils` package, list
+them with the `list` command:
 
 ````bash
+PHPCR> list
 Available commands:
   cd                 Change the current path
   exit               Logout and quit the shell
