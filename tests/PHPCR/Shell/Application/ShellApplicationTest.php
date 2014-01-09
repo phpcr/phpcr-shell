@@ -47,7 +47,7 @@ class ShellApplicationTest extends \PHPUnit_Framework_TestCase
             ->method('getRepository')
             ->will($this->returnValue($this->repository));
 
-        $this->application = new ShellApplication($this->sessionInput, array($this->transport));
+        $this->application = new ShellApplication('phpcr','v0.test',  $this->sessionInput, array($this->transport));
         $this->application->setAutoExit(false);
     }
 

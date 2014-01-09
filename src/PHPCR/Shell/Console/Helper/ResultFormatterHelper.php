@@ -28,8 +28,8 @@ class ResultFormatterHelper extends Helper
             foreach ($selectorNames as $selectorName) {
                 $node = $row->getNode($selectorName);
                 $properties = $node->getProperties();
-                $output->writeln(sprintf('| <info>selector:</info> %s <info>path:</info> %s <info>uid:</info> %s',
-                    $selectorName, $node->getPath(), $node->getIdentifier()
+                $output->writeln(sprintf('| <info>Sel:</info> %s <info>Path:</info> %s <info>UID:</info> %s',
+                    $selectorName, $node->getPath(), $node->getIdentifier() ? : 'none'
                 ));
 
                 $table = new TableHelper;

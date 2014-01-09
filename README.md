@@ -3,11 +3,34 @@ Shell for PHPCR
 
 Shell for PHPCR
 
-## Conncting
+## Building
+
+The recommended way to use the PHPCR shell is as a phar archive.
+
+Currently there is no stable release and so it is necessary to build it manually.
+
+Install box: http://box-project.org
+
+Build the PHAR:
+
+````bash
+$ cd phpcr-shell
+$ box build
+````
+
+This will produce the file `phpcr.phar`.
+
+Copy this file to your bin directory:
+
+````bash
+$ sudo cp phpcr.sh /usr/bin
+````
+
+## Connecting
 
 To connect to a doctrine-dbal PHPCR repository:
 
-    $ php bin/phpcr --db-name=foobar --db-username=user --db-password=foobar
+    $ phpcr --db-name=foobar --db-username=user --db-password=foobar
 
 Full definition:
 
@@ -40,21 +63,31 @@ Options:
 JCR_SQL2 Select queries can be executed in the same way as in the MySQL shell:
 
 ````bash
-PHPCR > SELECT * FROM nt:unstructured;
-0
-  nt:unstructured
-    /
-    jcr:primaryType Name: nt:unstructured
-1
-  nt:unstructured
-    /cms
-    jcr:primaryType Name: nt:unstructured
-    phpcr:class String: DTL\WebBundle\Document\Site
-2
-  nt:unstructured
-    /cms/routes
-    jcr:primaryType Name: nt:unstructured
-...
+PHPCR > select * from [n:unstructured]                                                                                                                         
+| Row: #0 Score: 3
+| Sel: nt:unstructured Path: /foobar/barfoo UID: none
++-----------------+--------+----------+-----------------+
+| Name            | Type   | Multiple | Value           |
++-----------------+--------+----------+-----------------+
+| phpcr           | String | no       | foo             |
+| jcr:primaryType | Name   | no       | nt:unstructured |
++-----------------+--------+----------+-----------------+
+
+| Row: #1 Score: 3
+| Sel: nt:unstructured Path: /foo UID: none
++-----------------+------+----------+-----------------+
+| Name            | Type | Multiple | Value           |
++-----------------+------+----------+-----------------+
+| jcr:primaryType | Name | no       | nt:unstructured |
++-----------------+------+----------+-----------------+
+
+| Row: #2 Score: 3
+| Sel: nt:unstructured Path: /foobar UID: none
++-----------------+------+----------+-----------------+
+| Name            | Type | Multiple | Value           |
++-----------------+------+----------+-----------------+
+| jcr:primaryType | Name | no       | nt:unstructured |
++-----------------+------+----------+-----------------+
 ````
 
 ## Changing the CWD
