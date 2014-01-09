@@ -1,5 +1,6 @@
 {
-    "name": "phpcr/phpcrsh",
+    "name": "phpcr/phpcr-shell",
+    "bin": [ "bin/phpcr" ],
     "description": "Shell for PHPCR",
     "require": {
         "symfony/console": "2.3.*",
