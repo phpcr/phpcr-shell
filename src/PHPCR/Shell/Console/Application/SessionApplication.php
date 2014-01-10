@@ -3,18 +3,9 @@
 namespace PHPCR\Shell\Console\Application;
 
 use Symfony\Component\Console\Application as BaseApplication;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
-use PHPCR\Shell\Console\Command\QueryCommand;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Console\Command\DoctrineDbalInitCommand;
-use PHPCR\Shell\Console\Helper\DoctrineDbalHelper;
-use PHPCR\Shell\Console\Helper\ShellHelper;
-use Symfony\Component\Console\Command\Command;
 use PHPCR\Shell\Console\Command\ShellCommand;
-use PHPCR\Shell\Console\Input\ArgvInput;
 
 /**
  * This application wraps a single command which accepts
@@ -38,7 +29,7 @@ class SessionApplication extends BaseApplication
         return new InputDefinition(array());
     }
 
-    protected function getCommandName($input)
+    protected function getCommandName(InputInterface $input)
     {
         return 'phpcr_shell';
     }
