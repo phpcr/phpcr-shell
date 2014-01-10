@@ -27,7 +27,6 @@ use PHPCR\Util\Console\Command\WorkspaceExportCommand;
 use PHPCR\Util\Console\Command\WorkspaceImportCommand;
 use PHPCR\Util\Console\Command\WorkspaceListCommand;
 use PHPCR\Util\Console\Command\WorkspacePurgeCommand;
-use PHPCR\Util\Console\Helper\PhpcrCliHelper;
 use PHPCR\Util\Console\Helper\PhpcrConsoleDumperHelper;
 use PHPCR\Util\Console\Helper\PhpcrHelper;
 use Symfony\Component\Console\Command\Command;
@@ -109,7 +108,6 @@ class ShellApplication extends Application
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new PhpcrHelper($session));
-        $this->getHelperSet()->set(new PhpcrCliHelper($session));
     }
 
     private function getSession($input)

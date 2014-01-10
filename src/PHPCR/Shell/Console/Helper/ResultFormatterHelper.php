@@ -52,8 +52,9 @@ class ResultFormatterHelper extends Helper
 
     protected function formatValue($value)
     {
-        if (is_array($value->getValue())) {
-            if (empty($value->getValue())) {
+        $v = $value->getValue();
+        if (is_array($v)) {
+            if (empty($v)) {
                 return '';
             }
             $array = $value;
