@@ -82,7 +82,6 @@ class ListTreeCommand extends Command
             if (true === NodeHelper::isSystemItem($property) && false === $this->showSystem) {
                 continue;
             }
-
             $rows[] = array(
                 sprintf('%s -<comment>%s</comment>', str_repeat(' ', $depth), $key),
                 $formatter->getPropertyTypeName($property->getType()) . ($property->isMultiple() ? '[]' : ''),
