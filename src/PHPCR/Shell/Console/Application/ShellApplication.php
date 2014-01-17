@@ -34,6 +34,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use PHPCR\Shell\Console\Command\Shell\ExitCommand;
 use PHPCR\Shell\Console\TransportInterface;
 use PHPCR\Shell\Console\Command\Shell\WorkspaceChangeCommand;
+use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
 
 class ShellApplication extends Application
 {
@@ -60,11 +61,13 @@ class ShellApplication extends Application
 
         // wrap phpcr-util commands
         $this->add($this->wrap(new NodeDumpCommand())
-            ->setName('ls')
+            ->setName('dump')
             ->setDescription('Alias for dump')
         );
-        $ls = $this->get('ls');
+        $ls = $this->get('dump');
         $ls->getDefinition()->getArgument('identifier')->setDefault(null);
+
+        $this->add(new ListTreeCommand());
 
         $this->add($this->wrap(new NodeMoveCommand())
             ->setName('mv')

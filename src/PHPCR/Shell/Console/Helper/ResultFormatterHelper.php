@@ -16,6 +16,16 @@ class ResultFormatterHelper extends Helper
         return 'result_formatter';
     }
 
+    public function getPropertyTypeName($typeInteger)
+    {
+        $refl = new \ReflectionClass('PHPCR\PropertyType');
+        foreach ($refl->getConstants() as $key => $value) {
+            if ($typeInteger == $value) {
+                return $key;
+            }
+        }
+    }
+
     public function format(QueryResultInterface $result, OutputInterface $output, $elapsed)
     {
         $selectorNames = $result->getSelectorNames();
@@ -50,7 +60,7 @@ class ResultFormatterHelper extends Helper
         $output->writeln(sprintf('%s rows in set (%s sec)', count($result->getRows()), number_format($elapsed, 2)));
     }
 
-    protected function formatValue($value)
+    public function formatValue($value)
     {
         $v = $value->getValue();
         if (is_array($v)) {
