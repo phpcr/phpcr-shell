@@ -4,58 +4,45 @@ Feature: Export the repository to an XML file
     I want to be able to "session:export:view" command to export the repository to an XML file.
 
     Background:
-        Given I am in a shell session
-        And The following nodes exist:
-            | path               |
-            | /cms/foobar        |
-            | /cms/barfoo        |
-            | /cms/foobar/barfoo |
+        Given that I am logged in as "testuser"
+        And the file "foobar.xml" does not exist
+        And the "session_data" fixtures are loaded
 
     Scenario: Export the root
-        Given I execute "session:export:view / foobar.xml"
-        Then The file "foobar.xml" should not be empty
-        And the command exit code should be "0"
+        Given I execute the "session:export:view / foobar.xml" command
+        Then the command should not fail
+        And the file "foobar.xml" should exist
 
     Scenario: Export a subtree
-        Given I execute "session:export:view /cms foobar.xml"
-        Then The file "foobar.xml" should not be empty
-        And the command exit code should be "0"
+        Given I execute the "session:export:view /tests_general_base foobar.xml" command
+        Then the file "foobar.xml" should exist
+        And the command should not fail
 
     Scenario: Export with an invalid path
-        Given I execute "session:export:view cms"
+        Given I execute the "session:export:view cms foobar.xml" command
         Then the command should fail
         And the output should contain:
         """
-        "cms" is not an absolute path
+        Invalid path 'cms'
         """
 
     Scenario: Export to an existing file
-        Given I execute "session:export:view / foobar.xml"
-        And the file "foobar.xml" exists
+        Given the file "foobar.xml" exists
+        And I execute the "session:export:view /tests_general_base foobar.xml" command
         Then the command should fail
-        And the output should contain
+        And the output should contain:
         """
-        The file "foobar.xml" exists
+        File "foobar.xml" already exists.
         """
 
     Scenario: Export non recursive
-        Given I execute "session:export:view / foobar.xml --non-recursive"
-        Then the file "foobar.xml" should contain:
-        """
-        File contents here please
-        """
+        Given I execute the "session:export:view /tests_general_base foobar.xml --no-recurse" command
+        Then the command should not fail
 
     Scenario: Export and skip binaries
-        Given I execute "session:export:view / foobar.xml --skip-binary"
-        And the node at "/cms/foobar" contains the binary file "somepicture.jpg"
-        Then the file "foobar.xml" should contain:
-        """
-        What this file should contain
-        """
+        Given I execute the "session:export:view / foobar.xml --skip-binary" command
+        Then the command should not fail
 
     Scenario: Export the document view
-        Given I execute "session:export:view / foobar.xml --document
-        Then the file "foobar.xml" should contain:
-        """
-        What this file should contain
-        """
+        Given I execute the "session:export:view / foobar.xml --document" command
+        Then the command should not fail

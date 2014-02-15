@@ -6,7 +6,8 @@ Feature: List Repository Descriptors
     Scenario: Listing the descriptors
         Given that I am logged in as "testuser"
         And I execute the "repository:descriptor:list" command
-        Then I should see a table containing the following rows:
+        Then the command should not fail
+        And I should see a table containing the following rows:
             | Key                   | Value                       |
             | jcr.repository.name   | Jackrabbit                  |
             | jcr.repository.vendor | Apache Software Foundation  |

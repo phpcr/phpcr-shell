@@ -36,6 +36,7 @@ use PHPCR\Shell\Console\TransportInterface;
 use PHPCR\Shell\Console\Command\Shell\WorkspaceChangeCommand;
 use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
 use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
+use PHPCR\Shell\Console\Command\SessionExportViewCommand;
 
 class ShellApplication extends Application
 {
@@ -75,6 +76,7 @@ class ShellApplication extends Application
 
         // add new commands
         $this->add(new RepositoryDescriptorListCommand());
+        $this->add(new SessionExportViewCommand());
 
         // add shell-specific commands
         $this->add(new SelectCommand());
