@@ -12,6 +12,8 @@ Feature: Export the repository to an XML file
         Given I execute the "session:export:view / foobar.xml" command
         Then the command should not fail
         And the file "foobar.xml" should exist
+        And the xpath count "/sv:node" is "1" in file "foobar.xml"
+        And the xpath count "/sv:node/sv:node" is "1" in file "foobar.xml"
 
     Scenario: Export a subtree
         Given I execute the "session:export:view /tests_general_base foobar.xml" command
@@ -38,6 +40,9 @@ Feature: Export the repository to an XML file
     Scenario: Export non recursive
         Given I execute the "session:export:view /tests_general_base foobar.xml --no-recurse" command
         Then the command should not fail
+        And the file "foobar.xml" should exist
+        And the xpath count "/sv:node" is "1" in file "foobar.xml"
+        And the xpath count "/sv:node/sv:node" is "0" in file "foobar.xml"
 
     Scenario: Export and skip binaries
         Given I execute the "session:export:view / foobar.xml --skip-binary" command

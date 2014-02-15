@@ -83,6 +83,15 @@ class FeatureContext extends BehatContext
         return explode("\n", $this->getOutput());
     }
 
+    private function getXPathForFile($filename)
+    {
+        $dom = new \DOMDocument(1.0);
+        $dom->load($filename);
+        $xpath = new \DOMXpath($dom);
+
+        return $xpath;
+    }
+
     /**
      * @Given /^that I am logged in as "([^"]*)"$/
      */
@@ -162,7 +171,6 @@ class FeatureContext extends BehatContext
         $exitCode = $this->process->getExitCode();
 
         if ($exitCode != 0) {
-            die($this->getOutput());
         }
 
         PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
@@ -231,4 +239,16 @@ class FeatureContext extends BehatContext
             unlink('foobar.xml');
         }
     }
+
+    /**
+     * @Given /^the xpath count "([^"]*)" is "([^"]*)" in file "([^"]*)"$/
+     */
+    public function theXpathCountIsInFile($arg1, $arg2, $arg3)
+    {
+        $xpath = $this->getXPathForFile($arg3);
+        $res = $xpath->query($arg1);
+
+        PHPUnit_Framework_Assert::assertEquals($arg2, $res->length);
+    }
+
 }
