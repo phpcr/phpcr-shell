@@ -40,16 +40,35 @@ class ShellApplication extends Application
 {
     protected $transports;
     protected $credentials;
+    protected $initialized;
+    protected $sessionInput;
 
-    public function __construct($appName, $version, InputInterface $input, $transports = array())
+    /**
+     * Input from the shell command, containing the connection
+     * parameters etc.
+     */
+    public function setSessionInput(InputInterface $input)
     {
-        parent::__construct($appName, $version);
+        $this->sessionInput = $input;
+    }
+
+    public function init()
+    {
+        if (true === $this->initialized) {
+            return;
+        }
+
+        if (null === $this->sessionInput) {
+            throw new \RuntimeException(
+                'sessionInput has not been set.'
+            );
+        }
 
         // initialize transports
-        foreach (array_merge(array(
-            new \PHPCR\Shell\Transport\DoctrineDbal($input),
-            new \PHPCR\Shell\Transport\Jackrabbit($input),
-        ), $transports) as $transport) {
+        foreach (array(
+            new \PHPCR\Shell\Transport\DoctrineDbal($this->sessionInput),
+            new \PHPCR\Shell\Transport\Jackrabbit($this->sessionInput),
+        ) as $transport) {
             $this->transports[$transport->getName()] = $transport;;
         }
 
@@ -106,11 +125,13 @@ class ShellApplication extends Application
             ->setName('workspace-purge')
         );
 
-        $session = $this->getSession($input);
+        $session = $this->getSession($this->sessionInput);
 
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new PhpcrHelper($session));
+
+        $this->initialized = true;
     }
 
     private function getSession($input)
@@ -155,6 +176,8 @@ class ShellApplication extends Application
 
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $this->init();
+
         $name = $this->getCommandName($input);
 
         if (!$name) {

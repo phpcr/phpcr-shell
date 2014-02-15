@@ -8,10 +8,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
+use Symfony\Component\Console\Input\StringInput;
 
 class ShellCommand extends Command
 {
     protected $output;
+    protected $options;
+    protected $application;
+
+    public function __construct(ShellApplication $application)
+    {
+        $this->application = $application;
+        parent::__construct();
+    }
 
     public function configure()
     {
@@ -35,16 +44,21 @@ class ShellCommand extends Command
             new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).',
                 'http://localhost:8080/server/'
             ),
+            new InputOption('--command',        null,    InputOption::VALUE_REQUIRED, 'Run the given command'),
     ));
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $application = new Shell(new ShellApplication(
-            $this->getApplication()->getName(),
-            $this->getApplication()->getVersion(),
-            $input
-        ));
+        $application = $this->application;
+        $application->setSessionInput($input);
+
+        if ($command = $input->getOption('command')) {
+            $input = new StringInput($command);
+        } else {
+            $application = new Shell($this->application);
+        }
+
         $application->run($input, $output);
     }
 }

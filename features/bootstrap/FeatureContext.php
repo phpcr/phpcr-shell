@@ -1,5 +1,17 @@
 <?php
 
+require_once(__DIR__.'/../../vendor/autoload.php');
+
+use PHPCR\Shell\Console\Application\SessionApplication;
+use Symfony\Component\Console\Input\ArrayInput;
+use PHPCR\Shell\Console\Application\ShellApplication;
+use PHPCR\Shell\Console\Command\ShellCommand;
+use Symfony\Component\Console\Output\StreamOutput;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Symfony\Component\Process\Process;
+
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
@@ -7,18 +19,14 @@ use Behat\Behat\Context\ClosuredContextInterface,
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
 
-//
-// Require 3rd-party libraries here:
-//
-//   require_once 'PHPUnit/Autoload.php';
-//   require_once 'PHPUnit/Framework/Assert/Functions.php';
-//
-
 /**
  * Features context.
  */
 class FeatureContext extends BehatContext
 {
+    protected $application;
+    protected $phpBin;
+
     /**
      * Initializes context.
      * Every scenario gets it's own context object.
@@ -27,61 +35,61 @@ class FeatureContext extends BehatContext
      */
     public function __construct(array $parameters)
     {
-        // Initialize your context here
+        $phpFinder = new PhpExecutableFinder();
+        if (false === $php = $phpFinder->find()) {
+            throw new \RuntimeException('Unable to find the PHP executable.');
+        }
+
+        $this->phpBin = $php;
+        $this->phpcrShellBin = realpath(dirname(__FILE__)).'/../../bin/phpcr';
+        $this->process = new Process(null);
     }
-    /**
-     * @Given /^I am not logged in$/
-     */
-    public function iAmNotLoggedIn()
+
+    private function getOutput()
     {
-        throw new PendingException();
+        $output = $this->process->getErrorOutput() . $this->process->getOutput();
+
+        // Normalize the line endings in the output
+        if ("\n" !== PHP_EOL) {
+            $output = str_replace(PHP_EOL, "\n", $output);
+        }
+
+        return trim(preg_replace("/ +$/m", '', $output));
     }
 
     /**
-     * @Given /^the test transport is configured$/
+     * @Given /^that I am logged in as "([^"]*)"$/
      */
-    public function theTestTransportIsConfigured()
+    public function thatIAmLoggedInAs($arg1)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^I am not connected$/
-     */
-    public function iAmNotConnected()
-    {
-        throw new PendingException();
     }
 
     /**
      * @Given /^I execute the "([^"]*)" command$/
      */
-    public function iExecuteTheCommand($commandName)
+    public function iExecuteTheCommand($args)
     {
-        throw new PendingException();
+        $args = strtr($args, array('\'' => '"'));
+
+        $this->process->setCommandLine(
+            sprintf(
+                '%s %s --transport=%s --command="%s"',
+                $this->phpBin,
+                $this->phpcrShellBin,
+                'jackrabbit',
+                $args
+            )
+        );
+        $this->process->start();
+        $this->process->wait();
     }
 
     /**
-     * @Given /^with the "([^"]*)" option set to "([^"]*)"$/
+     * @Then /^I should see a table with (\d+) rows$/
      */
-    public function withTheOptionSetTo($arg1, $arg2)
+    public function iShouldSeeATableWithRows($arg1)
     {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then /^I should be connected to the shell$/
-     */
-    public function iShouldBeConnectedToTheShell()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Given /^the session workspace name should be "([^"]*)"$/
-     */
-    public function theSessionWorkspaceNameShouldBe($arg1)
-    {
-        throw new PendingException();
+        $output = $this->getOutput();
+        die($output);
     }
 }
