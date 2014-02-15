@@ -4,7 +4,7 @@ Feature: Import repository data from an XML file
     I want to be able to import data from an XML file
 
     Background:
-        Given the file "import-data.xml" contains
+        Given the file "data.xml" contains
         """
         <?xml version="1.0">
         <some>
@@ -14,7 +14,7 @@ Feature: Import repository data from an XML file
         And I am in a shell session
 
     Scenario: Import XML file into the repository base path
-        Given I execute "system:import / import-data.xml
+        Given I execute "system:import / data.xml
         Then the following nodes should exist:
             | path |
             | /foobar
@@ -22,7 +22,7 @@ Feature: Import repository data from an XML file
             | /foobar/barfoo
 
     Scenario Outline: Specifying UUID behavior
-        Given I execute the command "system:import / import-data.xml --uuid-behavior=<uui_behavior>
+        Given I execute the command "system:import / data.xml --uuid-behavior=<uui_behavior>
         Then the command should not fail
 
         Examples:
@@ -34,7 +34,7 @@ Feature: Import repository data from an XML file
             | collision-throw             |
 
     Scenario: Specify invalid UUID behavior
-        Given I execute the command "system:import / import-data.xml --uuid-behavior=invalid
+        Given I execute the command "system:import / data.xml --uuid-behavior=invalid
         Then the command should fail
         And the output should contain:
         """
