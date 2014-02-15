@@ -35,6 +35,7 @@ use PHPCR\Shell\Console\Command\Shell\ExitCommand;
 use PHPCR\Shell\Console\TransportInterface;
 use PHPCR\Shell\Console\Command\Shell\WorkspaceChangeCommand;
 use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
+use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
 
 class ShellApplication extends Application
 {
@@ -71,6 +72,9 @@ class ShellApplication extends Application
         ) as $transport) {
             $this->transports[$transport->getName()] = $transport;;
         }
+
+        // add new commands
+        $this->add(new RepositoryDescriptorListCommand());
 
         // add shell-specific commands
         $this->add(new SelectCommand());

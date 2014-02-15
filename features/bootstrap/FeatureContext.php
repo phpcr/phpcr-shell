@@ -57,6 +57,11 @@ class FeatureContext extends BehatContext
         return trim(preg_replace("/ +$/m", '', $output));
     }
 
+    private function getOutputAsArray()
+    {
+        return explode("\n", $this->getOutput());
+    }
+
     /**
      * @Given /^that I am logged in as "([^"]*)"$/
      */
@@ -85,11 +90,29 @@ class FeatureContext extends BehatContext
     }
 
     /**
-     * @Then /^I should see a table with (\d+) rows$/
+     * @Then /^I should see a table containing the following rows:$/
      */
-    public function iShouldSeeATableWithRows($arg1)
+    public function iShouldSeeATableContainingTheFollowingRows(TableNode $table)
     {
-        $output = $this->getOutput();
-        die($output);
+        $output = $this->getOutputAsArray();
+        $expectedRows = $table->getRows();
+        $foundRows = 0;
+        foreach ($expectedRows as $row) {
+            foreach ($output as $line) {
+                $foundCells = 0;
+                foreach ($row as $cell) {
+                    if (false !== strpos($line, $cell)) {
+                        $foundCells++;
+                    }
+                }
+
+                if ($foundCells == count($row)) {
+                    $foundRows++;
+                }
+            }
+        }
+
+        PHPUnit_Framework_Assert::assertEquals(count($expectedRows), $foundRows, 'Contents: '.$this->getOutput());
     }
+
 }
