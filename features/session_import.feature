@@ -4,25 +4,26 @@ Feature: Import repository data from an XML file
     I want to be able to import data from an XML file
 
     Background:
-        Given the file "data.xml" contains
+        Given the file "data.xml" contains the contents of "session_data.xml"
+        And that I am logged in as "testuser"
+
+    Scenario: Import XML non existing file
+        Given I execute the "session:import / does-not-exist.xml" command
+        Then the command should fail
+        And the output should contain:
         """
-        <?xml version="1.0">
-        <some>
-        <data>XML</data>
-        </some>
+        The file "does-not-exist.xml" does not exist
         """
-        And I am in a shell session
 
     Scenario: Import XML file into the repository base path
-        Given I execute "system:import / data.xml
-        Then the following nodes should exist:
-            | path |
-            | /foobar
-            | /foobar/foobar
-            | /foobar/barfoo
+        Given I execute the "session:import / data.xml" command
+        Then the command should not fail
+        And the following nodes should exist:
+            | /tests_general_base |
+            | /tests_general_base/multiValueProperty/deepnode |
 
     Scenario Outline: Specifying UUID behavior
-        Given I execute the command "system:import / data.xml --uuid-behavior=<uui_behavior>
+        Given I execute the "session:import / data.xml --uuid-behavior=<uuid_behavior>" command
         Then the command should not fail
 
         Examples:
@@ -34,7 +35,7 @@ Feature: Import repository data from an XML file
             | collision-throw             |
 
     Scenario: Specify invalid UUID behavior
-        Given I execute the command "system:import / data.xml --uuid-behavior=invalid
+        Given I execute the "session:import / data.xml --uuid-behavior=invalid" command
         Then the command should fail
         And the output should contain:
         """

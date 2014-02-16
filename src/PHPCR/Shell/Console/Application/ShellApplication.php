@@ -37,6 +37,7 @@ use PHPCR\Shell\Console\Command\Shell\WorkspaceChangeCommand;
 use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
 use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
 use PHPCR\Shell\Console\Command\SessionExportViewCommand;
+use PHPCR\Shell\Console\Command\SessionImportXMLCommand;
 
 class ShellApplication extends Application
 {
@@ -77,6 +78,7 @@ class ShellApplication extends Application
         // add new commands
         $this->add(new RepositoryDescriptorListCommand());
         $this->add(new SessionExportViewCommand());
+        $this->add(new SessionImportXMLCommand());
 
         // add shell-specific commands
         $this->add(new SelectCommand());

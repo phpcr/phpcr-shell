@@ -15,6 +15,9 @@ use Jackalope\RepositoryFactoryJackrabbit;
 use PHPCR\SimpleCredentials;
 use PHPCR\Util\Console\Helper\PhpcrHelper;
 use PHPCR\Util\NodeHelper;
+use Symfony\Component\Filesystem\Filesystem;
+use PHPCR\ItemNotFoundException;
+use PHPCR\PathNotFoundException;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -31,15 +34,23 @@ class FeatureContext extends BehatContext
 {
     protected $application;
     protected $phpBin;
+    protected $filesystem;
 
     /**
      * Initializes context.
      * Every scenario gets it's own context object.
      *
-     * @param array $parameters context parameters (set them up through behat.yml)
+     * @BeforeScenario
      */
-    public function __construct(array $parameters)
+    public function beforeScenario()
     {
+        $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell' . DIRECTORY_SEPARATOR .
+            md5(microtime() * rand(0, 10000));
+
+        $this->workingDir = $dir;
+
+        mkdir($this->workingDir, 0777, true);
+
         $phpFinder = new PhpExecutableFinder();
         if (false === $php = $phpFinder->find()) {
             throw new \RuntimeException('Unable to find the PHP executable.');
@@ -49,7 +60,25 @@ class FeatureContext extends BehatContext
         $this->phpBin = $php;
         $this->phpcrShellBin = $root.'/bin/phpcr';
 
-        $this->process = new Process(null);
+        $this->process = new Process(null, $this->workingDir);
+        $this->filesystem = new Filesystem();
+
+        $session = $this->getSession();
+        NodeHelper::purgeWorkspace($session);
+        $session->save();
+
+    }
+
+    /**
+     * Cleans test folders in the temporary directory.
+     *
+     * @BeforeSuite
+     * @AfterSuite
+     */
+    public static function cleanTestFolders()
+    {
+        $fs = new Filesystem();
+        $fs->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell');
     }
 
     private function getSession()
@@ -86,10 +115,25 @@ class FeatureContext extends BehatContext
     private function getXPathForFile($filename)
     {
         $dom = new \DOMDocument(1.0);
-        $dom->load($filename);
+        $dom->load($this->getWorkingFilePath($filename));
         $xpath = new \DOMXpath($dom);
 
         return $xpath;
+    }
+
+    private function getFixtureFilename($filename)
+    {
+        $fixtureFile = realpath(__DIR__).'/../fixtures/'.$filename;
+        if (!file_exists($fixtureFile)) {
+            throw new \Exception('Fixtures do not exist at ' . $fixtureFile);
+        }
+
+        return $fixtureFile;
+    }
+
+    private function getWorkingFilePath($filename)
+    {
+        return $this->workingDir . DIRECTORY_SEPARATOR . $filename;
     }
 
     /**
@@ -150,15 +194,7 @@ class FeatureContext extends BehatContext
      */
     public function theFixturesAreLoaded($arg1)
     {
-        $session = $this->getSession();
-        NodeHelper::purgeWorkspace($session);
-        $session->save();
-
-        $fixtureFile = realpath(__DIR__).'/../fixtures/'.$arg1.'.xml';
-        if (!file_exists($fixtureFile)) {
-            throw new \Exception('Fixtures do not exist at ' . $fixturesPath);
-        }
-
+        $fixtureFile = $this->getFixtureFilename($arg1);
         $session->importXml('/', $fixtureFile, 0);
         $session->save();
     }
@@ -171,6 +207,7 @@ class FeatureContext extends BehatContext
         $exitCode = $this->process->getExitCode();
 
         if ($exitCode != 0) {
+            die($this->getOutput());
         }
 
         PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
@@ -191,7 +228,7 @@ class FeatureContext extends BehatContext
      */
     public function theFileShouldExist($arg1)
     {
-        PHPUnit_Framework_Assert::assertTrue(file_exists($arg1));
+        PHPUnit_Framework_Assert::assertTrue(file_exists($this->getWorkingFilePath($arg1)));
     }
 
     /**
@@ -199,8 +236,8 @@ class FeatureContext extends BehatContext
      */
     public function theFileDoesNotExist($arg1)
     {
-        if (file_exists($arg1)) {
-            unlink($arg1);
+        if (file_exists($this->getWorkingFilePath($arg1))) {
+            unlink($this->getWorkingFilePath($arg1));
         }
     }
 
@@ -209,7 +246,7 @@ class FeatureContext extends BehatContext
      */
     public function theFileExists($arg1)
     {
-        file_put_contents($arg1, '');
+        file_put_contents($this->getWorkingFilePath($arg1), '');
     }
 
     /**
@@ -232,14 +269,6 @@ class FeatureContext extends BehatContext
         PHPUnit_Framework_Assert::assertNull($node);
     }
 
-    /** @AfterSuite */
-    public static function teardown(SuiteEvent $event)
-    {
-        if (file_exists('foobar.xml')) {
-            unlink('foobar.xml');
-        }
-    }
-
     /**
      * @Given /^the xpath count "([^"]*)" is "([^"]*)" in file "([^"]*)"$/
      */
@@ -251,4 +280,28 @@ class FeatureContext extends BehatContext
         PHPUnit_Framework_Assert::assertEquals($arg2, $res->length);
     }
 
+    /**
+     * @Given /^the file "([^"]*)" contains the contents of "([^"]*)"$/
+     */
+    public function theFileContainsTheContentsOf($arg1, $arg2)
+    {
+        $fixtureFile = $this->getFixtureFilename($arg2);
+        $this->filesystem->copy($fixtureFile, $this->getWorkingFilePath($arg1));
+    }
+
+    /**
+     * @Then /^the following nodes should exist:$/
+     */
+    public function theFollowingNodesShouldExist(TableNode $table)
+    {
+        $session = $this->getSession();
+
+        foreach ($table->getRows() as $row) {
+            try {
+                $node = $session->getNode($row[0]);
+            } catch (PathNotFoundException $e) {
+                throw new PathNotFoundException('Node ' . $row[0] . ' not found');
+            }
+        }
+    }
 }

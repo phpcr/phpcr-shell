@@ -12,6 +12,7 @@
     "require-dev": {
         "mockery/mockery": "0.9",
         "symfony/process": "2.3.*",
+        "symfony/filesystem": "2.3.*",
         "phpunit/phpunit": "~3.7.28"
     },
     "license": "MIT",
