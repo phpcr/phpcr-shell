@@ -350,4 +350,32 @@ class FeatureContext extends BehatContext
         $session = $this->getSession();
         $session->getNamespacePrefix($arg1);
     }
+
+    /**
+     * @Given /^there should exist a node at "([^"]*)"$/
+     */
+    public function thereShouldExistANodeAt($arg1)
+    {
+        $session = $this->getSession();
+        try {
+            $session->getNode($arg1);
+        } catch (PathNotFoundException $e) {
+            throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
+        }
+    }
+
+    /**
+     * @Given /^there should not exist a node at "([^"]*)"$/
+     */
+    public function thereShouldNotExistANodeAt($arg1)
+    {
+        $session = $this->getSession();
+
+        try {
+            $session->getNode($arg1);
+            throw new \Exception('Node does at path ' . $arg1 . ' exists.');
+        } catch (PathNotFoundException $e) {
+            // good.. not does not exist
+        }
+    }
 }

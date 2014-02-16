@@ -8,6 +8,7 @@ Feature: Move a node in the current session
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Move node
-        Given: I execute "session:node:move /test/node1 /test/node2"
-        Then there should exist a node at "/test/node2"
-        And there should not exist a node at "/test/node1"
+        Given I execute the "session:node:move /tests_general_base/index.txt /foobar.txt" command
+        Then the command should not fail
+        And there should exist a node at "/foobar.txt"
+        And there should not exist a node at "/tests_general_base/index.txt"
