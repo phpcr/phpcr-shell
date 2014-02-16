@@ -5,7 +5,7 @@ Feature: Remove a namespace URI alias
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Remove a namespace alias
         Given there exists the namespace alias "foobar" with the URI "http://www.example.com/foobar"

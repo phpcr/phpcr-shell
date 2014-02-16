@@ -38,6 +38,8 @@ use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
 use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
 use PHPCR\Shell\Console\Command\SessionExportViewCommand;
 use PHPCR\Shell\Console\Command\SessionImportXMLCommand;
+use PHPCR\Shell\Console\Command\SessionInfoCommand;
+use PHPCR\Shell\Console\Command\SessionLogoutCommand;
 
 class ShellApplication extends Application
 {
@@ -79,6 +81,8 @@ class ShellApplication extends Application
         $this->add(new RepositoryDescriptorListCommand());
         $this->add(new SessionExportViewCommand());
         $this->add(new SessionImportXMLCommand());
+        $this->add(new SessionInfoCommand());
+        $this->add(new SessionLogoutCommand());
 
         // add shell-specific commands
         $this->add(new SelectCommand());
@@ -155,10 +159,6 @@ class ShellApplication extends Application
         $session = new PhpcrSession($session);
 
         return $session;
-    }
-
-    public function changeWorkspace($workspace)
-    {
     }
 
     private function getTransport(InputInterface $input)

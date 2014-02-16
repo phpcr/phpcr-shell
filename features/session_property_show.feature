@@ -5,7 +5,7 @@ Feature: Display a detailed view of a single property
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Show property
         Given: I execute "session:property:show /foobar/barfoo/testproperty"

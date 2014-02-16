@@ -5,7 +5,7 @@ Feature: Save the current session
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Save the session
         Given I create a generic node at "/test/test-session-save"

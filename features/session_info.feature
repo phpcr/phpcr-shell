@@ -5,7 +5,9 @@ Feature: Show information about current session
 
     Scenario: Run the session info command
         Given that I am logged in as "testuser"
-        And that execute "session:info"
-        Then the command output should contain the following:
-            | keyword |
-            | testuser |
+        And I execute the "session:info" command
+        Then the command should not fail
+        And I should see a table containing the following rows:
+            | Key  | Value |
+            | user id | admin |
+            | workspace name | default |

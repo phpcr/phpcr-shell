@@ -136,17 +136,7 @@ class FeatureContext extends BehatContext
         return $this->workingDir . DIRECTORY_SEPARATOR . $filename;
     }
 
-    /**
-     * @Given /^that I am logged in as "([^"]*)"$/
-     */
-    public function thatIAmLoggedInAs($arg1)
-    {
-    }
-
-    /**
-     * @Given /^I execute the "([^"]*)" command$/
-     */
-    public function iExecuteTheCommand($args)
+    private function executeCommand($args)
     {
         $args = strtr($args, array('\'' => '"'));
 
@@ -161,6 +151,21 @@ class FeatureContext extends BehatContext
         );
         $this->process->start();
         $this->process->wait();
+    }
+
+    /**
+     * @Given /^that I am logged in as "([^"]*)"$/
+     */
+    public function thatIAmLoggedInAs($arg1)
+    {
+    }
+
+    /**
+     * @Given /^I execute the "([^"]*)" command$/
+     */
+    public function iExecuteTheCommand($args)
+    {
+        $this->executeCommand($args);
     }
 
     /**
@@ -195,6 +200,7 @@ class FeatureContext extends BehatContext
     public function theFixturesAreLoaded($arg1)
     {
         $fixtureFile = $this->getFixtureFilename($arg1);
+        $session = $this->getSession();
         $session->importXml('/', $fixtureFile, 0);
         $session->save();
     }
@@ -303,5 +309,17 @@ class FeatureContext extends BehatContext
                 throw new PathNotFoundException('Node ' . $row[0] . ' not found');
             }
         }
+    }
+
+    /**
+     * Depends on session:info command
+     *
+     * @Then /^I should not be logged into the session$/
+     */
+    public function iShouldNotBeLoggedIntoTheSession()
+    {
+        $this->executeCommand('session:info');
+        $output = $this->getOutput();
+        PHPUnit_Framework_Assert::assertRegExp('/live .*no/', $output);
     }
 }

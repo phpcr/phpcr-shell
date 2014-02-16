@@ -5,7 +5,7 @@ Feature: Set a namespace URI alias
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Register a new namespace alias
         Given I execute "session:namepsace:set foobar http://www.example.com/foobar"

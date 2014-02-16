@@ -5,7 +5,7 @@ Feature: Display a detailed view of a single node
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Show node by path
         Given: I execute "session:node:show /foobar/barfoo"

@@ -5,7 +5,7 @@ Feature: Remove a single property at a specified path
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Remove a property
         Given: I execute "session:property:remove /foobar/barfoo/testproperty"

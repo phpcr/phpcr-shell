@@ -6,7 +6,7 @@ Feature: Export the repository to an XML file
     Background:
         Given that I am logged in as "testuser"
         And the file "foobar.xml" does not exist
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Export the root
         Given I execute the "session:export:view / foobar.xml" command

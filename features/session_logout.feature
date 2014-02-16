@@ -7,7 +7,6 @@ Feature: Logout of the session
         Given that I am logged in as "testuser"
 
     Scenario: Logout
-        Given I execute "session:logout"
-        Then I should not be logged into the session
-
-
+        Given I execute the "session:logout" command
+        Then the command should not fail
+        And I should not be logged into the session

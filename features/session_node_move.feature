@@ -5,7 +5,7 @@ Feature: Move a node in the current session
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data" fixtures are loaded
+        And the "session_data.xml" fixtures are loaded
 
     Scenario: Move node
         Given: I execute "session:node:move /test/node1 /test/node2"
