@@ -8,11 +8,5 @@ Feature: Set a namespace URI alias
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Register a new namespace alias
-        Given I execute "session:namepsace:set foobar http://www.example.com/foobar"
-        Then there should exist the namespace alias "foobar" with the URI "http://www.example.com/foobar"
-
-    Scenario: Update namespace alias
-        Given there exists the namespace alias "foobar" with the URI "http://www.example.com/foobar"
-        And I execute "session:namepsace:set foobar http://www.example.com/barfoo"
-        Then there should exist the namespace alias "foobar" with the URI "http://www.example.com/barfoo"
-
+        Given I execute the "session:namespace:set foobar http://www.example.com/foobar" command
+        Then the command should fail with message "TODO: implement session scope remapping of namespaces"

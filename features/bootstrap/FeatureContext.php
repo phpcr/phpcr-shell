@@ -230,6 +230,16 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Then /^the command should fail with message "([^"]*)"$/
+     */
+    public function theCommandShouldFailWithMessage($arg1)
+    {
+        $exitCode = $this->process->getExitCode();
+        $output = $this->getOutput();
+
+        PHPUnit_Framework_Assert::assertEquals($arg1, $output);
+    }
+    /**
      * @Given /^the file "([^"]*)" should exist$/
      */
     public function theFileShouldExist($arg1)
@@ -321,5 +331,23 @@ class FeatureContext extends BehatContext
         $this->executeCommand('session:info');
         $output = $this->getOutput();
         PHPUnit_Framework_Assert::assertRegExp('/live .*no/', $output);
+    }
+
+    /**
+     * @Given /^there exists a namespace prefix "([^"]*)" with URI "([^"]*)"$/
+     */
+    public function thereExistsANamespacePrefixWithUri($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        $session->setNamespacePrefix($arg1, $arg2);
+    }
+
+    /**
+     * @Then /^there should not exist a namespace prefix "([^"]*)"$/
+     */
+    public function thereShouldNotExistANamespacePrefix($arg1)
+    {
+        $session = $this->getSession();
+        $session->getNamespacePrefix($arg1);
     }
 }
