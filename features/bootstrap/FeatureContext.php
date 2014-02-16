@@ -191,7 +191,7 @@ class FeatureContext extends BehatContext
             }
         }
 
-        PHPUnit_Framework_Assert::assertEquals(count($expectedRows), $foundRows, 'Contents: '.$this->getOutput());
+        PHPUnit_Framework_Assert::assertEquals(count($expectedRows), $foundRows, $this->getOutput());
     }
 
     /**

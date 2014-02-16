@@ -109,4 +109,23 @@ class ResultFormatterHelper extends Helper
                 throw new \RuntimeException('Unknown type ' . $value->getType());
         }
     }
+
+    public function formatNodePropertiesInline(NodeInterface $node)
+    {
+        $out = array();
+
+        foreach ($node->getProperties() as $property) {
+            $out[] = sprintf('%s: %s',
+                $property->getName(),
+                $this->formatValue($property)
+            );
+        }
+
+        return implode(', ', $out);
+    }
+
+    public function formatNodeName(NodeInterface $node)
+    {
+        return sprintf('%s%s', $node->getName(), $node->hasNodes() ? '/' : '');
+    }
 }

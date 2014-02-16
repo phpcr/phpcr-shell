@@ -8,8 +8,9 @@ Feature: Display a detailed view of a single node
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Show node by path
-        Given: I execute "session:node:show /foobar/barfoo"
-        Then the command output should contain the following:
-        """
-        Foobar
-        """
+        Given I execute the "session:node:show /tests_general_base" command
+        Then the command should not fail
+        And I should see a table containing the following rows:
+            | Property / Node Name          | Type / Node Type | Value                                                   |
+            | - jcr:primaryType             | NAME             | nt:folder                                               |
+            | multiValueProperty/           | nt:folder        | jcr:uuid: 14e18ef3-be20-4985-bee9-7bb4763b31de, jcr:... |

@@ -43,6 +43,8 @@ use PHPCR\Shell\Console\Command\SessionLogoutCommand;
 use PHPCR\Shell\Console\Command\SessionNamespaceListCommand;
 use PHPCR\Shell\Console\Command\SessionNamespaceSetCommand;
 use PHPCR\Shell\Console\Command\SessionNodeMoveCommand;
+use PHPCR\Shell\Console\Command\SessionNodeShowCommand;
+use PHPCR\Shell\Console\Helper\TextHelper;
 
 class ShellApplication extends Application
 {
@@ -89,6 +91,7 @@ class ShellApplication extends Application
         $this->add(new SessionNamespaceListCommand());
         $this->add(new SessionNamespaceSetCommand());
         $this->add(new SessionNodeMoveCommand());
+        $this->add(new SessionNodeShowCommand());
 
 
         // add shell-specific commands
@@ -148,6 +151,7 @@ class ShellApplication extends Application
 
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
         $this->getHelperSet()->set(new ResultFormatterHelper());
+        $this->getHelperSet()->set(new TextHelper());
         $this->getHelperSet()->set(new PhpcrHelper($session));
 
         $this->initialized = true;
