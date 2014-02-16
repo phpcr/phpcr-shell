@@ -29,6 +29,3 @@ HERE
         $session->logout();
     }
 }
-
-
-

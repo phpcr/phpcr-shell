@@ -40,6 +40,7 @@ use PHPCR\Shell\Console\Command\SessionExportViewCommand;
 use PHPCR\Shell\Console\Command\SessionImportXMLCommand;
 use PHPCR\Shell\Console\Command\SessionInfoCommand;
 use PHPCR\Shell\Console\Command\SessionLogoutCommand;
+use PHPCR\Shell\Console\Command\SessionNamespaceListCommand;
 
 class ShellApplication extends Application
 {
@@ -83,6 +84,7 @@ class ShellApplication extends Application
         $this->add(new SessionImportXMLCommand());
         $this->add(new SessionInfoCommand());
         $this->add(new SessionLogoutCommand());
+        $this->add(new SessionNamespaceListCommand());
 
         // add shell-specific commands
         $this->add(new SelectCommand());
