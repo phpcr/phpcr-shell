@@ -378,4 +378,29 @@ class FeatureContext extends BehatContext
             // good.. not does not exist
         }
     }
+
+    /**
+     * @Given /^there exists a property at "([^"]*)"$/
+     */
+    public function thereExistsAPropertyAt($arg1)
+    {
+        $session = $this->getSession();
+        $session->getProperty($arg1);
+    }
+
+    /**
+     * @Given /^there should not exist a property at "([^"]*)"$/
+     */
+    public function thereShouldNotExistAPropertyAt($arg1)
+    {
+        $session = $this->getSession();
+
+        try {
+            $session->getProperty($arg1);
+            throw new \Exception('Property exists at "' . $arg1 . '"');
+        } catch (PathNotFoundException $e) {
+            // good
+        }
+
+    }
 }

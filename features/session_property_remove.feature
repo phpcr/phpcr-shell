@@ -8,5 +8,7 @@ Feature: Remove a single property at a specified path
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Remove a property
-        Given: I execute "session:property:remove /foobar/barfoo/testproperty"
-        Then there should not exist a property at "/foobar/barfoo/testproperty"
+        Given there exists a property at "/tests_general_base/idExample/jcr:content/foo"
+        And I execute the "session:property:remove /tests_general_base/idExample/jcr:content/foo" command
+        Then the command should not fail
+        And there should not exist a property at "/tests_general_base/idExample/jcr:content/foo"
