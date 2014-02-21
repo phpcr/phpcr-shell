@@ -410,6 +410,13 @@ class FeatureContext extends BehatContext
         } catch (PathNotFoundException $e) {
             // good
         }
+    }
 
+    /**
+     * @Given /^the "([^"]*)" environment variable is set to "([^"]*)"$/
+     */
+    public function theEnvironmentVariableIsSetTo($arg1, $arg2)
+    {
+        putenv($arg1 . '=' . $arg2);
     }
 }
