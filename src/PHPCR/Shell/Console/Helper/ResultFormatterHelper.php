@@ -60,7 +60,7 @@ class ResultFormatterHelper extends Helper
         $output->writeln(sprintf('%s rows in set (%s sec)', count($result->getRows()), number_format($elapsed, 2)));
     }
 
-    public function formatValue($value)
+    public function formatValue($value, $showBinary = false)
     {
         $v = $value->getValue();
         if (is_array($v)) {
@@ -89,6 +89,14 @@ class ResultFormatterHelper extends Helper
             case PropertyType::UNDEFINED :
                 return '#UNDEFINED#';
             case PropertyType::BINARY :
+                if ($showBinary) {
+                    $lines = array();
+                    $pointer = $value->getValue();
+                    while (($line = fgets($pointer)) !== false) {
+                        $lines[] = $line;
+                    }
+                    return implode('', $lines);
+                }
                 return '(binary data)';
             case PropertyType::BOOLEAN :
                 return $value->getValue() ? 'true' : 'false';

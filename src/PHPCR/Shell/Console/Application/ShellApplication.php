@@ -46,6 +46,7 @@ use PHPCR\Shell\Console\Command\SessionNodeMoveCommand;
 use PHPCR\Shell\Console\Command\SessionNodeShowCommand;
 use PHPCR\Shell\Console\Helper\TextHelper;
 use PHPCR\Shell\Console\Command\SessionPropertyRemoveCommand;
+use PHPCR\Shell\Console\Command\SessionPropertyShowCommand;
 
 class ShellApplication extends Application
 {
@@ -94,6 +95,7 @@ class ShellApplication extends Application
         $this->add(new SessionNodeMoveCommand());
         $this->add(new SessionNodeShowCommand());
         $this->add(new SessionPropertyRemoveCommand());
+        $this->add(new SessionPropertyShowCommand());
 
 
         // add shell-specific commands

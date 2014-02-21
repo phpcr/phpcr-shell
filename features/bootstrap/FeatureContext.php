@@ -195,6 +195,15 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Then /^I should see the following:$/
+     */
+    public function iShouldSeeTheFollowing(PyStringNode $string)
+    {
+        $output = $this->getOutput();
+        PHPUnit_Framework_Assert::assertContains($string->getRaw(), $output);
+    }
+
+    /**
      * @Given /^the "([^"]*)" fixtures are loaded$/
      */
     public function theFixturesAreLoaded($arg1)
