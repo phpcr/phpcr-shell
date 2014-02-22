@@ -7,7 +7,6 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use PHPCR\Shell\Console\Command\Query\SelectCommand;
 use PHPCR\Shell\Console\Command\Shell\ChangePathCommand;
 use PHPCR\Shell\Console\Command\Shell\PwdCommand;
 use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
@@ -48,6 +47,8 @@ use PHPCR\Shell\Console\Command\SessionPropertyEditCommand;
 use PHPCR\Shell\Console\Command\SessionRefreshCommand;
 use PHPCR\Shell\Console\Command\SessionSaveCommand;
 use PHPCR\Shell\Console\Command\SessionImpersonateCommand;
+use PHPCR\Shell\Console\Command\AccessControlPrivilegeListCommand;
+use PHPCR\Shell\Console\Command\QuerySelectCommand;
 
 class ShellApplication extends Application
 {
@@ -86,8 +87,10 @@ class ShellApplication extends Application
         }
 
         // add new commands
+        $this->add(new AccessControlPrivilegeListCommand());
         $this->add(new RepositoryDescriptorListCommand());
         $this->add(new SessionExportViewCommand());
+        $this->add(new SessionImpersonateCommand());
         $this->add(new SessionImportXMLCommand());
         $this->add(new SessionInfoCommand());
         $this->add(new SessionLogoutCommand());
@@ -95,15 +98,14 @@ class ShellApplication extends Application
         $this->add(new SessionNamespaceSetCommand());
         $this->add(new SessionNodeMoveCommand());
         $this->add(new SessionNodeShowCommand());
+        $this->add(new SessionPropertyEditCommand());
         $this->add(new SessionPropertyRemoveCommand());
         $this->add(new SessionPropertyShowCommand());
-        $this->add(new SessionPropertyEditCommand());
         $this->add(new SessionRefreshCommand());
         $this->add(new SessionSaveCommand());
-        $this->add(new SessionImpersonateCommand());
+        $this->add(new QuerySelectCommand());
 
         // add shell-specific commands
-        $this->add(new SelectCommand());
         $this->add(new ChangePathCommand());
         $this->add(new PwdCommand());
         $this->add(new ExitCommand());
@@ -211,7 +213,18 @@ class ShellApplication extends Application
             $input = new ArrayInput(array('command' => 'pwd'));
         }
 
-        $exitCode = parent::doRun($input, $output);
+        try {
+            $exitCode = parent::doRun($input, $output);
+        } catch (\Exception $e) {
+            if (!$e->getMessage()) {
+                if ($e instanceof \PHPCR\UnsupportedRepositoryOperationException) {
+                    throw new \Exception('Unsupported repository operation');
+                }
+
+            }
+
+            throw $e;
+        }
 
         return $exitCode;
     }

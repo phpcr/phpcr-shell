@@ -44,7 +44,7 @@ class Shell
     public function run()
     {
         $this->application->setAutoExit(false);
-        $this->application->setCatchExceptions(true);
+        $this->application->setCatchExceptions(false);
 
         if ($this->hasReadline) {
             readline_read_history($this->history);

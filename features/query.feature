@@ -8,7 +8,7 @@ Feature: Execute a query
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Execute query
-        Given I execute the "query "SELECT * FROM [nt:unstructured]" command
+        Given I execute the "query 'SELECT * FROM [nt:file]" command
         Then the command should not fail
         And I should see a table containing the following rows:
             | Name |
