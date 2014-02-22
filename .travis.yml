@@ -8,5 +8,8 @@ php:
 before_script:
   - composer self-update
   - composer install --dev
+  - bash tests/bin/travis_jackrabbit.sh
 
-script: phpunit --coverage-text
+script: 
+  - phpunit --coverage-text
+  - ./vendor/behat/behat/bin/behat
