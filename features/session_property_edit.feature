@@ -5,11 +5,11 @@ Feature: Edit a single property
 
     Background:
         Given that I am logged in as "testuser"
+        And the "EDITOR" environment variable is set to "cat"
         And the "all_property_types.xml" fixtures are loaded
 
     Scenario Outline: Edit a property
-        Given the "EDITOR" environment variable is set to "cat"
-        And I execute the "<command>" command
+        Given I execute the "<command>" command
         Then the command should not fail
 
         Examples:
@@ -24,3 +24,21 @@ Feature: Edit a single property
             | session:property:edit /properties/string |
             | session:property:edit /properties/weakreference |
             | session:property:edit /properties/decimal |
+            | session:property:edit /properties/multivalue 0|
+            | session:property:edit /properties/multivalue 1|
+
+    Scenario: Edit multivalue property, no index
+        Given I execute the "session:property:edit /properties/multivalue" command
+        Then the command should fail
+        And I should see the following:
+        """
+        You specified a multivalue property but did not provide an index
+        """
+
+    Scenario: Edit multivalue property, out of range
+        Given I execute the "session:property:edit /properties/multivalue 100" command
+        Then the command should fail
+        And I should see the following:
+        """
+        The multivalue index you specified ("100") does not exist
+        """
