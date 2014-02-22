@@ -406,4 +406,14 @@ class FeatureContext extends BehatContext
     {
         $this->executeCommand('session:save');
     }
+
+    /**
+     * @Given /^I create a node at "([^"]*)"$/
+     */
+    public function iCreateANodeAt($arg1)
+    {
+        $session = $this->getSession();
+        NodeHelper::createPath($session, $arg1);
+        $session->save();
+    }
 }

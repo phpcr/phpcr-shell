@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\PathNotFoundException;
 
 class SessionPropertyRemoveCommand extends Command
 {
@@ -25,7 +26,14 @@ HERE
         $session = $this->getHelper('phpcr')->getSession();
         $absPath = $input->getArgument('absPath');
 
-        $property = $session->getProperty($absPath);
+        try {
+            $property = $session->getProperty($absPath);
+        } catch (PathNotFoundException $e) {
+            throw new \Exception(sprintf(
+                'Could not find a property at "%s"', $absPath
+            ));
+        }
+
         $property->remove();
     }
 }

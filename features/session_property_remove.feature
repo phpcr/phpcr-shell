@@ -10,6 +10,14 @@ Feature: Remove a single property at a specified path
     Scenario: Remove a property
         Given there exists a property at "/tests_general_base/idExample/jcr:content/foo"
         And I execute the "session:property:remove /tests_general_base/idExample/jcr:content/foo" command
-        And I save the session
         Then the command should not fail
+        And I save the session
         And there should not exist a property at "/tests_general_base/idExample/jcr:content/foo"
+
+    Scenario: Try and remove a node
+        And I execute the "session:property:remove /tests_general_base" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Could not find a property at "/tests_general_base"
+        """
