@@ -12,4 +12,4 @@ before_script:
 
 script: 
   - phpunit --coverage-text
-  - ./vendor/behat/behat/bin/behat
+  - php vendor/behat/behat/bin/behat

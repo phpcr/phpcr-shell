@@ -190,7 +190,7 @@ class FeatureContext extends BehatContext
         $exitCode = $this->applicationTester->getLastExitCode();
 
         if ($exitCode != 0) {
-            die($this->getOutput());
+            throw new \Exception('Command failed: '.$this->getOutput());
         }
 
         PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
