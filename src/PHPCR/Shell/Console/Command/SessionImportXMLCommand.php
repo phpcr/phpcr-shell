@@ -13,7 +13,6 @@ class SessionImportXMLCommand extends Command
 {
     protected $uuidBehaviors = array(
         'create-new',
-        'remove-existing',
         'collision-remove-existing',
         'collision-replace-existing',
         'collision-throw',

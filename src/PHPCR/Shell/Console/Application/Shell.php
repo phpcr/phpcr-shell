@@ -8,6 +8,8 @@ use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Console\Shell as BaseShell;
 use PHPCR\Shell\Console\Input\StringInput;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * This is more or less a copy of the Symfony\Component\Shell

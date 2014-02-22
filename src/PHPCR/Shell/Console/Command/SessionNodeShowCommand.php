@@ -56,4 +56,3 @@ HERE
         $table->render($output);
     }
 }
-

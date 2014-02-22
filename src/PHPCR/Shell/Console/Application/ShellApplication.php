@@ -215,7 +215,9 @@ class ShellApplication extends Application
             $input = new ArrayInput(array('command' => 'pwd'));
         }
 
-        return parent::doRun($input, $output);
+        $exitCode = parent::doRun($input, $output);
+
+        return $exitCode;
     }
 
     public function renderException($e, $output)

@@ -8,9 +8,7 @@ use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Command\ShellCommand;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
+use PHPCR\Shell\Console\Input\StringInput;
 use Jackalope\RepositoryFactoryJackrabbit;
 use PHPCR\SimpleCredentials;
 use PHPCR\Util\Console\Helper\PhpcrHelper;
@@ -18,6 +16,7 @@ use PHPCR\Util\NodeHelper;
 use Symfony\Component\Filesystem\Filesystem;
 use PHPCR\ItemNotFoundException;
 use PHPCR\PathNotFoundException;
+use PHPCR\Shell\Test\ApplicationTester;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -33,8 +32,9 @@ use Behat\Gherkin\Node\PyStringNode,
 class FeatureContext extends BehatContext
 {
     protected $application;
-    protected $phpBin;
+    protected $applicationTester;
     protected $filesystem;
+    protected $workingDir;
 
     /**
      * Initializes context.
@@ -50,23 +50,18 @@ class FeatureContext extends BehatContext
         $this->workingDir = $dir;
 
         mkdir($this->workingDir, 0777, true);
-
-        $phpFinder = new PhpExecutableFinder();
-        if (false === $php = $phpFinder->find()) {
-            throw new \RuntimeException('Unable to find the PHP executable.');
-        }
-
-        $root = realpath(dirname(__FILE__)).'/../..';
-        $this->phpBin = $php;
-        $this->phpcrShellBin = $root.'/bin/phpcr';
-
-        $this->process = new Process(null, $this->workingDir);
+        chdir($this->workingDir);
         $this->filesystem = new Filesystem();
 
         $session = $this->getSession();
         NodeHelper::purgeWorkspace($session);
         $session->save();
 
+        $this->applicationTester = new ApplicationTester($this->application);
+        $this->applicationTester->run(array(
+            '--transport' => 'jackrabbit',
+            '--no-interaction' => true,
+        ));
     }
 
     /**
@@ -87,6 +82,7 @@ class FeatureContext extends BehatContext
             'jackalope.jackrabbit_uri'  => 'http://localhost:8080/server/',
         );
         $factory = new RepositoryFactoryJackrabbit();
+        
         $repository = $factory->getRepository($params);
         $credentials = new SimpleCredentials('admin', 'admin');
 
@@ -97,14 +93,7 @@ class FeatureContext extends BehatContext
 
     private function getOutput()
     {
-        $output = $this->process->getErrorOutput() . $this->process->getOutput();
-
-        // Normalize the line endings in the output
-        if ("\n" !== PHP_EOL) {
-            $output = str_replace(PHP_EOL, "\n", $output);
-        }
-
-        return trim(preg_replace("/ +$/m", '', $output));
+        return $this->applicationTester->getDisplay();
     }
 
     private function getOutputAsArray()
@@ -136,21 +125,9 @@ class FeatureContext extends BehatContext
         return $this->workingDir . DIRECTORY_SEPARATOR . $filename;
     }
 
-    private function executeCommand($args)
+    private function executeCommand($command)
     {
-        $args = strtr($args, array('\'' => '"'));
-
-        $this->process->setCommandLine(
-            sprintf(
-                '%s %s --transport=%s --command="%s"',
-                $this->phpBin,
-                $this->phpcrShellBin,
-                'jackrabbit',
-                $args
-            )
-        );
-        $this->process->start();
-        $this->process->wait();
+        $this->applicationTester->runShellCommand($command);
     }
 
     /**
@@ -219,7 +196,7 @@ class FeatureContext extends BehatContext
      */
     public function theCommandShouldNotFail()
     {
-        $exitCode = $this->process->getExitCode();
+        $exitCode = $this->applicationTester->getLastExitCode();
 
         if ($exitCode != 0) {
             die($this->getOutput());
@@ -233,7 +210,7 @@ class FeatureContext extends BehatContext
      */
     public function theCommandShouldFail()
     {
-        $exitCode = $this->process->getExitCode();
+        $exitCode = $this->applicationTester->getLastExitCode();
 
         PHPUnit_Framework_Assert::assertNotEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
     }
@@ -243,7 +220,7 @@ class FeatureContext extends BehatContext
      */
     public function theCommandShouldFailWithMessage($arg1)
     {
-        $exitCode = $this->process->getExitCode();
+        $exitCode = $this->applicationTester->getLastExitCode();
         $output = $this->getOutput();
 
         PHPUnit_Framework_Assert::assertEquals($arg1, $output);

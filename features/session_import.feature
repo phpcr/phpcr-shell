@@ -29,7 +29,6 @@ Feature: Import repository data from an XML file
         Examples:
             | uuid_behavior               |
             | create-new                  |
-            | remove-existing             |
             | collision-remove-existing   |
             | collision-replace-existing  |
             | collision-throw             |
@@ -41,7 +40,6 @@ Feature: Import repository data from an XML file
         """
         The specified uuid behavior "invalid" is invalid, you should use one of:
             - create-new
-            - remove-existing
             - collision-remove-existing
             - collision-replace-existing
             - collision-throw

@@ -41,6 +41,7 @@ class ShellCommand extends Command
             new InputOption('--db-host',        '-dh',   InputOption::VALUE_REQUIRED, 'Database Host.', 'localhost'),
             new InputOption('--db-driver',      '-dd',   InputOption::VALUE_REQUIRED, 'Database Transport.', 'pdo_mysql'),
             new InputOption('--db-path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
+            new InputOption('--no-interaction', null,    InputOption::VALUE_NONE, 'Turn off interaction (for testing purposes)'),
             new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).',
                 'http://localhost:8080/server/'
             ),
@@ -52,6 +53,7 @@ class ShellCommand extends Command
     {
         $application = $this->application;
         $application->setSessionInput($input);
+        $noInteraction = $input->getOption('no-interaction');
 
         if ($command = $input->getOption('command')) {
             $input = new StringInput($command);
@@ -59,7 +61,11 @@ class ShellCommand extends Command
             $application = new Shell($this->application);
         }
 
-        $application->run($input, $output);
+        if ($noInteraction) {
+            return 0;
+        }
+
+        $application->run($output);
     }
 }
 
