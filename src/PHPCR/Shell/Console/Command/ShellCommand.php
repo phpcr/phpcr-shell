@@ -68,4 +68,3 @@ class ShellCommand extends Command
         $application->run($output);
     }
 }
-

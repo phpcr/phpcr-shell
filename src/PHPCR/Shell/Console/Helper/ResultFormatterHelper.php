@@ -73,7 +73,7 @@ class ResultFormatterHelper extends Helper
             foreach ($array->getValue() as $i => $value) {
                 if ($value instanceof NodeInterface) {
                     $value = $value->getPath();
-                } else if (is_object($value)) {
+                } elseif (is_object($value)) {
                     $value = '<UNKNOWN OBJECT>';
                 } else {
                     $value = $value;
@@ -95,8 +95,10 @@ class ResultFormatterHelper extends Helper
                     while (($line = fgets($pointer)) !== false) {
                         $lines[] = $line;
                     }
+
                     return implode('', $lines);
                 }
+
                 return '(binary data)';
             case PropertyType::BOOLEAN :
                 return $value->getValue() ? 'true' : 'false';

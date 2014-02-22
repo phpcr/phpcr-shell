@@ -2,19 +2,10 @@
 
 require_once(__DIR__.'/../../vendor/autoload.php');
 
-use PHPCR\Shell\Console\Application\SessionApplication;
-use Symfony\Component\Console\Input\ArrayInput;
-use PHPCR\Shell\Console\Application\ShellApplication;
-use PHPCR\Shell\Console\Command\ShellCommand;
-use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Output\NullOutput;
-use PHPCR\Shell\Console\Input\StringInput;
 use Jackalope\RepositoryFactoryJackrabbit;
 use PHPCR\SimpleCredentials;
-use PHPCR\Util\Console\Helper\PhpcrHelper;
 use PHPCR\Util\NodeHelper;
 use Symfony\Component\Filesystem\Filesystem;
-use PHPCR\ItemNotFoundException;
 use PHPCR\PathNotFoundException;
 use PHPCR\Shell\Test\ApplicationTester;
 
@@ -82,7 +73,7 @@ class FeatureContext extends BehatContext
             'jackalope.jackrabbit_uri'  => 'http://localhost:8080/server/',
         );
         $factory = new RepositoryFactoryJackrabbit();
-        
+
         $repository = $factory->getRepository($params);
         $credentials = new SimpleCredentials('admin', 'admin');
 

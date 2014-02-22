@@ -117,4 +117,3 @@ HERE
         $session->save();
     }
 }
-

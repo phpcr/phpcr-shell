@@ -12,11 +12,11 @@ class PhpcrSession implements SessionInterface
     protected $session;
     protected $cwd = '/';
 
-    public function getCwd() 
+    public function getCwd()
     {
         return $this->cwd;
     }
-    
+
     public function setCwd($cwd)
     {
         $this->cwd = $cwd;
@@ -115,7 +115,6 @@ class PhpcrSession implements SessionInterface
 
         return $newPaths;
     }
-
 
     public function __construct(SessionInterface $session)
     {

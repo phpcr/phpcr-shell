@@ -35,7 +35,7 @@ class TextHelper extends Helper
             if ('left' === $alignment) {
                 $string = substr($string, 0, $offset) . $delimString;
             } else {
-                $string = $delimString . substr($string, 
+                $string = $delimString . substr($string,
                     strlen($string) - $offset
                 );
             }

@@ -6,8 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use PHPCR\Util\PathHelper;
 
 class SessionNodeMoveCommand extends Command
 {
@@ -62,5 +60,3 @@ HERE
         $session->save();
     }
 }
-
-

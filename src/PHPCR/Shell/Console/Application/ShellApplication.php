@@ -3,7 +3,6 @@
 namespace PHPCR\Shell\Console\Application;
 
 use Symfony\Component\Console\Application;
-use PHPCR\SessionInterface;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,8 +31,6 @@ use PHPCR\Util\Console\Helper\PhpcrHelper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use PHPCR\Shell\Console\Command\Shell\ExitCommand;
-use PHPCR\Shell\Console\TransportInterface;
-use PHPCR\Shell\Console\Command\Shell\WorkspaceChangeCommand;
 use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
 use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
 use PHPCR\Shell\Console\Command\SessionExportViewCommand;
@@ -104,7 +101,6 @@ class ShellApplication extends Application
         $this->add(new SessionRefreshCommand());
         $this->add(new SessionSaveCommand());
         $this->add(new SessionImpersonateCommand());
-
 
         // add shell-specific commands
         $this->add(new SelectCommand());
