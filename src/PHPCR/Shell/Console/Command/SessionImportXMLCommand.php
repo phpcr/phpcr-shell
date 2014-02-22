@@ -114,6 +114,5 @@ HERE
         $uuidBehavior = constant('\PHPCR\ImportUUIDBehaviorInterface::IMPORT_UUID_' . strtoupper(str_replace('-', '_', $uuidBehavior)));
 
         $session->importXml($parentAbsPath, $file, $uuidBehavior);
-        $session->save();
     }
 }

@@ -55,8 +55,5 @@ HERE
         $srcAbsPath = $input->getArgument('srcAbsPath');
         $destAbsPath = $input->getArgument('destAbsPath');
         $session->move($srcAbsPath, $destAbsPath);
-
-        // TODO: None of the session stuff should be saving.
-        $session->save();
     }
 }

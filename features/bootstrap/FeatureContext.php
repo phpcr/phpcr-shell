@@ -398,4 +398,12 @@ class FeatureContext extends BehatContext
 
         PHPUnit_Framework_Assert::assertEquals($userId, $arg1);
     }
+
+    /**
+     * @Given /^I save the session$/
+     */
+    public function iSaveTheSession()
+    {
+        $this->executeCommand('session:save');
+    }
 }

@@ -18,6 +18,7 @@ Feature: Import repository data from an XML file
     Scenario: Import XML file into the repository base path
         Given I execute the "session:import / data.xml" command
         Then the command should not fail
+        And I save the session
         And the following nodes should exist:
             | /tests_general_base |
             | /tests_general_base/multiValueProperty/deepnode |
@@ -36,6 +37,7 @@ Feature: Import repository data from an XML file
     Scenario: Specify invalid UUID behavior
         Given I execute the "session:import / data.xml --uuid-behavior=invalid" command
         Then the command should fail
+        And I save the session
         And the output should contain:
         """
         The specified uuid behavior "invalid" is invalid, you should use one of:

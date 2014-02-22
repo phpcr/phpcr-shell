@@ -35,6 +35,5 @@ HERE
         $uri = $input->getArgument('uri');
 
         $session->setNamespacePrefix($prefix, $uri);
-        $session->save();
     }
 }

@@ -10,5 +10,6 @@ Feature: Move a node in the current session
     Scenario: Move node
         Given I execute the "session:node:move /tests_general_base/index.txt /foobar.txt" command
         Then the command should not fail
+        And I save the session
         And there should exist a node at "/foobar.txt"
         And there should not exist a node at "/tests_general_base/index.txt"

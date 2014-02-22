@@ -84,6 +84,5 @@ HERE
         }
 
         $property->setValue($value);
-        $session->save();
     }
 }

@@ -27,6 +27,5 @@ HERE
 
         $property = $session->getProperty($absPath);
         $property->remove();
-        $session->save();
     }
 }

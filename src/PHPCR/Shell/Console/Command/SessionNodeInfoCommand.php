@@ -57,6 +57,5 @@ HERE
         $session->move($srcAbsPath, $destAbsPath);
 
         // TODO: None of the session stuff should be saving.
-        $session->save();
     }
 }
