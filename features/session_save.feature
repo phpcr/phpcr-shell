@@ -8,7 +8,5 @@ Feature: Save the current session
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Save the session
-        Given I create a generic node at "/test/test-session-save"
-        And I execute "session:save"
-        And I refresh the session
-        Then there should exists a node at "/test/test-session-save"
+        Given I execute the "session:save" command
+        Then the command should not fail

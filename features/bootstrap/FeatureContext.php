@@ -419,4 +419,15 @@ class FeatureContext extends BehatContext
     {
         putenv($arg1 . '=' . $arg2);
     }
+
+    /**
+     * @Then /^then I should be logged in as "([^"]*)"$/
+     */
+    public function thenIShouldBeLoggedInAs($arg1)
+    {
+        $session = $this->getSession();
+        $userId = $session->getUserID();
+
+        PHPUnit_Framework_Assert::assertEquals($userId, $arg1);
+    }
 }

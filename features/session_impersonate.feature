@@ -5,5 +5,9 @@ Feature: Impersonate another user
 
     Scenario: Impersonate user
         Given that I am logged in as "testuser"
-        And that execute "session:impersonate impersonateuser"
-        Then then I should be logged in as "impersonateuser"
+        And I execute the "session:impersonate impersonateuser" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Not supported
+        """

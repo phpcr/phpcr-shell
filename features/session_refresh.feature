@@ -8,9 +8,9 @@ Feature: Reload the current session
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Refesh the session
-        Given I execute "session:refresh"
+        Given I execute the "session:refresh" command
         Then the command should not fail
 
     Scenario: Refesh the session and keep changes
-        Given I execute "session:refresh --keep-changes"
+        Given I execute the "session:refresh --keep-changes" command
         Then the command should not fail

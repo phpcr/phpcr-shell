@@ -48,6 +48,9 @@ use PHPCR\Shell\Console\Helper\TextHelper;
 use PHPCR\Shell\Console\Command\SessionPropertyRemoveCommand;
 use PHPCR\Shell\Console\Command\SessionPropertyShowCommand;
 use PHPCR\Shell\Console\Command\SessionPropertyEditCommand;
+use PHPCR\Shell\Console\Command\SessionRefreshCommand;
+use PHPCR\Shell\Console\Command\SessionSaveCommand;
+use PHPCR\Shell\Console\Command\SessionImpersonateCommand;
 
 class ShellApplication extends Application
 {
@@ -98,6 +101,9 @@ class ShellApplication extends Application
         $this->add(new SessionPropertyRemoveCommand());
         $this->add(new SessionPropertyShowCommand());
         $this->add(new SessionPropertyEditCommand());
+        $this->add(new SessionRefreshCommand());
+        $this->add(new SessionSaveCommand());
+        $this->add(new SessionImpersonateCommand());
 
 
         // add shell-specific commands
