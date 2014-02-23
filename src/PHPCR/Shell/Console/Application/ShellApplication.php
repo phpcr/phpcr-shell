@@ -53,6 +53,8 @@ use PHPCR\Shell\Console\Command\RetentionPolicyRemoveCommand;
 use PHPCR\Shell\Console\Command\WorkspaceCreateCommand;
 use PHPCR\Shell\Console\Command\WorkspaceDeleteCommand;
 use PHPCR\Shell\Console\Command\WorkspaceListCommand;
+use PHPCR\Shell\Console\Command\WorkspaceNodeCloneCommand;
+use PHPCR\Shell\Console\Command\WorkspaceNodeCopyCommand;
 
 class ShellApplication extends Application
 {
@@ -117,6 +119,8 @@ class ShellApplication extends Application
         $this->add(new WorkspaceCreateCommand());
         $this->add(new WorkspaceDeleteCommand());
         $this->add(new WorkspaceListCommand());
+        $this->add(new WorkspaceNodeCloneCommand());
+        $this->add(new WorkspaceNodeCopyCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());

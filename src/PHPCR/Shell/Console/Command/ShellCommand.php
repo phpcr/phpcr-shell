@@ -56,7 +56,10 @@ class ShellCommand extends Command
         $noInteraction = $input->getOption('no-interaction');
 
         if ($command = $input->getOption('command')) {
+            $application->setCatchExceptions(false);
             $input = new StringInput($command);
+            $application->run($input, $output);
+            return;
         } else {
             $application = new Shell($this->application);
         }

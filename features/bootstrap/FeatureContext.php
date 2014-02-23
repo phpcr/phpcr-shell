@@ -45,7 +45,6 @@ class FeatureContext extends BehatContext
         $this->filesystem = new Filesystem();
 
         $session = $this->getSession();
-        NodeHelper::purgeWorkspace($session);
         $session->save();
 
         $this->applicationTester = new ApplicationTester($this->application);
@@ -67,7 +66,7 @@ class FeatureContext extends BehatContext
         $fs->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell');
     }
 
-    private function getSession()
+    private function getSession($workspaceName = 'default')
     {
         $params = array(
             'jackalope.jackrabbit_uri'  => 'http://localhost:8080/server/',
@@ -77,7 +76,7 @@ class FeatureContext extends BehatContext
         $repository = $factory->getRepository($params);
         $credentials = new SimpleCredentials('admin', 'admin');
 
-        $session = $repository->login($credentials, 'default');
+        $session = $repository->login($credentials, $workspaceName);
 
         return $session;
     }
@@ -178,6 +177,8 @@ class FeatureContext extends BehatContext
     {
         $fixtureFile = $this->getFixtureFilename($arg1);
         $session = $this->getSession();
+        NodeHelper::purgeWorkspace($session);
+        $session->save();
         $session->importXml('/', $fixtureFile, 0);
         $session->save();
     }
@@ -458,5 +459,18 @@ class FeatureContext extends BehatContext
             throw new \Exception(sprintf('Workspace "%s" exists.', $arg1));
         } catch (\Exception $e) {
         }
+    }
+
+    /**
+     * @Given /^the "([^"]*)" fixtures are loaded into a workspace "([^"]*)"$/
+     */
+    public function theFixturesAreLoadedIntoAWorkspace($arg1, $arg2)
+    {
+        $fixtureFile = $this->getFixtureFilename($arg1);
+        $session = $this->getSession($arg2);
+        NodeHelper::purgeWorkspace($session);
+        $session->save();
+        $session->importXml('/', $fixtureFile, 0);
+        $session->save();
     }
 }
