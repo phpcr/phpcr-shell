@@ -9,5 +9,8 @@ Feature: Add a retention hold
 
     Scenario: Add retention hold
         Given I execute the "retention:hold:add /tests_general_base foobar --deep" command
-        Then the command should not fail
-        And there should exist a retention hold called "foobar" on "/tests_general_base"
+        Then the command should fail
+        And I should see the following:
+        """
+        Unsupported repository operation
+        """

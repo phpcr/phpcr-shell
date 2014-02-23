@@ -50,6 +50,11 @@ use PHPCR\Shell\Console\Command\SessionImpersonateCommand;
 use PHPCR\Shell\Console\Command\AccessControlPrivilegeListCommand;
 use PHPCR\Shell\Console\Command\QuerySelectCommand;
 use PHPCR\Shell\Console\Command\QueryCommand;
+use PHPCR\Shell\Console\Command\RetentionHoldAddCommand;
+use PHPCR\Shell\Console\Command\RetentionHoldListCommand;
+use PHPCR\Shell\Console\Command\RetentionHoldRemoveCommand;
+use PHPCR\Shell\Console\Command\RetentionPolicyGetCommand;
+use PHPCR\Shell\Console\Command\RetentionPolicyRemoveCommand;
 
 class ShellApplication extends Application
 {
@@ -106,6 +111,11 @@ class ShellApplication extends Application
         $this->add(new SessionSaveCommand());
         $this->add(new QuerySelectCommand());
         $this->add(new QueryCommand());
+        $this->add(new RetentionHoldAddCommand());
+        $this->add(new RetentionHoldListCommand());
+        $this->add(new RetentionHoldRemoveCommand());
+        $this->add(new RetentionPolicyGetCommand());
+        $this->add(new RetentionPolicyRemoveCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
