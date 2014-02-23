@@ -6,8 +6,8 @@ Feature: List workspaces
     Background:
         Given that I am logged in as "testuser"
 
-    Scenario: List namespaces
-        Given I execute the "session:namespace:list" command
+    Scenario: List workspaces
+        Given I execute the "workspace:list" command
         Then the command should not fail
         And I should see a table containing the following rows:
             | Name |

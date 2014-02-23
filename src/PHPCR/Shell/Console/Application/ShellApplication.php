@@ -19,11 +19,6 @@ use PHPCR\Util\Console\Command\NodeTouchCommand;
 use PHPCR\Util\Console\Command\NodeTypeListCommand;
 use PHPCR\Util\Console\Command\NodeTypeRegisterCommand;
 use PHPCR\Util\Console\Command\NodesUpdateCommand;
-use PHPCR\Util\Console\Command\WorkspaceCreateCommand;
-use PHPCR\Util\Console\Command\WorkspaceDeleteCommand;
-use PHPCR\Util\Console\Command\WorkspaceExportCommand;
-use PHPCR\Util\Console\Command\WorkspaceImportCommand;
-use PHPCR\Util\Console\Command\WorkspaceListCommand;
 use PHPCR\Util\Console\Command\WorkspacePurgeCommand;
 use PHPCR\Util\Console\Helper\PhpcrConsoleDumperHelper;
 use PHPCR\Util\Console\Helper\PhpcrHelper;
@@ -55,6 +50,9 @@ use PHPCR\Shell\Console\Command\RetentionHoldListCommand;
 use PHPCR\Shell\Console\Command\RetentionHoldRemoveCommand;
 use PHPCR\Shell\Console\Command\RetentionPolicyGetCommand;
 use PHPCR\Shell\Console\Command\RetentionPolicyRemoveCommand;
+use PHPCR\Shell\Console\Command\WorkspaceCreateCommand;
+use PHPCR\Shell\Console\Command\WorkspaceDeleteCommand;
+use PHPCR\Shell\Console\Command\WorkspaceListCommand;
 
 class ShellApplication extends Application
 {
@@ -116,6 +114,9 @@ class ShellApplication extends Application
         $this->add(new RetentionHoldRemoveCommand());
         $this->add(new RetentionPolicyGetCommand());
         $this->add(new RetentionPolicyRemoveCommand());
+        $this->add(new WorkspaceCreateCommand());
+        $this->add(new WorkspaceDeleteCommand());
+        $this->add(new WorkspaceListCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
@@ -149,21 +150,6 @@ class ShellApplication extends Application
         );
         $this->add($this->wrap(new NodeTypeRegisterCommand())
             ->setName('nt-register')
-        );
-        $this->add($this->wrap(new WorkspaceCreateCommand())
-            ->setName('workspace-create')
-        );
-        $this->add($this->wrap(new WorkspaceDeleteCommand())
-            ->setName('workspace-delete')
-        );
-        $this->add($this->wrap(new WorkspaceExportCommand())
-            ->setName('workspace-export')
-        );
-        $this->add($this->wrap(new WorkspaceImportCommand())
-            ->setName('workspace-import')
-        );
-        $this->add($this->wrap(new WorkspaceListCommand())
-            ->setName('workspace-list')
         );
         $this->add($this->wrap(new WorkspacePurgeCommand())
             ->setName('workspace-purge')

@@ -416,4 +416,47 @@ class FeatureContext extends BehatContext
         NodeHelper::createPath($session, $arg1);
         $session->save();
     }
+    /**
+     * @Given /^there should exist a workspace called "([^"]*)"$/
+     */
+    public function thereShouldExistAWorkspaceCalled($arg1)
+    {
+        $session = $this->getSession();
+        $accessibleWorkspaceNames = $session->getWorkspace()->getAccessibleWorkspaceNames();
+        if (!in_array($arg1, $accessibleWorkspaceNames)) {
+            throw new \Exception(sprintf('Workspace "%s" is not accessible', $arg1));
+        }
+    }
+
+    /**
+     * @Given /^there does not exist a workspace called "([^"]*)"$/
+     */
+    public function thereDoesNotExistAWorkspaceCalled($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $workspace->deleteWorkspace($arg1);
+    }
+
+    /**
+     * @Given /^there exists a workspace "([^"]*)"$/
+     */
+    public function thereExistsAWorkspace($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $workspace->createWorkspace($arg1);
+    }
+
+    /**
+     * @Given /^there should not exist a workspace called "([^"]*)"$/
+     */
+    public function thereShouldNotExistAWorkspaceCalled($arg1)
+    {
+        try {
+            $this->thereShouldExistAWorkspaceCalled($arg1);
+            throw new \Exception(sprintf('Workspace "%s" exists.', $arg1));
+        } catch (\Exception $e) {
+        }
+    }
 }
