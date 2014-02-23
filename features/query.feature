@@ -8,22 +8,24 @@ Feature: Execute a query
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Execute query
-        Given I execute the "query 'SELECT * FROM [nt:file]" command
+        Given I execute the "query 'SELECT a.[jcr:createdBy] FROM [nt:file] AS a'" command
         Then the command should not fail
         And I should see a table containing the following rows:
-            | Name |
-            | default |
+            | a.jcr:createdBy |
+            | admin           |       
 
     Scenario: Execute query invalid language
-        Given I execute the "query "SELECT * FROM [nt:unstructured] --language=FRENCH" command
+        Given I execute the "query 'SELECT * FROM [nt:unstructured]' --language=FRENCH" command
         Then the command should fail
         And I should see the following:
         """
         "FRENCH" is an invalid query language, valid query languages are:
-           - JCR_SQL2
-           - FOO
-       """
+        """
+        And I should see the following:
+        """
+        JCR-SQL2
+        """
 
     Scenario: Execute query with language
-        Given I execute the "query "SELECT * FROM [nt:unstructured] --language=JCR_SQL2" command
+        Given I execute the "query '/jcr:root/nodes' --language=xpath" command
         Then the command should not fail

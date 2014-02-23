@@ -159,7 +159,7 @@ class FeatureContext extends BehatContext
             }
         }
 
-        PHPUnit_Framework_Assert::assertEquals(count($expectedRows), $foundRows, $this->getOutput());
+        PHPUnit_Framework_Assert::assertGreaterThanOrEqual(count($expectedRows), $foundRows, $this->getOutput());
     }
 
     /**

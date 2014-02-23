@@ -49,6 +49,7 @@ use PHPCR\Shell\Console\Command\SessionSaveCommand;
 use PHPCR\Shell\Console\Command\SessionImpersonateCommand;
 use PHPCR\Shell\Console\Command\AccessControlPrivilegeListCommand;
 use PHPCR\Shell\Console\Command\QuerySelectCommand;
+use PHPCR\Shell\Console\Command\QueryCommand;
 
 class ShellApplication extends Application
 {
@@ -104,6 +105,7 @@ class ShellApplication extends Application
         $this->add(new SessionRefreshCommand());
         $this->add(new SessionSaveCommand());
         $this->add(new QuerySelectCommand());
+        $this->add(new QueryCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());

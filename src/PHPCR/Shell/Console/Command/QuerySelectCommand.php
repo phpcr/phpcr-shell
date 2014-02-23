@@ -12,8 +12,12 @@ class QuerySelectCommand extends Command
     protected function configure()
     {
         $this->setName('select');
-        $this->setDescription('Execute an SQL query.');
+        $this->setDescription('Execute an SQL query UNSTABLE');
         $this->addArgument('query');
+        $this->setHelp(<<<EOT
+This is an unstable feature, see notes for the <info>query</info> command.
+EOT
+        );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

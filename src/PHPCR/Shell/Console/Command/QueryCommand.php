@@ -12,23 +12,44 @@ class QueryCommand extends Command
     protected function configure()
     {
         $this->setName('query');
-        $this->setDescription('Execute an SQL query.');
+        $this->setDescription('Execute an SQL query UNSTABLE');
         $this->addArgument('query');
-        $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'jcr-sql2');
+        $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'JCR-SQL2');
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The query limit', 0);
         $this->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'The query offset', 0);
+        $this->setHelp(<<<EOT
+This feature is unstable and incomplete.
+
+TODO:
+
+- Ensure values are properly handled
+- Allow table formatting options
+- Provide way to add path and/or UUID to results
+EOT
+        );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $language = strtoupper($input->getOption('language'));
+        $language = $input->getOption('language');
         $limit = $input->getOption('limit');
         $offset = $input->getOption('offset');
+        $query = $input->getArgument('query');
 
         $session = $this->getHelper('phpcr')->getSession();
-        $qm = $session->getWorkspace()->getQueryManager();
+        $workspace = $session->getWorkspace();;
+        $supportedQueryLanguages = $workspace->getQueryManager()->getSupportedQueryLanguages();
 
-        $query = $qm->createQuery($sql, $language);
+        if (!in_array($language, $supportedQueryLanguages)) {
+            throw new \InvalidArgumentException(sprintf(
+                '"%s" is an invalid query language, valid query languages are:%s',
+                $language,
+                PHP_EOL . '    -' . implode(PHP_EOL . '   - ', $supportedQueryLanguages)
+            ));
+        }
+
+        $qm = $session->getWorkspace()->getQueryManager();
+        $query = $qm->createQuery($query, $language);
 
         if ($limit) {
             $query->setLimit($limit);
