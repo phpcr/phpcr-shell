@@ -58,7 +58,7 @@ class ResultFormatterHelper extends Helper
             $array = $value;
             $values = array();
 
-            foreach ($array->getValue() as $i => $value) {
+            foreach ($array as $i => $value) {
                 if ($value instanceof NodeInterface) {
                     $value = $value->getPath();
                 } elseif (is_object($value)) {

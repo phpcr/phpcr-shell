@@ -55,6 +55,7 @@ use PHPCR\Shell\Console\Command\WorkspaceDeleteCommand;
 use PHPCR\Shell\Console\Command\WorkspaceListCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNodeCloneCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNodeCopyCommand;
+use PHPCR\Shell\Console\Command\NodeTypeShowCommand;
 
 class ShellApplication extends Application
 {
@@ -121,6 +122,7 @@ class ShellApplication extends Application
         $this->add(new WorkspaceListCommand());
         $this->add(new WorkspaceNodeCloneCommand());
         $this->add(new WorkspaceNodeCopyCommand());
+        $this->add(new NodeTypeShowCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
