@@ -27,17 +27,12 @@ HERE
     {
         $formatter = $this->getHelper('result_formatter');
         $session = $this->getHelper('phpcr')->getSession();
+        $editor = $this->getHelper('editor');
 
         $absPath = $input->getArgument('absPath');
         $multivalueIndex = $input->getArgument('multivalue-index');
 
         $valueConverter = new ValueConverter();
-
-        $fs = new Filesystem();
-        $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell';
-        if (!file_exists($dir)) {
-            $fs->mkdir($dir);
-        }
 
         $absPath = $input->getArgument('absPath');
         $property = $session->getProperty($absPath);
@@ -63,18 +58,7 @@ HERE
             $value = $formatter->formatValue($property, true);
         }
 
-        $tmpName = tempnam($dir, '');
-        file_put_contents($tmpName, $value);
-        $editor = getenv('EDITOR');
-
-        if (!$editor) {
-            throw new \Exception('No EDITOR environment variable set.');
-        }
-
-        system($editor . ' ' . $tmpName . ' > `tty`');
-
-        $contents = file_get_contents($tmpName);
-        $fs->remove($tmpName);
+        $contents = $editor->fromString($value);
 
         $value = $valueConverter->convertType($contents, $property->getType());
 

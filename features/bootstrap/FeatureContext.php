@@ -51,6 +51,8 @@ class FeatureContext extends BehatContext
         $this->applicationTester->run(array(
             '--transport' => 'jackrabbit',
             '--no-interaction' => true,
+        ), array(
+            'interactive' => true,
         ));
     }
 
@@ -471,6 +473,20 @@ class FeatureContext extends BehatContext
         NodeHelper::purgeWorkspace($session);
         $session->save();
         $session->importXml('/', $fixtureFile, 0);
+        $session->save();
+    }
+
+    /**
+     * @Given /^the "([^"]*)" node type is loaded$/
+     */
+    public function theNodeTypeIsLoaded($arg1)
+    {
+        $fixtureFile = $this->getFixtureFilename($arg1);
+        $cnd = file_get_contents($fixtureFile);
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $nodeTypeManager = $workspace->getNodeTypeManager();
+        $nodeTypeManager->registerNodeTypesCnd($cnd, true);
         $session->save();
     }
 }

@@ -56,6 +56,8 @@ use PHPCR\Shell\Console\Command\WorkspaceListCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNodeCloneCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNodeCopyCommand;
 use PHPCR\Shell\Console\Command\NodeTypeShowCommand;
+use PHPCR\Shell\Console\Helper\EditorHelper;
+use PHPCR\Shell\Console\Command\NodeTypeEditCommand;
 
 class ShellApplication extends Application
 {
@@ -123,6 +125,7 @@ class ShellApplication extends Application
         $this->add(new WorkspaceNodeCloneCommand());
         $this->add(new WorkspaceNodeCopyCommand());
         $this->add(new NodeTypeShowCommand());
+        $this->add(new NodeTypeEditCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
@@ -163,10 +166,11 @@ class ShellApplication extends Application
 
         $session = $this->getSession($this->sessionInput);
 
+        $this->getHelperSet()->set(new EditorHelper($session));
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
+        $this->getHelperSet()->set(new PhpcrHelper($session));
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new TextHelper());
-        $this->getHelperSet()->set(new PhpcrHelper($session));
 
         $this->initialized = true;
     }

@@ -14,10 +14,10 @@ class NodeTypeShowCommand extends Command
     protected function configure()
     {
         $this->setName('node-type:show');
-        $this->setDescription('Show the current node');
+        $this->setDescription('Show the CND of a node type');
         $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, 'The name of the node type to show');
         $this->setHelp(<<<HERE
-Show the CND of a given node type
+Show the CND (Compact Node Definition) of a given node type.
 HERE
         );
     }
