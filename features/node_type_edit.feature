@@ -16,11 +16,41 @@ Feature: Edit a node type
             | command | 
             | node-type:edit ns:NodeType |
 
-    Scenario: Make an invalid CND file
-        Given the "EDITOR" environment variable is set to "tac"
+    Scenario: Edit an existing node type
+        Given the "EDITOR" environment variable is set to "cat"
         And I execute the "node-type:edit rep:versionStorage --no-interaction" command
         Then the command should fail
         And I should see the following:
         """
         can't reregister built-in node type
         """
+
+    Scenario: Make an invalid edit
+        Given I have an editor which produces the following:
+        """"
+        asdf asdf asdf 
+        """
+        And I execute the "node-type:edit ns:NodeType --no-interaction" command
+        Then the command should fail
+        And I should see the following:
+        """
+        PARSER ERROR
+        """
+
+    Scenario: Create a new node type
+        Given I have an editor which produces the following:
+        """
+        <ns ='http://namespace.com/ns'>
+        [ns:somenewtype] > nt:unstructured
+        """
+        And I execute the "node-type:edit ns:somenewtype --no-interaction" command
+        Then the command should not fail
+        And there should exist a node type called "ns:somenewtype"
+
+    Scenario: Empty the node type
+        Given I have an editor which produces the following:
+        """
+        """
+        And I execute the "node-type:edit ns:NodeType --no-interaction" command
+        Then the command should not fail
+        And there should exist a node type called "ns:somenewtype"

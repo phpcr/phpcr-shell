@@ -489,4 +489,34 @@ class FeatureContext extends BehatContext
         $nodeTypeManager->registerNodeTypesCnd($cnd, true);
         $session->save();
     }
+
+    /**
+     * @Given /^there should exist a node type called "([^"]*)"$/
+     */
+    public function thereShouldExistANodeTypeCalled($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $nodeTypeManager = $workspace->getNodeTypeManager();
+        $nodeTypeManager->getNodeType($arg1);
+    }
+
+    /**
+     * @Given /^I have an editor which produces the following:$/
+     */
+    public function iHaveAnEditorWhichProducesTheFollowing(PyStringNode $string)
+    {
+        $tmpFile = $this->workingDir . DIRECTORY_SEPARATOR . 'fake-editor-file';
+        $editorFile = $this->workingDir . DIRECTORY_SEPARATOR . 'fakeed';
+        file_put_contents($tmpFile, $string->getRaw());
+        chmod($tmpFile, 0777);
+        $script = array();
+        $script[] = '#!/bin/bash';
+        $script[] = 'FILE=$1';
+        $script[] = 'cat ' . $tmpFile . ' > $FILE';
+
+        file_put_contents($editorFile, implode("\n", $script));
+        chmod($editorFile, 0777);
+        putenv('EDITOR=' . $editorFile);
+    }
 }

@@ -47,14 +47,18 @@ class EditorHelper extends Helper
 
     public function fromStringWithMessage($string, $message, $messagePrefix = '# ')
     {
-        $message = explode("\n", $message);
+        if (null !== $message) {
+            $message = explode("\n", $message);
 
-        foreach ($message as $line) {
-            $source[] = $messagePrefix.$line;
+            foreach ($message as $line) {
+                $source[] = $messagePrefix.$line;
+            }
+            $source = implode("\n", $source).PHP_EOL;
+        } else {
+            $source = '';
         }
 
-        $source = implode("\n", $source);
-        $source .= PHP_EOL.$string;
+        $source .= $string;
 
         $res = $this->fromString($source);
         $res = explode("\n", $res);
@@ -71,7 +75,6 @@ class EditorHelper extends Helper
             $out[] = $line;
             $line = next($res);
         }
-
 
         return implode("\n", $out);
     }

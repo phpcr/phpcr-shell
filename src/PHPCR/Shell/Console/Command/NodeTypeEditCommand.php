@@ -9,16 +9,24 @@ use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
+use PHPCR\NamespaceException;
 
 class NodeTypeEditCommand extends Command
 {
     protected function configure()
     {
         $this->setName('node-type:edit');
-        $this->setDescription('Edit the current node');
-        $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, 'The name of the node type to edit');
+        $this->setDescription('Edit or create a node type');
+        $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, 'The name of the node type to edit or create');
         $this->setHelp(<<<HERE
 Edit the given node type name with the editor defined in the EDITOR environment variable.
+
+If the node type does not exist, it will be created. All node types must be prefixed with
+a namespace prefix as shown in the <info>session:namespace:list</info> command
+
+    $ node-type:edit nt:examplenode
+
+Will open an editor with a new node type.
 HERE
         );
     }
@@ -35,22 +43,49 @@ HERE
 
         try {
             $nodeType = $nodeTypeManager->getNodeType($nodeTypeName);
+            $cndWriter = new CndWriter($namespaceRegistry);
+            $out = $cndWriter->writeString(array($nodeType));
+            $message = null;
         } catch (NoSuchNodeTypeException $e) {
-            throw new \Exception(sprintf(
-                'The node type "%s" does not exist'
-            , $nodeTypeName));
+            $parts = explode(':', $nodeTypeName);
+
+            if (count($parts) != 2) {
+                throw new \InvalidArgumentException(
+                    'Node type names must be prefixed with a namespace, e.g. ns:foobar'
+                );
+            }
+            list($namespace, $name)  = $parts;
+            $uri = $session->getNamespaceURI($namespace);
+
+            // so we will create one ..
+            $out = <<<EOT
+<$namespace ='$uri'>
+[$namespace:$name] > nt:unstructured
+
+EOT
+            ;
+            $message = <<<EOT
+Creating a new node type: $nodeTypeName
+EOT
+            ;
         }
-        $cndWriter = new CndWriter($namespaceRegistry);
-        $out = $cndWriter->writeString(array($nodeType));
-        $res = $editor->fromString($out);
+
 
         $valid = false;
-        while (false === $valid) {
+        $prefix = '# ';
+        do {
+            $res = $editor->fromStringWithMessage($out, $message);
+
+            if (empty($res)) {
+                $output->writeln('<info>Editor emptied the CND file, doing nothing. Use node-type:delete to remove node types.</info>');
+                return 0;
+            }
+
             try {
                 $cndParser = new CndParser($nodeTypeManager);
-                $res = $cndParser->parseString($res);
+                $namespacesAndNodeTypes = $cndParser->parseString($res);
 
-                foreach ($res['nodeTypes'] as $nodeType) {
+                foreach ($namespacesAndNodeTypes['nodeTypes'] as $nodeType) {
                     $nodeTypeManager->registerNodeType($nodeType, true);
                 }
                 $valid = true;
@@ -66,13 +101,12 @@ HERE
                     return 1;
                 }
 
-                $prefix = '# ';
                 $message = 'The following errors were encountered (all lines starting with ' . $prefix . ' will be ignored):';
                 $message .= PHP_EOL;
                 $message .= PHP_EOL;
                 $message .= $e->getMessage();
-                $editor->fromStringWithMessage($res, $message, $prefix);
+                $out = $res;
             }
-        }
+        } while (false === $valid);
     }
 }

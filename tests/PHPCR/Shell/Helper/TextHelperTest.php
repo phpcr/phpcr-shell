@@ -15,51 +15,51 @@ class TextHelperTest extends \PHPUnit_Framework_TestCase
 
     public function provideTruncate()
     {
-        return [
-            [
+        return array(
+            array(
                 'this is some text',
                 5,
                 null,
                 null,
                 'th...'
-            ],
-            [
+            ),
+            array(
                 'this is some text',
                 5,
                 'right',
                 null,
                 '...xt',
-            ],
-            [
+            ),
+            array(
                 'this is some text',
                 5,
                 'right',
                 '-',
                 '-text',
-            ],
-            [
+            ),
+            array(
                 'th',
                 5,
                 'right',
                 '-',
                 'th',
-            ],
-            [
+            ),
+            array(
                 'this is some more text',
                 5,
                 'right',
                 '-----',
                 '-----',
-            ],
-            [
+            ),
+            array(
                 'this is some more text',
                 5,
                 'right',
                 '--------',
                 '-----',
                 'Delimiter length "8" cannot be greater',
-            ],
-        ];
+            ),
+        );
     }
 
     /**

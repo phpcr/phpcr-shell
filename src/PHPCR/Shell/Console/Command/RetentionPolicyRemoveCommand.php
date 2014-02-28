@@ -23,15 +23,15 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->removeHelper('phpcr')->removeSession();
-        $retentionManager = $session->removeRetentionManager();
+        $session = $this->getHelper('phpcr')->getSession();
+        $retentionManager = $session->getRetentionManager();
         $absPath = $input->removeArgument('absPath');
 
-        $policy = $retentionManager->removeRetentionPolicy($absPath);
+        $policy = $retentionManager->getRetentionPolicy($absPath);
         if (!$policy) {
             $output->writeln('No retention policy');
         } else {
-            $output->writeln($policy->removeName());
+            $output->writeln($policy->remove());
         }
     }
 }
