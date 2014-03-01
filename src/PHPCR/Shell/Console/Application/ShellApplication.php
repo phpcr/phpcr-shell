@@ -10,6 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Console\Command\Shell\ChangePathCommand;
 use PHPCR\Shell\Console\Command\Shell\PwdCommand;
 use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
+use PHPCR\Shell\Console\Helper\NodeHelper;
 use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;
 use PHPCR\Util\Console\Command\NodeDumpCommand;
@@ -60,6 +61,12 @@ use PHPCR\Shell\Console\Command\NodeTypeEditCommand;
 use PHPCR\Shell\Console\Command\NodeTypeUnregisterCommand;
 use PHPCR\Shell\Console\Command\NodeTypeListCommand;
 use PHPCR\Shell\Console\Command\NodeTypeLoadCommand;
+use PHPCR\Shell\Console\Command\VersionCheckoutCommand;
+use PHPCR\Shell\Console\Command\VersionCheckinCommand;
+use PHPCR\Shell\Console\Command\VersionHistoryCommand;
+use PHPCR\Shell\Console\Command\VersionRestoreCommand;
+use PHPCR\Shell\Console\Command\VersionRemoveCommand;
+use PHPCR\Shell\Console\Command\VersionCheckpointCommand;
 
 class ShellApplication extends Application
 {
@@ -131,6 +138,12 @@ class ShellApplication extends Application
         $this->add(new NodeTypeUnregisterCommand());
         $this->add(new NodeTypeListCommand());
         $this->add(new NodeTypeLoadCommand());
+        $this->add(new VersionCheckoutCommand());
+        $this->add(new VersionHistoryCommand());
+        $this->add(new VersionRestoreCommand());
+        $this->add(new VersionRemoveCommand());
+        $this->add(new VersionCheckpointCommand());
+        $this->add(new VersionCheckinCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
@@ -173,6 +186,7 @@ class ShellApplication extends Application
         $this->getHelperSet()->set(new PhpcrHelper($session));
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new TextHelper());
+        $this->getHelperSet()->set(new NodeHelper($session));
 
         $this->initialized = true;
     }
