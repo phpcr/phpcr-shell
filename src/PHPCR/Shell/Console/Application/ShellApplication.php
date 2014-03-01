@@ -16,7 +16,6 @@ use PHPCR\Util\Console\Command\NodeDumpCommand;
 use PHPCR\Util\Console\Command\NodeMoveCommand;
 use PHPCR\Util\Console\Command\NodeRemoveCommand;
 use PHPCR\Util\Console\Command\NodeTouchCommand;
-use PHPCR\Util\Console\Command\NodeTypeListCommand;
 use PHPCR\Util\Console\Command\NodeTypeRegisterCommand;
 use PHPCR\Util\Console\Command\NodesUpdateCommand;
 use PHPCR\Util\Console\Command\WorkspacePurgeCommand;
@@ -58,6 +57,9 @@ use PHPCR\Shell\Console\Command\WorkspaceNodeCopyCommand;
 use PHPCR\Shell\Console\Command\NodeTypeShowCommand;
 use PHPCR\Shell\Console\Helper\EditorHelper;
 use PHPCR\Shell\Console\Command\NodeTypeEditCommand;
+use PHPCR\Shell\Console\Command\NodeTypeUnregisterCommand;
+use PHPCR\Shell\Console\Command\NodeTypeListCommand;
+use PHPCR\Shell\Console\Command\NodeTypeLoadCommand;
 
 class ShellApplication extends Application
 {
@@ -126,6 +128,9 @@ class ShellApplication extends Application
         $this->add(new WorkspaceNodeCopyCommand());
         $this->add(new NodeTypeShowCommand());
         $this->add(new NodeTypeEditCommand());
+        $this->add(new NodeTypeUnregisterCommand());
+        $this->add(new NodeTypeListCommand());
+        $this->add(new NodeTypeLoadCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
@@ -153,9 +158,6 @@ class ShellApplication extends Application
         );
         $this->add($this->wrap(new NodeTouchCommand())
             ->setName('touch')
-        );
-        $this->add($this->wrap(new NodeTypeListCommand())
-            ->setName('nt-list')
         );
         $this->add($this->wrap(new NodeTypeRegisterCommand())
             ->setName('nt-register')

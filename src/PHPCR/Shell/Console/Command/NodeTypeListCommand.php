@@ -1,0 +1,49 @@
+<?php
+
+namespace PHPCR\Shell\Console\Command;
+
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\Util\CND\Writer\CndWriter;
+use PHPCR\NodeType\NoSuchNodeTypeException;
+
+class NodeTypeListCommand extends Command
+{
+    protected function configure()
+    {
+        $this->setName('node-type:list');
+        $this->setDescription('List registered node types');
+        $this->setHelp(<<<HERE
+List all node types (both primary and mixins)
+HERE
+        );
+    }
+
+    public function execute(InputInterface $input, OutputInterface $output)
+    {
+        $session = $this->getHelper('phpcr')->getSession();
+        $workspace = $session->getWorkspace();
+        $namespaceRegistry = $workspace->getNamespaceRegistry();
+        $nodeTypeManager = $workspace->getNodeTypeManager();
+
+        $nodeTypes = $nodeTypeManager->getAllNodeTypes();
+
+        $table = $this->getHelper('table');
+        $table->setHeaders(array('Name', 'Primary Item Name', 'Abstract?', 'Mixin?', 'Queryable?'));
+
+        foreach ($nodeTypes as $nodeType) {
+            $table->addRow(array(
+                $nodeType->getName(),
+                $nodeType->getPrimaryItemName(),
+                $nodeType->isAbstract() ? 'yes' : 'no',
+                $nodeType->isMixin() ? 'yes' : 'no',
+                $nodeType->isQueryable() ? 'yes': 'no',
+            ));
+        }
+
+        $table->render($output);
+    }
+}
+

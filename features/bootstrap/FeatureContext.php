@@ -502,6 +502,23 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^there should not exist a node type named "([^"]*)"$/
+     */
+    public function thereShouldNotExistANodeTypeNamed($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $nodeTypeManager = $workspace->getNodeTypeManager();
+        try {
+            $nodeTypeManager->getNodeType($arg1);
+        } catch (\Exception $e) {
+            var_dump(get_class($e));die();
+        }
+
+        throw new \Exception('Node type ' . $arg1 . ' exists');
+    }
+
+    /**
      * @Given /^I have an editor which produces the following:$/
      */
     public function iHaveAnEditorWhichProducesTheFollowing(PyStringNode $string)
