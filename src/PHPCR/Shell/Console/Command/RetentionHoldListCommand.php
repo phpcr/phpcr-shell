@@ -29,7 +29,7 @@ HERE
         $absPath = $input->getArgument('absPath');
 
         $holds = $retentionManager->getHolds($absPath);
-        $table = $this->getHelper('table');
+        $table = clone $this->getHelper('table');
         $table->setHeaders(array('Name'));
 
         foreach ($holds as $hold) {

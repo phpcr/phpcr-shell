@@ -33,7 +33,7 @@ HERE
 
         $workspaces = $session->getWorkspace()->getAccessibleWorkspaceNames();
 
-        $table = $this->getHelper('table');
+        $table = clone $this->getHelper('table');
         $table->setHeaders(array('Name'));
         foreach ($workspaces as $workspace) {
             $table->addRow(array($workspace));

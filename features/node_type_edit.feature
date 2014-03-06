@@ -53,4 +53,6 @@ Feature: Edit a node type
         """
         And I execute the "node-type:edit ns:NodeType --no-interaction" command
         Then the command should not fail
-        And there should exist a node type called "ns:somenewtype"
+        And I should see the following:
+        """
+        gt
