@@ -5,6 +5,10 @@ Shell for PHPCR
 
 Shell for PHPCR
 
+## Warning
+
+This shell is currently under heavy development
+
 ## Building
 
 The recommended way to use the PHPCR shell is as a phar archive.
