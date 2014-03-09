@@ -1,22 +1,23 @@
 <?php
 
-namespace PHPCR\Shell\Console\Command\Query;
+namespace PHPCR\Shell\Console\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SelectCommand extends Command
+class QuerySelectCommand extends Command
 {
     protected function configure()
     {
         $this->setName('select');
-        $this->setDescription('Execute an JCR_SQL2 query.');
+        $this->setDescription('Execute an SQL query UNSTABLE');
         $this->addArgument('query');
-        $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'jcr-sql2');
-        $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The query limit', 0);
-        $this->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'The query offset', 0);
+        $this->setHelp(<<<EOT
+This is an unstable feature, see notes for the <info>query</info> command.
+EOT
+        );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -28,22 +29,10 @@ class SelectCommand extends Command
             $sql = substr($sql, 0, -1);
         }
 
-        $language = strtoupper($input->getOption('language'));
-        $limit = $input->getOption('limit');
-        $offset = $input->getOption('offset');
-
         $session = $this->getHelper('phpcr')->getSession();
         $qm = $session->getWorkspace()->getQueryManager();
 
-        $query = $qm->createQuery($sql, $language);
-
-        if ($limit) {
-            $query->setLimit($limit);
-        }
-
-        if ($offset) {
-            $query->setOffset($offset);
-        }
+        $query = $qm->createQuery($sql, 'JCR-SQL2');
 
         $start = microtime(true);
         $result = $query->execute();

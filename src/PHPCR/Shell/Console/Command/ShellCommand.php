@@ -8,10 +8,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
+use Symfony\Component\Console\Input\StringInput;
 
 class ShellCommand extends Command
 {
     protected $output;
+    protected $options;
+    protected $application;
+
+    public function __construct(ShellApplication $application)
+    {
+        $this->application = $application;
+        parent::__construct();
+    }
 
     public function configure()
     {
@@ -32,19 +41,33 @@ class ShellCommand extends Command
             new InputOption('--db-host',        '-dh',   InputOption::VALUE_REQUIRED, 'Database Host.', 'localhost'),
             new InputOption('--db-driver',      '-dd',   InputOption::VALUE_REQUIRED, 'Database Transport.', 'pdo_mysql'),
             new InputOption('--db-path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
+            new InputOption('--no-interaction', null,    InputOption::VALUE_NONE, 'Turn off interaction (for testing purposes)'),
             new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).',
                 'http://localhost:8080/server/'
             ),
+            new InputOption('--command',        null,    InputOption::VALUE_REQUIRED, 'Run the given command'),
     ));
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $application = new Shell(new ShellApplication(
-            $this->getApplication()->getName(),
-            $this->getApplication()->getVersion(),
-            $input
-        ));
-        $application->run($input, $output);
+        $application = $this->application;
+        $application->setSessionInput($input);
+        $noInteraction = $input->getOption('no-interaction');
+
+        if ($command = $input->getOption('command')) {
+            $application->setCatchExceptions(false);
+            $input = new StringInput($command);
+            $application->run($input, $output);
+            return;
+        } else {
+            $application = new Shell($this->application);
+        }
+
+        if ($noInteraction) {
+            return 0;
+        }
+
+        $application->run($output);
     }
 }

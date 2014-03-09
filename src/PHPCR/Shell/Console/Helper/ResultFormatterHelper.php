@@ -8,6 +8,7 @@ use PHPCR\Query\QueryResultInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
+use PHPCR\PropertyInterface;
 
 class ResultFormatterHelper extends Helper
 {
@@ -30,50 +31,37 @@ class ResultFormatterHelper extends Helper
     {
         $selectorNames = $result->getSelectorNames();
 
+        $table = new TableHelper;
+        $table->setHeaders($result->getColumnNames());
+
         foreach ($result->getRows() as $i => $row) {
-            $output->writeln(sprintf($str = '| <info>Row:</info> #%d <info>Score:</info> %d',
-                $i, $row->getScore()
-            ));
+            $node = $row->getNode();
+            $values = $row->getValues();
 
-            foreach ($selectorNames as $selectorName) {
-                $node = $row->getNode($selectorName);
-                $properties = $node->getProperties();
-                $output->writeln(sprintf('| <info>Sel:</info> %s <info>Path:</info> %s <info>UID:</info> %s',
-                    $selectorName, $node->getPath(), $node->getIdentifier() ? : 'none'
-                ));
-
-                $table = new TableHelper;
-                $table->setHeaders(array('Name', 'Type', 'Multiple', 'Value'));
-                foreach ($properties as $key => $value) {
-                    $table->addRow(array(
-                        $key,
-                        PropertyType::nameFromValue($value->getType()),
-                        $value->isMultiple() ? 'yes' : 'no',
-                        $this->formatValue($value)
-                    ));
-                }
-                $table->render($output);
+            foreach ($values as $columnName => &$value) {
+                $value = $this->normalizeValue($value);
             }
-            $output->writeln('');
+
+            $table->addRow($values);
         }
 
+        $table->render($output);
         $output->writeln(sprintf('%s rows in set (%s sec)', count($result->getRows()), number_format($elapsed, 2)));
     }
 
-    public function formatValue($value)
+    public function normalizeValue($value)
     {
-        $v = $value->getValue();
-        if (is_array($v)) {
-            if (empty($v)) {
+        if (is_array($value)) {
+            if (empty($value)) {
                 return '';
             }
             $array = $value;
             $values = array();
 
-            foreach ($array->getValue() as $i => $value) {
+            foreach ($array as $i => $value) {
                 if ($value instanceof NodeInterface) {
                     $value = $value->getPath();
-                } else if (is_object($value)) {
+                } elseif (is_object($value)) {
                     $value = '<UNKNOWN OBJECT>';
                 } else {
                     $value = $value;
@@ -85,10 +73,35 @@ class ResultFormatterHelper extends Helper
             return implode("\n", $values);
         }
 
+        if ($value instanceof \DateTime) {
+            return $value->format('c');
+        }
+
+        return $value;
+    }
+
+    public function formatValue(PropertyInterface $value, $showBinary = false)
+    {
+        $v = $value->getValue();
+
+        if (is_array($v)) {
+            return $this->normalizeValue($v);
+        }
+
         switch (intval($value->getType())) {
             case PropertyType::UNDEFINED :
                 return '#UNDEFINED#';
             case PropertyType::BINARY :
+                if ($showBinary) {
+                    $lines = array();
+                    $pointer = $value->getValue();
+                    while (($line = fgets($pointer)) !== false) {
+                        $lines[] = $line;
+                    }
+
+                    return implode('', $lines);
+                }
+
                 return '(binary data)';
             case PropertyType::BOOLEAN :
                 return $value->getValue() ? 'true' : 'false';
@@ -108,5 +121,24 @@ class ResultFormatterHelper extends Helper
             default:
                 throw new \RuntimeException('Unknown type ' . $value->getType());
         }
+    }
+
+    public function formatNodePropertiesInline(NodeInterface $node)
+    {
+        $out = array();
+
+        foreach ($node->getProperties() as $property) {
+            $out[] = sprintf('%s: %s',
+                $property->getName(),
+                $this->formatValue($property)
+            );
+        }
+
+        return implode(', ', $out);
+    }
+
+    public function formatNodeName(NodeInterface $node)
+    {
+        return sprintf('%s%s', $node->getName(), $node->hasNodes() ? '/' : '');
     }
 }

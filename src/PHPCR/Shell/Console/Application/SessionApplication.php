@@ -15,11 +15,21 @@ use PHPCR\Shell\Console\Command\ShellCommand;
  */
 class SessionApplication extends BaseApplication
 {
+    const APP_NAME = 'PHPCR';
+    const APP_VERSION = '0.1';
+
+    protected $shellApplication;
+
     public function __construct()
     {
-        parent::__construct('PHPCR', '1.0');
+        parent::__construct(self::APP_NAME, self::APP_VERSION);
 
-        $command = new ShellCommand();
+        $this->shellApplication = new ShellApplication(
+            self::APP_NAME,
+            self::APP_VERSION
+        );
+
+        $command = new ShellCommand($this->shellApplication);
         $command->setApplication($this);
         $this->add($command);
     }
@@ -33,5 +43,9 @@ class SessionApplication extends BaseApplication
     {
         return 'phpcr_shell';
     }
-}
 
+    public function getShellApplication()
+    {
+        return $this->shellApplication;
+    }
+}

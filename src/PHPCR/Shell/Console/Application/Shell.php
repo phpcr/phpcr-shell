@@ -4,9 +4,6 @@ namespace PHPCR\Shell\Console\Application;
 
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Process\ProcessBuilder;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Console\Shell as BaseShell;
 use PHPCR\Shell\Console\Input\StringInput;
 
 /**
@@ -47,7 +44,7 @@ class Shell
     public function run()
     {
         $this->application->setAutoExit(false);
-        $this->application->setCatchExceptions(true);
+        $this->application->setCatchExceptions(false);
 
         if ($this->hasReadline) {
             readline_read_history($this->history);
@@ -106,8 +103,8 @@ EOF;
         $text = substr($info['line_buffer'], 0, $info['end']);
 
         $list = $this->application->getHelperSet()->get('phpcr')->getSession()->autocomplete($text);
+
         return $list;
-        
 
         if ($info['point'] !== $info['end']) {
             return false;
@@ -161,4 +158,3 @@ EOF;
         $this->processIsolation = (Boolean) $processIsolation;
     }
 }
-

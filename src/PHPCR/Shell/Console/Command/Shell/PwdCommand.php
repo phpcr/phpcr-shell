@@ -21,5 +21,3 @@ class PwdCommand extends Command
         );
     }
 }
-
-

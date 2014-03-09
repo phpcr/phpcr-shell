@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:crx="http://www.day.com/crx/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:fn_old="http://www.w3.org/2004/10/xpath-functions" xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:sv="http://www.jcp.org/jcr/sv/1.0" xmlns:rep="internal" sv:name="tests_version_base">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+      <sv:value>nt:unstructured</sv:value>
+    </sv:property>
+    <sv:property sv:name="jcr:created" sv:type="Date">
+      <sv:value>2009-04-27T13:00:54.082+02:00</sv:value>
+    </sv:property>
+    <sv:node sv:name="versionable">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name">
+        <sv:value>nt:unstructured</sv:value>
+      </sv:property>
+    </sv:node>
+    <sv:node sv:name="unversionable">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name">
+        <sv:value>nt:unstructured</sv:value>
+      </sv:property>
+    </sv:node>
+    <sv:node sv:name="versioned">
+      <sv:property sv:name="jcr:primaryType" sv:type="Name">
+        <sv:value>nt:unstructured</sv:value>
+      </sv:property>
+      <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+        <sv:value>mix:versionable</sv:value>
+      </sv:property>
+      <sv:property sv:name="foo" sv:type="String">
+          <sv:value>something</sv:value>
+      </sv:property>
+    </sv:node>
+    <sv:node sv:name="simpleVersioned">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name">
+            <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+        <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+            <sv:value>mix:simpleVersionable</sv:value>
+        </sv:property>
+        <sv:property sv:name="foo" sv:type="String">
+            <sv:value>something</sv:value>
+        </sv:property>
+    </sv:node>
+</sv:node>

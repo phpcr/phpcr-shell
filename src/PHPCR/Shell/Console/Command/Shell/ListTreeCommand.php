@@ -68,7 +68,7 @@ class ListTreeCommand extends Command
         $properties = $node->getProperties();
 
         $rows[] = array(
-            str_repeat(' ', $depth + 1) . '<info>' . $node->getName() . '/</info>', 
+            str_repeat(' ', $depth + 1) . '<info>' . $node->getName() . '/</info>',
             '<info>' . $node->getPrimaryNodeType()->getName() . '</info>',
             '',
         );
@@ -82,7 +82,6 @@ class ListTreeCommand extends Command
             if (true === NodeHelper::isSystemItem($property) && false === $this->showSystem) {
                 continue;
             }
-
             $rows[] = array(
                 sprintf('%s -<comment>%s</comment>', str_repeat(' ', $depth), $key),
                 $formatter->getPropertyTypeName($property->getType()) . ($property->isMultiple() ? '[]' : ''),
@@ -97,4 +96,3 @@ class ListTreeCommand extends Command
         }
     }
 }
-

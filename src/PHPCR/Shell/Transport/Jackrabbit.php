@@ -2,10 +2,7 @@
 
 namespace PHPCR\Shell\Transport;
 
-use Doctrine\DBAL\DriverManager;
-use Jackalope\RepositoryFactoryDoctrineDBAL;
 use PHPCR\Shell\Console\TransportInterface;
-use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputInterface;
 use Jackalope\RepositoryFactoryJackrabbit;
 
@@ -32,4 +29,3 @@ class Jackrabbit implements TransportInterface
         return $repository;
     }
 }
-

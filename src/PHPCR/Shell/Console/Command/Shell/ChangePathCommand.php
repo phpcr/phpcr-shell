@@ -28,4 +28,3 @@ class ChangePathCommand extends Command
         }
     }
 }
-

@@ -9,6 +9,13 @@
         "phpcr/phpcr": "dev-master",
         "phpcr/phpcr-utils": "dev-master"
     },
+    "require-dev": {
+        "mockery/mockery": "0.9",
+        "symfony/process": "2.3.*",
+        "symfony/filesystem": "2.3.*",
+        "phpunit/phpunit": "~3.7.28",
+        "behat/behat": "~2.5"
+    },
     "license": "MIT",
     "authors": [
         {

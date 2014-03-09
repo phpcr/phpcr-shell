@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sv:node xmlns:crx="http://www.day.com/crx/1.0"
+         xmlns:lx="http://flux-cms.org/2.0"
+         xmlns:test="http://liip.to/jackalope"
+         xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+         xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+         xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+         xmlns:fn_old="http://www.w3.org/2004/10/xpath-functions"
+         xmlns:fn="http://www.w3.org/2005/xpath-functions"
+         xmlns:vlt="http://www.day.com/jcr/vault/1.0"
+         xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         xmlns:new_prefix="http://a_new_namespace"
+         xmlns:jcr="http://www.jcp.org/jcr/1.0"
+         xmlns:sv="http://www.jcp.org/jcr/sv/1.0"
+         xmlns:rep="internal"
+
+         sv:name="properties">
+    <sv:property sv:name="jcr:primaryType" sv:type="Name">
+        <sv:value>nt:unstructured</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="string" sv:type="String">
+        <sv:value>thisisstring</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="multivalue" sv:type="String">
+        <sv:value>thisisstring</sv:value>
+        <sv:value>thisisstring</sv:value>
+        <sv:value>thisisstring</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="binary" sv:type="Binary">
+        <sv:value>aDEuIENoYXB0ZXIgMSBUaXRsZQoKKiBmb28KKiBiYXIKKiogZm9vMgoqKiBmb28zCiogZm9vMAoKfHwgaGVhZGVyIHx8IGJhciB8fAp8IGggfCBqIHwKCntjb2RlfQpoZWxsbyB3b3JsZAp7Y29kZX0KCiMgZm9vCg==</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="long" sv:type="Long">
+        <sv:value>1234</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="double" sv:type="Double">
+        <sv:value>10.00</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="date" sv:type="Date">
+        <sv:value>2011-04-21T14:34:20+01:00</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="boolean" sv:type="Boolean">
+        <sv:value>true</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="path" sv:type="Path">
+        <sv:value>this/is/path</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="reference" sv:type="Reference">
+        <sv:value>13543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="weakreference" sv:type="WeakReference">
+        <sv:value>13543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="uri" sv:type="Uri">
+        <sv:value>thisisuri</sv:value>
+    </sv:property>
+
+    <sv:property sv:name="decimal" sv:type="Decimal">
+        <sv:value>1234</sv:value>
+    </sv:property>
+
+    <sv:node sv:name="reference_target">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name">
+            <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+        <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+            <sv:value>mix:referenceable</sv:value>
+        </sv:property>
+        <sv:property sv:name="jcr:uuid" sv:type="String">
+            <sv:value>13543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+        </sv:property>
+    </sv:node>
+</sv:node>
+
