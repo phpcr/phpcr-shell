@@ -1,5 +1,5 @@
-Feature: Update the current node from the node to which it corresponds in the given workspace
-    In order to update the current node from the node to which it corresponds in the given workspace
+Feature: Follow the given lifecycle transition on the current node
+    In order to progress the lifecycle state of a node
     As a user that is logged into the shell
     I need to be able to do that
 
@@ -7,7 +7,7 @@ Feature: Update the current node from the node to which it corresponds in the gi
         Given that I am logged in as "testuser"
         And the "session_data.xml" fixtures are loaded
 
-    Scenario: Rename a node
+    Scenario: Follow lifecycle transition
         Given the current node is "/tests_general_base"
-        And I execute the "node:update default" command
+        And I execute the "node:lifecycle:follow-transition foo" command
         Then the command should not fail

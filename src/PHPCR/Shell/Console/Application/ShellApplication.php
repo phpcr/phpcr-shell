@@ -247,7 +247,8 @@ class ShellApplication extends Application
 
             }
 
-            throw $e;
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            return;
         }
 
         return $exitCode;
