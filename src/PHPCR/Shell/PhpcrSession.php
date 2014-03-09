@@ -12,6 +12,11 @@ class PhpcrSession implements SessionInterface
     protected $session;
     protected $cwd = '/';
 
+    public function getCurrentNode()
+    {
+        return $this->getNode($this->getCwd());
+    }
+
     public function getCwd()
     {
         return $this->cwd;

@@ -6,7 +6,7 @@ Feature: Set a node property
     Background:
         Given that I am logged in as "testuser"
         And the "all_property_types.xml" fixtures are loaded
-        And the current node path is "/properties"
+        Given the current node is "/properties"
 
     Scenario Outline: Set a property
         Given I execute the "<command>" command
@@ -15,9 +15,7 @@ Feature: Set a node property
 
         Examples:
             | command | name | type |
-            | node:set uri http://foobar | uri | http://foobar | url | 
-            | node:set double 12.12 | double | 12.12 | double |
-            | node:set long 123 | long | 123 | long |
-            | node:set multivalue value1 --index=0 | multivalue | value1 | string |
-            | node:set multivalue value2 --index=1 | multivalue | value2 | string |
-            | node:set thisisnew foobar string | /properties/thisisnew | foobar | string |
+            | node:set uri http://foobar | uri | http://foobar |
+            | node:set double 12.12 | double | 12.12 |
+            | node:set long 123 | long | 123 |
+            | node:set thisisnew foobar --type=string | /properties/thisisnew | foobar |

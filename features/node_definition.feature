@@ -7,20 +7,11 @@ Feature: Show CND for node
         Given that I am logged in as "testuser"
         And the "session_data.xml" fixtures are loaded
 
-    Scenario: Rename a node
+    Scenario: Show node definition
         Given the current node is "/tests_general_base"
         And I execute the "node:definition --no-ansi" command
-        Then the command should not fail
+        Then the command should fail
         And I should see the following:
         """
-        <nt='http://www.jcp.org/jcr/nt/1.0'>
-        [nt:unstructured] > nt:base
-        orderable query
-        - *
-        multiple jcr.operator.equal.to', 'jcr.operator.not.equal.to', 'jcr.operator.greater.than', 'jcr.operator.greater.than.or.equal.to', 'jcr.operator.less.than', 'jcr.operator.less.than.or.equal.to', 'jcr.operator.like
-        - *
-        jcr.operator.equal.to', 'jcr.operator.not.equal.to', 'jcr.operator.greater.than', 'jcr.operator.greater.than.or.equal.to', 'jcr.operator.less.than', 'jcr.operator.less.than.or.equal.to', 'jcr.operator.like
-        + * (nt:base)
-        = nt:unstructured
-        VERSION sns
+        Not implemented
         """

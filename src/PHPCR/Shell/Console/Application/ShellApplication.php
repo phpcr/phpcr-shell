@@ -67,6 +67,11 @@ use PHPCR\Shell\Console\Command\VersionHistoryCommand;
 use PHPCR\Shell\Console\Command\VersionRestoreCommand;
 use PHPCR\Shell\Console\Command\VersionRemoveCommand;
 use PHPCR\Shell\Console\Command\VersionCheckpointCommand;
+use PHPCR\Shell\Console\Command\NodeCreateCommand;
+use PHPCR\Shell\Console\Command\NodeDefinitionCommand;
+use PHPCR\Shell\Console\Command\NodeSetCommand;
+use PHPCR\Shell\Console\Command\NodeRenameCommand;
+use Jackalope\NotImplementedException;
 
 class ShellApplication extends Application
 {
@@ -144,6 +149,10 @@ class ShellApplication extends Application
         $this->add(new VersionRemoveCommand());
         $this->add(new VersionCheckpointCommand());
         $this->add(new VersionCheckinCommand());
+        $this->add(new NodeCreateCommand());
+        $this->add(new NodeDefinitionCommand());
+        $this->add(new NodeSetCommand());
+        $this->add(new NodeRenameCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
@@ -244,11 +253,14 @@ class ShellApplication extends Application
                 if ($e instanceof \PHPCR\UnsupportedRepositoryOperationException) {
                     throw new \Exception('Unsupported repository operation');
                 }
+            }
 
+            if ($e instanceof NotImplementedException) {
+                throw new \Exception('Not implemented: ' . $e->getMessage());
             }
 
             $output->writeln('<error>' . $e->getMessage() . '</error>');
-            return;
+            return 1;
         }
 
         return $exitCode;

@@ -8,6 +8,7 @@ use PHPCR\Util\NodeHelper;
 use Symfony\Component\Filesystem\Filesystem;
 use PHPCR\PathNotFoundException;
 use PHPCR\Shell\Test\ApplicationTester;
+use PHPCR\Util\PathHelper;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -342,6 +343,24 @@ class FeatureContext extends BehatContext
         } catch (PathNotFoundException $e) {
             throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
         }
+    }    
+    
+    /**
+     * @Given /^there should exist a node at "([^"]*)" before "([^"]*)"$/
+     */
+    public function thereShouldExistANodeAtBefore($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        try {
+            $node = $session->getNode($arg1);
+        } catch (PathNotFoundException $e) {
+            throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
+        }
+        $parent = $session->getNode(PathHelper::getParentPath($arg1));
+        $index = $node->getIndex();
+        $parentChildren = array_values((array) $parent->getNodes());
+        $beforeNode = $parentChildren[$index];
+        PHPUnit_Framework_Assert::assertEquals($arg2, $beforeNode->getName());
     }
 
     /**
@@ -535,5 +554,36 @@ class FeatureContext extends BehatContext
         file_put_contents($editorFile, implode("\n", $script));
         chmod($editorFile, 0777);
         putenv('EDITOR=' . $editorFile);
+    }
+
+    /**
+     * @Given /^the current node is "([^"]*)"$/
+     */
+    public function theCurrentNodeIs($arg1)
+    {
+        $this->executeCommand(sprintf('cd %s', $arg1));
+    }
+
+    /**
+     * @Given /^the primary type of "([^"]*)" should be "([^"]*)"$/
+     */
+    public function thePrimaryTypeOfShouldBe($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg1);
+        $primaryTypeName = $node->getPrimaryNodeType()->getName();
+        PHPUnit_Framework_Assert::assertEquals($arg2, $primaryTypeName, 'Node type of ' . $arg1 . ' is ' . $arg2);
+    }
+
+    /**
+     * @Given /^the node at "([^"]*)" should have the property "([^"]*)" with type "([^"]*)"$/
+     */
+    public function theNodeAtShouldHaveThePropertyWithType($arg1, $arg2, $arg3)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg1);
+        $property = $node->getProperty($arg2);
+        $propertyType = $property->getType();
+        PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
     }
 }

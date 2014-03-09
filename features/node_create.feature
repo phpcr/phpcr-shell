@@ -10,30 +10,38 @@ Feature: Create a node
     Scenario: Create a new node
         Given the current node is "/"
         And I execute the "node:create testcreate" command
+        And I save the session
         Then the command should not fail
         And there should exist a node at "/testcreate"
+
+    Scenario: Create a new node with primary node type
+        Given the current node is "/"
+        And I execute the "node:create testfile nt:folder" command
+        And I save the session
+        Then the command should not fail
+        And there should exist a node at "/testfile"
+        And the primary type of "/testfile" should be "nt:folder"
+
+    Scenario: Create a new node at a non-root current node no matching child type
+        Given the current node is "/tests_general_base"
+        And I execute the "node:create testcreate" command
+        Then the command should fail
+        And I should see the following:
+        """
+        No matching child node definition found for `testcreate' in type `nt:folder' for node '/tests_general_base'. Please specify the type explicitly
+        """
 
     Scenario: Create a new node at a non-root current node
         Given the current node is "/tests_general_base"
-        And I execute the "node:create testcreate" command
+        And I execute the "node:create testcreate nt:folder" command
+        And I save the session
         Then the command should not fail
         And there should exist a node at "/tests_general_base/testcreate"
 
-    Scenario: Create a new node at an absolute path
-        Given I execute the "node:create /testcreate" command
-        Then the command should not fail
-        And there should exist a node at "/testcreate"
-
-    Scenario: Create a new node before another node
-        Given the current node is "/tests_general_base"
-        Given I execute the "node:create foobar --before unversionable" command
-        Then the command should not fail
-        And there should exist a node at "/tests_general_base/foobar" before "/tests_general_base/unversionable"
-
     Scenario: Attempt to create an empty node
-        Given I execute the "node:create /" command
+        Given I execute the "node:create" command
         Then the command should fail
-        And I should see the following
+        And I should see the following:
         """
-        Invalid node name "/"
+        Name can not be empty
         """
