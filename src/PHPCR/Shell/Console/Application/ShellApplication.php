@@ -71,6 +71,8 @@ use PHPCR\Shell\Console\Command\NodeCreateCommand;
 use PHPCR\Shell\Console\Command\NodeDefinitionCommand;
 use PHPCR\Shell\Console\Command\NodeSetCommand;
 use PHPCR\Shell\Console\Command\NodeRenameCommand;
+use PHPCR\Shell\Console\Command\NodeMixinAddCommand;
+use PHPCR\Shell\Console\Command\NodeMixinRemoveCommand;
 use Jackalope\NotImplementedException;
 
 class ShellApplication extends Application
@@ -153,6 +155,8 @@ class ShellApplication extends Application
         $this->add(new NodeDefinitionCommand());
         $this->add(new NodeSetCommand());
         $this->add(new NodeRenameCommand());
+        $this->add(new NodeMixinAddCommand());
+        $this->add(new NodeMixinRemoveCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());

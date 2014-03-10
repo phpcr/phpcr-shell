@@ -364,6 +364,40 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^the node at "([^"]*)" should have the mixin "([^"]*)"$/
+     */
+    public function theNodeAtShouldHaveTheMixin($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg1);
+        $mixinNodeTypes = $node->getMixinNodeTypes();
+
+        foreach ($mixinNodeTypes as $mixinNodeType) {
+            if ($mixinNodeType->getName() == $arg2) {
+                return;
+            }
+        }
+
+        throw new \Exception('Node "' . $arg1 . '" does not have node type "' . $arg2 . '"');
+    }
+
+    /**
+     * @Given /^the node at "([^"]*)" should not have the mixin "([^"]*)"$/
+     */
+    public function theNodeAtShouldNotHaveTheMixin($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg1);
+        $mixinNodeTypes = $node->getMixinNodeTypes();
+
+        foreach ($mixinNodeTypes as $mixinNodeType) {
+            if ($mixinNodeType->getName() == $arg2) {
+                throw new \Exception('Node "' . $arg1 . '" has the node type "' . $arg2 . '"');
+            }
+        }
+    }
+
+    /**
      * @Given /^there should not exist a node at "([^"]*)"$/
      */
     public function thereShouldNotExistANodeAt($arg1)
@@ -585,5 +619,16 @@ class FeatureContext extends BehatContext
         $property = $node->getProperty($arg2);
         $propertyType = $property->getType();
         PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
+    }
+
+    /**
+     * @Given /^the node at "([^"]*)" has the mixin "([^"]*)"$/
+     */
+    public function theNodeAtHasTheMixin($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg1);
+        $node->addMixin($arg2);
+        $session->save();
     }
 }
