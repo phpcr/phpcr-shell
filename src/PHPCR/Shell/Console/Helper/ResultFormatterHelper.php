@@ -10,6 +10,9 @@ use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
 
+/**
+ * @TODO: Rename this to PhpcrFormatterHelper
+ */
 class ResultFormatterHelper extends Helper
 {
     public function getName()
@@ -140,5 +143,14 @@ class ResultFormatterHelper extends Helper
     public function formatNodeName(NodeInterface $node)
     {
         return sprintf('%s%s', $node->getName(), $node->hasNodes() ? '/' : '');
+    }
+
+    public function formatException(\Exception $e) 
+    {
+        if ($e instanceof \Jackalope\NotImplementedException) {
+            return '[ERROR] Not implemented by jackalope';
+        }
+
+        return sprintf('[%s] %s', get_class($e), $e->getMessage());
     }
 }

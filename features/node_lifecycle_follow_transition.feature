@@ -9,5 +9,9 @@ Feature: Follow the given lifecycle transition on the current node
 
     Scenario: Follow lifecycle transition
         Given the current node is "/tests_general_base"
-        And I execute the "node:lifecycle:follow-transition foo" command
-        Then the command should not fail
+        And I execute the "node:lifecycle:follow foo" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Not implemented
+        """

@@ -13,10 +13,13 @@ Feature: Show information about node
         Then the command should not fail
         And I should see the following:
         """
-        Identifier: /tests_general_base
-        Path: /tests_general_base
-        Index: 0
-        Primary node type: nt:unstructured
-        Mixin node types: [ mixin:foobar, mixin:barfoo ]
-        Checked out: No
+        +-------------------+--------------------------------------+
+        | Path              | /tests_general_base                  |
+        | UUID              | N/A                                  |
+        | Index             | 1                                    |
+        | Primary node type | nt:folder                            |
+        | Mixin node types  |                                      |
+        | Checked out?      | [ERROR] Not implemented by jackalope |
+        | Locked?           | [ERROR] Not implemented by jackalope |
+        +-------------------+--------------------------------------+
         """

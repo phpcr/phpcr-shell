@@ -73,7 +73,14 @@ use PHPCR\Shell\Console\Command\NodeSetCommand;
 use PHPCR\Shell\Console\Command\NodeRenameCommand;
 use PHPCR\Shell\Console\Command\NodeMixinAddCommand;
 use PHPCR\Shell\Console\Command\NodeMixinRemoveCommand;
+use PHPCR\Shell\Console\Command\NodeInfoCommand;
+use PHPCR\Shell\Console\Command\NodeLifecycleFollowCommand;
+use PHPCR\Shell\Console\Command\NodeLifecycleListCommand;
+use PHPCR\Shell\Console\Command\NodeListCommand;
+use PHPCR\Shell\Console\Command\NodeReferencesCommand;
 use Jackalope\NotImplementedException;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 
 class ShellApplication extends Application
 {
@@ -157,6 +164,11 @@ class ShellApplication extends Application
         $this->add(new NodeRenameCommand());
         $this->add(new NodeMixinAddCommand());
         $this->add(new NodeMixinRemoveCommand());
+        $this->add(new NodeInfoCommand());
+        $this->add(new NodeLifecycleFollowCommand());
+        $this->add(new NodeLifecycleListCommand());
+        $this->add(new NodeListCommand());
+        $this->add(new NodeReferencesCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
@@ -240,9 +252,28 @@ class ShellApplication extends Application
         return $command;
     }
 
+    private function configureFormatter(OutputFormatter $formatter)
+    {
+        $style = new OutputFormatterStyle(null, null, array('bold'));
+        $formatter->setStyle('node', $style);
+
+        $style = new OutputFormatterStyle(null, null, array());
+        $formatter->setStyle('property', $style);
+
+        $style = new OutputFormatterStyle('magenta', null, array('bold'));
+        $formatter->setStyle('node-type', $style);
+
+        $style = new OutputFormatterStyle('magenta', null, array());
+        $formatter->setStyle('property-type', $style);
+
+        $style = new OutputFormatterStyle(null, null, array());
+        $formatter->setStyle('property-value', $style);
+    }
+
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->init();
+        $this->configureFormatter($output->getFormatter());
 
         $name = $this->getCommandName($input);
 

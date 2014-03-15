@@ -150,6 +150,11 @@ class FeatureContext extends BehatContext
             foreach ($output as $line) {
                 $foundCells = 0;
                 foreach ($row as $cell) {
+                    if (!$cell) {
+                        $foundCells++;
+                        continue;
+                    }
+
                     if (false !== strpos($line, $cell)) {
                         $foundCells++;
                     }

@@ -18,8 +18,8 @@ class NodeCreateCommand extends Command
     {
         $this->setName('node:create');
         $this->setDescription('Create a node at the current path');
-        $this->addArgument('relPath', null, InputArgument::REQUIRED, null, 'The name of the node to create');
-        $this->addArgument('primaryNodeTypeName', null, InputArgument::OPTIONAL, null, 'Optional name of primary node type to use');
+        $this->addArgument('relPath', InputArgument::REQUIRED, 'The name of the node to create');
+        $this->addArgument('primaryNodeTypeName', InputArgument::OPTIONAL, 'Optional name of primary node type to use');
         $this->setHelp(<<<HERE
 Creates a new node at the specified <info>relPath</info>
 
