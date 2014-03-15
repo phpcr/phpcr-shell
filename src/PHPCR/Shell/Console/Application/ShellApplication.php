@@ -55,6 +55,9 @@ use PHPCR\Shell\Console\Command\WorkspaceDeleteCommand;
 use PHPCR\Shell\Console\Command\WorkspaceListCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNodeCloneCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNodeCopyCommand;
+use PHPCR\Shell\Console\Command\WorkspaceNamespaceListCommand;
+use PHPCR\Shell\Console\Command\WorkspaceNamespaceRegisterCommand;
+use PHPCR\Shell\Console\Command\WorkspaceNamespaceUnregisterCommand;
 use PHPCR\Shell\Console\Command\NodeTypeShowCommand;
 use PHPCR\Shell\Console\Helper\EditorHelper;
 use PHPCR\Shell\Console\Command\NodeTypeEditCommand;
@@ -147,6 +150,9 @@ class ShellApplication extends Application
         $this->add(new WorkspaceListCommand());
         $this->add(new WorkspaceNodeCloneCommand());
         $this->add(new WorkspaceNodeCopyCommand());
+        $this->add(new WorkspaceNamespaceListCommand());
+        $this->add(new WorkspaceNamespaceRegisterCommand());
+        $this->add(new WorkspaceNamespaceUnregisterCommand());
         $this->add(new NodeTypeShowCommand());
         $this->add(new NodeTypeEditCommand());
         $this->add(new NodeTypeUnregisterCommand());
@@ -187,6 +193,9 @@ class ShellApplication extends Application
 
         $this->add($this->wrap(new NodeMoveCommand())
             ->setName('mv')
+        );
+        $this->add($this->wrap(new NodeListCommand())
+            ->setName('ls')
         );
         $this->add($this->wrap(new NodeRemoveCommand())
             ->setName('rm')
