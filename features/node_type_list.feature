@@ -12,3 +12,10 @@ Feature: List registered node types
         And I should see a table containing the following rows:
             | Name                       | Primary Item Name | Abstract? | Mixin? | Queryable? |
             | nt:folder                  | no                | no        | yes    | yes        |
+
+    Scenario: List node types with filter
+        Given I execute the "node-type:list mix.*" command
+        Then the command should not fail
+        And I should see a table containing the following rows:
+            | Name                       | Primary Item Name | Abstract? | Mixin? | Queryable? |
+            | mix:created           |                   | no        | yes    | yes        |

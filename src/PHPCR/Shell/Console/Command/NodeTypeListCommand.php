@@ -15,6 +15,7 @@ class NodeTypeListCommand extends Command
     {
         $this->setName('node-type:list');
         $this->setDescription('List registered node types');
+        $this->addArgument('filter', InputArgument::OPTIONAL, 'Perl regexp pattern');
         $this->setHelp(<<<HERE
 List all node types (both primary and mixins)
 HERE
@@ -27,6 +28,7 @@ HERE
         $workspace = $session->getWorkspace();
         $namespaceRegistry = $workspace->getNamespaceRegistry();
         $nodeTypeManager = $workspace->getNodeTypeManager();
+        $filter = $input->getArgument('filter');
 
         $nodeTypes = $nodeTypeManager->getAllNodeTypes();
 
@@ -34,6 +36,10 @@ HERE
         $table->setHeaders(array('Name', 'Primary Item Name', 'Abstract?', 'Mixin?', 'Queryable?'));
 
         foreach ($nodeTypes as $nodeType) {
+            if ($filter && !preg_match('{' . $filter . '}', $nodeType->getName())) {
+                continue;
+            }
+
             $table->addRow(array(
                 $nodeType->getName(),
                 $nodeType->getPrimaryItemName(),

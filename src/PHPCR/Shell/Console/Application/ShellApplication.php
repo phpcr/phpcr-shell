@@ -303,7 +303,7 @@ class ShellApplication extends Application
                 throw new \Exception('Not implemented: ' . $e->getMessage());
             }
 
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            $output->writeln('<error>(' . get_class($e) .') ' . $e->getMessage() . '</error>');
             return 1;
         }
 
