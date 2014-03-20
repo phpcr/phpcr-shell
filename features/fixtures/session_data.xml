@@ -16,7 +16,7 @@
 
          sv:name="tests_general_base">
     <sv:property sv:name="jcr:primaryType" sv:type="Name">
-        <sv:value>nt:folder</sv:value>
+        <sv:value>nt:unstructured</sv:value>
     </sv:property>
     <sv:property sv:name="jcr:created" sv:type="Date">
         <sv:value>2011-03-21T14:34:20.431+01:00</sv:value>
@@ -24,6 +24,17 @@
     <sv:property sv:name="jcr:createdBy" sv:type="String">
         <sv:value>admin</sv:value>
     </sv:property>
+
+    <sv:node sv:name="daniel">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name">
+            <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+        <sv:node sv:name="leech">
+            <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>nt:unstructured</sv:value>
+            </sv:property>
+        </sv:node>
+    </sv:node>
 
     <sv:node sv:name="index.txt">
         <sv:property sv:name="jcr:primaryType" sv:type="Name">

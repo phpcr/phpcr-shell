@@ -5,11 +5,15 @@ Feature: Remove the current node from any shared set to which it belongs
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded into workspace "workspace_a"
-        And the "session_data.xml" fixtures are loaded into workspace "workspace_b"
-        And the node at "/tests_general_base" in "workspace_a" is cloned to "/foobar" in "workspace_b"
+        And the "session_data.xml" fixtures are loaded
+        And the node at "/tests_general_base/daniel/leech" has the mixin "mix:shareable"
+        And I clone node "/tests_general_base/daniel/leech" from "default" to "/tests_general_base/bar"
 
-    Scenario: Rename a node
-        Given the current node is "/tests_general_base"
-        And I execute the "node:shared:show" command
-        Then the command should not fail
+    Scenario: Remove the current node and all of its shared paths
+        Given the current node is "/tests_general_base/daniel"
+        And I execute the "node:shared:remove" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Not implemented
+        """

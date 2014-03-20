@@ -15,7 +15,6 @@ use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;
 use PHPCR\Util\Console\Command\NodeDumpCommand;
 use PHPCR\Util\Console\Command\NodeMoveCommand;
-use PHPCR\Util\Console\Command\NodeRemoveCommand;
 use PHPCR\Util\Console\Command\NodeTouchCommand;
 use PHPCR\Util\Console\Command\NodeTypeRegisterCommand;
 use PHPCR\Util\Console\Command\NodesUpdateCommand;
@@ -81,6 +80,10 @@ use PHPCR\Shell\Console\Command\NodeLifecycleFollowCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleListCommand;
 use PHPCR\Shell\Console\Command\NodeListCommand;
 use PHPCR\Shell\Console\Command\NodeReferencesCommand;
+use PHPCR\Shell\Console\Command\NodeSharedShowCommand;
+use PHPCR\Shell\Console\Command\NodeSharedRemoveCommand;
+use PHPCR\Shell\Console\Command\NodeRemoveCommand;
+
 use Jackalope\NotImplementedException;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -175,6 +178,9 @@ class ShellApplication extends Application
         $this->add(new NodeLifecycleListCommand());
         $this->add(new NodeListCommand());
         $this->add(new NodeReferencesCommand());
+        $this->add(new NodeSharedShowCommand());
+        $this->add(new NodeSharedRemoveCommand());
+        $this->add(new NodeRemoveCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());

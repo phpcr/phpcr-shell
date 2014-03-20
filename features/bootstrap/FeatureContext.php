@@ -411,7 +411,7 @@ class FeatureContext extends BehatContext
 
         try {
             $session->getNode($arg1);
-            throw new \Exception('Node does at path ' . $arg1 . ' exists.');
+            throw new \Exception('Node at path ' . $arg1 . ' exists.');
         } catch (PathNotFoundException $e) {
             // good.. not does not exist
         }
@@ -635,5 +635,15 @@ class FeatureContext extends BehatContext
         $node = $session->getNode($arg1);
         $node->addMixin($arg2);
         $session->save();
+    }
+
+    /**
+     * @Given /^I clone node "([^"]*)" from "([^"]*)" to "([^"]*)"$/
+     */
+    public function iCloneNodeFromTo($arg1, $arg2, $arg3)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $workspace->cloneFrom($arg2, $arg1, $arg3, false);
     }
 }

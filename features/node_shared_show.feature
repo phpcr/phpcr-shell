@@ -5,15 +5,15 @@ Feature: Show the current nodes shared set
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded into workspace "workspace_a"
-        And the "session_data.xml" fixtures are loaded into workspace "default"
-        And the node at "/tests_general_base" in "workspace_a" is cloned to "/foobar" in "default"
+        And the "session_data.xml" fixtures are loaded
+        And the node at "/tests_general_base/daniel/leech" has the mixin "mix:shareable"
+        And I clone node "/tests_general_base/daniel/leech" from "default" to "/tests_general_base/bar"
 
     Scenario: Show the current nodes shared set
-        Given the current node is "/tests_general_base"
+        Given the current node is "/tests_general_base/daniel/leech"
         And I execute the "node:shared:show" command
-        Then the command should not fai
+        Then the command should fail
         And I should see the following:
         """
-        workspace_a: /tests_general_base
+        Not implemented
         """
