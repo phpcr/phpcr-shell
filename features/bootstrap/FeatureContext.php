@@ -646,4 +646,54 @@ class FeatureContext extends BehatContext
         $workspace = $session->getWorkspace();
         $workspace->cloneFrom($arg2, $arg1, $arg3, false);
     }
+
+    /**
+     * @Given /^the node "([^"]*)" is locked$/
+     */
+    public function theNodeIsLocked($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $lockManager = $workspace->getLockManager();
+        $lockManager->lock($arg1, true, true);
+    }
+
+    /**
+     * @Given /^the node "([^"]*)" is not locked$/
+     */
+    public function theNodeIsNotLocked($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $lockManager = $workspace->getLockManager();
+        if ($lockManager->isLocked($arg1)) {
+            $lockManager->unlock($arg1);
+        }
+    }
+
+    /**
+     * @Given /^the node "([^"]*)" should be locked$/
+     */
+    public function theNodeShouldBeLocked($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $lockManager = $workspace->getLockManager();
+        $isLocked = $lockManager->isLocked($arg1);
+
+        PHPUnit_Framework_Assert::assertTrue($isLocked);
+    }
+
+    /**
+     * @Given /^the node "([^"]*)" should not be locked$/
+     */
+    public function theNodeShouldNotBeLocked($arg1)
+    {
+        $session = $this->getSession();
+        $workspace = $session->getWorkspace();
+        $lockManager = $workspace->getLockManager();
+        $isLocked = $lockManager->isLocked($arg1);
+
+        PHPUnit_Framework_Assert::assertFalse($isLocked);
+    }
 }

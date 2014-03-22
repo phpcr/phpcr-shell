@@ -83,6 +83,13 @@ use PHPCR\Shell\Console\Command\NodeReferencesCommand;
 use PHPCR\Shell\Console\Command\NodeSharedShowCommand;
 use PHPCR\Shell\Console\Command\NodeSharedRemoveCommand;
 use PHPCR\Shell\Console\Command\NodeRemoveCommand;
+use PHPCR\Shell\Console\Command\LockLockCommand;
+use PHPCR\Shell\Console\Command\LockInfoCommand;
+use PHPCR\Shell\Console\Command\LockRefreshCommand;
+use PHPCR\Shell\Console\Command\LockTokenAddCommand;
+use PHPCR\Shell\Console\Command\LockTokenListCommand;
+use PHPCR\Shell\Console\Command\LockTokenRemoveCommand;
+use PHPCR\Shell\Console\Command\LockUnlockCommand;
 
 use Jackalope\NotImplementedException;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -181,6 +188,13 @@ class ShellApplication extends Application
         $this->add(new NodeSharedShowCommand());
         $this->add(new NodeSharedRemoveCommand());
         $this->add(new NodeRemoveCommand());
+        $this->add(new LockLockCommand());
+        $this->add(new LockInfoCommand());
+        $this->add(new LockRefreshCommand());
+        $this->add(new LockTokenAddCommand());
+        $this->add(new LockTokenListCommand());
+        $this->add(new LockTokenRemoveCommand());
+        $this->add(new LockUnlockCommand());
 
         // add shell-specific commands
         $this->add(new ChangePathCommand());
