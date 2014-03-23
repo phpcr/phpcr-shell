@@ -57,6 +57,7 @@ use PHPCR\Shell\Console\Command\WorkspaceNodeCopyCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNamespaceListCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNamespaceRegisterCommand;
 use PHPCR\Shell\Console\Command\WorkspaceNamespaceUnregisterCommand;
+use PHPCR\Shell\Console\Command\WorkspaceUseCommand;
 use PHPCR\Shell\Console\Command\NodeTypeShowCommand;
 use PHPCR\Shell\Console\Helper\EditorHelper;
 use PHPCR\Shell\Console\Command\NodeTypeEditCommand;
@@ -98,9 +99,13 @@ use Symfony\Component\Console\Formatter\OutputFormatter;
 class ShellApplication extends Application
 {
     protected $transports;
-    protected $credentials;
     protected $initialized;
     protected $sessionInput;
+
+    /**
+     * @var SessionInterface
+     */
+    private $session;
 
     /**
      * Input from the shell command, containing the connection
@@ -163,6 +168,7 @@ class ShellApplication extends Application
         $this->add(new WorkspaceNamespaceListCommand());
         $this->add(new WorkspaceNamespaceRegisterCommand());
         $this->add(new WorkspaceNamespaceUnregisterCommand());
+        $this->add(new WorkspaceUseCommand());
         $this->add(new NodeTypeShowCommand());
         $this->add(new NodeTypeEditCommand());
         $this->add(new NodeTypeUnregisterCommand());
@@ -233,31 +239,46 @@ class ShellApplication extends Application
             ->setName('workspace-purge')
         );
 
-        $session = $this->getSession($this->sessionInput);
+        $this->initSession();
 
-        $this->getHelperSet()->set(new EditorHelper($session));
+        $this->getHelperSet()->set(new EditorHelper($this->session));
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
-        $this->getHelperSet()->set(new PhpcrHelper($session));
+        $this->getHelperSet()->set(new PhpcrHelper($this->session));
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new TextHelper());
-        $this->getHelperSet()->set(new NodeHelper($session));
+        $this->getHelperSet()->set(new NodeHelper($this->session));
 
         $this->initialized = true;
     }
 
-    private function getSession($input)
+    private function initSession()
     {
-        $transport = $this->getTransport($input);
+        $transport = $this->getTransport($this->sessionInput);
         $repository = $transport->getRepository();
         $credentials = new SimpleCredentials(
-            $input->getOption('phpcr-username'),
-            $input->getOption('phpcr-password')
+            $this->sessionInput->getOption('phpcr-username'),
+            $this->sessionInput->getOption('phpcr-password')
         );
 
-        $session = $repository->login($credentials, $input->getOption('phpcr-workspace'));
-        $session = new PhpcrSession($session);
+        $session = $repository->login($credentials, $this->sessionInput->getOption('phpcr-workspace'));
 
-        return $session;
+        if (!$this->session) {
+            $this->session = new PhpcrSession($session);
+        } else {
+            $this->session->setPhpcrSession($session);
+        }
+    }
+
+    /**
+     * Change the current workspace
+     *
+     * @param string $workspaceName
+     */
+    public function changeWorkspace($workspaceName)
+    {
+        $this->session->logout();
+        $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+        $this->initSession($this->sessionInput);
     }
 
     private function getTransport(InputInterface $input)

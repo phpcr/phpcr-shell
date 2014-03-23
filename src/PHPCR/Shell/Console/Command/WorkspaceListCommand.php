@@ -17,6 +17,8 @@ class WorkspaceListCommand extends Command
         $this->setHelp(<<<HERE
 Lists the workspaces accessible to the current user.
 
+The current workspace is indicated by an asterix (*).
+
 Lists the names of all workspaces in this
 repository that are accessible to this user, given the Credentials that
 were used to get the Session to which this Workspace is tied.
@@ -31,12 +33,16 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
 
-        $workspaces = $session->getWorkspace()->getAccessibleWorkspaceNames();
+        $workspace = $session->getWorkspace();
+        $availableWorkspaces = $workspace->getAccessibleWorkspaceNames();
 
         $table = clone $this->getHelper('table');
         $table->setHeaders(array('Name'));
-        foreach ($workspaces as $workspace) {
-            $table->addRow(array($workspace));
+        foreach ($availableWorkspaces as $availableWorkspace) {
+            if ($availableWorkspace == $workspace->getName()) {
+                $availableWorkspace .= ' *';
+            }
+            $table->addRow(array($availableWorkspace));
         }
 
         $table->render($output);
