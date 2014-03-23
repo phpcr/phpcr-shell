@@ -12,6 +12,22 @@ class PhpcrSession implements SessionInterface
     protected $session;
     protected $cwd = '/';
 
+    public function __construct(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
+    /**
+     * Allow underlying session to be changed
+     * For example when changing workspaces
+     *
+     * @param SessionInterface $session
+     */
+    public function setPhpcrSession(SessionInterface $session)
+    {
+        $this->session = $session;
+    }
+
     public function getCurrentNode()
     {
         return $this->getNode($this->getCwd());
@@ -119,11 +135,6 @@ class PhpcrSession implements SessionInterface
         }
 
         return $newPaths;
-    }
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
     }
 
     public function getRepository()
