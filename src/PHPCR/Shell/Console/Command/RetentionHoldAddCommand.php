@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class RetentionHoldAddCommand extends Command
+class RetentionHoldAddCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -26,6 +27,8 @@ have more than one hold. The format and interpretation of the name are not
 specified. They are application-dependent.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_RETENTION_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

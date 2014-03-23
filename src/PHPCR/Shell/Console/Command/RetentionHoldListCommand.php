@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class RetentionHoldListCommand extends Command
+class RetentionHoldListCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -20,6 +21,8 @@ Lists all hold object names that have been added to the
 existing node at <info>absPath</info>.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_RETENTION_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

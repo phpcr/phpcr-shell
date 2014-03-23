@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class LockTokenAddCommand extends Command
+class LockTokenAddCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -22,6 +23,8 @@ Holding a lock token makes the current Session the owner of the lock
 specified by that particular lock token.
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
+        $this->dequiresDescriptor('jackalope.not_implemented.lock.token');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

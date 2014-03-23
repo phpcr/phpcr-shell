@@ -95,6 +95,8 @@ use PHPCR\Shell\Console\Command\LockUnlockCommand;
 use Jackalope\NotImplementedException;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use PHPCR\Shell\Console\Helper\RepositoryHelper;
+use PHPCR\Shell\Console\Command\PhpcrShellCommand;
 
 class ShellApplication extends Application
 {
@@ -135,6 +137,16 @@ class ShellApplication extends Application
         ) as $transport) {
             $this->transports[$transport->getName()] = $transport;;
         }
+
+        $session = $this->getSession($this->sessionInput);
+
+        $this->getHelperSet()->set(new EditorHelper($session));
+        $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
+        $this->getHelperSet()->set(new PhpcrHelper($session));
+        $this->getHelperSet()->set(new ResultFormatterHelper());
+        $this->getHelperSet()->set(new TextHelper());
+        $this->getHelperSet()->set(new NodeHelper($session));
+        $this->getHelperSet()->set(new RepositoryHelper($session->getRepository()));
 
         // add new commands
         $this->add(new AccessControlPrivilegeListCommand());
@@ -238,15 +250,6 @@ class ShellApplication extends Application
         $this->add($this->wrap(new WorkspacePurgeCommand())
             ->setName('workspace-purge')
         );
-
-        $this->initSession();
-
-        $this->getHelperSet()->set(new EditorHelper($this->session));
-        $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
-        $this->getHelperSet()->set(new PhpcrHelper($this->session));
-        $this->getHelperSet()->set(new ResultFormatterHelper());
-        $this->getHelperSet()->set(new TextHelper());
-        $this->getHelperSet()->set(new NodeHelper($this->session));
 
         $this->initialized = true;
     }

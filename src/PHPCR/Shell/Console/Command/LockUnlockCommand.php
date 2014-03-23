@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class LockUnlockCommand extends Command
+class LockUnlockCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -35,6 +36,7 @@ Note that it is possible to unlock a node even if it is checked-in (the
 lock-related properties will be changed despite the checked-in status).
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

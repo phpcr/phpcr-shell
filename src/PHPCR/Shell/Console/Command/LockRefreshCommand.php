@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class LockRefreshCommand extends Command
+class LockRefreshCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -23,6 +24,8 @@ If this lock's time-to-live is not governed by a timer, then this method
 has no effect.
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
+        $this->dequiresDescriptor('jackalope.not_implemented.lock.refresh');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
