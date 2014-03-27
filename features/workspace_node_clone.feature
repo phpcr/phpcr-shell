@@ -22,5 +22,5 @@ Feature: Clone a node from a given workspace to the current workspace
 
     Scenario: Clone onto existing but remove
         Given the "session_data.xml" fixtures are loaded into a workspace "default"
-        And I execute the "workspace:node:clone --remove-existing test / /" command
+        And I execute the "workspace:node:clone --remove-existing test /tests_general_base/index.txt /tests_general_base/index.txt" command
         Then the command should not fail

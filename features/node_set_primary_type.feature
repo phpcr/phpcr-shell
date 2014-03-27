@@ -9,5 +9,9 @@ Feature: Set the nodes primary type
 
     Scenario: List the properties and children of the current node
         Given the current node is "/tests_general_base"
-        And I execute the "node:type:set-primary nt:unstructured --no-ansi" command
-        Then the command should not fail
+        And I execute the "node:set-primary-type nt:unstructured --no-ansi" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Not implemented
+        """

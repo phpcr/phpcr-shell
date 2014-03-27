@@ -23,12 +23,12 @@ Feature: Create a node
         And the primary type of "/testfile" should be "nt:folder"
 
     Scenario: Create a new node at a non-root current node no matching child type
-        Given the current node is "/tests_general_base"
+        Given the current node is "/tests_general_base/emptyExample"
         And I execute the "node:create testcreate" command
         Then the command should fail
         And I should see the following:
         """
-        No matching child node definition found for `testcreate' in type `nt:folder' for node '/tests_general_base'. Please specify the type explicitly
+        No matching child node definition found for `testcreate'
         """
 
     Scenario: Create a new node at a non-root current node
@@ -37,11 +37,3 @@ Feature: Create a node
         And I save the session
         Then the command should not fail
         And there should exist a node at "/tests_general_base/testcreate"
-
-    Scenario: Attempt to create an empty node
-        Given I execute the "node:create" command
-        Then the command should fail
-        And I should see the following:
-        """
-        Name can not be empty
-        """

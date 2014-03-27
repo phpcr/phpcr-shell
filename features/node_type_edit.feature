@@ -55,4 +55,5 @@ Feature: Edit a node type
         Then the command should not fail
         And I should see the following:
         """
-        gt
+        Editor emptied the CND file, doing nothing
+        """

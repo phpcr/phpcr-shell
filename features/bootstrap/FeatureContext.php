@@ -71,6 +71,12 @@ class FeatureContext extends BehatContext
 
     private function getSession($workspaceName = 'default')
     {
+        static $session = array();
+
+        if (isset($session[$workspaceName])) {
+            return $session[$workspaceName];
+        }
+
         $params = array(
             'jackalope.jackrabbit_uri'  => 'http://localhost:8080/server/',
         );
@@ -79,9 +85,9 @@ class FeatureContext extends BehatContext
         $repository = $factory->getRepository($params);
         $credentials = new SimpleCredentials('admin', 'admin');
 
-        $session = $repository->login($credentials, $workspaceName);
+        $session[$workspaceName] = $repository->login($credentials, $workspaceName);
 
-        return $session;
+        return $session[$workspaceName];
     }
 
     private function getOutput()
@@ -506,7 +512,11 @@ class FeatureContext extends BehatContext
     {
         $session = $this->getSession();
         $workspace = $session->getWorkspace();
-        $workspace->createWorkspace($arg1);
+        try {
+            $workspace->createWorkspace($arg1);
+        } catch (\Exception $e) {
+            // already exists..
+        }
     }
 
     /**
@@ -526,6 +536,7 @@ class FeatureContext extends BehatContext
      */
     public function theFixturesAreLoadedIntoAWorkspace($arg1, $arg2)
     {
+        $this->thereExistsAWorkspace($arg2);
         $fixtureFile = $this->getFixtureFilename($arg1);
         $session = $this->getSession($arg2);
         NodeHelper::purgeWorkspace($session);
@@ -615,14 +626,14 @@ class FeatureContext extends BehatContext
     }
 
     /**
-     * @Given /^the node at "([^"]*)" should have the property "([^"]*)" with type "([^"]*)"$/
+     * @Given /^the node at "([^"]*)" should have the property "([^"]*)" with value "([^"]*)"$/
      */
-    public function theNodeAtShouldHaveThePropertyWithType($arg1, $arg2, $arg3)
+    public function theNodeAtShouldHaveThePropertyWithValue($arg1, $arg2, $arg3)
     {
         $session = $this->getSession();
         $node = $session->getNode($arg1);
         $property = $node->getProperty($arg2);
-        $propertyType = $property->getType();
+        $propertyType = $property->getValue();
         PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
     }
 

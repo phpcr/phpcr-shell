@@ -17,7 +17,7 @@ Feature: Show information about node
         | Path              | /tests_general_base                  |
         | UUID              | N/A                                  |
         | Index             | 1                                    |
-        | Primary node type | nt:folder                            |
+        | Primary node type | nt:unstructured                      |
         | Mixin node types  |                                      |
         | Checked out?      | [ERROR] Not implemented by jackalope |
         | Locked?           | [ERROR] Not implemented by jackalope |
