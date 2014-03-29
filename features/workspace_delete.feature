@@ -9,5 +9,8 @@ Feature: Delete a workspace
     Scenario: Delete a workspace
         Given there exists a workspace "test"
         And I execute the "workspace:delete test" command
-        Then the command should not fail
-        And there should not exist a workspace called "test"
+        Then the command should fail
+        And I should see the following:
+        """
+        Can not delete a workspace as jackrabbit can not do it
+        """

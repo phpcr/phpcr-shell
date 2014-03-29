@@ -5,8 +5,11 @@ Feature: Copy a node from a given workspace to the current workspace
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded into a workspace "test"
-        And the "all_property_types.xml" fixtures are loaded into a workspace "default"
+        And the current workspace is "default_1"
+        And the "session_data.xml" fixtures are loaded
+        And the "all_property_types.xml" fixtures are loaded
+        And the current workspace is "default"
+        And I purge the current workspace
 
     Scenario: Copy node from a different workspace
         Given I execute the "workspace:node:copy /tests_general_base/index.txt /index.txt test" command

@@ -12,9 +12,6 @@ class ShellApplicationTest extends \PHPUnit_Framework_TestCase
         $this->transport = $this->getMock(
             'PHPCR\Shell\Console\TransportInterface'
         );
-        $this->transport->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue('test'));
 
         $this->sessionInput = $this->getMock(
             'Symfony\Component\Console\Input\InputInterface'
@@ -39,15 +36,9 @@ class ShellApplicationTest extends \PHPUnit_Framework_TestCase
         $this->repository = $this->getMock(
             'PHPCR\RepositoryInterface'
         );
-        $this->repository->expects($this->once())
-            ->method('login')
-            ->will($this->returnValue($this->session));
-
-        $this->transport->expects($this->once())
-            ->method('getRepository')
-            ->will($this->returnValue($this->repository));
 
         $this->application = new ShellApplication('phpcr','v0.test',  $this->sessionInput, array($this->transport));
+        $this->application->setSessionInput($this->sessionInput);
         $this->application->setAutoExit(false);
     }
 

@@ -27,6 +27,7 @@ class FeatureContext extends BehatContext
     protected $applicationTester;
     protected $filesystem;
     protected $workingDir;
+    protected $currentWorkspaceName = 'default';
 
     /**
      * Initializes context.
@@ -45,13 +46,13 @@ class FeatureContext extends BehatContext
         chdir($this->workingDir);
         $this->filesystem = new Filesystem();
 
-        $session = $this->getSession();
-        $session->save();
+        $session = $this->getSession(null, true);
 
         $this->applicationTester = new ApplicationTester($this->application);
         $this->applicationTester->run(array(
             '--transport' => 'jackrabbit',
             '--no-interaction' => true,
+            '--unsupported' => true, // test all the commands, even if they are unsupported (we test for the fail)
         ), array(
             'interactive' => true,
         ));
@@ -69,8 +70,19 @@ class FeatureContext extends BehatContext
         $fs->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell');
     }
 
-    private function getSession($workspaceName = 'default')
+    private function getSession($workspaceName = null, $force = false)
     {
+        if ($workspaceName === null) {
+            $workspaceName = $this->currentWorkspaceName;
+        }
+
+        static $sessions = array();
+
+        if (false === $force && isset($sessions[$workspaceName])) {
+            $session = $sessions[$workspaceName];
+            return $session;
+        }
+
         $params = array(
             'jackalope.jackrabbit_uri'  => 'http://localhost:8080/server/',
         );
@@ -79,9 +91,9 @@ class FeatureContext extends BehatContext
         $repository = $factory->getRepository($params);
         $credentials = new SimpleCredentials('admin', 'admin');
 
-        $session = $repository->login($credentials, $workspaceName);
+        $sessions[$workspaceName] = $repository->login($credentials, $workspaceName);
 
-        return $session;
+        return $sessions[$workspaceName];
     }
 
     private function getOutput()
@@ -184,7 +196,7 @@ class FeatureContext extends BehatContext
     public function theFixturesAreLoaded($arg1)
     {
         $fixtureFile = $this->getFixtureFilename($arg1);
-        $session = $this->getSession();
+        $session = $this->getSession(null, true);
         NodeHelper::purgeWorkspace($session);
         $session->save();
         $session->importXml('/', $fixtureFile, 0);
@@ -407,7 +419,7 @@ class FeatureContext extends BehatContext
      */
     public function thereShouldNotExistANodeAt($arg1)
     {
-        $session = $this->getSession();
+        $session = $this->getSession(null, true);
 
         try {
             $session->getNode($arg1);
@@ -506,7 +518,11 @@ class FeatureContext extends BehatContext
     {
         $session = $this->getSession();
         $workspace = $session->getWorkspace();
-        $workspace->createWorkspace($arg1);
+        try {
+            $workspace->createWorkspace($arg1);
+        } catch (\Exception $e) {
+            // already exists..
+        }
     }
 
     /**
@@ -522,12 +538,13 @@ class FeatureContext extends BehatContext
     }
 
     /**
-     * @Given /^the "([^"]*)" fixtures are loaded into a workspace "([^"]*)"$/
+     * @Given /^the "([^"]*)" fixtures are loaded into workspace "([^"]*)"$/
      */
-    public function theFixturesAreLoadedIntoAWorkspace($arg1, $arg2)
+    public function theFixturesAreLoadedIntoWorkspace($arg1, $arg2)
     {
+        $this->theCurrentWorkspaceIs($arg2);
         $fixtureFile = $this->getFixtureFilename($arg1);
-        $session = $this->getSession($arg2);
+        $session = $this->getSession();
         NodeHelper::purgeWorkspace($session);
         $session->save();
         $session->importXml('/', $fixtureFile, 0);
@@ -545,7 +562,6 @@ class FeatureContext extends BehatContext
         $workspace = $session->getWorkspace();
         $nodeTypeManager = $workspace->getNodeTypeManager();
         $nodeTypeManager->registerNodeTypesCnd($cnd, true);
-        $session->save();
     }
 
     /**
@@ -604,6 +620,33 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^the current workspace is "([^"]*)"$/
+     */
+    public function theCurrentWorkspaceIs($arg1)
+    {
+        $this->thereExistsAWorkspace($arg1);
+        $this->currentWorkspaceName = $arg1;
+    }
+
+    /**
+     * @Given /^the current workspace is empty/
+     */
+    public function theCurrentWorkspaceIsEmpty()
+    {
+        $session = $this->getSession();
+        NodeHelper::purgeWorkspace($session);
+        $session->save();
+    }
+
+    /**
+     * @Given /^I refresh the session/
+     */
+    public function iRefreshTheSession()
+    {
+        $this->executeCommand('session:refresh');
+    }
+
+    /**
      * @Given /^the primary type of "([^"]*)" should be "([^"]*)"$/
      */
     public function thePrimaryTypeOfShouldBe($arg1, $arg2)
@@ -615,15 +658,27 @@ class FeatureContext extends BehatContext
     }
 
     /**
-     * @Given /^the node at "([^"]*)" should have the property "([^"]*)" with type "([^"]*)"$/
+     * @Given /^the node at "([^"]*)" should have the property "([^"]*)" with value "([^"]*)"$/
      */
-    public function theNodeAtShouldHaveThePropertyWithType($arg1, $arg2, $arg3)
+    public function theNodeAtShouldHaveThePropertyWithValue($arg1, $arg2, $arg3)
     {
         $session = $this->getSession();
         $node = $session->getNode($arg1);
         $property = $node->getProperty($arg2);
-        $propertyType = $property->getType();
+        $propertyType = $property->getValue();
         PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
+    }
+
+    /**
+     * @Given /^I set the value of property "([^"]*)" on node "([^"]*)" to "([^"]*)"$/
+     */
+    public function iSetTheValueOfPropertyOnNodeTo($arg1, $arg2, $arg3)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg2);
+        $property = $node->getProperty($arg1);
+        $property->setValue($arg3);
+        $session->save();
     }
 
     /**
@@ -644,7 +699,7 @@ class FeatureContext extends BehatContext
     {
         $session = $this->getSession();
         $workspace = $session->getWorkspace();
-        $workspace->cloneFrom($arg2, $arg1, $arg3, false);
+        $workspace->cloneFrom($arg2, $arg1, $arg3, true);
     }
 
     /**

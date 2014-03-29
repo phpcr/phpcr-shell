@@ -11,7 +11,8 @@ Feature: Set a node property
     Scenario Outline: Set a property
         Given I execute the "<command>" command
         Then the command should not fail
-        And the node at "/properties" should have the property "<name>" with type "<type>"
+        And I save the session
+        And the node at "/properties" should have the property "<name>" with value "<type>"
 
         Examples:
             | command | name | type |

@@ -7,7 +7,7 @@ Feature: Edit a node type
         Given that I am logged in as "testuser"
         And the "example.cnd" node type is loaded
 
-    Scenario Outline: Edit a property
+    Scenario Outline: Edit a node type
         Given the "EDITOR" environment variable is set to "cat"
         And I execute the "<command>" command
         Then the command should not fail
@@ -40,8 +40,10 @@ Feature: Edit a node type
     Scenario: Create a new node type
         Given I have an editor which produces the following:
         """
-        <ns ='http://namespace.com/ns'>
+        <ns='http://namespace.com/ns'>
+        <nt='http://www.jcp.org/jcr/nt/1.0'>
         [ns:somenewtype] > nt:unstructured
+        orderable query
         """
         And I execute the "node-type:edit ns:somenewtype --no-interaction" command
         Then the command should not fail
@@ -55,4 +57,5 @@ Feature: Edit a node type
         Then the command should not fail
         And I should see the following:
         """
-        gt
+        Editor emptied the CND file, doing nothing
+        """

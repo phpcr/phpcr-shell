@@ -82,7 +82,7 @@ HERE
             $table->addRow(array(
                 '<property>' . $name . '</property>',
                 '<property-type>' . $this->formatter->getPropertyTypeName($property->getType()) . '</property-type>',
-                '<property-value>' . $this->textHelper->truncate($this->formatter->formatValue($property), 55) . '</property-value>',
+                $this->textHelper->truncate($this->formatter->formatValue($property), 55),
             ));
         }
     }

@@ -29,6 +29,7 @@ use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
 use PHPCR\Shell\Console\Command\SessionExportViewCommand;
 use PHPCR\Shell\Console\Command\SessionImportXMLCommand;
 use PHPCR\Shell\Console\Command\SessionInfoCommand;
+use PHPCR\Shell\Console\Command\SessionLoginCommand;
 use PHPCR\Shell\Console\Command\SessionLogoutCommand;
 use PHPCR\Shell\Console\Command\SessionNamespaceListCommand;
 use PHPCR\Shell\Console\Command\SessionNamespaceSetCommand;
@@ -71,8 +72,10 @@ use PHPCR\Shell\Console\Command\VersionRestoreCommand;
 use PHPCR\Shell\Console\Command\VersionRemoveCommand;
 use PHPCR\Shell\Console\Command\VersionCheckpointCommand;
 use PHPCR\Shell\Console\Command\NodeCreateCommand;
+use PHPCR\Shell\Console\Command\NodeCorrespondingCommand;
 use PHPCR\Shell\Console\Command\NodeDefinitionCommand;
 use PHPCR\Shell\Console\Command\NodeSetCommand;
+use PHPCR\Shell\Console\Command\NodeSetPrimaryTypeCommand;
 use PHPCR\Shell\Console\Command\NodeRenameCommand;
 use PHPCR\Shell\Console\Command\NodeMixinAddCommand;
 use PHPCR\Shell\Console\Command\NodeMixinRemoveCommand;
@@ -80,6 +83,7 @@ use PHPCR\Shell\Console\Command\NodeInfoCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleFollowCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleListCommand;
 use PHPCR\Shell\Console\Command\NodeListCommand;
+use PHPCR\Shell\Console\Command\NodeUpdateCommand;
 use PHPCR\Shell\Console\Command\NodeReferencesCommand;
 use PHPCR\Shell\Console\Command\NodeSharedShowCommand;
 use PHPCR\Shell\Console\Command\NodeSharedRemoveCommand;
@@ -138,15 +142,15 @@ class ShellApplication extends Application
             $this->transports[$transport->getName()] = $transport;;
         }
 
-        $session = $this->getSession($this->sessionInput);
+        $session = $this->initSession();
 
-        $this->getHelperSet()->set(new EditorHelper($session));
+        $this->getHelperSet()->set(new EditorHelper($this->session));
         $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
-        $this->getHelperSet()->set(new PhpcrHelper($session));
+        $this->getHelperSet()->set(new PhpcrHelper($this->session));
         $this->getHelperSet()->set(new ResultFormatterHelper());
         $this->getHelperSet()->set(new TextHelper());
-        $this->getHelperSet()->set(new NodeHelper($session));
-        $this->getHelperSet()->set(new RepositoryHelper($session->getRepository()));
+        $this->getHelperSet()->set(new NodeHelper($this->session));
+        $this->getHelperSet()->set(new RepositoryHelper($this->session->getRepository()));
 
         // add new commands
         $this->add(new AccessControlPrivilegeListCommand());
@@ -155,6 +159,7 @@ class ShellApplication extends Application
         $this->add(new SessionImpersonateCommand());
         $this->add(new SessionImportXMLCommand());
         $this->add(new SessionInfoCommand());
+        $this->add(new SessionLoginCommand());
         $this->add(new SessionLogoutCommand());
         $this->add(new SessionNamespaceListCommand());
         $this->add(new SessionNamespaceSetCommand());
@@ -193,8 +198,10 @@ class ShellApplication extends Application
         $this->add(new VersionCheckpointCommand());
         $this->add(new VersionCheckinCommand());
         $this->add(new NodeCreateCommand());
+        $this->add(new NodeCorrespondingCommand());
         $this->add(new NodeDefinitionCommand());
         $this->add(new NodeSetCommand());
+        $this->add(new NodeSetPrimaryTypeCommand());
         $this->add(new NodeRenameCommand());
         $this->add(new NodeMixinAddCommand());
         $this->add(new NodeMixinRemoveCommand());
@@ -202,6 +209,7 @@ class ShellApplication extends Application
         $this->add(new NodeLifecycleFollowCommand());
         $this->add(new NodeLifecycleListCommand());
         $this->add(new NodeListCommand());
+        $this->add(new NodeUpdateCommand());
         $this->add(new NodeReferencesCommand());
         $this->add(new NodeSharedShowCommand());
         $this->add(new NodeSharedRemoveCommand());
@@ -284,6 +292,18 @@ class ShellApplication extends Application
         $this->initSession($this->sessionInput);
     }
 
+    public function relogin($username, $password, $workspaceName = null)
+    {
+        $this->session->logout();
+        $this->sessionInput->setOption('phpcr-username', $username);
+        $this->sessionInput->setOption('phpcr-password', $password);
+
+        if ($workspaceName) {
+            $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+        }
+        $this->initSession($this->sessionInput);
+    }
+
     private function getTransport(InputInterface $input)
     {
         $transportName = $input->getOption('transport');
@@ -359,5 +379,18 @@ class ShellApplication extends Application
         do {
             $output->writeln(sprintf('<fg=red>%s</fg=red>', $e->getMessage()));
         } while ($e = $e->getPrevious());
+    }
+
+    public function add(Command $command)
+    {
+        if ($command instanceof PhpcrShellCommand) {
+            $showUnsupported = $this->sessionInput->getOption('unsupported');
+
+            if ($showUnsupported || $command->isSupported($this->getHelperSet()->get('repository'))) {
+                return parent::add($command);
+            }
+        } else {
+            parent::add($command);
+        }
     }
 }
