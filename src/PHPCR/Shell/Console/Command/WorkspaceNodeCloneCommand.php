@@ -57,9 +57,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $srcWorkspace = $input->getArgument('srcWorkspace');
         $srcAbsPath = $input->getArgument('srcAbsPath');
         $destAbsPath = $input->getArgument('destAbsPath');
-        $srcWorkspace = $input->getArgument('srcWorkspace');
         $removeExisting = $input->getOption('remove-existing');
 
         // todo: Check to ensure that source node has the referenceable mixin

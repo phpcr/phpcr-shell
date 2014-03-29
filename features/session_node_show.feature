@@ -13,4 +13,3 @@ Feature: Display a detailed view of a single node
         And I should see a table containing the following rows:
             | Property / Node Name          | Type / Node Type | Value                                                   |
             | - jcr:primaryType             | NAME             | nt:unstructured                                         |
-            | multiValueProperty/           | nt:folder        | jcr:uuid: 14e18ef3-be20-4985-bee9-7bb4763b31de, jcr:... |
