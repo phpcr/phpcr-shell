@@ -5,9 +5,11 @@ Feature: Create a new workspace
 
     Background:
         Given that I am logged in as "testuser"
-        And there does not exist a workspace called "footest"
 
-    Scenario: Create a workspace
-        Given I execute the "workspace:create footest" command
-        Then the command should not fail
-        And there should exist a workspace called "test"
+        # Jackrabbit does not allow dropping workspaces, so we cannot reliably
+        # test creating workspaces.
+        #
+        #    Scenario: Create a workspace
+        #        Given I execute the "workspace:create footest" command
+        #        Then the command should not fail
+        #        And there should exist a workspace called "test"

@@ -5,14 +5,13 @@ Feature: Remove a single property at a specified path
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded
+        And the "cms.xml" fixtures are loaded
 
     Scenario: Remove a property
-        Given there exists a property at "/tests_general_base/idExample/jcr:content/foo"
-        And I execute the "session:property:remove /tests_general_base/idExample/jcr:content/foo" command
+        Given I execute the "session:property:remove /cms/articles/article1/title" command
         Then the command should not fail
         And I save the session
-        And there should not exist a property at "/tests_general_base/idExample/jcr:content/foo"
+        And there should not exist a property at "/cms/articles/article1/title"
 
     Scenario: Try and remove a node
         And I execute the "session:property:remove /tests_general_base" command

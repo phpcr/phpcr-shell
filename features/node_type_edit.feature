@@ -7,7 +7,7 @@ Feature: Edit a node type
         Given that I am logged in as "testuser"
         And the "example.cnd" node type is loaded
 
-    Scenario Outline: Edit a property
+    Scenario Outline: Edit a node type
         Given the "EDITOR" environment variable is set to "cat"
         And I execute the "<command>" command
         Then the command should not fail

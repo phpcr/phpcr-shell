@@ -6,6 +6,8 @@ Feature: Import repository data from an XML file
     Background:
         Given the file "data.xml" contains the contents of "session_data.xml"
         And that I am logged in as "testuser"
+        And the current workspace is "default"
+        And the current workspace is empty
 
     Scenario: Import XML non existing file
         Given I execute the "session:import / does-not-exist.xml" command
@@ -24,15 +26,16 @@ Feature: Import repository data from an XML file
             | /tests_general_base/multiValueProperty/deepnode |
 
     Scenario Outline: Specifying UUID behavior
-        Given I execute the "session:import / data.xml --uuid-behavior=<uuid_behavior>" command
+        Given I create a node at "<path>"
+        And I execute the "session:import <path> data.xml --uuid-behavior=<uuid_behavior>" command
         Then the command should not fail
 
         Examples:
-            | uuid_behavior               |
-            | create-new                  |
-            | collision-remove-existing   |
-            | collision-replace-existing  |
-            | collision-throw             |
+            | path | uuid_behavior               |
+            | /a | create-new                  |
+            | /b | collision-remove-existing   |
+            | /c | collision-replace-existing  |
+            | /d | collision-throw             |
 
     Scenario: Specify invalid UUID behavior
         Given I execute the "session:import / data.xml --uuid-behavior=invalid" command

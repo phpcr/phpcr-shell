@@ -9,4 +9,8 @@ Feature: Set a namespace URI alias
 
     Scenario: Register a new namespace alias
         Given I execute the "session:namespace:set foobar http://www.example.com/foobar" command
-        Then the command should fail with message "TODO: implement session scope remapping of namespaces"
+        Then the command should fail
+        And I should see the following:
+        """
+        TODO: implement session scope remapping of namespaces
+        """

@@ -1,2 +1,4 @@
-<ns ='http://namespace.com/ns'>
+<ns='http://namespace.com/ns'>
+<nt='http://www.jcp.org/jcr/nt/1.0'>
 [ns:NodeType] > nt:unstructured
+orderable query

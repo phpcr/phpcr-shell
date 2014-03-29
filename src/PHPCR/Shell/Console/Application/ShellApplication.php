@@ -29,6 +29,7 @@ use PHPCR\Shell\Console\Command\RepositoryDescriptorListCommand;
 use PHPCR\Shell\Console\Command\SessionExportViewCommand;
 use PHPCR\Shell\Console\Command\SessionImportXMLCommand;
 use PHPCR\Shell\Console\Command\SessionInfoCommand;
+use PHPCR\Shell\Console\Command\SessionLoginCommand;
 use PHPCR\Shell\Console\Command\SessionLogoutCommand;
 use PHPCR\Shell\Console\Command\SessionNamespaceListCommand;
 use PHPCR\Shell\Console\Command\SessionNamespaceSetCommand;
@@ -82,6 +83,7 @@ use PHPCR\Shell\Console\Command\NodeInfoCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleFollowCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleListCommand;
 use PHPCR\Shell\Console\Command\NodeListCommand;
+use PHPCR\Shell\Console\Command\NodeUpdateCommand;
 use PHPCR\Shell\Console\Command\NodeReferencesCommand;
 use PHPCR\Shell\Console\Command\NodeSharedShowCommand;
 use PHPCR\Shell\Console\Command\NodeSharedRemoveCommand;
@@ -157,6 +159,7 @@ class ShellApplication extends Application
         $this->add(new SessionImpersonateCommand());
         $this->add(new SessionImportXMLCommand());
         $this->add(new SessionInfoCommand());
+        $this->add(new SessionLoginCommand());
         $this->add(new SessionLogoutCommand());
         $this->add(new SessionNamespaceListCommand());
         $this->add(new SessionNamespaceSetCommand());
@@ -206,6 +209,7 @@ class ShellApplication extends Application
         $this->add(new NodeLifecycleFollowCommand());
         $this->add(new NodeLifecycleListCommand());
         $this->add(new NodeListCommand());
+        $this->add(new NodeUpdateCommand());
         $this->add(new NodeReferencesCommand());
         $this->add(new NodeSharedShowCommand());
         $this->add(new NodeSharedRemoveCommand());
@@ -285,6 +289,18 @@ class ShellApplication extends Application
     {
         $this->session->logout();
         $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+        $this->initSession($this->sessionInput);
+    }
+
+    public function relogin($username, $password, $workspaceName = null)
+    {
+        $this->session->logout();
+        $this->sessionInput->setOption('phpcr-username', $username);
+        $this->sessionInput->setOption('phpcr-password', $password);
+
+        if ($workspaceName) {
+            $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+        }
         $this->initSession($this->sessionInput);
     }
 
