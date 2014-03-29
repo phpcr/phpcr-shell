@@ -52,6 +52,7 @@ class FeatureContext extends BehatContext
         $this->applicationTester->run(array(
             '--transport' => 'jackrabbit',
             '--no-interaction' => true,
+            '--unsupported' => true, // test all the commands, even if they are unsupported (we test for the fail)
         ), array(
             'interactive' => true,
         ));

@@ -380,4 +380,17 @@ class ShellApplication extends Application
             $output->writeln(sprintf('<fg=red>%s</fg=red>', $e->getMessage()));
         } while ($e = $e->getPrevious());
     }
+
+    public function add(Command $command)
+    {
+        if ($command instanceof PhpcrShellCommand) {
+            $showUnsupported = $this->sessionInput->getOption('unsupported');
+
+            if ($showUnsupported || $command->isSupported($this->getHelperSet()->get('repository'))) {
+                return parent::add($command);
+            }
+        } else {
+            parent::add($command);
+        }
+    }
 }
