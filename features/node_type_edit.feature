@@ -40,8 +40,10 @@ Feature: Edit a node type
     Scenario: Create a new node type
         Given I have an editor which produces the following:
         """
-        <ns ='http://namespace.com/ns'>
-        [ns:somenewtype] > nt:unstructured
+        <ns='http://namespace.com/ns'>
+        <nt='http://www.jcp.org/jcr/nt/1.0'>
+        [ns:NodeType] > nt:unstructured
+        orderable query
         """
         And I execute the "node-type:edit ns:somenewtype --no-interaction" command
         Then the command should not fail
