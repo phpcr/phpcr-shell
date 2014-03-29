@@ -42,7 +42,7 @@ Feature: Edit a node type
         """
         <ns='http://namespace.com/ns'>
         <nt='http://www.jcp.org/jcr/nt/1.0'>
-        [ns:NodeType] > nt:unstructured
+        [ns:somenewtype] > nt:unstructured
         orderable query
         """
         And I execute the "node-type:edit ns:somenewtype --no-interaction" command

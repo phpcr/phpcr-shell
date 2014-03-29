@@ -196,7 +196,7 @@ class FeatureContext extends BehatContext
     public function theFixturesAreLoaded($arg1)
     {
         $fixtureFile = $this->getFixtureFilename($arg1);
-        $session = $this->getSession();
+        $session = $this->getSession(null, true);
         NodeHelper::purgeWorkspace($session);
         $session->save();
         $session->importXml('/', $fixtureFile, 0);
