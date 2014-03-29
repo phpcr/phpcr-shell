@@ -51,7 +51,8 @@ jcr:lockOwnerare persisted immediately; there is no need to call save.
 
 It is possible to lock a node even if it is checked-in.
 HERE
-    );
+        );
+
         $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
     }
 

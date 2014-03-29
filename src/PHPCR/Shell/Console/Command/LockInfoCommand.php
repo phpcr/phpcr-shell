@@ -23,7 +23,7 @@ absPath.
 This may be either of the lock on that node itself or a deep lock on a node
 above that node.
 HERE
-    );
+        );
 
         $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
         $this->dequiresDescriptor('jackalope.not_implemented.lock.get');

@@ -44,12 +44,12 @@ HERE
         $table->render($output);
     }
 
-    private function getDescriptorValue($v)
+    private function getDescriptorValue($value)
     {
-        if (is_bool($v)) {
-            return $v ? 'true' : 'false';
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
         }
 
-        return $v;
+        return $value;
     }
 }
