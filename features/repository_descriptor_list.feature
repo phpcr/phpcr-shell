@@ -8,6 +8,6 @@ Feature: List Repository Descriptors
         And I execute the "repository:descriptor:list" command
         Then the command should not fail
         And I should see a table containing the following rows:
-            | Key                   | Value                       |
-            | jcr.repository.name   | Jackrabbit                  |
-            | jcr.repository.vendor | Apache Software Foundation  |
+            | Key                   | Value                       | Standard? |
+            | jcr.repository.name   | Jackrabbit                  | yes       |
+            | jcr.repository.vendor | Apache Software Foundation  | yes       |

@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class RetentionHoldRemoveCommand extends Command
+class RetentionHoldRemoveCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -22,6 +23,8 @@ Removes the specified hold from the node at <info>absPath</info>.
 The removal does not take effect until a save is performed.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_RETENTION_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

@@ -11,8 +11,9 @@ use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
 use PHPCR\NamespaceException;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class NodeSharedShowCommand extends Command
+class NodeSharedShowCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -27,6 +28,8 @@ be created by cloning a node within the same workspace.
 If this node is not shared then only this node is shown.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_SHAREABLE_NODES_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

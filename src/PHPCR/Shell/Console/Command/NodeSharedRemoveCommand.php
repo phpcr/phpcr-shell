@@ -11,8 +11,9 @@ use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
 use PHPCR\NamespaceException;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class NodeSharedRemoveCommand extends Command
+class NodeSharedRemoveCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -27,7 +28,9 @@ would have thrown in that case, and none of the nodes are removed.
 
 If this node is not shared this method removes only this node.
 HERE
-        );
+    );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_SHAREABLE_NODES_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

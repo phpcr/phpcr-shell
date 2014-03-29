@@ -10,8 +10,9 @@ use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
 use PHPCR\NamespaceException;
+use PHPCR\RepositoryInterface;
 
-class NodeLifecycleFollowCommand extends Command
+class NodeLifecycleFollowCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -30,6 +31,8 @@ property is changed the change is persisted immediately, there is no
 need to call save.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_LIFECYCLE_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

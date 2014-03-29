@@ -26,16 +26,30 @@ HERE
         $keys = $repository->getDescriptorKeys();
 
         $table = clone $this->getHelper('table');
-        $table->setHeaders(array('Key', 'Value'));
+        $table->setHeaders(array('Key', 'Value', 'Standard?'));
 
         foreach ($keys as $key) {
             $descriptor = $repository->getDescriptor($key);
+            $isStandard = $repository->isStandardDescriptor($key);
             if (is_array($descriptor)) {
-                $descriptor = implode(', ', $descriptor);
+                $descriptor = implode(', ', $this->getDescriptorValue($descriptor));
             }
-            $table->addRow(array($key, $descriptor));
+            $table->addRow(array(
+                $key,
+                $this->getDescriptorValue($descriptor),
+                $isStandard ? 'yes' : 'no',
+            ));
         }
 
         $table->render($output);
+    }
+
+    private function getDescriptorValue($value)
+    {
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        return $value;
     }
 }

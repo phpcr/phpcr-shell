@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class LockLockCommand extends Command
+class LockLockCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -51,6 +52,8 @@ jcr:lockOwnerare persisted immediately; there is no need to call save.
 It is possible to lock a node even if it is checked-in.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

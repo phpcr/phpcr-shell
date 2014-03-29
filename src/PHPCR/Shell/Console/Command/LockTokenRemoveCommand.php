@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class LockTokenRemoveCommand extends Command
+class LockTokenRemoveCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -19,6 +20,8 @@ class LockTokenRemoveCommand extends Command
 Removes the specified lock token from the current Session.
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
+        $this->dequiresDescriptor('jackalope.not_implemented.lock.token');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

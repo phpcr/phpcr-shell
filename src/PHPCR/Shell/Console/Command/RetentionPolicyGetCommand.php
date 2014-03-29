@@ -7,8 +7,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class RetentionPolicyGetCommand extends Command
+class RetentionPolicyGetCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -19,6 +20,8 @@ class RetentionPolicyGetCommand extends Command
 Gets the retention policy of a node identified by its path.
 HERE
         );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_RETENTION_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
