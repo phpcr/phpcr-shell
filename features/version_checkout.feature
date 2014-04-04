@@ -10,7 +10,13 @@ Feature: Checkout a version
     Scenario: Checkout a a given node
         Given I execute the "version:checkout /tests_version_base/versioned" command
         Then the command should not fail
-        And the node "/tests_version_base/verionable" should be checked out
+        And the current node is "/tests_version_base/versioned"
+        And I execute the "node:info" command
+        Then I should see the following:
+        """
+        | Checked out?      | yes
+        """
+
 
     Scenario: Checkout a non-versionable node
         Given I execute the "version:checkout /tests_version_base" command

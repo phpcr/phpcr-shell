@@ -151,6 +151,17 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^I execute the following commands:$/
+     */
+    public function iExecuteTheFollowingCommands(TableNode $table)
+    {
+        foreach ($table->getRows() as $row) {
+            $this->executeCommand($row[0]);
+            $this->theCommandShouldNotFail();
+        }
+    }
+
+    /**
      * @Then /^I should see a table containing the following rows:$/
      */
     public function iShouldSeeATableContainingTheFollowingRows(TableNode $table)
@@ -188,6 +199,15 @@ class FeatureContext extends BehatContext
     {
         $output = $this->getOutput();
         PHPUnit_Framework_Assert::assertContains($string->getRaw(), $output);
+    }
+
+    /**
+     * @Then /^I should not see the following:$/
+     */
+    public function iShouldNotSeeTheFollowing(PyStringNode $string)
+    {
+        $output = $this->getOutput();
+        PHPUnit_Framework_Assert::assertNotContains($string->getRaw(), $output);
     }
 
     /**

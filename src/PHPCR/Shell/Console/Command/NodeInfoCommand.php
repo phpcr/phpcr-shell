@@ -26,6 +26,7 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $nodeHelper = $this->getHelper('node');
         $currentNode = $session->getCurrentNode();
         $formatter = $this->getHelper('result_formatter');
 
@@ -36,10 +37,14 @@ HERE
             $mixinNodeTypeNames[] = $mixin->getName();
         }
 
-        try {
-            $isCheckedOut = $currentNode->isCheckedOut() ? 'yes' : 'no';
-        } catch (\Exception $e) {
-            $isCheckedOut = $formatter->formatException($e);
+        if ($nodeHelper->nodeHasMixinType($currentNode, 'mix:versionable')) {
+            try {
+                $isCheckedOut = $currentNode->isCheckedOut() ? 'yes' : 'no';
+            } catch (\Exception $e) {
+                $isCheckedOut = $formatter->formatException($e);
+            }
+        } else {
+            $isCheckedOut = 'N/A';
         }
 
         try {

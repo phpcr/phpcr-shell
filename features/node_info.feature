@@ -19,7 +19,7 @@ Feature: Show information about node
         | Index             | 1                                    |
         | Primary node type | nt:unstructured                      |
         | Mixin node types  |                                      |
-        | Checked out?      | [ERROR] Not implemented by jackalope |
+        | Checked out?      | N/A                                  |
         | Locked?           | [ERROR] Not implemented by jackalope |
         +-------------------+--------------------------------------+
         """
