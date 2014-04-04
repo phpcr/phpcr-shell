@@ -368,16 +368,30 @@ class FeatureContext extends BehatContext
     public function thereShouldExistANodeAtBefore($arg1, $arg2)
     {
         $session = $this->getSession();
+
         try {
-            $node = $session->getNode($arg1);
+            $node = $session->getNode($arg2);
         } catch (PathNotFoundException $e) {
             throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
         }
-        $parent = $session->getNode(PathHelper::getParentPath($arg1));
-        $index = $node->getIndex();
+
+        $parent = $session->getNode(PathHelper::getParentPath($arg2));
         $parentChildren = array_values((array) $parent->getNodes());
-        $beforeNode = $parentChildren[$index];
-        PHPUnit_Framework_Assert::assertEquals($arg2, $beforeNode->getName());
+        $targetNode = null;
+
+        foreach ($parentChildren as $i => $parentChild) {
+            if ($parentChild->getPath() == $arg1) {
+                $targetNode = $parentChild;
+                $afterNode = $parentChildren[$i + 1];
+                break;
+            }
+        }
+
+        if (null === $targetNode) {
+            throw new \Exception('Could not find child node ' . $arg1);
+        }
+
+        PHPUnit_Framework_Assert::assertEquals($arg2, $afterNode->getPath());
     }
 
     /**

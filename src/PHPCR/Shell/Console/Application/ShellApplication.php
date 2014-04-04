@@ -79,6 +79,7 @@ use PHPCR\Shell\Console\Command\NodeSetPrimaryTypeCommand;
 use PHPCR\Shell\Console\Command\NodeRenameCommand;
 use PHPCR\Shell\Console\Command\NodeMixinAddCommand;
 use PHPCR\Shell\Console\Command\NodeMixinRemoveCommand;
+use PHPCR\Shell\Console\Command\NodeOrderBeforeCommand;
 use PHPCR\Shell\Console\Command\NodeInfoCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleFollowCommand;
 use PHPCR\Shell\Console\Command\NodeLifecycleListCommand;
@@ -205,6 +206,7 @@ class ShellApplication extends Application
         $this->add(new NodeRenameCommand());
         $this->add(new NodeMixinAddCommand());
         $this->add(new NodeMixinRemoveCommand());
+        $this->add(new NodeOrderBeforeCommand());
         $this->add(new NodeInfoCommand());
         $this->add(new NodeLifecycleFollowCommand());
         $this->add(new NodeLifecycleListCommand());

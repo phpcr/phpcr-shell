@@ -8,7 +8,8 @@ Feature: Reorder a node
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Reorder a node
-        Given the cnp is "/tests_general_base"
-        And I execute the "node:order-before unversionable" command
+        Given the current node is "/tests_general_base"
+        And I execute the "node:order-before emptyExample idExample" command
         Then the command should not fail
-        And there should exist a node at "/tests_general_base/simpleVersioned" before "/tests_general_base/unversionable"
+        And I save the session
+        And there should exist a node at "/tests_general_base/emptyExample" before "/tests_general_base/idExample"
