@@ -61,7 +61,6 @@ class FeatureContext extends BehatContext
     /**
      * Cleans test folders in the temporary directory.
      *
-     * @BeforeSuite
      * @AfterSuite
      */
     public static function cleanTestFolders()
@@ -784,5 +783,14 @@ class FeatureContext extends BehatContext
         $isLocked = $lockManager->isLocked($arg1);
 
         PHPUnit_Framework_Assert::assertFalse($isLocked);
+    }
+
+    /**
+     * @Given /^I purge the current workspace$/
+     */
+    public function iPurgeTheCurrentWorkspace()
+    {
+        $session = $this->getSession();
+        NodeHelper::purgeWorkspace($session);
     }
 }
