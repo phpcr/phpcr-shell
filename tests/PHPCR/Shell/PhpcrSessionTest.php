@@ -42,6 +42,9 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
             array('/', 'cms', '/cms'),
             array('/', '/cms', '/cms'),
             array('/cms', 'foo', '/cms/foo'),
+            array('/cms', '', '/cms'),
+            array('/cms', null, '/cms'),
+            array('/cms', '.', '/cms'),
         );
     }
 
@@ -51,8 +54,8 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
     public function testAbsPath($cwd, $path, $expected)
     {
         $this->session->setCwd($cwd);
-        $this->session->chdir($path);
-        $this->assertEquals($expected, $this->session->getCwd());
+        $absPath = $this->session->getAbsPath($path);
+        $this->assertEquals($expected, $absPath);
     }
 
     public function provideMv()

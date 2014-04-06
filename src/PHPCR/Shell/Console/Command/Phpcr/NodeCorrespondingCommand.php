@@ -18,6 +18,7 @@ class NodeCorrespondingCommand extends Command
     {
         $this->setName('node:corresponding');
         $this->setDescription('Show the path for the current nodes corresponding path in named workspace');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('workspaceName', InputArgument::REQUIRED, 'The name of the workspace');
         $this->setHelp(<<<HERE
 Returns the absolute path of the node in the specified workspace that
@@ -29,8 +30,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $workspaceName = $input->getArgument('workspaceName');
-        $currentNode = $session->getCurrentNode();
+        $currentNode = $session->getNode($path);
         $correspondingPath = $currentNode->getCorrespondingNodePath($workspaceName);
         $output->writeln($correspondingPath);
     }

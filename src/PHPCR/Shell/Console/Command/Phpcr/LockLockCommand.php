@@ -15,13 +15,13 @@ class LockLockCommand extends PhpcrShellCommand
     {
         $this->setName('lock:lock');
         $this->setDescription('Lock the node at the given path');
-        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path of node to be locked');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node to be locked');
         $this->addOption('deep', null, InputOption::VALUE_NONE, 'If given this lock will apply to this node and all its descendants; if not, it applies only to this node.');
         $this->addOption('session-scoped', null, InputOption::VALUE_NONE, 'If given, this lock expires with the current session; if not it expires when explicitly or automatically unlocked for some other reason');
         $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Desired lock timeout in seconds (servers are free to ignore this value). If not used lock will not timeout');
         $this->addOption('owner-info', null, InputOption::VALUE_REQUIRED, ' string containing owner information supplied by the client; servers are free to ignore this value. If none is specified, the implementation chooses one (i.e. user name of current backend authentication credentials');
         $this->setHelp(<<<HERE
-Places a lock on the node at <info>absPath</info>.
+Places a lock on the node at <info>path</info>.
 
 If successful, the node is said to hold the lock.
 
@@ -62,12 +62,12 @@ HERE
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $isDeep = $input->getOption('deep');
         $isSessionScoped = $input->getOption('session-scoped');
         $timeout = $input->getOption('timeout');
         $ownerInfo = $input->getOption('owner-info');
 
-        $lockManager->lock($absPath, $isDeep, $isSessionScoped, $timeout, $ownerInfo);
+        $lockManager->lock($path, $isDeep, $isSessionScoped, $timeout, $ownerInfo);
     }
 }

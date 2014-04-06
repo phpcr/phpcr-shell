@@ -9,7 +9,7 @@ Feature: Reorder a node
 
     Scenario: Reorder a node
         Given the current node is "/tests_general_base"
-        And I execute the "node:order-before emptyExample idExample" command
+        And I execute the "node:order-before . emptyExample idExample" command
         Then the command should not fail
         And I save the session
         And there should exist a node at "/tests_general_base/emptyExample" before "/tests_general_base/idExample"

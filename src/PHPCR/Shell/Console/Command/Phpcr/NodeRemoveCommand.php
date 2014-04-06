@@ -16,7 +16,8 @@ class NodeRemoveCommand extends Command
     protected function configure()
     {
         $this->setName('node:remove');
-        $this->setDescription('Remove the node at the current path');
+        $this->setDescription('Remove the node at path');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
 Remove the current node
 HERE
@@ -26,7 +27,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $currentNode = $session->getCurrentNode();
+        $path = $session->getAbsPath($input->getArgument('path'));
+        $currentNode = $session->getNode($path);
         $currentPath = $currentNode->getPath();
 
         if ($currentPath == '/') {

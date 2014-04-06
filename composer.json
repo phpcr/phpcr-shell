@@ -14,7 +14,8 @@
         "symfony/process": "2.3.*",
         "symfony/filesystem": "2.3.*",
         "phpunit/phpunit": "~3.7.28",
-        "behat/behat": "~2.5"
+        "behat/behat": "~2.5",
+        "phpspec/phpspec": "2.0"
     },
     "license": "MIT",
     "authors": [

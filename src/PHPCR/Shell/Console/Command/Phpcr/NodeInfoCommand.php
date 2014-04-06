@@ -17,6 +17,7 @@ class NodeInfoCommand extends Command
     {
         $this->setName('node:info');
         $this->setDescription('Show information about the current node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
 Show information about the current node
 HERE
@@ -26,8 +27,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $nodeHelper = $this->getHelper('node');
-        $currentNode = $session->getCurrentNode();
+        $currentNode = $session->getNode($path);
         $formatter = $this->getHelper('result_formatter');
 
         $mixins = $currentNode->getMixinNodeTypes();

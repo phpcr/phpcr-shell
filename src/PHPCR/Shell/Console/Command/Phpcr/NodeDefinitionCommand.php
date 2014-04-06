@@ -17,6 +17,7 @@ class NodeDefinitionCommand extends Command
     {
         $this->setName('node:definition');
         $this->setDescription('Show the CND Definition of current node NOT IMPLEMENTED');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
 Show the CND definition of the primary type of the current node.
 HERE
@@ -26,7 +27,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $currentNode = $session->getCurrentNode();
+        $path = $session->getAbsPath($input->getArgument('path'));
+        $currentNode = $session->getNode($path);
         $workspace = $session->getWorkspace();
         $namespaceRegistry = $workspace->getNamespaceRegistry();
 
@@ -36,4 +38,3 @@ HERE
         $output->writeln(sprintf('<comment>%s</comment>', $out));
     }
 }
-

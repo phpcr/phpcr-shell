@@ -22,6 +22,7 @@ class NodeListCommand extends Command
     {
         $this->setName('node:list');
         $this->setDescription('List the children / properties of this node');
+        $this->addArgument('path', InputArgument::OPTIONAL, 'Path of node');
         $this->addOption('children', null, InputOption::VALUE_NONE, 'List only the children of this node');
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
         $this->addOption('filter', 'f', InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Optional filter to apply');
@@ -41,7 +42,9 @@ HERE
         $showProperties = $input->getOption('properties');
 
         $session = $this->getHelper('phpcr')->getSession();
-        $currentNode = $session->getCurrentNode();
+
+        $path = $session->getAbsPath($input->getArgument('path'));
+        $currentNode = $session->getNode($path);
 
         if (!$showChildren && !$showProperties) {
             $showChildren = true;

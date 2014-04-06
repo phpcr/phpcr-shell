@@ -9,13 +9,13 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Filesystem\Filesystem;
 use PHPCR\Util\ValueConverter;
 
-class SessionPropertyEditCommand extends Command
+class NodePropertyEditCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('session:property:edit');
+        $this->setName('node:property:edit');
         $this->setDescription('Edit the property at the given absolute path using EDITOR');
-        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to property');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path to property');
         $this->addArgument('multivalue-index', InputArgument::OPTIONAL, 'If editing a multivalue property, the index of the value to edit.');
         $this->setHelp(<<<HERE
 Launches the editor as identified by the EDITOR environment variable.
@@ -29,13 +29,13 @@ HERE
         $session = $this->getHelper('phpcr')->getSession();
         $editor = $this->getHelper('editor');
 
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $multivalueIndex = $input->getArgument('multivalue-index');
 
         $valueConverter = new ValueConverter();
 
-        $absPath = $input->getArgument('absPath');
-        $property = $session->getProperty($absPath);
+        $path = $input->getArgument('path');
+        $property = $session->getProperty($path);
 
         if ($property->isMultiple()) {
             if (null === $multivalueIndex) {

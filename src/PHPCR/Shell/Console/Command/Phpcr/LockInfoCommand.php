@@ -15,10 +15,10 @@ class LockInfoCommand extends PhpcrShellCommand
     {
         $this->setName('lock:info');
         $this->setDescription('Create a node at the current path');
-        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path of locked node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of locked node');
         $this->setHelp(<<<HERE
 Shows the details of the lock that applies to the node at the specified
-absPath.
+path.
 
 This may be either of the lock on that node itself or a deep lock on a node
 above that node.
@@ -32,11 +32,11 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 
-        $lock = $lockManager->getLock($absPath);
+        $lock = $lockManager->getLock($path);
 
         $info = array(
             'Lock owner' => $lock->getLockOwner(),

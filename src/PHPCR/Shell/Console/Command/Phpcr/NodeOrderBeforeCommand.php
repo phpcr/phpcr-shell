@@ -16,7 +16,8 @@ class NodeOrderBeforeCommand extends Command
     protected function configure()
     {
         $this->setName('node:order-before');
-        $this->setDescription('');
+        $this->setDescription('Reorder a child node of the current node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('srcChildRelPath', null, InputArgument::REQUIRED, 'The relative path to the child node to be moved in the ordering');
         $this->addArgument('destChildRelPath', null, InputArgument::REQUIRED, 'The relative path to the child before which the node srcChildRelPath will be placed');
         $this->setHelp(<<<HERE
@@ -43,9 +44,10 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $srcChildRelPath = $input->getArgument('srcChildRelPath');
         $destChildRelPath = $input->getArgument('destChildRelPath');
-        $node = $session->getCurrentNode();
+        $node = $session->getNode($path);
         $node->orderBefore($srcChildRelPath, $destChildRelPath);
     }
 }

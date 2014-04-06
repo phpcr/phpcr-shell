@@ -12,7 +12,7 @@ Feature: Update the current node from the node to which it corresponds in the gi
 
     Scenario: Update a node
         Given the current node is "/foobar"
-        And I execute the "node:update default_1" command
+        And I execute the "node:update . default_1" command
         Then the command should not fail
         And I save the session
         And the node at "/foobar" should have the property "title" with value "this is a test"

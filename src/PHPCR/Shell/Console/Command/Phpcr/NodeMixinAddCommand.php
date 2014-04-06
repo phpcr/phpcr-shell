@@ -17,7 +17,8 @@ class NodeMixinAddCommand extends Command
     protected function configure()
     {
         $this->setName('node:mixin:add');
-        $this->setDescription('Add the named mixin to the current node');
+        $this->setDescription('Add the named mixin to the node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('mixinName', null, InputArgument::REQUIRED, null, 'The name of the mixin node type to be added');
         $this->setHelp(<<<HERE
 Adds the mixin node type named <info>mixinName</info> to this node.
@@ -48,8 +49,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $mixinName = $input->getArgument('mixinName');
-        $currentNode = $session->getCurrentNode();
+        $currentNode = $session->getNode($path);
         $currentNode->addMixin($mixinName);
     }
 }

@@ -9,7 +9,7 @@ Feature: Show node references
 
     Scenario: List weak references
         Given the current node is "/tests_general_base/idExample/jcr:content/weakreference_target"
-        And I execute the "node:references --no-ansi" command
+        And I execute the "node:references . --no-ansi" command
         Then the command should not fail
         And I should see a table containing the following rows:
             | Type | Property | Node Path                                                      |
@@ -18,7 +18,7 @@ Feature: Show node references
 
     Scenario: List named weak references
         Given the current node is "/tests_general_base/idExample/jcr:content/weakreference_target"
-        And I execute the "node:references ref2 --no-ansi" command
+        And I execute the "node:references . ref2 --no-ansi" command
         Then the command should not fail
         And I should see a table containing the following rows:
             | Type | Property | Node Path                                                      |
@@ -26,7 +26,7 @@ Feature: Show node references
 
     Scenario: List strong references
         Given the current node is "/tests_general_base/idExample"
-        And I execute the "node:references --no-ansi" command
+        And I execute the "node:references . --no-ansi" command
         Then the command should not fail
         And I should see a table containing the following rows:
             | Type   | Property | Node Path                              |

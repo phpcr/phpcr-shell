@@ -18,6 +18,7 @@ class NodeSetPrimaryTypeCommand extends Command
     {
         $this->setName('node:set-primary-type');
         $this->setDescription('Set the primary type of the current node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, null, 'New primary node type name');
         $this->setHelp(<<<HERE
 Changes the primary node type of this node to nodeTypeName.
@@ -35,9 +36,10 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $nodeTypeName = $input->getArgument('nodeTypeName');
 
-        $currentNode = $session->getCurrentNode();
+        $currentNode = $session->getNode($path);
         $currentNode->setPrimaryType($nodeTypeName);
     }
 }

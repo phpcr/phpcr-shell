@@ -17,6 +17,7 @@ class NodeRenameCommand extends Command
     {
         $this->setName('node:rename');
         $this->setDescription('Rename the node at the current path');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('newName', null, InputArgument::REQUIRED, 'The name of the node to create');
         $this->setHelp(<<<HERE
 Renames this node to the specified <info>newName</info>. The ordering (if any) of
@@ -60,8 +61,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $newName = $input->getArgument('newName');
-        $currentNode = $session->getCurrentNode();
+        $currentNode = $session->getNode($path);
         $currentNode->rename($newName);
     }
 }

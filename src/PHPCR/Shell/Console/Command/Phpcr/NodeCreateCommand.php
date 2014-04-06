@@ -18,15 +18,15 @@ class NodeCreateCommand extends Command
     {
         $this->setName('node:create');
         $this->setDescription('Create a node at the current path');
-        $this->addArgument('relPath', InputArgument::REQUIRED, 'The name of the node to create');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node to create');
         $this->addArgument('primaryNodeTypeName', InputArgument::OPTIONAL, 'Optional name of primary node type to use');
         $this->setHelp(<<<HERE
-Creates a new node at the specified <info>relPath</info>
+Creates a new node at the specified <info>path</info>
 
 This is session-write method, meaning that the addition of the new node
 is dispatched upon SessionInterface::save().
 
-The <info>relPath</info> provided must not have an index on its final element,
+The <info>path</info> provided must not have an index on its final element,
 otherwise a RepositoryException is thrown.
 
 If ordering is supported by the node type of the parent node of the new
@@ -46,9 +46,14 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $relPath = $input->getArgument('relPath');
+        $pathHelper = $this->getHelper('path');
+
+        $path = $session->getAbsPath($input->getArgument('path'));
         $primaryNodeTypeName = $input->getArgument('primaryNodeTypeName');
-        $currentNode = $session->getCurrentNode();
-        $currentNode->addNode($relPath, $primaryNodeTypeName);
+
+        $parentPath = $pathHelper->getParentPath($path);
+        $nodeName = $pathHelper->getNodeName($path);
+        $parentNode = $session->getNode($parentPath);
+        $parentNode->addNode($nodeName, $primaryNodeTypeName);
     }
 }

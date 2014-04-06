@@ -13,3 +13,4 @@ before_script:
 script: 
   - phpunit --coverage-text
   - php vendor/behat/behat/bin/behat
+  - php vendor/bin/phpspec run

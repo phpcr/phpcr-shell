@@ -18,6 +18,7 @@ class NodeLifecycleFollowCommand extends PhpcrShellCommand
     {
         $this->setName('node:lifecycle:follow');
         $this->setDescription('Causes the lifecycle state of this node to undergo the specified transition. NOT IMPLEMENTED');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('transition', InputArgument::REQUIRED, 'A state transition');
         $this->setHelp(<<<HERE
 Causes the lifecycle state of the current node to undergo the specified
@@ -38,7 +39,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $currentNode = $session->getCurrentNode();
+        $path = $session->getAbsPath($input->getArgument('path'));
+        $currentNode = $session->getNode($path);
         $transition = $input->getArgument('transition');
         $currentNode->followLifecycleTransition($transition);
     }

@@ -11,6 +11,7 @@ use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
 use PHPCR\NamespaceException;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\PropertyType;
 
 class NodeSetCommand extends Command
 {
@@ -18,7 +19,7 @@ class NodeSetCommand extends Command
     {
         $this->setName('node:set');
         $this->setDescription('Rename the node at the current path');
-        $this->addArgument('name', null, InputArgument::REQUIRED, null, 'The name of the node to create');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - can include the node name');
         $this->addArgument('value', null, InputArgument::OPTIONAL, null, 'Value for named property');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of named property');
         $this->setHelp(<<<HERE
@@ -64,11 +65,24 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $name = $input->getArgument('name');
+        $pathHelper = $this->getHelper('path');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $value = $input->getArgument('value');
         $type = $input->getOption('type');
 
-        $currentNode = $session->getCurrentNode();
-        $currentNode->setProperty($name, $value);
+        $intType = null;
+        if ($type) {
+            $intType = PropertyType::valueFromName($type);
+        }
+
+        $nodePath = $pathHelper->getParentPath($path);
+        $propName = $pathHelper->getNodeName($path);
+        $currentNode = $session->getNode($nodePath);
+
+        if ($intType) {
+            $currentNode->setProperty($propName, $value, $intType);
+        } else {
+            $currentNode->setProperty($propName, $value);
+        }
     }
 }

@@ -15,9 +15,9 @@ class LockUnlockCommand extends PhpcrShellCommand
     {
         $this->setName('lock:unlock');
         $this->setDescription('Unlock the node at the given path');
-        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path of node to be unlocked');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
-Removes the lock on the node at absPath.
+Removes the lock on the node at path.
 
 Also removes the properties jcr:lockOwner and jcr:lockIsDeep from that
 node. As well, the corresponding lock token is removed from the set of
@@ -45,8 +45,8 @@ HERE
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
 
-        $lockManager->unlock($absPath);
+        $lockManager->unlock($path);
     }
 }

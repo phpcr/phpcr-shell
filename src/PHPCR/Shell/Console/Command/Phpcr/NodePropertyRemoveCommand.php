@@ -8,15 +8,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\PathNotFoundException;
 
-class SessionPropertyShowCommand extends Command
+class NodePropertyRemoveCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('session:property:show');
-        $this->setDescription('Show the property at the given absolute path');
+        $this->setName('node:property:remove');
+        $this->setDescription('Remove the property at the given absolute path');
         $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to property');
         $this->setHelp(<<<HERE
-Show the property at the given absolute path
+Remove the property from the current session at the given absolute path
 HERE
         );
     }
@@ -25,16 +25,15 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $absPath = $input->getArgument('absPath');
-        $resultFormatHelper = $this->getHelper('result_formatter');
 
         try {
-            $property = $session->getItem($absPath);
+            $property = $session->getProperty($absPath);
         } catch (PathNotFoundException $e) {
             throw new \Exception(sprintf(
-                'There is no property at the path "%s"', $absPath
+                'Could not find a property at "%s"', $absPath
             ));
         }
 
-        $output->writeln($resultFormatHelper->formatValue($property, true));
+        $property->remove();
     }
 }

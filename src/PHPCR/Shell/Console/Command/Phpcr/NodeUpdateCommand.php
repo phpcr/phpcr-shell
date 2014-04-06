@@ -17,6 +17,7 @@ class NodeUpdateCommand extends Command
     {
         $this->setName('node:update');
         $this->setDescription('Updates a node corresponding to the current one in the given workspace');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('srcWorkspace', null, InputArgument::REQUIRED, 'The name of the source workspace');
         $this->setHelp(<<<HERE
 Updates a node corresponding to the current one in the given workspace.
@@ -40,8 +41,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
+        $path = $session->getAbsPath($input->getArgument('path'));
         $srcWorkspace = $input->getArgument('srcWorkspace');
-        $currentNode = $session->getCurrentNode();
+        $currentNode = $session->getNode($path);
         $currentNode->update($srcWorkspace);
     }
 }

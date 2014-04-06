@@ -15,7 +15,7 @@ class LockRefreshCommand extends PhpcrShellCommand
     {
         $this->setName('lock:refresh');
         $this->setDescription('Refresh the TTL of the lock of the node at the given path');
-        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path of node containing the lock to be refreshed');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node containing the lock to be refreshed');
         $this->setHelp(<<<HERE
 If this lock's time-to-live is governed by a timer, this command resets
 that timer so that the lock does not timeout and expire.
@@ -34,9 +34,9 @@ HERE
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
 
-        $lock = $lockManager->getLock($absPath);
+        $lock = $lockManager->getLock($path);
         $lock->refresh();
     }
 }

@@ -9,7 +9,7 @@ Feature: List the possible lifecycle transitions for the current node
 
     Scenario: List possible lifecycle transitions
         Given the current node is "/tests_general_base"
-        And I execute the "node:lifecycle:list" command
+        And I execute the "node:lifecycle:list daniel" command
         Then the command should fail
         And I should see the following:
         """

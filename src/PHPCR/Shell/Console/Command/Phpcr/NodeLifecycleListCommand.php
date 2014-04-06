@@ -18,6 +18,7 @@ class NodeLifecycleListCommand extends PhpcrShellCommand
     {
         $this->setName('node:lifecycle:list');
         $this->setDescription('Returns the list of valid state transitions for this node. NOT IMPLEMENTED');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
 Returns the list of valid state transitions for this node.
 HERE
@@ -29,7 +30,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $currentNode = $session->getCurrentNode();
+        $path = $session->getAbsPath($input->getArgument('path'));
+        $currentNode = $session->getNode($path);
         $transitions = $currentNode->getAllowedLifecycleTransitions();
 
         foreach ($transitions as $transition) {

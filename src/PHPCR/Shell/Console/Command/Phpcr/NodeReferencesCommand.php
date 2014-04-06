@@ -17,6 +17,7 @@ class NodeReferencesCommand extends Command
     {
         $this->setName('node:references');
         $this->setDescription('Returns all REFERENCE properties that refer to this node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('name', InputArgument::OPTIONAL, 'Limit references to given name');
         $this->setHelp(<<<HERE
 This command returns all REFERENCE properties that refer to this node,
@@ -43,7 +44,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $currentNode = $session->getCurrentNode();
+        $path = $session->getAbsPath($input->getArgument('path'));
+        $currentNode = $session->getNode($path);
         $name = $input->getArgument('name');
 
         $references = array(

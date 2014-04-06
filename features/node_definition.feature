@@ -9,7 +9,7 @@ Feature: Show CND for node
 
     Scenario: Show node definition
         Given the current node is "/tests_general_base"
-        And I execute the "node:definition --no-ansi" command
+        And I execute the "node:definition daniel --no-ansi" command
         Then the command should fail
         And I should see the following:
         """

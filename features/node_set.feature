@@ -20,3 +20,11 @@ Feature: Set a node property
             | node:set double 12.12 | double | 12.12 |
             | node:set long 123 | long | 123 |
             | node:set thisisnew foobar --type=string | /properties/thisisnew | foobar |
+
+    Scenario: Update a property but do not specify the type
+        Given I execute the "node:set /properties/decimal 1234" command
+        And I execute the "node:list /properties" command
+        Then I should see the following:
+        """
+        decimal          | DECIMAL 
+        """

@@ -9,12 +9,12 @@ Feature: Show information about node
 
     Scenario: Show node information
         Given the current node is "/tests_general_base"
-        And I execute the "node:info --no-ansi" command
+        And I execute the "node:info daniel --no-ansi" command
         Then the command should not fail
         And I should see the following:
         """
         +-------------------+--------------------------------------+
-        | Path              | /tests_general_base                  |
+        | Path              | /tests_general_base/daniel           |
         | UUID              | N/A                                  |
         | Index             | 1                                    |
         | Primary node type | nt:unstructured                      |
