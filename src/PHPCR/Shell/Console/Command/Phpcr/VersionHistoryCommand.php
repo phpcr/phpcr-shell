@@ -13,9 +13,9 @@ class VersionHistoryCommand extends Command
     {
         $this->setName('version:history');
         $this->setDescription('Show version history of node at given absolute path');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', null, InputArgument::REQUIRED, 'Absolute path to node');
         $this->setHelp(<<<HERE
-Lists the version history of the node given at <info>absPath</info>.
+Lists the version history of the node given at <info>path</info>.
 HERE
         );
     }
@@ -26,13 +26,13 @@ HERE
         $nodeHelper = $this->getHelper('node');
         $table = clone $this->getHelper('table');
 
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();
 
-        $node = $session->getNode($absPath);
+        $node = $session->getNode($path);
         $nodeHelper->assertNodeIsVersionable($node);
         $versionManager = $workspace->getVersionManager();
-        $history = $versionManager->getVersionHistory($absPath);
+        $history = $versionManager->getVersionHistory($path);
 
         $versions = $history->getAllVersions();
 

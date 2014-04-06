@@ -13,9 +13,9 @@ class VersionCheckinCommand extends Command
     {
         $this->setName('version:checkin');
         $this->setDescription('Checkin (commit) a node version');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', null, InputArgument::REQUIRED, 'Absolute path to node');
         $this->setHelp(<<<HERE
-Creates for the versionable node at <info>absPath</info> a new version with a system
+Creates for the versionable node at <info>path</info> a new version with a system
 generated version name and returns that version (which will be the new
 base version of this node). Sets the <comment>jcr:checkedOut</comment> property to false
 thus putting the node into the checked-in state. This means that the node
@@ -49,15 +49,15 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $nodeHelper = $this->getHelper('node');
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();
 
         $versionManager = $workspace->getVersionManager();
 
-        $node = $session->getNode($absPath);
+        $node = $session->getNode($path);
         $nodeHelper->assertNodeIsVersionable($node);
 
-        $version = $versionManager->checkin($absPath);
+        $version = $versionManager->checkin($path);
 
         $output->writeln('Version: ' . $version->getName());
     }

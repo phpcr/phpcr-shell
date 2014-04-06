@@ -14,26 +14,26 @@ class VersionRestoreCommand extends Command
     {
         $this->setName('version:restore');
         $this->setDescription('Restore a node version');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', null, InputArgument::REQUIRED, 'Path to node');
         $this->addArgument('versionName', null, InputArgument::REQUIRED, 'Name of version to retore');
         $this->addOption('remove-existing', null, InputOption::VALUE_NONE, 'Flag that governs what happens in case of identifier collision');
         $this->setHelp(<<<HERE
 Attempt to restore an old version of a node.
 
-<em>If <info>absPath</info> is given and <info>versionName</info> is a version name:</em>
- Restores the node at <info>absPath</info> to the state defined by the version with
+<em>If <info>path</info> is given and <info>versionName</info> is a version name:</em>
+ Restores the node at <info>path</info> to the state defined by the version with
  the specified version name (<info>versionName</info>).
- This method will work regardless of whether the node at absPath is
+ This method will work regardless of whether the node at path is
  checked-in or not.
 
 
-<em>If <info>absPath</info> is given and <info>versionName</info> is a VersionInterface instance:
+<em>If <info>path</info> is given and <info>versionName</info> is a VersionInterface instance:
 </em>
- Restores the specified version to <info>absPath</info>. There must be no existing
- node at <info>absPath</info>. If one exists, a VersionException is thrown.
- There must be a parent node to the location at <info>absPath</info>, otherwise a
+ Restores the specified version to <info>path</info>. There must be no existing
+ node at <info>path</info>. If one exists, a VersionException is thrown.
+ There must be a parent node to the location at <info>path</info>, otherwise a
  PathNotFoundException is thrown.
- If the would-be parent of the location <info>absPath</info> is actually a property,
+ If the would-be parent of the location <info>path</info> is actually a property,
  or if a node type restriction would be violated, then a
  ConstraintViolationException is thrown.
 
@@ -71,7 +71,7 @@ collision occurs when the current workspace contains a node outside these
 subgraphs that has the same identifier as one of the nodes that would be
 introduced by the restore operation into one of these subgraphs.
 Else, an identifier collision occurs when a node exists outside the
-subgraph rooted at absPath with the same identifier as a node that would
+subgraph rooted at path with the same identifier as a node that would
 be introduced by the restore operation into the affected subgraph.
 The result in such a case is governed by the removeExisting flag. If
 <info>removeExisting</info> is true, then the incoming node takes precedence, and the
@@ -93,12 +93,13 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $absPath = $input->getArgument('absPath');
+        $session = $this->getHelper('phpcr')->getSession();
+
+        $path = $session->getAbsPath($input->getArgument('path'));
         $versionName = $input->getArgument('versionName');
         $removeExisting = $input->getOption('remove-existing');
-        $session = $this->getHelper('phpcr')->getSession();
         $workspace = $session->getWorkspace();
         $versionManager = $workspace->getVersionManager();
-        $versionManager->restore($removeExisting, $versionName, $absPath);
+        $versionManager->restore($removeExisting, $versionName, $path);
     }
 }

@@ -13,9 +13,9 @@ class VersionCheckoutCommand extends Command
     {
         $this->setName('version:checkout');
         $this->setDescription('Checkout a node version and enable changes to be made');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', null, InputArgument::REQUIRED, 'Absolute path to node');
         $this->setHelp(<<<HERE
-Sets the versionable node at <info>absPath</info> to checked-out status by setting
+Sets the versionable node at <info>path</info> to checked-out status by setting
 its jcr:isCheckedOut property to true. Under full versioning it also sets
 the jcr:predecessors property to be a reference to the current base
 version (the same value as held in <comment>jcr:baseVersion</comment>).
@@ -37,7 +37,7 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $nodeHelper = $this->getHelper('node');
-        $absPath = $input->getArgument('absPath');
+        $absPath = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();
 
         $node = $session->getNode($absPath);

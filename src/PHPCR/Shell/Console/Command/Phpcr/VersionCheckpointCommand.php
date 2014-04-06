@@ -13,10 +13,10 @@ class VersionCheckpointCommand extends Command
     {
         $this->setName('version:checkpoint');
         $this->setDescription('Checkin and then checkout a node');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', null, InputArgument::REQUIRED, 'Path to node');
         $this->setHelp(<<<HERE
 Performs a <info>version:checkin</info> followed by a <info>version:checkout</info> on the versionable node at
-<info>absPath</info>
+<info>path</info>
 
 If this node is already checked-in, this method is equivalent to <info>version:checkout</info>.
 HERE
@@ -27,13 +27,13 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $nodeHelper = $this->getHelper('node');
-        $absPath = $input->getArgument('absPath');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();
 
-        $node = $session->getNode($absPath);
+        $node = $session->getNode($path);
         $nodeHelper->assertNodeIsVersionable($node);
         $versionManager = $workspace->getVersionManager();
-        $version = $versionManager->checkpoint($absPath);
+        $version = $versionManager->checkpoint($path);
 
         $output->writeln('Version: ' . $version->getName());
     }

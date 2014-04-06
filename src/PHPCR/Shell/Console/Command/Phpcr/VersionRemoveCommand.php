@@ -13,7 +13,7 @@ class VersionRemoveCommand extends Command
     {
         $this->setName('version:remove');
         $this->setDescription('Remove a node version');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', null, InputArgument::REQUIRED, 'Path to node');
         $this->addArgument('versionName', null, InputArgument::REQUIRED, 'Name of version to remove');
         $this->setHelp(<<<HERE
 Removes the named version from this version history and automatically
@@ -37,13 +37,14 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $absPath = $input->getArgument('absPath');
-        $versionName = $input->getArgument('versionName');
         $session = $this->getHelper('phpcr')->getSession();
+
+        $versionName = $input->getArgument('versionName');
+        $path = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();
         $versionManager = $workspace->getVersionManager();
 
-        $history = $versionManager->getVersionHistory($absPath);
+        $history = $versionManager->getVersionHistory($path);
         $history->removeVersion($versionName);
     }
 }
