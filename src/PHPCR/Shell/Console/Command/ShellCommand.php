@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCR\Shell\Console\Command;
+namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Command\Command;
