@@ -5,13 +5,14 @@ Feature: Unregister a namespace on the workspace
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded
 
-    Scenario: List namespaces
-        Given the namespace "http://foobar.com/ns" with prefix "foo" exists
-        And I execute the "workspace:namespace:unregister http://foobar.com/ns" command
+    # We cannot test namespace registration because jackrabbit does not support
+    # namespace unregistration, so we simply try doing something which provokes
+    # to throw an exception.
+    Scenario: Attemp to unregister a default namespace
+        Given I execute the "workspace:namespace:unregister internal" command
         Then the command should fail
         And I should see the following:
         """
-        not supported by jackrabbit backend
+        Unregistering namespace not supported by jackrabbit backend
         """

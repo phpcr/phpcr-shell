@@ -8,12 +8,23 @@ Feature: Checkpoint
         And the "versionable.xml" fixtures are loaded
 
     Scenario: Checkpoint a a given node
-        Given I execute the "version:checkpoint /tests_version_base/versioned" command
+        Given I execute the following commands:
+            | cd /tests_version_base/versioned |
+            | node:set foo bar |
+            | session:save |
+            | version:checkpoint /tests_version_base/versioned |
+            | node:set foo baz |
+            | session:save |
+            | version:checkpoint /tests_version_base/versioned |
         Then the command should not fail
-        And the node "/tests_version_base/verionable" should be checked out
         And I should see the following:
         """
-        Version:
+        Version: 1.1
+        """
+        And I execute the "node:info" command
+        Then I should see the following:
+        """
+        | Checked out?      | yes
         """
 
     Scenario: Checkpoint a non versionable node

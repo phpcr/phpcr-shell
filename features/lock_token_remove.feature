@@ -9,7 +9,7 @@ Feature: Remove a lock token in the current session
     Scenario: Create a new node
         Given I execute the "lock:token:remove foobar" command
         Then the command should fail
-        Then I should not see the following:
+        Then I should see the following:
         """
         Not implemented
         """

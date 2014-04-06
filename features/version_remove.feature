@@ -5,10 +5,23 @@ Feature: Remove node version
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded
+        And the "versionable.xml" fixtures are loaded
 
     Scenario: Checkout a a given node
-        Given the node "/tests_general_base" has a version with label "mylabel"
-        And I execute the "version:remove /tests_general_base mylabel" command
+        Given I execute the following commands:
+            | cd /tests_version_base/versioned |
+            | version:checkout /tests_version_base/versioned |
+            | node:set foo baz |
+            | session:save |
+            | version:checkin /tests_version_base/versioned |
+            | version:checkout /tests_version_base/versioned |
+            | node:set foo bar |
+            | session:save |
+            | version:checkin /tests_version_base/versioned |
+        And I execute the "version:remove /tests_version_base/versioned 1.0" command
         Then the command should not fail
-        And the node "/tests_general_base" should have a node version labeled "mylabel"
+        And I execute the "version:history /tests_version_base/versioned" command
+        Then I should not see the following:
+        """
+        | 1.0             |
+        """
