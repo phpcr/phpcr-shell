@@ -38,7 +38,6 @@ class ResultFormatterHelper extends Helper
         $table->setHeaders($result->getColumnNames());
 
         foreach ($result->getRows() as $i => $row) {
-            $node = $row->getNode();
             $values = $row->getValues();
 
             foreach ($values as $columnName => &$value) {
