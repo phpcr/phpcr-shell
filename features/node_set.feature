@@ -16,10 +16,10 @@ Feature: Set a node property
 
         Examples:
             | command | name | type |
-            | node:set uri http://foobar | uri | http://foobar |
-            | node:set double 12.12 | double | 12.12 |
-            | node:set long 123 | long | 123 |
-            | node:set thisisnew foobar --type=string | /properties/thisisnew | foobar |
+            | node:property:set uri http://foobar | uri | http://foobar |
+            | node:property:set double 12.12 | double | 12.12 |
+            | node:property:set long 123 | long | 123 |
+            | node:property:set thisisnew foobar --type=string | /properties/thisisnew | foobar |
 
     Scenario: Update a property but do not specify the type
         Given I execute the "node:set /properties/decimal 1234" command

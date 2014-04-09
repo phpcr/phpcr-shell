@@ -8,15 +8,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class WorkspaceNodeCloneCommand extends Command
+class NodeCloneCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('workspace:node:clone');
+        $this->setName('node:clone');
         $this->setDescription('Copy a node from one workspace to another');
-        $this->addArgument('srcWorkspace', InputArgument::REQUIRED, 'If specified, copy from this workspace');
         $this->addArgument('srcAbsPath', InputArgument::REQUIRED, 'Absolute path to source node');
         $this->addArgument('destAbsPath', InputArgument::REQUIRED, 'Absolute path to destination node');
+        $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');
         $this->addOption('remove-existing', null, InputOption::VALUE_NONE, 'Remove existing nodes');
         $this->setHelp(<<<HERE
 Clones the subgraph at the node <info>srcAbsPath</info> in

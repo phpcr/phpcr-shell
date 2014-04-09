@@ -12,13 +12,13 @@ Feature: Clone a node from a given workspace to the current workspace
 
     Scenario: Clone node
         Given the current workspace is "default"
-        And I execute the "workspace:node:clone default_1 /cms/articles/article1 /cms/clone" command
+        And I execute the "node:clone /cms/articles/article1 /cms/clone default_1" command
         Then the command should not fail
         And I save the session
         And there should exist a node at "/cms/clone"
 
     Scenario: Clone onto existing
-        Given I execute the "workspace:node:clone default_1 /cms/articles/article1 /cms/articles" command
+        Given I execute the "node:clone /cms/articles/article1 /cms/articles default_1" command
         Then the command should fail
         And I should see the following:
         """
@@ -26,5 +26,5 @@ Feature: Clone a node from a given workspace to the current workspace
         """
 
     Scenario: Clone onto existing but remove
-        Given I execute the "workspace:node:clone --remove-existing default_1 /cms/articles/article1 /cms/articles/article1" command
+        Given I execute the "node:clone --remove-existing /cms/articles/article1 /cms/articles/article1 default_1" command
         Then the command should not fail

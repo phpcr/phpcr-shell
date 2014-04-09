@@ -13,11 +13,11 @@ use PHPCR\NamespaceException;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
 
-class NodeSetCommand extends Command
+class NodePropertySetCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('node:set');
+        $this->setName('node:property:set');
         $this->setDescription('Rename the node at the current path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - can include the node name');
         $this->addArgument('value', null, InputArgument::OPTIONAL, null, 'Value for named property');
@@ -70,19 +70,26 @@ HERE
         $value = $input->getArgument('value');
         $type = $input->getOption('type');
 
-        $intType = null;
-        if ($type) {
-            $intType = PropertyType::valueFromName($type);
-        }
-
         $nodePath = $pathHelper->getParentPath($path);
         $propName = $pathHelper->getNodeName($path);
-        $currentNode = $session->getNode($nodePath);
+        $node = $session->getNode($nodePath);
+
+        $intType = null;
+
+        error_log('TYPE:  '. $type);
+        error_log($value);
+
+        if ($type) {
+            $intType = PropertyType::valueFromName($type);
+        } else {
+            $property = $node->getProperty($propName);
+            $intType = $property->getType();
+        }
 
         if ($intType) {
-            $currentNode->setProperty($propName, $value, $intType);
+            $node->setProperty($propName, $value, $intType);
         } else {
-            $currentNode->setProperty($propName, $value);
+            $node->setProperty($propName, $value);
         }
     }
 }

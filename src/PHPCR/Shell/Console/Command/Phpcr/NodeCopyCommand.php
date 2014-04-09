@@ -7,12 +7,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class WorkspaceNodeCopyCommand extends Command
+class NodeCopyCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('workspace:node:copy');
-        $this->setDescription('Copy a node from one workspace to another');
+        $this->setName('node:copy');
+        $this->setDescription('Copy a node');
         $this->addArgument('srcAbsPath', InputArgument::REQUIRED, 'Absolute path to source node');
         $this->addArgument('destAbsPath', InputArgument::REQUIRED, 'Absolute path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');

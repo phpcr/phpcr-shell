@@ -14,10 +14,10 @@ Feature: Edit a single property
 
         Examples:
             | command | 
-            | session:property:edit /properties/multivalue 1|
+            | node:property:edit /properties/multivalue 1|
 
     Scenario: Edit multivalue property, no index
-        Given I execute the "session:property:edit /properties/multivalue" command
+        Given I execute the "node:property:edit /properties/multivalue" command
         Then the command should fail
         And I should see the following:
         """
@@ -25,7 +25,7 @@ Feature: Edit a single property
         """
 
     Scenario: Edit multivalue property, out of range
-        Given I execute the "session:property:edit /properties/multivalue 100" command
+        Given I execute the "node:property:edit /properties/multivalue 100" command
         Then the command should fail
         And I should see the following:
         """

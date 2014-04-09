@@ -30,7 +30,7 @@ use PHPCR\Shell\Console\Command\Phpcr\NodeOrderBeforeCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeReferencesCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeRemoveCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeRenameCommand;
-use PHPCR\Shell\Console\Command\Phpcr\NodeSetCommand;
+use PHPCR\Shell\Console\Command\Phpcr\NodePropertySetCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeSetPrimaryTypeCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeSharedRemoveCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeSharedShowCommand;
@@ -57,7 +57,7 @@ use PHPCR\Shell\Console\Command\Phpcr\SessionLoginCommand;
 use PHPCR\Shell\Console\Command\Phpcr\SessionLogoutCommand;
 use PHPCR\Shell\Console\Command\Phpcr\SessionNamespaceListCommand;
 use PHPCR\Shell\Console\Command\Phpcr\SessionNamespaceSetCommand;
-use PHPCR\Shell\Console\Command\Phpcr\SessionNodeMoveCommand;
+use PHPCR\Shell\Console\Command\Phpcr\NodeMoveCommand;
 use PHPCR\Shell\Console\Command\Phpcr\SessionNodeShowCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodePropertyEditCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodePropertyRemoveCommand;
@@ -76,8 +76,8 @@ use PHPCR\Shell\Console\Command\Phpcr\WorkspaceListCommand;
 use PHPCR\Shell\Console\Command\Phpcr\WorkspaceNamespaceListCommand;
 use PHPCR\Shell\Console\Command\Phpcr\WorkspaceNamespaceRegisterCommand;
 use PHPCR\Shell\Console\Command\Phpcr\WorkspaceNamespaceUnregisterCommand;
-use PHPCR\Shell\Console\Command\Phpcr\WorkspaceNodeCloneCommand;
-use PHPCR\Shell\Console\Command\Phpcr\WorkspaceNodeCopyCommand;
+use PHPCR\Shell\Console\Command\Phpcr\NodeCloneCommand;
+use PHPCR\Shell\Console\Command\Phpcr\NodeCopyCommand;
 use PHPCR\Shell\Console\Command\Phpcr\WorkspaceUseCommand;
 use PHPCR\Shell\Console\Command\Shell\ChangePathCommand;
 use PHPCR\Shell\Console\Command\Shell\ExitCommand;
@@ -92,7 +92,6 @@ use PHPCR\Shell\Console\Helper\TextHelper;
 use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;
 use PHPCR\Util\Console\Command\NodeDumpCommand;
-use PHPCR\Util\Console\Command\NodeMoveCommand;
 use PHPCR\Util\Console\Command\NodeTouchCommand;
 use PHPCR\Util\Console\Command\NodeTypeRegisterCommand;
 use PHPCR\Util\Console\Command\NodesUpdateCommand;
@@ -181,8 +180,8 @@ class ShellApplication extends Application
         $this->add(new WorkspaceCreateCommand());
         $this->add(new WorkspaceDeleteCommand());
         $this->add(new WorkspaceListCommand());
-        $this->add(new WorkspaceNodeCloneCommand());
-        $this->add(new WorkspaceNodeCopyCommand());
+        $this->add(new NodeCloneCommand());
+        $this->add(new NodeCopyCommand());
         $this->add(new WorkspaceNamespaceListCommand());
         $this->add(new WorkspaceNamespaceRegisterCommand());
         $this->add(new WorkspaceNamespaceUnregisterCommand());
@@ -201,9 +200,10 @@ class ShellApplication extends Application
         $this->add(new NodeCreateCommand());
         $this->add(new NodeCorrespondingCommand());
         $this->add(new NodeDefinitionCommand());
-        $this->add(new NodeSetCommand());
+        $this->add(new NodePropertySetCommand());
         $this->add(new NodeSetPrimaryTypeCommand());
         $this->add(new NodeRenameCommand());
+        $this->add(new NodeMoveCommand());
         $this->add(new NodeMixinAddCommand());
         $this->add(new NodeMixinRemoveCommand());
         $this->add(new NodeOrderBeforeCommand());
@@ -239,9 +239,6 @@ class ShellApplication extends Application
 
         $this->add(new ListTreeCommand());
 
-        $this->add($this->wrap(new NodeMoveCommand())
-            ->setName('mv')
-        );
         $this->add($this->wrap(new NodeListCommand())
             ->setName('ls')
         );

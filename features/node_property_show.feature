@@ -8,7 +8,7 @@ Feature: Display the contents of a single property
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Show binary property
-        Given I execute the "session:property:show /tests_general_base/index.txt/jcr:content/jcr:data" command
+        Given I execute the "node:property:show /tests_general_base/index.txt/jcr:content/jcr:data" command
         Then the command should not fail
         And I should see the following:
         """
@@ -29,7 +29,7 @@ hello world
 """
 
     Scenario: Show date property
-        Given I execute the "session:property:show /tests_general_base/index.txt/jcr:content/mydateprop" command
+        Given I execute the "node:property:show /tests_general_base/index.txt/jcr:content/mydateprop" command
         Then the command should not fail
         And I should see the following:
         """
@@ -37,7 +37,7 @@ hello world
 """
 
     Scenario: Try to show non-existing property
-        Given I execute the "session:property:show /this/path/does/not/exist" command
+        Given I execute the "node:property:show /this/path/does/not/exist" command
         Then the command should fail
         And I should see the following:
         """
