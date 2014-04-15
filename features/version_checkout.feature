@@ -11,7 +11,7 @@ Feature: Checkout a version
         Given I execute the "version:checkout /tests_version_base/versioned" command
         Then the command should not fail
         And the current node is "/tests_version_base/versioned"
-        And I execute the "node:info" command
+        And I execute the "node:info ." command
         Then I should see the following:
         """
         | Checked out?      | yes

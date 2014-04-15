@@ -9,7 +9,7 @@ Feature: Follow the given lifecycle transition on the current node
 
     Scenario: Follow lifecycle transition
         Given the current node is "/tests_general_base"
-        And I execute the "node:lifecycle:follow foo" command
+        And I execute the "node:lifecycle:follow daniel foo" command
         Then the command should fail
         And I should see the following:
         """

@@ -9,7 +9,7 @@ Feature: Add mixin to the current node
 
     Scenario: Add a mixin to the current node
         Given the current node is "/tests_general_base"
-        And I execute the "node:mixin:add mix:versionable --no-ansi" command
+        And I execute the "node:mixin:add . mix:versionable --no-ansi" command
         And I save the session
         Then the command should not fail
         And the node at "/tests_general_base" should have the mixin "mix:versionable"

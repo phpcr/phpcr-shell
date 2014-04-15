@@ -11,11 +11,11 @@ Feature: Remove node version
         Given I execute the following commands:
             | cd /tests_version_base/versioned |
             | version:checkout /tests_version_base/versioned |
-            | node:set foo baz |
+            | node:property:set foo baz |
             | session:save |
             | version:checkin /tests_version_base/versioned |
             | version:checkout /tests_version_base/versioned |
-            | node:set foo bar |
+            | node:property:set foo bar |
             | session:save |
             | version:checkin /tests_version_base/versioned |
         And I execute the "version:remove /tests_version_base/versioned 1.0" command

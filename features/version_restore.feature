@@ -10,10 +10,10 @@ Feature: Restore a version
     Scenario: Restore node version
         Given I execute the following commands:
             | cd /tests_version_base/versioned |
-            | node:set foo initalbar |
+            | node:property:set foo initalbar |
             | session:save |
             | version:checkpoint /tests_version_base/versioned |
-            | node:set foo baz |
+            | node:property:set foo baz |
             | session:save |
             | version:checkpoint /tests_version_base/versioned |
         And I execute the "version:restore /tests_version_base/versioned 1.0" command

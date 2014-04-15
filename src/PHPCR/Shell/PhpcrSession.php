@@ -110,7 +110,7 @@ class PhpcrSession implements SessionInterface
 
     public function getAbsPath($path)
     {
-        if (!$path) {
+        if (!$path || $path === '.') {
             return $this->getCwd();
         }
 

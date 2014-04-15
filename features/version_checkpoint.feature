@@ -10,10 +10,10 @@ Feature: Checkpoint
     Scenario: Checkpoint a a given node
         Given I execute the following commands:
             | cd /tests_version_base/versioned |
-            | node:set foo bar |
+            | node:property:set foo bar |
             | session:save |
             | version:checkpoint /tests_version_base/versioned |
-            | node:set foo baz |
+            | node:property:set foo baz |
             | session:save |
             | version:checkpoint /tests_version_base/versioned |
         Then the command should not fail
@@ -21,7 +21,7 @@ Feature: Checkpoint
         """
         Version: 1.1
         """
-        And I execute the "node:info" command
+        And I execute the "node:info ." command
         Then I should see the following:
         """
         | Checked out?      | yes

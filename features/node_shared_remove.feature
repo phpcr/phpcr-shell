@@ -12,7 +12,7 @@ Feature: Remove the current node from any shared set to which it belongs
 
     Scenario: Remove the current node and all of its shared paths
         Given the current node is "/foobar"
-        And I execute the "node:shared:remove" command
+        And I execute the "node:shared:remove ." command
         Then the command should fail
         And I should see the following:
         """

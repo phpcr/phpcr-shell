@@ -12,7 +12,7 @@ Feature: Show the current nodes shared set
 
     Scenario: Show the current nodes shared set
         Given the current node is "/foobar"
-        And I execute the "node:shared:show" command
+        And I execute the "node:shared:show ." command
         Then the command should fail
         And I should see the following:
         """

@@ -9,7 +9,7 @@ Feature: Remove a node
 
     Scenario: Remove a node
         Given the current node is "/tests_general_base"
-        And I execute the "node:remove" command
+        And I execute the "node:remove ." command
         Then the command should not fail
         And I save the session
         And there should not exist a node at "/tests_general_base"
