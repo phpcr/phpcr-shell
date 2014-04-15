@@ -76,9 +76,6 @@ HERE
 
         $intType = null;
 
-        error_log('TYPE:  '. $type);
-        error_log($value);
-
         if ($type) {
             $intType = PropertyType::valueFromName($type);
         } else {
@@ -86,10 +83,6 @@ HERE
             $intType = $property->getType();
         }
 
-        if ($intType) {
-            $node->setProperty($propName, $value, $intType);
-        } else {
-            $node->setProperty($propName, $value);
-        }
+        $node->setProperty($propName, $value);
     }
 }

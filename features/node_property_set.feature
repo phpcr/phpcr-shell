@@ -17,7 +17,7 @@ Feature: Set a node property
         Examples:
             | command | name | type |
             | node:property:set uri http://foobar | uri | http://foobar |
-            | node:property:set double 12.12 | double | 12.12 |
+            | node:property:set double 12.12 --type=double | double | 12.12 |
             | node:property:set long 123 | long | 123 |
             | node:property:set thisisnew foobar --type=string | /properties/thisisnew | foobar |
 
