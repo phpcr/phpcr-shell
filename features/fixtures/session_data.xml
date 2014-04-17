@@ -156,7 +156,7 @@
                     <sv:value>nt:unstructured</sv:value>
                 </sv:property>
                 <sv:property sv:name="ref1" sv:type="WeakReference">
-                    <sv:value>13543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+                    <sv:value>23543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
                 </sv:property>
             </sv:node>
 
@@ -165,7 +165,7 @@
                     <sv:value>nt:unstructured</sv:value>
                 </sv:property>
                 <sv:property sv:name="ref2" sv:type="WeakReference">
-                    <sv:value>13543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+                    <sv:value>33543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
                 </sv:property>
             </sv:node>
 

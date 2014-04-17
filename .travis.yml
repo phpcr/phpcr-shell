@@ -1,9 +1,7 @@
 language: php
 
 php:
-    - 5.3
     - 5.4
-    - 5.5
 
 before_script:
   - composer self-update
@@ -12,5 +10,5 @@ before_script:
 
 script: 
   - phpunit --coverage-text
-  - php vendor/behat/behat/bin/behat
+  - php vendor/behat/behat/bin/behat --format=failed
   - php vendor/bin/phpspec run

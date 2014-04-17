@@ -14,8 +14,8 @@ class NodeCloneCommand extends Command
     {
         $this->setName('node:clone');
         $this->setDescription('Copy a node from one workspace to another');
-        $this->addArgument('srcAbsPath', InputArgument::REQUIRED, 'Absolute path to source node');
-        $this->addArgument('destAbsPath', InputArgument::REQUIRED, 'Absolute path to destination node');
+        $this->addArgument('srcPath', InputArgument::REQUIRED, 'Path to source node');
+        $this->addArgument('destPath', InputArgument::REQUIRED, 'Path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');
         $this->addOption('remove-existing', null, InputOption::VALUE_NONE, 'Remove existing nodes');
         $this->setHelp(<<<HERE
@@ -58,11 +58,15 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $srcWorkspace = $input->getArgument('srcWorkspace');
-        $srcAbsPath = $input->getArgument('srcAbsPath');
-        $destAbsPath = $input->getArgument('destAbsPath');
+        $srcAbsPath = $session->getAbsPath($input->getArgument('srcPath'));
+        $destAbsPath = $session->getAbsPath($input->getArgument('destPath'));
         $removeExisting = $input->getOption('remove-existing');
 
         // todo: Check to ensure that source node has the referenceable mixin
+
+        if (!$srcWorkspace) {
+            $srcWorkspace = $session->getWorkspace()->getName();
+        }
 
         $workspace = $session->getWorkspace();
         $workspace->cloneFrom($srcWorkspace, $srcAbsPath, $destAbsPath, $removeExisting);
