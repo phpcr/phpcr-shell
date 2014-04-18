@@ -31,7 +31,7 @@
                 <sv:value>mix:referenceable</sv:value>
             </sv:property>
             <sv:property sv:name="jcr:uuid" sv:type="String">
-                <sv:value>13543fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+                <sv:value>66666fc6-1abf-4708-bfcc-e49511754b40</sv:value>
             </sv:property>
             <sv:property sv:name="title" sv:type="String">
                 <sv:value>Article 1</sv:value>

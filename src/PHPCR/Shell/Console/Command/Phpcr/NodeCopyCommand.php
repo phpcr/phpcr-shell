@@ -13,8 +13,8 @@ class NodeCopyCommand extends Command
     {
         $this->setName('node:copy');
         $this->setDescription('Copy a node');
-        $this->addArgument('srcAbsPath', InputArgument::REQUIRED, 'Absolute path to source node');
-        $this->addArgument('destAbsPath', InputArgument::REQUIRED, 'Absolute path to destination node');
+        $this->addArgument('srcPath', InputArgument::REQUIRED, 'Path to source node');
+        $this->addArgument('destPath', InputArgument::REQUIRED, 'Path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');
         $this->setHelp(<<<HERE
 Copies a Node including its children to a new location to the given workspace.
@@ -87,11 +87,12 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $srcAbsPath = $input->getArgument('srcAbsPath');
-        $destAbsPath = $input->getArgument('destAbsPath');
+        $srcAbsPath = $session->getAbsPath($input->getArgument('srcPath'));
+        $destAbsPath = $session->getAbsPath($input->getArgument('destPath'));
         $srcWorkspace = $input->getArgument('srcWorkspace');
 
         $workspace = $session->getWorkspace();
+
         $workspace->copy($srcAbsPath, $destAbsPath, $srcWorkspace);
     }
 }
