@@ -102,6 +102,8 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArrayInput;
+use PHPCR\Shell\Console\Command\Shell\ConfigInitCommand;
+use PHPCR\Shell\Console\Helper\ConfigHelper;
 
 class ShellApplication extends Application
 {
@@ -153,6 +155,7 @@ class ShellApplication extends Application
         $this->getHelperSet()->set(new NodeHelper($this->session));
         $this->getHelperSet()->set(new PathHelper($this->session));
         $this->getHelperSet()->set(new RepositoryHelper($this->session->getRepository()));
+        $this->getHelperSet()->set(new ConfigHelper());
 
         // add new commands
         $this->add(new AccessControlPrivilegeListCommand());
@@ -225,6 +228,7 @@ class ShellApplication extends Application
         $this->add(new LockUnlockCommand());
 
         // add shell-specific commands
+        $this->add(new ConfigInitCommand());
         $this->add(new PathChangeCommand());
         $this->add(new PathShowCommand());
         $this->add(new ExitCommand());
