@@ -6,11 +6,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\Command;
 
-class PwdCommand extends Command
+class PathShowCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('pwd');
+        $this->setName('shell:path:show');
         $this->setDescription('Print Working Directory (or path)');
     }
 

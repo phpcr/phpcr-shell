@@ -79,10 +79,10 @@ use PHPCR\Shell\Console\Command\Phpcr\WorkspaceNamespaceUnregisterCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeCloneCommand;
 use PHPCR\Shell\Console\Command\Phpcr\NodeCopyCommand;
 use PHPCR\Shell\Console\Command\Phpcr\WorkspaceUseCommand;
-use PHPCR\Shell\Console\Command\Shell\ChangePathCommand;
+use PHPCR\Shell\Console\Command\Shell\PathChangeCommand;
+use PHPCR\Shell\Console\Command\Shell\PathShowCommand;
 use PHPCR\Shell\Console\Command\Shell\ExitCommand;
 use PHPCR\Shell\Console\Command\Shell\ListTreeCommand;
-use PHPCR\Shell\Console\Command\Shell\PwdCommand;
 use PHPCR\Shell\Console\Helper\EditorHelper;
 use PHPCR\Shell\Console\Helper\NodeHelper;
 use PHPCR\Shell\Console\Helper\PathHelper;
@@ -225,8 +225,8 @@ class ShellApplication extends Application
         $this->add(new LockUnlockCommand());
 
         // add shell-specific commands
-        $this->add(new ChangePathCommand());
-        $this->add(new PwdCommand());
+        $this->add(new PathChangeCommand());
+        $this->add(new PathShowCommand());
         $this->add(new ExitCommand());
 
         // wrap phpcr-util commands
@@ -237,10 +237,11 @@ class ShellApplication extends Application
         $ls = $this->get('dump');
         $ls->getDefinition()->getArgument('identifier')->setDefault(null);
 
-        $this->add(new ListTreeCommand());
-
         $this->add($this->wrap(new NodeListCommand())
             ->setName('ls')
+        );
+        $this->add($this->wrap(new PathChangeCommand())
+            ->setName('cd')
         );
         $this->add($this->wrap(new NodeRemoveCommand())
             ->setName('rm')
