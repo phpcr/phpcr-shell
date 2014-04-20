@@ -104,6 +104,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArrayInput;
 use PHPCR\Shell\Console\Command\Shell\ConfigInitCommand;
 use PHPCR\Shell\Console\Helper\ConfigHelper;
+use Symfony\Component\Console\Input\StringInput;
 
 class ShellApplication extends Application
 {
@@ -147,15 +148,15 @@ class ShellApplication extends Application
 
         $session = $this->initSession();
 
+        $this->getHelperSet()->set(new ConfigHelper());
         $this->getHelperSet()->set(new EditorHelper($this->session));
-        $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
-        $this->getHelperSet()->set(new PhpcrHelper($this->session));
-        $this->getHelperSet()->set(new ResultFormatterHelper());
-        $this->getHelperSet()->set(new TextHelper());
         $this->getHelperSet()->set(new NodeHelper($this->session));
         $this->getHelperSet()->set(new PathHelper($this->session));
+        $this->getHelperSet()->set(new PhpcrConsoleDumperHelper());
+        $this->getHelperSet()->set(new PhpcrHelper($this->session));
         $this->getHelperSet()->set(new RepositoryHelper($this->session->getRepository()));
-        $this->getHelperSet()->set(new ConfigHelper());
+        $this->getHelperSet()->set(new ResultFormatterHelper());
+        $this->getHelperSet()->set(new TextHelper());
 
         // add new commands
         $this->add(new AccessControlPrivilegeListCommand());
@@ -241,23 +242,11 @@ class ShellApplication extends Application
         $ls = $this->get('dump');
         $ls->getDefinition()->getArgument('identifier')->setDefault(null);
 
-        $this->add($this->wrap(new NodeListCommand())
-            ->setName('ls')
-        );
-        $this->add($this->wrap(new PathChangeCommand())
-            ->setName('cd')
-        );
         $this->add($this->wrap(new NodeRemoveCommand())
             ->setName('rm')
         );
         $this->add($this->wrap(new NodesUpdateCommand())
             ->setName('update')
-        );
-        $this->add($this->wrap(new NodeTouchCommand())
-            ->setName('touch')
-        );
-        $this->add($this->wrap(new NodeTypeRegisterCommand())
-            ->setName('nt-register')
         );
         $this->add($this->wrap(new WorkspacePurgeCommand())
             ->setName('workspace-purge')
