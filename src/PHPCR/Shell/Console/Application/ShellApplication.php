@@ -337,6 +337,10 @@ class ShellApplication extends Application
 
         $name = $this->getCommandName($input);
 
+        $event = new Event\CommandPreRunEvent($name, $input);
+        $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_PRE_RUN, $event);
+        $input = $event->getInput();
+
         if (!$name) {
             $input = new ArrayInput(array('command' => 'shell:path:show'));
         }
@@ -363,7 +367,7 @@ class ShellApplication extends Application
      */
     public function renderException(\Exception $exception, OutputInterface $output)
     {
-        $output->writeln(sprintf('<exception>%s</exception', $exception->getMessage()));
+        $output->writeln(sprintf('<exception>%s</exception>', $exception->getMessage()));
     }
 
     /**
