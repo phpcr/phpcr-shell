@@ -25,7 +25,12 @@ use PHPCR\Shell\Console\Helper\PathHelper;
 use PHPCR\Shell\Console\Helper\RepositoryHelper;
 use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
 use PHPCR\Shell\Console\Helper\TextHelper;
+
+use PHPCR\Shell\Subscriber;
+use PHPCR\Shell\Event;
 use PHPCR\Shell\PhpcrSession;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use PHPCR\Shell\Event\PhpcrShellEvents;
 
 /**
  * Main application for PHPCRSH
@@ -53,6 +58,14 @@ class ShellApplication extends Application
      * @var SessionInterface
      */
     private $session;
+
+    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
+    {
+        parent::__construct($name, $verpion);
+
+        $this->dispatcher = new EventDispatcher();
+    }
+
 
     /**
      * The SessionInput is the input used to intialize the shell.
@@ -84,6 +97,7 @@ class ShellApplication extends Application
         $this->initSession();
         $this->registerHelpers();
         $this->registerCommands();
+        $this->registerEventListeners();
 
         $this->initialized = true;
     }
@@ -207,6 +221,11 @@ class ShellApplication extends Application
         $this->add(new CommandShell\ExitCommand());
     }
 
+    private function registerEventListeners()
+    {
+        $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
+    }
+
     /**
      * Initialize the PHPCR session
      */
@@ -231,6 +250,8 @@ class ShellApplication extends Application
     /**
      * Change the current workspace
      *
+     * @todo: Move to session helper?
+     *
      * @param string $workspaceName
      */
     public function changeWorkspace($workspaceName)
@@ -242,6 +263,8 @@ class ShellApplication extends Application
 
     /**
      * Login (again)
+     *
+     * @todo: Move to session helper
      *
      * @param string $username
      * @param string $password
@@ -264,7 +287,7 @@ class ShellApplication extends Application
      */
     private function getTransport()
     {
-        $transportName = $sessionInput->getOption('transport');
+        $transportName = $this->sessionInput->getOption('transport');
 
         if (!isset($this->transports[$transportName])) {
             throw new \InvalidArgumentException(sprintf(
@@ -321,18 +344,7 @@ class ShellApplication extends Application
         try {
             $exitCode = parent::doRun($input, $output);
         } catch (\Exception $e) {
-            if (!$e->getMessage()) {
-                if ($e instanceof \PHPCR\UnsupportedRepositoryOperationException) {
-                    throw new \Exception('Unsupported repository operation');
-                }
-            }
-
-            // todo: Handle this with event listener
-            if ($e instanceof NotImplementedException) {
-                throw new \Exception('Not implemented: ' . $e->getMessage());
-            }
-
-            $output->writeln('<error>(' . get_class($e) .') ' . $e->getMessage() . '</error>');
+            $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $output));
             return 1;
         }
 
@@ -340,12 +352,16 @@ class ShellApplication extends Application
     }
 
     /**
+     * {@inheritDoc}
+     *
      * Render an exception to the console
+     *
+     * @access public
      *
      * @param \Exception $e $exception
      * @param OutputInterface $output
      */
-    protected function renderException(\Exception $exception, OutputInterface $output)
+    public function renderException(\Exception $exception, OutputInterface $output)
     {
         $output->writeln(sprintf('<exception>%s</exception', $exception->getMessage()));
     }
