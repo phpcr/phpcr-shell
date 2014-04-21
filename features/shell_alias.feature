@@ -20,3 +20,5 @@ Feature: Default aliases
             | mv cms smc |
             | ls |
             | ls cms |
+            | sl cms foobar |
+            | cat cms |

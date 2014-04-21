@@ -52,6 +52,12 @@ EOT
                 throw new \Exception('Dist (source) file "' . $srcFile . '" does not exist.');
             }
 
+            if (file_exists($destFile)) {
+                if (!$this->getHelper('dialog')->askConfirmation($output, '"' . $configFilename . '" already exists, do you want to overwrite it?')) {
+                    return 0;
+                }
+            }
+
             $fs->copy($srcFile, $destFile);
             $this->logCreation($destFile);
         }

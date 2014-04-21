@@ -1,6 +1,6 @@
 # MySQL commands
 use: workspace:use
-"show databases": workspace:list
+workspaces: workspace:list
 select: query:select
 
 # Filesystem commands
