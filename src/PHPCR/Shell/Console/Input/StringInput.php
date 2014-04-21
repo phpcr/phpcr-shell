@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\StringInput as BaseInput;
 class StringInput extends BaseInput
 {
     protected $rawCommand;
+    protected $tokens;
 
     public function __construct($command)
     {
@@ -36,6 +37,17 @@ class StringInput extends BaseInput
         if (false === $this->isQuery()) {
             return parent::parse();
         }
+    }
+
+    protected function setTokens(array $tokens)
+    {
+        $this->tokens = $tokens;
+        parent::setTokens($tokens);
+    }
+
+    public function getTokens()
+    {
+        return $this->tokens;
     }
 
     protected function isQuery()

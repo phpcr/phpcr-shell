@@ -61,7 +61,7 @@ class ShellApplication extends Application
 
     public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
     {
-        parent::__construct($name, $verpion);
+        parent::__construct($name, $version);
 
         $this->dispatcher = new EventDispatcher();
     }
@@ -224,6 +224,7 @@ class ShellApplication extends Application
     private function registerEventListeners()
     {
         $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
+        $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()->get('config')));
     }
 
     /**
@@ -365,7 +366,7 @@ class ShellApplication extends Application
      * @param \Exception $e $exception
      * @param OutputInterface $output
      */
-    public function renderException(\Exception $exception, OutputInterface $output)
+    public function renderException($exception, $output)
     {
         $output->writeln(sprintf('<exception>%s</exception>', $exception->getMessage()));
     }

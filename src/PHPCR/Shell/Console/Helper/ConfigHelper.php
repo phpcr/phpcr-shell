@@ -99,7 +99,7 @@ class ConfigHelper extends Helper
     public function getConfig($type)
     {
         if (null !== $this->cachedConfig) {
-            return $this->cachedConfig;
+            return $this->cachedConfig['alias'];
         }
 
         $this->cachedConfig = $this->loadConfig();

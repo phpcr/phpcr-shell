@@ -1,27 +1,30 @@
 # MySQL commands
 use: workspace:use
 "show databases": workspace:list
-select: query:select {args}
+select: query:select
 
 # Filesystem commands
-cd: shell:change-path {args}
-rm: node:delete {args}
-mv: node:move {args}
+cd: shell:path:change {arg1}
+rm: node:delete {arg1}
+mv: node:move {arg1} {arg2}
+pwd: shell:path:show
+exit: shell:exit
 
-ls: node:list .
-sl: node:clone %arg1% %arg2% # symlink, like ln -s
-cat: node:property:show %arg1%
+ls: node:list {arg1}
+sl: node:clone {arg1} {arg2} # symlink, as in ln -s
+cp: node:copy {arg1} {arg2}
+cat: node:property:show {arg1}
 
 # Editor commands
-vim: node:property:edit %arg1%
-nano: node:property:edit %arg1%
+vim: node:property:edit {arg1} {arg2}
+nano: node:property:edit {arg1} {arg2}
 
 # GNU commands
-man: help %arg1%
+man: help {arg1}
 
 # Version commands
-checkin: node:version:checkin
-checkout: node:version:checkout %arg1%
-checkpoint: node:version:checkpoint %arg1%
-checkpoint: node:version:checkpoint %arg1%
-lsversion: node:version:list %arg1%
+checkin: version:checkin {arg1}
+checkout: version:checkout {arg1}
+checkpoint: version:checkpoint {arg1}
+checkpoint: version:checkpoint {arg1}
+lsversion: version:history {arg1}
