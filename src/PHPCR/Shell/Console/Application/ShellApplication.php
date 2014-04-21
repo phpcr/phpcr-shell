@@ -108,33 +108,18 @@ class ShellApplication extends Application
     }
 
     /**
-     * Initialize the supported transports.
-     */
-    private function initializeTransports()
-    {
-        $transports = array(
-            new \PHPCR\Shell\Transport\DoctrineDbal($this->sessionInput),
-            new \PHPCR\Shell\Transport\Jackrabbit($this->sessionInput),
-        );
-
-        foreach ($transports as $transport) {
-            $this->transports[$transport->getName()] = $transport;;
-        }
-    }
-
-    /**
      * Register the helpers required by the application
      */
     private function registerHelpers()
     {
         $helpers = array(
             new ConfigHelper(),
-            new EditorHelper($this->session),
-            new NodeHelper($this->session),
-            new PathHelper($this->session),
+            new EditorHelper($this->getSession()),
+            new NodeHelper($this->getSession()),
+            new PathHelper($this->getSession()),
             new PhpcrConsoleDumperHelper(),
-            new PhpcrHelper($this->session),
-            new RepositoryHelper($this->session->getRepository()),
+            new PhpcrHelper($this->getSession()),
+            new RepositoryHelper($this->getSession()->getRepository()),
             new ResultFormatterHelper(),
             new TextHelper(),
         );
@@ -233,81 +218,6 @@ class ShellApplication extends Application
         $this->dispatcher->addSubscriber(new Subscriber\ConfigInitSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()->get('config')));
-    }
-
-    /**
-     * Initialize the PHPCR session
-     */
-    private function initSession()
-    {
-        $transport = $this->getTransport();
-        $repository = $transport->getRepository();
-        $credentials = new SimpleCredentials(
-            $this->sessionInput->getOption('phpcr-username'),
-            $this->sessionInput->getOption('phpcr-password')
-        );
-
-        $session = $repository->login($credentials, $this->sessionInput->getOption('phpcr-workspace'));
-
-        if (!$this->session) {
-            $this->session = new PhpcrSession($session);
-        } else {
-            $this->session->setPhpcrSession($session);
-        }
-    }
-
-    /**
-     * Change the current workspace
-     *
-     * @todo: Move to session helper?
-     *
-     * @param string $workspaceName
-     */
-    public function changeWorkspace($workspaceName)
-    {
-        $this->session->logout();
-        $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
-        $this->initSession($this->sessionInput);
-    }
-
-    /**
-     * Login (again)
-     *
-     * @todo: Move to session helper
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $workspaceName
-     */
-    public function relogin($username, $password, $workspaceName = null)
-    {
-        $this->session->logout();
-        $this->sessionInput->setOption('phpcr-username', $username);
-        $this->sessionInput->setOption('phpcr-password', $password);
-
-        if ($workspaceName) {
-            $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
-        }
-        $this->initSession($this->sessionInput);
-    }
-
-    /**
-     * Return the transport as defined in the sessionInput
-     */
-    private function getTransport()
-    {
-        $transportName = $this->sessionInput->getOption('transport');
-
-        if (!isset($this->transports[$transportName])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown transport "%s", I have "%s"',
-                $transportName, implode(', ', array_keys($this->transports))
-            ));
-        }
-
-        $transport = $this->transports[$transportName];
-
-        return $transport;
     }
 
     /**
