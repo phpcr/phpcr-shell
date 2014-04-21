@@ -4,7 +4,6 @@ aliases: shell:alias:list
 # MySQL commands
 use: workspace:use
 workspaces: workspace:list
-select: query:select
 
 # Filesystem commands
 cd: shell:path:change {arg1}
