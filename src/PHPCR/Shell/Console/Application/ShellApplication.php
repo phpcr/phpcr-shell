@@ -215,7 +215,9 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\LockUnlockCommand());
 
         // add shell-specific commands
+        $this->add(new CommandShell\AliasListCommand());
         $this->add(new CommandShell\ConfigInitCommand());
+        $this->add(new CommandShell\ConfigReloadCommand());
         $this->add(new CommandShell\PathChangeCommand());
         $this->add(new CommandShell\PathShowCommand());
         $this->add(new CommandShell\ExitCommand());

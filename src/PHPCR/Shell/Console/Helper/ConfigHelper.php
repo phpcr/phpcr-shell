@@ -73,7 +73,10 @@ class ConfigHelper extends Helper
         return $home;
     }
 
-    private function loadConfig()
+    /**
+     * Load the configuration
+     */
+    public function loadConfig()
     {
         $config = array();
 
@@ -88,6 +91,8 @@ class ConfigHelper extends Helper
             }
         }
 
+        $this->cachedConfig = $config;
+
         return $config;
     }
 
@@ -99,11 +104,10 @@ class ConfigHelper extends Helper
     public function getConfig($type)
     {
         if (null !== $this->cachedConfig) {
-            return $this->cachedConfig['alias'];
+            return $this->cachedConfig[$type];
         }
 
-        $this->cachedConfig = $this->loadConfig();
-
-        return $this->cachedConfig['alias'];
+        $this->loadConfig();
+        return $this->cachedConfig[$type];
     }
 }

@@ -1,3 +1,6 @@
+# Shell shortcuts
+aliases: shell:alias:list
+
 # MySQL commands
 use: workspace:use
 workspaces: workspace:list
@@ -5,7 +8,7 @@ select: query:select
 
 # Filesystem commands
 cd: shell:path:change {arg1}
-rm: node:delete {arg1}
+rm: node:remove {arg1}
 mv: node:move {arg1} {arg2}
 pwd: shell:path:show
 exit: shell:exit
