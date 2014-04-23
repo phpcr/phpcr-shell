@@ -6,6 +6,7 @@ use Jackalope\NotImplementedException;
 use PHPCR\Shell\Event\CommandExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPCR\Shell\Event\PhpcrShellEvents;
+use PHPCR\UnsupportedRepositoryOperationException;
 
 /**
  * Try and better handle exceptions
@@ -25,6 +26,10 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getException();
         $output = $event->getOutput();
+
+        if ($exception instanceof UnsupportedRepositoryOperationException) {
+            $output->writeln('<error>Unsupported repository operation: This repository is not capable of performing the requested action</error>');
+        }
 
         if ($exception instanceof NotImplementedException) {
             $output->writeln('<error>Not implemented: ' . $exception->getMessage() . '</error>');
