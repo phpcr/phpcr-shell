@@ -71,7 +71,6 @@ class AliasSubscriber implements EventSubscriberInterface
         }
 
         $command = trim($command);
-        error_log($command);
 
         $newInput = new StringInput($command);
         $event->setInput($newInput);

@@ -13,6 +13,7 @@ class AliasListCommand extends Command
         $this->setName('shell:alias:list');
         $this->setDescription('List all the registered aliases');
         $this->setHelp(<<<EOT
+List the aliases as defined in <info>~/.phpcrsh/aliases.yml</info>.
 EOT
         );
     }

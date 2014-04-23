@@ -2,7 +2,7 @@
 aliases: shell:alias:list
 
 # MySQL commands
-use: workspace:use
+use: workspace:use {arg1}
 workspaces: workspace:list
 
 # Filesystem commands
