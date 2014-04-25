@@ -24,47 +24,7 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $this->configHelper = $this->getHelper('config');
-
-        $fs = new Filesystem();
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $output->writeln('<error>This feature is currently only supported on Linux and OSX (maybe). Please submit a PR to support it on windows.</error>');
-            return 1;
-        }
-
-        $configDir = $this->configHelper->getConfigDir();
-        $distDir = __DIR__ . '/../../../Resources/config.dist';
-
-        if (!file_exists($configDir)) {
-            $this->logCreation($configDir);
-            $fs->mkdir($configDir);
-        }
-
-        $configFilenames = array(
-            'alias.yml',
-        );
-
-        foreach ($configFilenames as $configFilename) {
-            $srcFile = $distDir . '/' . $configFilename;
-            $destFile = $configDir . '/' . $configFilename;
-
-            if (!file_exists($srcFile)) {
-                throw new \Exception('Dist (source) file "' . $srcFile . '" does not exist.');
-            }
-
-            if (file_exists($destFile)) {
-                if (!$this->getHelper('dialog')->askConfirmation($output, '"' . $configFilename . '" already exists, do you want to overwrite it?')) {
-                    return 0;
-                }
-            }
-
-            $fs->copy($srcFile, $destFile);
-            $this->logCreation($destFile);
-        }
-    }
-
-    private function logCreation($path)
-    {
-        $this->output->writeln('<info>[+]</info> ' . $path);
+        $configHelper = $this->getHelper('config');
+        $configHelper->initConfig($output, $this->getHelper('dialog'));
     }
 }

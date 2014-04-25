@@ -6,4 +6,5 @@ class PhpcrShellEvents
 {
     const COMMAND_EXCEPTION = 'command.exception';
     const COMMAND_PRE_RUN = 'command.pre_run';
+    const APPLICATION_INIT= 'application.init';
 }

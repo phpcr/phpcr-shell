@@ -31,6 +31,7 @@ use PHPCR\Shell\Event;
 use PHPCR\Shell\PhpcrSession;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use PHPCR\Shell\Event\PhpcrShellEvents;
+use PHPCR\Shell\Event\ApplicationInitEvent;
 
 /**
  * Main application for PHPCRSH
@@ -93,11 +94,15 @@ class ShellApplication extends Application
             );
         }
 
+
         $this->initializeTransports();
         $this->initSession();
         $this->registerHelpers();
         $this->registerCommands();
         $this->registerEventListeners();
+
+        $event = new ApplicationInitEvent($this);
+        $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
 
         $this->initialized = true;
     }
@@ -225,6 +230,7 @@ class ShellApplication extends Application
 
     private function registerEventListeners()
     {
+        $this->dispatcher->addSubscriber(new Subscriber\ConfigInitSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()->get('config')));
     }
