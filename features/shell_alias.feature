@@ -20,8 +20,8 @@ Feature: Command aliases
             | mv cms smc |
             | ls |
             | ls cms |
-            | sl cms foobar |
-            | cat cms |
+            | sl cms/articles cms/test/foobar |
+            | cat cms/articles/article1/title |
 
     Scenario: List aliases
         Given I execute the "shell:alias:list" command

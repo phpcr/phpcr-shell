@@ -12,10 +12,14 @@ mv: node:move {arg1} {arg2}
 pwd: shell:path:show
 exit: shell:exit
 
+# Node commands
 ls: node:list {arg1}
 sl: node:clone {arg1} {arg2} # symlink, as in ln -s
 cp: node:copy {arg1} {arg2}
 cat: node:property:show {arg1}
+
+# Node type commands
+mixins: node-type:list "^mix:"
 
 # Editor commands
 vim: node:property:edit {arg1} {arg2}
@@ -30,3 +34,7 @@ checkout: version:checkout {arg1}
 checkpoint: version:checkpoint {arg1}
 checkpoint: version:checkpoint {arg1}
 lsversion: version:history {arg1}
+
+# Session commands
+save: session:save
+reload: session:reload

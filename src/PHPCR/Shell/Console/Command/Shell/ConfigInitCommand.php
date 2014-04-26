@@ -25,6 +25,6 @@ EOT
     {
         $this->output = $output;
         $configHelper = $this->getHelper('config');
-        $configHelper->initConfig($output, $this->getHelper('dialog'));
+        $configHelper->initConfig($output, $this->getHelper('dialog'), $input->getOption('no-interaction'));
     }
 }

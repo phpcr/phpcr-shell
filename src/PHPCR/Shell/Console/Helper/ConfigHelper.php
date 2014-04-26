@@ -33,6 +33,22 @@ class ConfigHelper extends Helper
     protected $cachedConfig = null;
 
     /**
+     * Filesystem
+     *
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    public function __construct(Filesystem $filesystem = null)
+    {
+        if (null === $filesystem) {
+            $filesystem = new Filesystem();
+        }
+
+        $this->filesystem = $filesystem;
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getName()
@@ -89,7 +105,7 @@ class ConfigHelper extends Helper
             $fullPath = $configDir . '/' . $configKey . '.yml';
             $config[$configKey] = array();
 
-            if (file_exists($fullPath)) {
+            if ($this->filesystem->exists($fullPath)) {
                 $config[$configKey] = Yaml::parse($fullPath);
             }
         }
@@ -111,13 +127,14 @@ class ConfigHelper extends Helper
         }
 
         $this->loadConfig();
+
         return $this->cachedConfig[$type];
     }
 
     /**
      * Initialize a configuration files
      */
-    public function initConfig(OutputInterface $output = null, DialogHelper $dialogHelper = null)
+    public function initConfig(OutputInterface $output = null, DialogHelper $dialogHelper = null, $noInteraction = false)
     {
         $log = function ($message) use ($output) {
             if ($output) {
@@ -125,7 +142,6 @@ class ConfigHelper extends Helper
             }
         };
 
-        $fs = new Filesystem();
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             throw new \RuntimeException('This feature is currently only supported on Linux and OSX (maybe). Please submit a PR to support it on windows.');
         }
@@ -133,9 +149,9 @@ class ConfigHelper extends Helper
         $configDir = $this->getConfigDir();
         $distDir = __DIR__ . '/../../Resources/config.dist';
 
-        if (!file_exists($configDir)) {
+        if (!$this->filesystem->exists($configDir)) {
             $log('<info>[+] Creating directory:</info> ' . $configDir);
-            $fs->mkdir($configDir);
+            $this->filesystem->mkdir($configDir);
         }
 
         $configFilenames = array(
@@ -146,21 +162,28 @@ class ConfigHelper extends Helper
             $srcFile = $distDir . '/' . $configFilename;
             $destFile = $configDir . '/' . $configFilename;
 
-            if (!file_exists($srcFile)) {
+            if (!$this->filesystem->exists($srcFile)) {
                 throw new \Exception('Dist (source) file "' . $srcFile . '" does not exist.');
             }
 
-            if (file_exists($destFile)) {
+            if ($this->filesystem->exists($destFile)) {
                 if (null !== $dialogHelper) {
-                    if (!$dialogHelper->askConfirmation($output, '"' . $configFilename . '" already exists, do you want to overwrite it?')) {
-                        return 0;
+                    if (false === $noInteraction) {
+                        $confirmed = $dialogHelper->askConfirmation(
+                            $output, 
+                            '"' . $configFilename . '" already exists, do you want to overwrite it?'
+                        );
+
+                        if (!$confirmed)  {
+                            return;
+                        }
                     }
                 } else {
                     $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
                 }
             }
 
-            $fs->copy($srcFile, $destFile);
+            $this->filesystem->copy($srcFile, $destFile);
             $log('<info>[+] Creating file:</info> ' . $destFile);
         }
     }

@@ -22,9 +22,18 @@ Feature: Set a node property
             | node:property:set thisisnew foobar --type=string | /properties/thisisnew | foobar |
 
     Scenario: Update a property but do not specify the type
-        Given I execute the "node:set /properties/decimal 1234" command
+        Given I execute the "node:property:set /properties/decimal 1234" command
         And I execute the "node:list /properties" command
         Then I should see the following:
         """
         decimal          | DECIMAL 
+        """
+
+    Scenario: Create a new property
+        Given I execute the "node:property:set /properties/new 1234" command
+        Then the command should not fail
+        And I execute the "node:list /properties" command
+        Then I should see the following:
+        """
+        new              | STRING
         """

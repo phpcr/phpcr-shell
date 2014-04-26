@@ -36,6 +36,14 @@ hello world
 2011-04-21T14:34:20+01:00
 """
 
+    Scenario: Attempt to show a node
+        Given I execute the "node:property:show /tests_general_base" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Item at "/tests_general_base" is not a property
+        """
+
     Scenario: Try to show non-existing property
         Given I execute the "node:property:show /this/path/does/not/exist" command
         Then the command should fail
