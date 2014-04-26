@@ -10,7 +10,7 @@ class ExitCommand extends Command
 {
     public function configure()
     {
-        $this->setName('exit');
+        $this->setName('shell:exit');
         $this->setDescription('Logout and quit the shell');
     }
 

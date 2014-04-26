@@ -7,11 +7,11 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ChangePathCommand extends Command
+class PathChangeCommand extends Command
 {
     protected function configure()
     {
-        $this->setName('cd');
+        $this->setName('shell:path:change');
         $this->setDescription('Change the current path');
         $this->addArgument('path');
     }

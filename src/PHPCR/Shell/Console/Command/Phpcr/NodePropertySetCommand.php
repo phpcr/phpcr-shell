@@ -12,6 +12,7 @@ use PHPCR\Util\CND\Parser\CndParser;
 use PHPCR\NamespaceException;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
+use PHPCR\PathNotFoundException;
 
 class NodePropertySetCommand extends Command
 {
@@ -79,10 +80,15 @@ HERE
         if ($type) {
             $intType = PropertyType::valueFromName($type);
         } else {
-            $property = $node->getProperty($propName);
-            $intType = $property->getType();
+            try {
+                $property = $node->getProperty($propName);
+                $intType = $property->getType();
+            } catch (PathNotFoundException $e) {
+                // property doesn't exist and no type specified, default to string
+                $intType = PropertyType::STRING;
+            }
         }
 
-        $node->setProperty($propName, $value);
+        $node->setProperty($propName, $value, $intType);
     }
 }

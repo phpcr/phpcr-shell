@@ -19,9 +19,18 @@
         <sv:value>nt:unstructured</sv:value>
     </sv:property>
 
+    <sv:node sv:name="test">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name">
+            <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+    </sv:node>
+
     <sv:node sv:name="articles">
         <sv:property sv:name="jcr:primaryType" sv:type="Name">
             <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+        <sv:property sv:name="jcr:mixinTypes" sv:type="name">
+            <sv:value>mix:shareable</sv:value>
         </sv:property>
         <sv:node sv:name="article1">
             <sv:property sv:name="jcr:primaryType" sv:type="Name">

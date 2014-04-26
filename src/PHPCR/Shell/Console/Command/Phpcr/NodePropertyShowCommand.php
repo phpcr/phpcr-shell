@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\PathNotFoundException;
+use PHPCR\PropertyInterface;
 
 class NodePropertyShowCommand extends Command
 {
@@ -24,7 +25,7 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $absPath = $input->getArgument('absPath');
+        $absPath = $session->getAbsPath($input->getArgument('absPath'));
         $resultFormatHelper = $this->getHelper('result_formatter');
 
         try {
@@ -33,6 +34,14 @@ HERE
             throw new \Exception(sprintf(
                 'There is no property at the path "%s"', $absPath
             ));
+        }
+
+        if (!$property instanceof PropertyInterface) {
+            throw new \Exception(sprintf(
+                'Item at "%s" is not a property.',
+                $absPath
+            ));
+
         }
 
         $output->writeln($resultFormatHelper->formatValue($property, true));
