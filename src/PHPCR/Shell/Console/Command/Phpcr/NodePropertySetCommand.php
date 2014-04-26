@@ -89,6 +89,6 @@ HERE
             }
         }
 
-        $node->setProperty($propName, $value);
+        $node->setProperty($propName, $value, $intType);
     }
 }
