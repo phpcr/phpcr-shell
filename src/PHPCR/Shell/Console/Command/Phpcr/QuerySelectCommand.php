@@ -11,7 +11,7 @@ class QuerySelectCommand extends Command
     protected function configure()
     {
         $this->setName('select');
-        $this->setDescription('Execute an JCR-SQL2 query');
+        $this->setDescription('Execute a literal JCR-SQL2 query');
         $this->addArgument('query');
         $this->setHelp(<<<EOT
 Execute a JCR-SQL2 query. Unlike other commands you can enter a query literally:
