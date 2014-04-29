@@ -3,6 +3,9 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use PHPCR\Shell\PhpcrSession;
+use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Input\InputInterface;
+use PHPCR\SimpleCredentials;
 
 /**
  * Helper for managing PHPCR sessions
@@ -33,6 +36,13 @@ class PhpcrHelper extends Helper
     protected $transports = array();
 
     /**
+     * Lazy initialize PHPCR session
+     *
+     * @var boolean
+     */
+    protected $initialized = false;
+
+    /**
      * @param InputInterface $sessionInput
      */
     public function __construct(InputInterface $sessionInput)
@@ -48,8 +58,19 @@ class PhpcrHelper extends Helper
         return 'phpcr';
     }
 
+    private function init()
+    {
+        if (false === $this->initialized) {
+            $this->initializeTransports();
+            $this->initSession();
+            $this->initialized = true;
+        }
+    }
+
     /**
      * Initialize the PHPCR session
+     *
+     * @access private
      */
     private function initSession()
     {
@@ -62,6 +83,7 @@ class PhpcrHelper extends Helper
 
         $session = $repository->login($credentials, $this->sessionInput->getOption('phpcr-workspace'));
 
+        // if you are wondering wtf here -- we wrap the PhpcrSession
         if (!$this->session) {
             $this->session = new PhpcrSession($session);
         } else {
@@ -70,38 +92,9 @@ class PhpcrHelper extends Helper
     }
 
     /**
-     * Change the current workspace
-     *
-     * @param string $workspaceName
-     */
-    public function changeWorkspace($workspaceName)
-    {
-        $this->session->logout();
-        $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
-        $this->initSession($this->sessionInput);
-    }
-
-    /**
-     * Login (again)
-     *
-     * @param string $username
-     * @param string $password
-     * @param string $workspaceName
-     */
-    public function relogin($username, $password, $workspaceName = null)
-    {
-        $this->session->logout();
-        $this->sessionInput->setOption('phpcr-username', $username);
-        $this->sessionInput->setOption('phpcr-password', $password);
-
-        if ($workspaceName) {
-            $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
-        }
-        $this->initSession($this->sessionInput);
-    }
-
-    /**
      * Return the transport as defined in the sessionInput
+     *
+     * @access private
      */
     private function getTransport()
     {
@@ -122,7 +115,7 @@ class PhpcrHelper extends Helper
     /**
      * Initialize the supported transports.
      *
-     * @todo Do this in a lazy way
+     * @access private
      */
     private function initializeTransports()
     {
@@ -134,5 +127,66 @@ class PhpcrHelper extends Helper
         foreach ($transports as $transport) {
             $this->transports[$transport->getName()] = $transport;;
         }
+    }
+
+    /**
+     * Change the current workspace
+     *
+     * @param string $workspaceName
+     */
+    public function changeWorkspace($workspaceName)
+    {
+        $this->init();
+        $this->session->logout();
+        $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+        $this->initSession($this->sessionInput);
+    }
+
+    /**
+     * Login (again)
+     *
+     * @param string $username
+     * @param string $password
+     * @param string $workspaceName
+     */
+    public function relogin($username, $password, $workspaceName = null)
+    {
+        if ($this->session) {
+            $this->session->logout();
+        }
+
+        $this->sessionInput->setOption('phpcr-username', $username);
+        $this->sessionInput->setOption('phpcr-password', $password);
+
+        if ($workspaceName) {
+            $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+        }
+
+        $this->init();
+    }
+
+    /**
+     * Return the current PHPCR session. We lazy call
+     * initialize.
+     *
+     * @return \PHPCR\SessionInterface
+     */
+    public function getSession()
+    {
+        $this->init();
+
+        return $this->session;
+    }
+
+    /**
+     * Proxy for getting the repository (make mocking easier)
+     *
+     * @return \PHPCR\RepositoryInterface
+     */
+    public function getRepository()
+    {
+        $this->init();
+
+        return $this->session->getRepository();
     }
 }

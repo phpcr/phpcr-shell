@@ -5,7 +5,6 @@ namespace PHPCR\Shell\Console\Helper;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\Helper;
 use PHPCR\NodeInterface;
-use PHPCR\SessionInterface;
 
 /**
  * Helper for nodes
@@ -14,13 +13,6 @@ use PHPCR\SessionInterface;
  */
 class NodeHelper extends Helper
 {
-    protected $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
     public function nodeHasMixinType($node, $mixinTypeName)
     {
         $mixinTypes = $node->getMixinNodeTypes();

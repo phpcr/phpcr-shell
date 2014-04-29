@@ -19,7 +19,7 @@ class NodeRemoveCommand extends Command
         $this->setDescription('Remove the node at path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
-Remove the current node
+Remove the node at the given path.
 HERE
         );
     }

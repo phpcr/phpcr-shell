@@ -10,11 +10,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
-
-use PHPCR\SimpleCredentials;
-
-use PHPCR\Util\Console\Helper\PhpcrConsoleDumperHelper;
-use PHPCR\Util\Console\Helper\PhpcrHelper;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
 use PHPCR\Shell\Console\Command\Shell as CommandShell;
@@ -25,13 +21,13 @@ use PHPCR\Shell\Console\Helper\PathHelper;
 use PHPCR\Shell\Console\Helper\RepositoryHelper;
 use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
 use PHPCR\Shell\Console\Helper\TextHelper;
+use PHPCR\Shell\Console\Helper\PhpcrHelper;
 
-use PHPCR\Shell\Subscriber;
 use PHPCR\Shell\Event;
-use PHPCR\Shell\PhpcrSession;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ApplicationInitEvent;
+use PHPCR\Shell\Event\PhpcrShellEvents;
+use PHPCR\Shell\PhpcrSession;
+use PHPCR\Shell\Subscriber;
 
 /**
  * Main application for PHPCRSH
@@ -41,11 +37,8 @@ use PHPCR\Shell\Event\ApplicationInitEvent;
 class ShellApplication extends Application
 {
     /**
-     * @var \PHPCR\TransportInterface[]
-     */
-    protected $transports;
-
-    /**
+     * True when application has been initialized once
+     *
      * @var boolean
      */
     protected $initialized;
@@ -56,17 +49,15 @@ class ShellApplication extends Application
     protected $sessionInput;
 
     /**
-     * @var SessionInterface
+     * Constructor - name and version inherited from SessionApplication
+     *
+     * {@inheritDoc}
      */
-    private $session;
-
     public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
     {
         parent::__construct($name, $version);
-
         $this->dispatcher = new EventDispatcher();
     }
-
 
     /**
      * The SessionInput is the input used to intialize the shell.
@@ -94,9 +85,6 @@ class ShellApplication extends Application
             );
         }
 
-
-        $this->initializeTransports();
-        $this->initSession();
         $this->registerHelpers();
         $this->registerCommands();
         $this->registerEventListeners();
@@ -112,16 +100,18 @@ class ShellApplication extends Application
      */
     private function registerHelpers()
     {
+        $phpcrHelper = new PhpcrHelper($this->sessionInput);
+
         $helpers = array(
             new ConfigHelper(),
-            new EditorHelper($this->getSession()),
-            new NodeHelper($this->getSession()),
-            new PathHelper($this->getSession()),
+            new EditorHelper(),
+            new NodeHelper(),
+            new PathHelper(),
             new PhpcrConsoleDumperHelper(),
-            new PhpcrHelper($this->getSession()),
-            new RepositoryHelper($this->getSession()->getRepository()),
+            new RepositoryHelper($phpcrHelper),
             new ResultFormatterHelper(),
             new TextHelper(),
+            $phpcrHelper,
         );
 
         foreach ($helpers as $helper) {
