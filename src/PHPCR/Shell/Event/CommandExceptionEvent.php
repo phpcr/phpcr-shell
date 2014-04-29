@@ -2,8 +2,6 @@
 
 namespace PHPCR\Shell\Event;
 
-use PHPCR\UnsupportedRepositoryOperationException;
-use Jackalope\NotImplementedException;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,12 +16,12 @@ class CommandExceptionEvent extends Event
         $this->output = $output;
     }
 
-    public function getException() 
+    public function getException()
     {
         return $this->exception;
     }
 
-    public function getOutput() 
+    public function getOutput()
     {
         return $this->output;
     }

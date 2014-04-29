@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\RepositoryInterface;
 use Symfony\Component\Console\Helper\Helper;
 
 class RepositoryHelper extends Helper

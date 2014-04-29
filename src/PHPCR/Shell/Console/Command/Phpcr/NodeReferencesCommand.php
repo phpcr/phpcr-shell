@@ -6,10 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\Util\CND\Writer\CndWriter;
-use PHPCR\NodeType\NoSuchNodeTypeException;
-use PHPCR\Util\CND\Parser\CndParser;
-use PHPCR\NamespaceException;
 
 class NodeReferencesCommand extends Command
 {
@@ -68,7 +64,7 @@ HERE
                 } else {
                     $nodes = array($property->getNode());
                 }
-                
+
                 $nodePaths = array();
 
                 foreach ($nodes as $node) {
@@ -86,4 +82,3 @@ HERE
         $table->render($output);
     }
 }
-

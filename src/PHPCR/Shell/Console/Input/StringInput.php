@@ -4,11 +4,20 @@ namespace PHPCR\Shell\Console\Input;
 
 use Symfony\Component\Console\Input\StringInput as BaseInput;
 
+/**
+ * Extend the Symfony StringInput class to provide additional accessors
+ * and methods
+ *
+ * @author Daniel Leech <daniel@dantleech.com>
+ */
 class StringInput extends BaseInput
 {
     protected $rawCommand;
     protected $tokens;
 
+    /**
+     * {@inheritDoc}
+     */
     public function __construct($command)
     {
         $this->rawCommand = trim($command);
@@ -20,6 +29,13 @@ class StringInput extends BaseInput
         parent::__construct($command);
     }
 
+    /**
+     * Return the raw command string without any parsing
+     *
+     * (useful for returning the full SQL query for example)
+     *
+     * @return string
+     */
     public function getRawCommand()
     {
         return $this->rawCommand;
@@ -32,6 +48,11 @@ class StringInput extends BaseInput
         }
     }
 
+    /**
+     * Do not validate if the command is a query
+     *
+     * {@inheritDoc}
+     */
     protected function parse()
     {
         if (false === $this->isQuery()) {
@@ -39,17 +60,34 @@ class StringInput extends BaseInput
         }
     }
 
+    /**
+     * Provide access to the tokens as this is not
+     * allowed by the default StringInput and we require
+     * it for the "alias" feature.
+     */
     protected function setTokens(array $tokens)
     {
         $this->tokens = $tokens;
         parent::setTokens($tokens);
     }
 
+    /**
+     * Return the tokens for this command (as recognized
+     * by the parse() method).
+     *
+     * @return array
+     */
     public function getTokens()
     {
         return $this->tokens;
     }
 
+    /**
+     * Return true if this command sounds like a query, i.e.
+     * if it begins with "select "
+     *
+     * @return boolean
+     */
     protected function isQuery()
     {
         if (strpos(strtolower($this->rawCommand), 'select') === 0) {

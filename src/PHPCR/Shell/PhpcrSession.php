@@ -43,6 +43,9 @@ class PhpcrSession implements SessionInterface
         $this->cwd = $cwd;
     }
 
+    /**
+     * @TODO: Refactor this.
+     */
     public function autocomplete($text)
     {
         // get last string

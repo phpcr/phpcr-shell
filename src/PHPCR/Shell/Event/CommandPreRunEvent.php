@@ -16,19 +16,19 @@ class CommandPreRunEvent extends Event
         $this->input = $input;
     }
 
-    public function getInput() 
+    public function getInput()
     {
         return $this->input;
     }
-    
+
     public function setInput($input)
     {
         $this->input = $input;
     }
 
-    public function getCommandName() 
+    public function getCommandName()
     {
         return $this->commandName;
     }
-    
+
 }

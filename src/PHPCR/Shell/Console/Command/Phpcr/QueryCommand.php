@@ -63,6 +63,6 @@ EOT
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
 
-        $this->getHelper('result_formatter')->format($result, $output, $elapsed);
+        $this->getHelper('result_formatter')->formatQueryResult($result, $output, $elapsed);
     }
 }

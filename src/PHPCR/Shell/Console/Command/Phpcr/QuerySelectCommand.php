@@ -4,7 +4,6 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class QuerySelectCommand extends Command
@@ -38,6 +37,6 @@ EOT
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
 
-        $this->getHelper('result_formatter')->format($result, $output, $elapsed);
+        $this->getHelper('result_formatter')->formatQueryResult($result, $output, $elapsed);
     }
 }

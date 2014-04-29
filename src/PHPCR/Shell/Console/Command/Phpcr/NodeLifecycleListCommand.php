@@ -6,10 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\Util\CND\Writer\CndWriter;
-use PHPCR\NodeType\NoSuchNodeTypeException;
-use PHPCR\Util\CND\Parser\CndParser;
-use PHPCR\NamespaceException;
 use PHPCR\RepositoryInterface;
 
 class NodeLifecycleListCommand extends PhpcrShellCommand
@@ -39,4 +35,3 @@ HERE
         }
     }
 }
-

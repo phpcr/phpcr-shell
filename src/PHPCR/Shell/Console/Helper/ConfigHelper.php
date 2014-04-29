@@ -39,6 +39,12 @@ class ConfigHelper extends Helper
      */
     protected $filesystem;
 
+    /**
+     * Constuctor - can optionally accept a Filesystem object
+     * for testing purposes, otherwise one is created.
+     *
+     * @param Filesystem $filesystem
+     */
     public function __construct(Filesystem $filesystem = null)
     {
         if (null === $filesystem) {
@@ -170,11 +176,11 @@ class ConfigHelper extends Helper
                 if (null !== $dialogHelper) {
                     if (false === $noInteraction) {
                         $confirmed = $dialogHelper->askConfirmation(
-                            $output, 
+                            $output,
                             '"' . $configFilename . '" already exists, do you want to overwrite it?'
                         );
 
-                        if (!$confirmed)  {
+                        if (!$confirmed) {
                             return;
                         }
                     }

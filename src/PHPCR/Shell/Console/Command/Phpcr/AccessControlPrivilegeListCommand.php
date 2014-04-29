@@ -59,7 +59,6 @@ HERE
             $privileges = $acm->getPrivileges($absPath);
         }
 
-
         $table = clone $this->getHelper('table');
         $table->setHeaders(array('Name'));
 
@@ -68,4 +67,3 @@ HERE
         }
     }
 }
-
