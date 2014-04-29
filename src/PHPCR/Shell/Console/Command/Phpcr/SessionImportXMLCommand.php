@@ -21,7 +21,7 @@ class SessionImportXMLCommand extends Command
     protected function configure()
     {
         $this->setName('session:import-xml');
-        $this->setDescription('Export the system view');
+        $this->setDescription('Import content from an XML file');
         $this->addArgument('parentAbsPath', InputArgument::REQUIRED, 'Path of node to export');
         $this->addArgument('file', InputArgument::REQUIRED, 'File to export to');
         $this->addOption('uuid-behavior', null, InputOption::VALUE_REQUIRED, 'UUID behavior', 'create-new');

@@ -13,7 +13,7 @@ class NodeCloneCommand extends Command
     protected function configure()
     {
         $this->setName('node:clone');
-        $this->setDescription('Copy a node from one workspace to another');
+        $this->setDescription('Clone a node');
         $this->addArgument('srcPath', InputArgument::REQUIRED, 'Path to source node');
         $this->addArgument('destPath', InputArgument::REQUIRED, 'Path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');

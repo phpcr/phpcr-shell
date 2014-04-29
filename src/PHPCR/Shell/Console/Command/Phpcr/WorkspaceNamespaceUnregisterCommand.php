@@ -12,7 +12,7 @@ class WorkspaceNamespaceUnregisterCommand extends Command
     protected function configure()
     {
         $this->setName('workspace:namespace:unregister');
-        $this->setDescription('Sets a one-to-one mapping between prefix and uri in the global namespace');
+        $this->setDescription('Unregister a namespace');
         $this->addArgument('uri', null, InputArgument::REQUIRED, 'The URI to be removed');
         $this->setHelp(<<<HERE
 Removes the specified namespace URI from namespace registry.

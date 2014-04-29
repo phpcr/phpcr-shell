@@ -2,12 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeTypeUnregisterCommand extends Command
+class NodeTypeUnregisterCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
@@ -18,6 +17,8 @@ class NodeTypeUnregisterCommand extends Command
 Unregisters the specified node type
 HERE
         );
+
+        $this->dequiresDescriptor('jackalope.not_implemented.node_type.unregister');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

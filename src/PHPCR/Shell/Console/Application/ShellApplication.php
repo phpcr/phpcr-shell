@@ -26,6 +26,7 @@ use PHPCR\Shell\Event;
 use PHPCR\Shell\Event\ApplicationInitEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Subscriber;
+use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 
 /**
  * Main application for PHPCRSH
@@ -142,7 +143,6 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\SessionRefreshCommand());
         $this->add(new CommandPhpcr\SessionSaveCommand());
         $this->add(new CommandPhpcr\QuerySelectCommand());
-        $this->add(new CommandPhpcr\QueryCommand());
         $this->add(new CommandPhpcr\RetentionHoldAddCommand());
         $this->add(new CommandPhpcr\RetentionHoldListCommand());
         $this->add(new CommandPhpcr\RetentionHoldRemoveCommand());

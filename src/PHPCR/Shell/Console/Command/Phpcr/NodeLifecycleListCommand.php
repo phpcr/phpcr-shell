@@ -13,7 +13,7 @@ class NodeLifecycleListCommand extends PhpcrShellCommand
     protected function configure()
     {
         $this->setName('node:lifecycle:list');
-        $this->setDescription('Returns the list of valid state transitions for this node. NOT IMPLEMENTED');
+        $this->setDescription('Returns the list of valid state transitions for this node.');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
 Returns the list of valid state transitions for this node.

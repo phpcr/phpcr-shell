@@ -2,18 +2,19 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
-class AccessControlPrivilegeListCommand extends Command
+class AccessControlPrivilegeListCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
         $this->setName('access-control:privilege:list');
-        $this->setDescription('List the privileges of the repository or a specific node NOT IMPLEMENTED');
+        $this->setDescription('List the privileges of the repository or a specific node');
         $this->addArgument('absPath', InputArgument::OPTIONAL, 'Absolute path for node, optional.');
         $this->addOption('supported', null, InputOption::VALUE_NONE, 'List privileges supported by repository rather than current session.');
         $this->setHelp(<<<HERE
@@ -43,7 +44,9 @@ If the <info>--supported</info> option is supplied then the command does not
 list the privileges held by the current session, but rather the privileges
 supported by the repository.
 HERE
-        );
+    );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_ACCESS_CONTROL_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

@@ -8,12 +8,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\SimpleCredentials;
 
-class SessionImpersonateCommand extends Command
+class SessionImpersonateCommand extends PhpcrShellCommand
 {
     protected function configure()
     {
         $this->setName('session:impersonate');
-        $this->setDescription('Impersonate the given user NOT SUPPORTED');
+        $this->setDescription('Impersonate the given user');
         $this->addArgument('username', InputArgument::REQUIRED, 'Username of user to impersonate');
         $this->setHelp(<<<HERE
 Note: This command is not implemented by any of the transports currently.
@@ -35,6 +35,8 @@ repository as is represented by the Workspace object tied to the current
 Session.
 HERE
         );
+
+        $this->dequiresDescriptor('jackalope.not_implemented.session.impersonate');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
