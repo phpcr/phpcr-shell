@@ -15,11 +15,15 @@ use PHPCR\Shell\Console\Command\ShellCommand;
  */
 class SessionApplication extends BaseApplication
 {
-    const APP_NAME = 'PHPCR';
-    const APP_VERSION = '0.1';
+    const APP_NAME = 'PHPCRSH';
+    const APP_VERSION = '1.0.0-alpha1';
 
     protected $shellApplication;
 
+    /**
+     * Constructor - add the single command ShellCommand which
+     * accepts the connection parameters for the shell.
+     */
     public function __construct()
     {
         parent::__construct(self::APP_NAME, self::APP_VERSION);
@@ -39,11 +43,22 @@ class SessionApplication extends BaseApplication
         return new InputDefinition(array());
     }
 
+    /**
+     * This application always runs the phpcr_shell command to connect
+     * to the shell.
+     *
+     * {@inheritDoc}
+     */
     protected function getCommandName(InputInterface $input)
     {
         return 'phpcr_shell';
     }
 
+    /**
+     * Return the shell application
+     *
+     * @return ShellApplication
+     */
     public function getShellApplication()
     {
         return $this->shellApplication;

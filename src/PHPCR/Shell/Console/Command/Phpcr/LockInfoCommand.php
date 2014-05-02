@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
 
 class LockInfoCommand extends PhpcrShellCommand
@@ -14,7 +13,7 @@ class LockInfoCommand extends PhpcrShellCommand
     protected function configure()
     {
         $this->setName('lock:info');
-        $this->setDescription('Create a node at the current path');
+        $this->setDescription('Show details of the lock that applies to the specified node path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of locked node');
         $this->setHelp(<<<HERE
 Shows the details of the lock that applies to the node at the specified
@@ -57,4 +56,3 @@ HERE
         $table->render($output);
     }
 }
-

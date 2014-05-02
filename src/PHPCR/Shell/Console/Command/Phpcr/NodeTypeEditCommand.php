@@ -9,7 +9,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
-use PHPCR\NamespaceException;
 
 class NodeTypeEditCommand extends Command
 {
@@ -70,7 +69,6 @@ EOT
             ;
         }
 
-
         $valid = false;
         $prefix = '# ';
         do {
@@ -78,6 +76,7 @@ EOT
 
             if (empty($res)) {
                 $output->writeln('<info>Editor emptied the CND file, doing nothing. Use node-type:delete to remove node types.</info>');
+
                 return 0;
             }
 

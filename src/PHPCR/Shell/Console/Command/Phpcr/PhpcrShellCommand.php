@@ -20,12 +20,12 @@ class PhpcrShellCommand extends Command
         $this->descriptorDequires[$descriptorKey] = $value;
     }
 
-    public function getDescriptorRequires() 
+    public function getDescriptorRequires()
     {
         return $this->descriptorRequires;
     }
-    
-    public function getDescriptorDequires() 
+
+    public function getDescriptorDequires()
     {
         return $this->descriptorDequires;
     }
@@ -49,10 +49,9 @@ class PhpcrShellCommand extends Command
 
         return true;
     }
-    
+
     public function getDescriptor()
     {
-
         return true;
     }
 }

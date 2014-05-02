@@ -2,10 +2,8 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\Helper;
 use PHPCR\NodeInterface;
-use PHPCR\SessionInterface;
 
 /**
  * Helper for nodes
@@ -14,13 +12,11 @@ use PHPCR\SessionInterface;
  */
 class NodeHelper extends Helper
 {
-    protected $session;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-    }
-
+    /**
+     * Return true if the given node has the given mixinType
+     *
+     * @return boolean
+     */
     public function nodeHasMixinType($node, $mixinTypeName)
     {
         $mixinTypes = $node->getMixinNodeTypes();
@@ -34,6 +30,9 @@ class NodeHelper extends Helper
         return false;
     }
 
+    /**
+     * Return true if the given node is versionable
+     */
     public function assertNodeIsVersionable(NodeInterface $node)
     {
         if (!$this->nodeHasMixinType($node, 'mix:versionable')) {

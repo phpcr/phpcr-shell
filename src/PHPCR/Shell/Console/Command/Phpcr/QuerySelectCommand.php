@@ -4,7 +4,6 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class QuerySelectCommand extends Command
@@ -12,10 +11,14 @@ class QuerySelectCommand extends Command
     protected function configure()
     {
         $this->setName('select');
-        $this->setDescription('Execute an SQL query UNSTABLE');
+        $this->setDescription('Execute a literal JCR-SQL2 query');
         $this->addArgument('query');
         $this->setHelp(<<<EOT
-This is an unstable feature, see notes for the <info>query</info> command.
+Execute a JCR-SQL2 query. Unlike other commands you can enter a query literally:
+
+     SELECT * FROM [nt:unstructured];
+
+This command only executes JCR-SQL2 queries at the moment.
 EOT
         );
     }
@@ -38,6 +41,6 @@ EOT
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
 
-        $this->getHelper('result_formatter')->format($result, $output, $elapsed);
+        $this->getHelper('result_formatter')->formatQueryResult($result, $output, $elapsed);
     }
 }

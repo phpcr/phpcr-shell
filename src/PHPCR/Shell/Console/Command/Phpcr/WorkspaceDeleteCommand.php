@@ -12,7 +12,7 @@ class WorkspaceDeleteCommand extends Command
     protected function configure()
     {
         $this->setName('workspace:delete');
-        $this->setDescription('Delete a new workspace');
+        $this->setDescription('Delete a workspace');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of new workspace');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, clone from this workspace');
         $this->setHelp(<<<HERE

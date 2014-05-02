@@ -11,15 +11,27 @@ use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
 
 /**
+ * Provide methods for formatting PHPCR objects
+ *
  * @TODO: Rename this to PhpcrFormatterHelper
  */
 class ResultFormatterHelper extends Helper
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'result_formatter';
     }
 
+
+    /**
+     * Return the name of a property from its enumeration (i.e.
+     * the value of its CONSTANT)
+     *
+     * @return string
+     */
     public function getPropertyTypeName($typeInteger)
     {
         $refl = new \ReflectionClass('PHPCR\PropertyType');
@@ -30,7 +42,10 @@ class ResultFormatterHelper extends Helper
         }
     }
 
-    public function format(QueryResultInterface $result, OutputInterface $output, $elapsed)
+    /**
+     * Render a table with the results of the given QueryResultInterface
+     */
+    public function formatQueryResult(QueryResultInterface $result, OutputInterface $output, $elapsed)
     {
         $selectorNames = $result->getSelectorNames();
 
@@ -144,7 +159,7 @@ class ResultFormatterHelper extends Helper
         return sprintf('%s%s', $node->getName(), $node->hasNodes() ? '/' : '');
     }
 
-    public function formatException(\Exception $e) 
+    public function formatException(\Exception $e)
     {
         if ($e instanceof \Jackalope\NotImplementedException) {
             return '[ERROR] Not implemented by jackalope';

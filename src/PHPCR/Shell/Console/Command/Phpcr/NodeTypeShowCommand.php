@@ -42,4 +42,3 @@ HERE
         $output->writeln(sprintf('<comment>%s</comment>', $out));
     }
 }
-

@@ -82,8 +82,10 @@ class Shell
 
 Welcome to the <info>{$this->application->getName()}</info> shell (<comment>{$this->application->getVersion()}</comment>).
 
-At the prompt, type <comment>help</comment> for some help,
-or <comment>list</comment> to get a list of available commands.
+At the prompt, type <comment>help</comment> for some help.
+
+- To list all of the commands type <comment>list</comment>.
+- To list all of the registered command aliases, type <comment>aliases</comment>.
 
 To exit the shell, type <comment>exit</comment>.
 

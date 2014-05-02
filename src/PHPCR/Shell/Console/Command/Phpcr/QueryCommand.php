@@ -12,19 +12,17 @@ class QueryCommand extends Command
     protected function configure()
     {
         $this->setName('query');
-        $this->setDescription('Execute an SQL query UNSTABLE');
+        $this->setDescription('Execute a query ');
         $this->addArgument('query');
         $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'JCR-SQL2');
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The query limit', 0);
         $this->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'The query offset', 0);
         $this->setHelp(<<<EOT
-This feature is unstable and incomplete.
+Execute an SQL query. This command differs from <info>select</info> in that it
+is executed conventionally and not literally. The advantage is that you can
+specify a specific query language and additional options:
 
-TODO:
-
-- Ensure values are properly handled
-- Allow table formatting options
-- Provide way to add path and/or UUID to results
+    <info>query "SELECT * FROM [nt:unstructured]" --language=JCR_SQL2 --limit=5 --offset=4</info>
 EOT
         );
     }
@@ -63,6 +61,6 @@ EOT
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
 
-        $this->getHelper('result_formatter')->format($result, $output, $elapsed);
+        $this->getHelper('result_formatter')->formatQueryResult($result, $output, $elapsed);
     }
 }

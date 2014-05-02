@@ -24,6 +24,6 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $workspaceName = $input->getArgument('name');
-        $this->getApplication()->changeWorkspace($workspaceName);
+        $this->getHelper('phpcr')->changeWorkspace($workspaceName);
     }
 }

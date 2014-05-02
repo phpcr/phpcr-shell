@@ -10,18 +10,34 @@ use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
 use Symfony\Component\Console\Input\StringInput;
 
+/**
+ * The shell command is the command used to configure the shell session
+ *
+ * @author Daniel Leech <daniel@dantleech.com>
+ */
 class ShellCommand extends Command
 {
-    protected $output;
-    protected $options;
+    /**
+     * @var ShellApplication
+     */
     protected $application;
 
+    /**
+     * Constructor - construct with the shell application. This
+     * command provides the connection parameters (by simply passing
+     * the Input object).
+     *
+     * @param ShellApplication $application
+     */
     public function __construct(ShellApplication $application)
     {
         $this->application = $application;
         parent::__construct();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function configure()
     {
         $this->setName('phpcr_shell');
@@ -50,6 +66,9 @@ class ShellCommand extends Command
     ));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $application = $this->application;
@@ -60,6 +79,7 @@ class ShellCommand extends Command
             $application->setCatchExceptions(false);
             $input = new StringInput($command);
             $application->run($input, $output);
+
             return;
         } else {
             $application = new Shell($this->application);

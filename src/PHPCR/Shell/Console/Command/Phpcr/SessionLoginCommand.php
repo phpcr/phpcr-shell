@@ -26,6 +26,6 @@ HERE
         $username = $input->getArgument('userId');
         $password = $input->getArgument('password');
         $workspaceName = $input->getArgument('workspaceName');
-        $this->getApplication()->relogin($username, $password, $workspaceName);
+        $this->getHelper('phpcr')->relogin($username, $password, $workspaceName);
     }
 }

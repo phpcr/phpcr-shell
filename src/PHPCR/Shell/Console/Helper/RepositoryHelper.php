@@ -2,28 +2,27 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\RepositoryInterface;
 use Symfony\Component\Console\Helper\Helper;
 
 class RepositoryHelper extends Helper
 {
     /**
-     * @var RepositoryInterface
+     * @var PhpcrHelper
      */
-    protected $repository;
+    protected $phpcrHelper;
 
     /**
      * @var array
      */
     protected $descriptors;
 
-    public function __construct(RepositoryInterface $repository)
+    public function __construct(PhpcrHelper $phpcrHelper)
     {
-        $this->repository = $repository;
+        $this->phpcrHelper = $phpcrHelper;
     }
 
     /**
-     * Return true if the repository supports the given descriptor
+     * Return true if the phpcrHelper supports the given descriptor
      * which relates to a descriptor key
      *
      * @param string $descriptor
@@ -62,8 +61,10 @@ class RepositoryHelper extends Helper
     private function loadDescriptors()
     {
         if (null === $this->descriptors) {
-            foreach ($this->repository->getDescriptorKeys() as $key) {
-                $this->descriptors[$key] = $this->repository->getDescriptor($key);
+            $repository = $this->phpcrHelper->getRepository();
+
+            foreach ($repository->getDescriptorKeys() as $key) {
+                $this->descriptors[$key] = $repository->getDescriptor($key);
             }
         }
     }
