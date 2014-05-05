@@ -45,7 +45,7 @@ class ProfileWizard implements WizardInterface
             $profileName = $this->dialog->ask($output, 'Enter name for new profile: ');
             $profile = $this->profileHelper->createNewProfile($profileName);
             $transportConfig = $this->connectionWizard->run($input, $output);
-            $profile->setTransportConfig($transportConfig);
+            $profile->set('transport', $transportConfig);
         } else {
             $profile = $this->profileHelper->getProfile($profileNames[$selection]);
         }

@@ -4,7 +4,7 @@ namespace spec\PHPCR\Shell\Transport;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use PHPCR\Shell\Transport\Transport\TransportInterface;
+use PHPCR\Shell\Transport\TransportInterface;
 
 class TransportFactorySpec extends ObjectBehavior
 {

@@ -47,6 +47,7 @@ class ShellCommand extends Command
             new InputOption('--version',        '-V',    InputOption::VALUE_NONE, 'Display this application version.'),
             new InputOption('--ansi',           '',      InputOption::VALUE_NONE, 'Force ANSI output.'),
             new InputOption('--no-ansi',        '',      InputOption::VALUE_NONE, 'Disable ANSI output.'),
+
             new InputOption('--transport',      '-t',    InputOption::VALUE_REQUIRED, 'Transport to use.', 'doctrine-dbal'),
             new InputOption('--phpcr-username', '-pu',   InputOption::VALUE_REQUIRED, 'PHPCR Username.', 'admin'),
             new InputOption('--phpcr-password', '-pp',   InputOption::VALUE_OPTIONAL, 'PHPCR Password.', 'admin'),
@@ -58,10 +59,9 @@ class ShellCommand extends Command
             new InputOption('--db-driver',      '-dd',   InputOption::VALUE_REQUIRED, 'Database Transport.', 'pdo_mysql'),
             new InputOption('--db-path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
             new InputOption('--no-interaction', null,    InputOption::VALUE_NONE, 'Turn off interaction (for testing purposes)'),
+            new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).', 'http://localhost:8080/server/'),
+
             new InputOption('--unsupported',    null,    InputOption::VALUE_NONE, 'Show all commands, including commands not supported by the repository'),
-            new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).',
-                'http://localhost:8080/server/'
-            ),
             new InputOption('--command',        null,    InputOption::VALUE_REQUIRED, 'Run the given command'),
     ));
     }
@@ -71,8 +71,12 @@ class ShellCommand extends Command
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $showUnspported = $input->getOption('unsupported');
+
         $application = $this->application;
-        $application->setSessionInput($input);
+        $application->setShowUnsupported($showUnspported);
+        $application->dispatchProfileInitEvent($input, $output);
+
         $noInteraction = $input->getOption('no-interaction');
 
         if ($command = $input->getOption('command')) {

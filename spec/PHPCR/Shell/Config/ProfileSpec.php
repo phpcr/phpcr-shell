@@ -20,10 +20,22 @@ class ProfileSpec extends ObjectBehavior
         $this->shouldHaveType('PHPCR\Shell\Config\Profile');
     }
 
-    function it_has_a_method_to_set_the_transport_config(
-        TransportConfig $transportConfig
+    function it_has_a_method_to_set_config(
     )
     {
-        $this->setTransportConfig($transportConfig);
+        $this->set('transport', array());
+    }
+
+    function it_has_a_method_to_get_config()
+    {
+        $this->set('transport', array(
+            'foo' => 'bar'
+        ));
+
+        $this->get('transport')->shouldReturn(array(
+            'foo' => 'bar'
+        ));
+
+        $this->get('transport', 'foo')->shouldReturn('bar');
     }
 }

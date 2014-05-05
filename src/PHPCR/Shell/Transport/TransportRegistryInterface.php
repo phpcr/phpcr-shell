@@ -5,9 +5,13 @@ namespace PHPCR\Shell\Transport;
 /**
  * Interface for transport factory
  *
+ * Note that transport registry is a bit of a misnomer - 
+ * logically it would be RepositoryFactoryInitializerInterface,
+ * which is too long imo.
+ *
  * @author Daniel Leech <daniel@dantleech.com>
  */
-interface TransportFactoryInterface
+interface TransportRegistryInterface
 {
     /**
      * Return all of the registered transport names

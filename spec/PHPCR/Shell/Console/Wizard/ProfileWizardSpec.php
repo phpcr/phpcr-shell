@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Transport\SessionConfig;
 use PHPCR\Shell\Config\Profile;
-use PHPCR\Shell\Transport\TransportConfig;
 
 class ProfileWizardSpec extends ObjectBehavior
 {
@@ -66,7 +65,6 @@ class ProfileWizardSpec extends ObjectBehavior
         Profile $profile,
         ProfileHelper $profileHelper,
         DialogHelper $dialogHelper,
-        TransportConfig $transportConfig,
         WizardInterface $connectionWizard
     )
     {
@@ -77,6 +75,7 @@ class ProfileWizardSpec extends ObjectBehavior
         $dialogHelper->ask($output, 'Enter name for new profile: ')->willReturn('test');
         $connectionWizard->run($input, $output)->willReturn(array());
         $profileHelper->createNewProfile('test')->willReturn($profile);
+        $profile->set('transport', Argument::type('array'))->shouldBeCalled();
 
         $this->run($input, $output)->shouldReturn($profile);
     }

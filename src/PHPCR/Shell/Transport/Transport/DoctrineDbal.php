@@ -1,34 +1,28 @@
 <?php
 
-namespace PHPCR\Shell\Transport;
+namespace PHPCR\Shell\Transport\Transport;
 
 use Doctrine\DBAL\DriverManager;
 use Jackalope\RepositoryFactoryDoctrineDBAL;
 use Symfony\Component\Console\Input\InputInterface;
+use PHPCR\Shell\Transport\TransportInterface;
 
 class DoctrineDbal implements TransportInterface
 {
-    protected $input;
-
-    public function __construct(InputInterface $input)
-    {
-        $this->input = $input;
-    }
-
     public function getName()
     {
         return 'doctrine-dbal';
     }
 
-    public function getRepository()
+    public function getRepository(array $config)
     {
         $connection = DriverManager::getConnection($ops = array(
-            'user' => $this->input->getOption('db-username'),
-            'password' => $this->input->getOption('db-password'),
-            'host' => $this->input->getOption('db-host'),
-            'driver' => $this->input->getOption('db-driver'),
-            'dbname' => $this->input->getOption('db-name'),
-            'path' => $this->input->getOption('db-path'),
+            'user' => $config['db_username'],
+            'password' => $config['db_password'],
+            'host' => $config['db_host'],
+            'driver' => $config['db_driver'],
+            'dbname' => $config['db_name'],
+            'path' => $config['db_path'],
         ));
 
         $factory = new RepositoryFactoryDoctrineDBAL();
