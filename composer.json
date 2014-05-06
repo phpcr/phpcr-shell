@@ -8,7 +8,7 @@
         "jackalope/jackalope": "dev-master",
         "phpcr/phpcr": "dev-master",
         "phpcr/phpcr-utils": "dev-master",
-        "finder/finder": "~2.0"
+        "symfony/finder": "~2.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9",
