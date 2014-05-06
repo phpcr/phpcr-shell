@@ -1,0 +1,8 @@
+transport: 
+    name: foobar
+    bar_foo: barfoo
+    foo_bar: foobar
+phpcr:
+    username: username
+    password: password
+    workspace: default

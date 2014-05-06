@@ -29,6 +29,7 @@ use PHPCR\Shell\Subscriber;
 use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Transport\TransportRegistry;
+use PHPCR\Shell\Config\ProfileLoader;
 
 /**
  * Main application for PHPCRSH
@@ -61,6 +62,7 @@ class ShellApplication extends Application
         $this->dispatcher = new EventDispatcher();
         $this->transportRegistry = new TransportRegistry();
         $this->registerTransports();
+        $this->registerHelpers();
         $this->registerEventListeners();
     }
 
@@ -105,7 +107,6 @@ class ShellApplication extends Application
             return;
         }
 
-        $this->registerHelpers();
         $this->registerCommands();
 
         $event = new ApplicationInitEvent($this);
@@ -224,6 +225,16 @@ class ShellApplication extends Application
     private function registerEventListeners()
     {
         $this->dispatcher->addSubscriber(new Subscriber\ProfileFromSessionInputSubscriber());
+        $this->dispatcher->addSubscriber(new Subscriber\ProfileWriterSubscriber(
+            new ProfileLoader(
+                $this->getHelperSet()->get('config')
+            )
+        ));
+        $this->dispatcher->addSubscriber(new Subscriber\ProfileLoaderSubscriber(
+            new ProfileLoader(
+                $this->getHelperSet()->get('config')
+            )
+        ));
 
         $this->dispatcher->addSubscriber(new Subscriber\ConfigInitSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());

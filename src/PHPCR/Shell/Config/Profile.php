@@ -21,6 +21,16 @@ class Profile
         $this->name = $name;
     }
 
+    /**
+     * Return the array data for this profile
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->profile;
+    }
+
     protected function validateDomain($domain)
     {
         if (!array_key_exists($domain, $this->profile)) {
