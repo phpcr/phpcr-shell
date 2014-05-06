@@ -7,6 +7,7 @@ use Prophecy\Argument;
 use PHPCR\Shell\Console\Helper\ConfigHelper;
 use PHPCR\Shell\Console\Input\StringInput;
 use PHPCR\Shell\Event\CommandPreRunEvent;
+use Symfony\Component\Console\Helper\HelperSet;
 
 class AliasSubscriberSpec extends ObjectBehavior
 {
@@ -16,10 +17,13 @@ class AliasSubscriberSpec extends ObjectBehavior
     }
 
     function let(
+        HelperSet $helperSet,
         ConfigHelper $config
     ) {
+        $helperSet->get('config')->willReturn($config);
+
         $this->beConstructedWith(
-            $config
+            $helperSet
         );
 
         $config->getConfig('alias')->willReturn(array(

@@ -6,11 +6,11 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use PHPCR\Shell\Transport\TransportInterface;
 
-class TransportFactorySpec extends ObjectBehavior
+class TransportRegistrySpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType('PHPCR\Shell\Transport\TransportFactory');
+        $this->shouldHaveType('PHPCR\Shell\Transport\TransportRegistry');
     }
 
     function it_can_register_transports(

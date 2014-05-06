@@ -76,7 +76,7 @@ phpcr:
     password: leech
 
 EOT
-        , '0600')->shouldBeCalled();
+        , 0600)->shouldBeCalled();
         $this->saveProfile($profile);
     }
 }
