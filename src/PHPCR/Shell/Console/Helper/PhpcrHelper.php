@@ -89,27 +89,6 @@ class PhpcrHelper extends Helper
     }
 
     /**
-     * Return the transport as defined in the profile
-     *
-     * @access private
-     */
-    private function getTransport()
-    {
-        $transportName = $this->profile->getOption('transport');
-
-        if (!isset($this->transports[$transportName])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown transport "%s", I have "%s"',
-                $transportName, implode(', ', array_keys($this->transports))
-            ));
-        }
-
-        $transport = $this->transports[$transportName];
-
-        return $transport;
-    }
-
-    /**
      * Change the current workspace
      *
      * @param string $workspaceName
@@ -118,7 +97,7 @@ class PhpcrHelper extends Helper
     {
         $this->init();
         $this->session->logout();
-        $this->profile->set('transport', 'phpcr-workspace', $workspaceName);
+        $this->profile->set('phpcr', 'workspace', $workspaceName);
         $this->initSession($this->profile);
     }
 
@@ -135,11 +114,11 @@ class PhpcrHelper extends Helper
             $this->session->logout();
         }
 
-        $this->profile->setOption('phpcr-username', $username);
-        $this->profile->setOption('phpcr-password', $password);
+        $this->profile->set('phpcr', 'username', $username);
+        $this->profile->set('phpcr', 'password', $password);
 
         if ($workspaceName) {
-            $this->profile->setOption('phpcr-workspace', $workspaceName);
+            $this->profile->set('phpcr', 'workspace', $workspaceName);
         }
 
         $this->init();
