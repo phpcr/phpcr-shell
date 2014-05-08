@@ -30,13 +30,13 @@ $ sudo cp phpcrsh.phar /usr/bin/local/phpcrsh
 
 To connect to a doctrine-dbal PHPCR repository:
 
-    $ phpcr --db-name=foobar --db-username=user --db-password=foobar
+    $ phpcr --transport=doctrine-dbal --db-name=foobar --db-username=user --db-password=foobar
 
 Full definition:
 
 ````bash
 Usage:
- phpcr_shell [-h|--help] [-v|--verbose] [-V|--version] [--ansi] [--no-ansi] [-t|--transport="..."] [-pu|--phpcr-username="..."] [-pp|--phpcr-password[="..."]] [-pw|--phpcr-workspace[="..."]] [-du|--db-username="..."] [-dn|--db-name="..."] [-dp|--db-password[="..."]] [-dh|--db-host="..."] [-dd|--db-driver="..."] [-dP|--db-path="..."] [--no-interaction] [--unsupported] [-url|--repo-url="..."] [--command="..."]
+ phpcrsh [-h|--help] [-v|--verbose] [-V|--version] [--ansi] [--no-ansi] [-t|--transport="..."] [-pu|--phpcr-username="..."] [-pp|--phpcr-password[="..."]] [-pw|--phpcr-workspace[="..."]] [-du|--db-username="..."] [-dn|--db-name="..."] [-dp|--db-password[="..."]] [-dh|--db-host="..."] [-dd|--db-driver="..."] [-dP|--db-path="..."] [--no-interaction] [--unsupported] [-url|--repo-url="..."] [--command="..."]
 
 Options:
  --help (-h)             Display this help message.
@@ -60,7 +60,32 @@ Options:
  --command               Run the given command
 ````
 
-Todo:
+## Using profiles
+
+Profiles enable you to save and reuse connection settings. Profiles can be
+created or used by using the `--profile` option.
+
+To create or update a profile, use it in conjunction with `--transport`, i.e.:
+
+````bash
+$ phpcrsh --profile=mydb --transport=doctrine-dbal --db-user=foobar --db-name=mydb 
+Create new profile "mydb"?
+````
+
+To use the profile:
+
+````bash
+$ phpcrsh --profile=mydb
+````
+
+Or use the short syntax:
+
+````bash
+$ phpcrsh --pmydb
+````
+
+
+## Todo
 
 - Better querying support
 - Better autocompletion

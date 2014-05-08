@@ -27,6 +27,9 @@ use PHPCR\Shell\Event\ApplicationInitEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Subscriber;
 use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Transport\TransportRegistry;
+use PHPCR\Shell\Config\ProfileLoader;
 
 /**
  * Main application for PHPCRSH
@@ -43,9 +46,9 @@ class ShellApplication extends Application
     protected $initialized;
 
     /**
-     * @var \Symfony\Component\Console\Input\InputInterface
+     * @var boolean
      */
-    protected $sessionInput;
+    protected $showUnsupported = false;
 
     /**
      * Constructor - name and version inherited from SessionApplication
@@ -55,18 +58,40 @@ class ShellApplication extends Application
     public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
     {
         parent::__construct($name, $version);
+        $this->profile = new Profile();
         $this->dispatcher = new EventDispatcher();
+        $this->transportRegistry = new TransportRegistry();
+        $this->registerTransports();
+        $this->registerHelpers();
+        $this->registerEventListeners();
     }
 
     /**
-     * The SessionInput is the input used to intialize the shell.
-     * It contains the connection parameters.
+     * Initialize the supported transports.
      *
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @access private
      */
-    public function setSessionInput(InputInterface $input)
+    protected function registerTransports()
     {
-        $this->sessionInput = $input;
+        $transports = array(
+            new \PHPCR\Shell\Transport\Transport\DoctrineDbal($this->profile),
+            new \PHPCR\Shell\Transport\Transport\Jackrabbit($this->profile),
+        );
+
+        foreach ($transports as $transport) {
+            $this->transportRegistry->register($transport);
+        }
+    }
+
+    /**
+     * If true, show all commands, even if they are unsupported by the
+     * transport.
+     *
+     * @param boolean $boolean
+     */
+    public function setShowUnsupported($boolean)
+    {
+        $this->showUnsupported = $boolean;
     }
 
     /**
@@ -82,15 +107,7 @@ class ShellApplication extends Application
             return;
         }
 
-        if (null === $this->sessionInput) {
-            throw new \RuntimeException(
-                'sessionInput has not been set.'
-            );
-        }
-
-        $this->registerHelpers();
         $this->registerCommands();
-        $this->registerEventListeners();
 
         $event = new ApplicationInitEvent($this);
         $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
@@ -103,7 +120,7 @@ class ShellApplication extends Application
      */
     private function registerHelpers()
     {
-        $phpcrHelper = new PhpcrHelper($this->sessionInput);
+        $phpcrHelper = new PhpcrHelper($this->transportRegistry, $this->profile);
 
         $helpers = array(
             new ConfigHelper(),
@@ -207,9 +224,21 @@ class ShellApplication extends Application
 
     private function registerEventListeners()
     {
+        $this->dispatcher->addSubscriber(new Subscriber\ProfileFromSessionInputSubscriber());
+        $this->dispatcher->addSubscriber(new Subscriber\ProfileWriterSubscriber(
+            new ProfileLoader(
+                $this->getHelperSet()->get('config')
+            )
+        ));
+        $this->dispatcher->addSubscriber(new Subscriber\ProfileLoaderSubscriber(
+            new ProfileLoader(
+                $this->getHelperSet()->get('config')
+            )
+        ));
+
         $this->dispatcher->addSubscriber(new Subscriber\ConfigInitSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
-        $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()->get('config')));
+        $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()));
     }
 
     /**
@@ -286,13 +315,17 @@ class ShellApplication extends Application
     public function add(Command $command)
     {
         if ($command instanceof PhpcrShellCommand) {
-            $showUnsupported = $this->sessionInput->getOption('unsupported');
-
-            if ($showUnsupported || $command->isSupported($this->getHelperSet()->get('repository'))) {
+            if ($this->showUnsupported || $command->isSupported($this->getHelperSet()->get('repository'))) {
                 parent::add($command);
             }
         } else {
             parent::add($command);
         }
+    }
+
+    public function dispatchProfileInitEvent(InputInterface $sessionInput, OutputInterface $output)
+    {
+        $event = new Event\ProfileInitEvent($this->profile, $sessionInput, $output);
+        $this->dispatcher->dispatch(PhpcrShellEvents::PROFILE_INIT, $event);
     }
 }

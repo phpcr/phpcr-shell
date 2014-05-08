@@ -4,14 +4,16 @@ namespace spec\PHPCR\Shell\Console\Helper;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use Symfony\Component\Console\Input\InputInterface;
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Transport\TransportRegistryInterface;
 
 class PhpcrHelperSpec extends ObjectBehavior
 {
     function let(
-        InputInterface $input
+        Profile $profile,
+        TransportRegistryInterface $transportRegistry
     ) {
-        $this->beConstructedWith($input);
+        $this->beConstructedWith($transportRegistry, $profile);
     }
 
     function it_is_initializable()

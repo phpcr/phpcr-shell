@@ -2,10 +2,12 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\Shell\PhpcrSession;
 use Symfony\Component\Console\Helper\Helper;
-use Symfony\Component\Console\Input\InputInterface;
+
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;
+use PHPCR\Shell\Transport\TransportRegistryInterface;
 
 /**
  * Helper for managing PHPCR sessions
@@ -15,13 +17,6 @@ use PHPCR\SimpleCredentials;
 class PhpcrHelper extends Helper
 {
     /**
-     * Initial input which was used to initialize the shell.
-     *
-     * @var \Symfony\Component\Console\Input\InputInterface
-     */
-    protected $sessionInput;
-
-    /**
      * Active PHPCR session
      *
      * @var \PHPCR\SessionInterface
@@ -29,11 +24,11 @@ class PhpcrHelper extends Helper
     protected $session;
 
     /**
-     * Available transports
+     * The transport registry
      *
-     * @var \Jackalope\Transport\TransportInterface[]
+     * @var TransportRegistryInterface
      */
-    protected $transports = array();
+    protected $transportRegistry;
 
     /**
      * Lazy initialize PHPCR session
@@ -43,11 +38,13 @@ class PhpcrHelper extends Helper
     protected $initialized = false;
 
     /**
-     * @param InputInterface $sessionInput
+     * @param TransportRegistryInterface $transportRegistry
+     * @param Profile $profile
      */
-    public function __construct(InputInterface $sessionInput)
+    public function __construct(TransportRegistryInterface $transportRegistry, Profile $profile)
     {
-        $this->sessionInput = $sessionInput;
+        $this->transportRegistry = $transportRegistry;
+        $this->profile = $profile;
     }
 
     /**
@@ -61,7 +58,6 @@ class PhpcrHelper extends Helper
     private function init()
     {
         if (false === $this->initialized) {
-            $this->initializeTransports();
             $this->initSession();
             $this->initialized = true;
         }
@@ -74,58 +70,21 @@ class PhpcrHelper extends Helper
      */
     private function initSession()
     {
-        $transport = $this->getTransport();
-        $repository = $transport->getRepository();
+        $transport = $this->transportRegistry->getTransport($this->profile->get('transport', 'name'));
+        $repository = $transport->getRepository($this->profile->get('transport'));
+
         $credentials = new SimpleCredentials(
-            $this->sessionInput->getOption('phpcr-username'),
-            $this->sessionInput->getOption('phpcr-password')
+            $this->profile->get('phpcr', 'username'),
+            $this->profile->get('phpcr', 'password')
         );
 
-        $session = $repository->login($credentials, $this->sessionInput->getOption('phpcr-workspace'));
+        $session = $repository->login($credentials, $this->profile->get('phpcr', 'workspace'));
 
         // if you are wondering wtf here -- we wrap the PhpcrSession
         if (!$this->session) {
             $this->session = new PhpcrSession($session);
         } else {
             $this->session->setPhpcrSession($session);
-        }
-    }
-
-    /**
-     * Return the transport as defined in the sessionInput
-     *
-     * @access private
-     */
-    private function getTransport()
-    {
-        $transportName = $this->sessionInput->getOption('transport');
-
-        if (!isset($this->transports[$transportName])) {
-            throw new \InvalidArgumentException(sprintf(
-                'Unknown transport "%s", I have "%s"',
-                $transportName, implode(', ', array_keys($this->transports))
-            ));
-        }
-
-        $transport = $this->transports[$transportName];
-
-        return $transport;
-    }
-
-    /**
-     * Initialize the supported transports.
-     *
-     * @access private
-     */
-    private function initializeTransports()
-    {
-        $transports = array(
-            new \PHPCR\Shell\Transport\DoctrineDbal($this->sessionInput),
-            new \PHPCR\Shell\Transport\Jackrabbit($this->sessionInput),
-        );
-
-        foreach ($transports as $transport) {
-            $this->transports[$transport->getName()] = $transport;;
         }
     }
 
@@ -138,8 +97,8 @@ class PhpcrHelper extends Helper
     {
         $this->init();
         $this->session->logout();
-        $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
-        $this->initSession($this->sessionInput);
+        $this->profile->set('phpcr', 'workspace', $workspaceName);
+        $this->initSession($this->profile);
     }
 
     /**
@@ -155,11 +114,11 @@ class PhpcrHelper extends Helper
             $this->session->logout();
         }
 
-        $this->sessionInput->setOption('phpcr-username', $username);
-        $this->sessionInput->setOption('phpcr-password', $password);
+        $this->profile->set('phpcr', 'username', $username);
+        $this->profile->set('phpcr', 'password', $password);
 
         if ($workspaceName) {
-            $this->sessionInput->setOption('phpcr-workspace', $workspaceName);
+            $this->profile->set('phpcr', 'workspace', $workspaceName);
         }
 
         $this->init();

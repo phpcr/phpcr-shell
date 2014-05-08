@@ -1,27 +1,22 @@
 <?php
 
-namespace PHPCR\Shell\Transport;
+namespace PHPCR\Shell\Transport\Transport;
 
-use PHPCR\Shell\Console\TransportInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Jackalope\RepositoryFactoryJackrabbit;
+use PHPCR\Shell\Transport\TransportInterface;
 
 class Jackrabbit implements TransportInterface
 {
-    public function __construct(InputInterface $input)
-    {
-        $this->input = $input;
-    }
-
     public function getName()
     {
         return 'jackrabbit';
     }
 
-    public function getRepository()
+    public function getRepository(array $config)
     {
         $params = array(
-            'jackalope.jackrabbit_uri'  => $this->input->getOption('repo-url'),
+            'jackalope.jackrabbit_uri'  => $config['repo_url'],
         );
         $factory = new RepositoryFactoryJackrabbit();
         $repository = $factory->getRepository($params);
