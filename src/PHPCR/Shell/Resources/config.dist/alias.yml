@@ -1,9 +1,11 @@
 # Shell shortcuts
-aliases: shell:alias:list
+alist: shell:alias:list
+creload: shell:config:reload
+cinit: shell:config:init
 
 # MySQL commands
 use: workspace:use {arg1}
-workspaces: workspace:list
+explain: node-type:show {arg1}
 
 # Filesystem commands
 cd: shell:path:change {arg1}
@@ -21,6 +23,16 @@ touch: node:property:set {arg1} {arg2} {arg3}
 
 # Node type commands
 mixins: node-type:list "^mix:"
+ntlist: node-type:list
+ntedit: node-type:edit {arg1}
+ntshow: node-type:show {arg1}
+
+# Workspace commands
+wslist: workspace:list
+
+# Namespsce commands
+nslist: workspace:namespace:list
+nsset: workspace:namespace:register
 
 # Editor commands
 vim: node:property:edit {arg1} {arg2}
@@ -34,7 +46,7 @@ checkin: version:checkin {arg1}
 checkout: version:checkout {arg1}
 checkpoint: version:checkpoint {arg1}
 checkpoint: version:checkpoint {arg1}
-lsversion: version:history {arg1}
+vhlist: version:history {arg1}
 
 # Session commands
 save: session:save
