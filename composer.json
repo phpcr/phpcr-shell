@@ -8,8 +8,11 @@
         "jackalope/jackalope": "dev-master",
         "phpcr/phpcr": "dev-master",
         "phpcr/phpcr-utils": "dev-master",
+        "dantleech/phpcr-nodetype-serializer": "dev-master",
         "symfony/finder": "~2.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require-dev": {
         "mockery/mockery": "0.9",
         "symfony/process": "2.3.*",

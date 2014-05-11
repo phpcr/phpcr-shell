@@ -6,9 +6,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
-use PHPCR\Util\CND\Parser\CndParser;
+use PHPCR\Util\NodeType\Serializer\YAMLSerializer;
+use PHPCR\Util\NodeType\Serializer\YAMLDeserializer;
 
 class NodeTypeEditCommand extends Command
 {
@@ -40,10 +40,10 @@ HERE
         $namespaceRegistry = $workspace->getNamespaceRegistry();
         $nodeTypeManager = $workspace->getNodeTypeManager();
 
+        $serializer = new YAMLSerializer();
+
         try {
             $nodeType = $nodeTypeManager->getNodeType($nodeTypeName);
-            $cndWriter = new CndWriter($namespaceRegistry);
-            $out = $cndWriter->writeString(array($nodeType));
             $message = null;
         } catch (NoSuchNodeTypeException $e) {
             $parts = explode(':', $nodeTypeName);
@@ -55,24 +55,31 @@ HERE
             }
             list($namespace, $name)  = $parts;
             $uri = $session->getNamespaceURI($namespace);
+            $nodeType = $nodeTypeManager->createNodeTypeTemplate();
+            $propertyTemplate = $nodeTypeManager->createPropertyDefinitionTemplate();
+            $propertyTemplate->setName($namespace . ':change-me');
+            $childTemplate = $nodeTypeManager->createNodeDefinitionTemplate();
+            $childTemplate->setName($namespace . ':change-me');
+
+            $nodeType->setName($nodeTypeName);
+            $nodeType->getNodeDefinitionTemplates()->append($childTemplate);
+            $nodeType->getPropertyDefinitionTemplates()->append($propertyTemplate);
 
             // so we will create one ..
-            $out = <<<EOT
-<$namespace ='$uri'>
-[$namespace:$name] > nt:unstructured
-
-EOT
-            ;
             $message = <<<EOT
 Creating a new node type: $nodeTypeName
+
+An example property and an example node have been added. Feel free to delete or change them.
 EOT
             ;
         }
 
+        $out = $serializer->serialize($nodeType);
+
         $valid = false;
         $prefix = '# ';
         do {
-            $res = $editor->fromStringWithMessage($out, $message);
+            $res = $editor->fromStringWithMessage($out, $message, $prefix, '.yml');
 
             if (empty($res)) {
                 $output->writeln('<info>Editor emptied the CND file, doing nothing. Use node-type:delete to remove node types.</info>');
@@ -81,12 +88,9 @@ EOT
             }
 
             try {
-                $cndParser = new CndParser($nodeTypeManager);
-                $namespacesAndNodeTypes = $cndParser->parseString($res);
-
-                foreach ($namespacesAndNodeTypes['nodeTypes'] as $nodeType) {
-                    $nodeTypeManager->registerNodeType($nodeType, true);
-                }
+                $serializer = new YAMLDeserializer($session);
+                $nodeType = $serializer->deserialize($res);
+                $nodeTypeManager->registerNodeType($nodeType, true);
                 $valid = true;
             } catch (\Exception $e) {
                 $output->writeln('<error>'.$e->getMessage().'</error>');

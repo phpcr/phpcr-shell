@@ -6,18 +6,18 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
+use PHPCR\Util\NodeType\Serializer\YAMLSerializer;
 
 class NodeTypeShowCommand extends Command
 {
     protected function configure()
     {
         $this->setName('node-type:show');
-        $this->setDescription('Show the CND of a node type');
+        $this->setDescription('Show the node definition of a given node type');
         $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, 'The name of the node type to show');
         $this->setHelp(<<<HERE
-Show the CND (Compact Node Definition) of a given node type.
+Show the node type definition in YAML
 HERE
         );
     }
@@ -37,8 +37,8 @@ HERE
                 'The node type "%s" does not exist'
             , $nodeTypeName));
         }
-        $cndWriter = new CndWriter($namespaceRegistry);
-        $out = $cndWriter->writeString(array($nodeType));
+        $cndWriter = new YAMLSerializer();
+        $out = $cndWriter->serialize($nodeType);
         $output->writeln(sprintf('<comment>%s</comment>', $out));
     }
 }

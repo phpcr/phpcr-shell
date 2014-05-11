@@ -17,10 +17,11 @@ class EditorHelper extends Helper
      * file containing the given string value.
      *
      * @param string $string
+     * @param string $extension Optional extension for filetype hinting (e.g. .yml)
      *
      * @return string
      */
-    public function fromString($string)
+    public function fromString($string, $extension = null)
     {
         $fs = new Filesystem();
         $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell';
@@ -30,6 +31,11 @@ class EditorHelper extends Helper
         }
 
         $tmpName = tempnam($dir, '');
+
+        if (null !== $extension) {
+            $tmpName .= $extension;
+        }
+
         file_put_contents($tmpName, $string);
         $editor = getenv('EDITOR');
 
@@ -45,7 +51,7 @@ class EditorHelper extends Helper
         return $contents;
     }
 
-    public function fromStringWithMessage($string, $message, $messagePrefix = '# ')
+    public function fromStringWithMessage($string, $message, $messagePrefix = '# ', $extension = null)
     {
         if (null !== $message) {
             $message = explode("\n", $message);
@@ -60,7 +66,7 @@ class EditorHelper extends Helper
 
         $source .= $string;
 
-        $res = $this->fromString($source);
+        $res = $this->fromString($source, $extension);
         $res = explode("\n", $res);
 
         $line = current($res);
