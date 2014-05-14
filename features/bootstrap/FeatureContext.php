@@ -653,6 +653,16 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^the current node should be "([^"]*)"$/
+     */
+    public function theCurrentNodeShouldBe($arg1)
+    {
+        $this->executeCommand('shell:path:show');
+        $cnp = $this->applicationTester->getLastLine();
+        PHPUnit_Framework_Assert::assertEquals($arg1, $cnp, 'Current path is ' . $arg1);
+    }
+
+    /**
      * @Given /^the current workspace is "([^"]*)"$/
      */
     public function theCurrentWorkspaceIs($arg1)

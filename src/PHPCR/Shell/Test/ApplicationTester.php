@@ -90,6 +90,18 @@ class ApplicationTester
         return $display;
     }
 
+    public function getLastLine()
+    {
+        $display = trim($this->getDisplay());
+        $lines = explode("\n", $display);
+
+        if ($lines) {
+            return end($lines);
+        }
+
+        return $display;
+    }
+
     /**
      * Gets the input instance used by the last execution of the application.
      *
