@@ -189,6 +189,7 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\NodeCreateCommand());
         $this->add(new CommandPhpcr\NodeCorrespondingCommand());
         $this->add(new CommandPhpcr\NodeDefinitionCommand());
+        $this->add(new CommandPhpcr\NodeFileImportCommand());
         $this->add(new CommandPhpcr\NodePropertySetCommand());
         $this->add(new CommandPhpcr\NodeSetPrimaryTypeCommand());
         $this->add(new CommandPhpcr\NodeRenameCommand());
