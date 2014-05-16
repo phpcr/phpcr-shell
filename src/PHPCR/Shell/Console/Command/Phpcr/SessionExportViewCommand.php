@@ -20,6 +20,7 @@ class SessionExportViewCommand extends Command
         $this->addOption('no-recurse', null, InputOption::VALUE_NONE, 'Do not recurse');
         $this->addOption('skip-binary', null, InputOption::VALUE_NONE, 'Skip binary properties');
         $this->addOption('document', null, InputOption::VALUE_NONE, 'Export the document view');
+        $this->addOption('pretty', null, InputOption::VALUE_NONE, 'Export in human readable format');
         $this->setHelp(<<<HERE
 Serializes the node (and if <info>--no-recurse</info> is false, the whole subgraph) at
 <info>absPath</info> as an XML stream and outputs it to the supplied URI. The
@@ -58,12 +59,16 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $file = $input->getArgument('file');
+        $pretty = $input->getOption('pretty');
         $exportDocument = $input->getOption('document');
+        $dialog = $this->getHelper('dialog');
 
         if (file_exists($file)) {
-            throw new \InvalidArgumentException(sprintf(
-                'File "%s" already exists.', $file
-            ));
+            $res = $dialog->askConfirmation($output, 'File already exists, overwrite?');
+
+            if (false === $res) {
+                return;
+            }
         }
 
         $stream = fopen($file, 'w');
@@ -87,5 +92,13 @@ HERE
         }
 
         fclose($stream);
+
+        if ($pretty) {
+            $xml = new \DOMDocument(1.0);
+            $xml->load($file);
+            $xml->preserveWhitespace = true;
+            $xml->formatOutput = true;
+            $xml->save($file);
+        }
     }
 }
