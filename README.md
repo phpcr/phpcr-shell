@@ -60,6 +60,42 @@ Options:
  --command               Run the given command
 ````
 
+## Navigating and manipulating the repository
+
+You can navigate the repository using familiar filesystem shell commands:
+
+````bash
+PHPCRSH > ls
++-----------------+------------+-----------------+
+| pocms/          | pocms:root |                 |
+| jcr:primaryType | NAME       | nt:unstructured |
++-----------------+------------+-----------------+
+PHPCRSH > cd pocms
+PHPCRSH > pwd
+/pocms
+PHPCRSH > cd ..
+PHPCRSH > pwd
+/
+PHPCRSH > cat jcr:primaryType
+nt:unstructured
+PHPCRSH > exit
+````
+
+The above commands are *aliases*. Aliases are defined in your home directory
+in `~/.phpcrsh/aliases.yml`.
+
+Aliases can be listed using the `alist` alias, or `shell:alias:list`.
+
+The above commands would be expanded as:
+
+````bash
+PHPCRSH > node:list
+PHPCRSH > shell:path:change pocms
+PHPCRSH > shell:path:show
+PHPCRSH > node:property:show jcr:primaryType
+PHPCRSH > shell:exist
+````
+
 ## Using profiles
 
 Profiles enable you to save and reuse connection settings. Profiles can be
