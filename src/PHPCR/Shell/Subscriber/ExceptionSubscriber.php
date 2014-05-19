@@ -25,7 +25,14 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public function handleException(CommandExceptionEvent $event)
     {
         $exception = $event->getException();
+        $input = $event->getInput();
         $output = $event->getOutput();
+
+        // if verbose, just throw the whole exception back
+        if ($input->hasOption('verbose') && $input->getOption('verbose')) {
+            throw $exception;
+        }
+
 
         if ($exception instanceof UnsupportedRepositoryOperationException) {
             $output->writeln('<error>Unsupported repository operation: This repository is not capable of performing the requested action</error>');

@@ -1,5 +1,5 @@
 {
-    "alias": "phpcr.phar",
+    "alias": "phpcrsh.phar",
     "chmod": "0755",
     "directories": ["src"],
     "files": [
@@ -13,7 +13,7 @@
         }
     ],
     "git-version": "package_version",
-    "main": "bin/phpcr",
-    "output": "phpcr.phar",
+    "main": "bin/phpcrsh",
+    "output": "phpcrsh.phar",
     "stub": true
 }

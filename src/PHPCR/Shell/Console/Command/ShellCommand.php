@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
-use Symfony\Component\Console\Input\StringInput;
+use PHPCR\Shell\Console\Input\StringInput;
 
 /**
  * The shell command is the command used to configure the shell session
@@ -63,7 +63,7 @@ class ShellCommand extends Command
 
             new InputOption('--profile',      '-p',    InputOption::VALUE_OPTIONAL, 'Speicfy a profile name, use wit <info>--transport</info> to update or create'),
             new InputOption('--unsupported',    null,    InputOption::VALUE_NONE, 'Show all commands, including commands not supported by the repository'),
-            new InputOption('--command',        null,    InputOption::VALUE_REQUIRED, 'Run the given command'),
+            new InputOption('--command',        null,    InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Run the given command'),
     ));
     }
 
@@ -80,10 +80,14 @@ class ShellCommand extends Command
 
         $noInteraction = $input->getOption('no-interaction');
 
-        if ($command = $input->getOption('command')) {
+        if ($commands = $input->getOption('command')) {
             $application->setCatchExceptions(false);
-            $input = new StringInput($command);
-            $application->run($input, $output);
+            $application->setAutoExit(false);
+
+            foreach ($commands as $command) {
+                $input = new StringInput($command);
+                $application->run($input, $output);
+            }
 
             return;
         } else {

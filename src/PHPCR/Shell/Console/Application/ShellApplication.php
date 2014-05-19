@@ -288,7 +288,7 @@ class ShellApplication extends Application
         try {
             $exitCode = parent::doRun($input, $output);
         } catch (\Exception $e) {
-            $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $output));
+            $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $input, $output));
 
             return 1;
         }
