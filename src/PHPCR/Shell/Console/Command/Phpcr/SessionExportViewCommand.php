@@ -64,9 +64,13 @@ HERE
         $dialog = $this->getHelper('dialog');
 
         if (file_exists($file)) {
-            $res = $dialog->askConfirmation($output, 'File already exists, overwrite?');
+            $confirmed = true;
 
-            if (false === $res) {
+            if (false === $input->getOption('no-interaction')) {
+                $confirmed = $dialog->askConfirmation($output, 'File already exists, overwrite?');
+            }
+
+            if (false === $confirmed) {
                 return;
             }
         }
