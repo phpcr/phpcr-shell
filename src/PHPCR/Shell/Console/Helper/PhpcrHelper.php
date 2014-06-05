@@ -8,6 +8,7 @@ use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;
 use PHPCR\Shell\Transport\TransportRegistryInterface;
+use PHPCR\SessionInterface;
 
 /**
  * Helper for managing PHPCR sessions
@@ -31,13 +32,6 @@ class PhpcrHelper extends Helper
     protected $transportRegistry;
 
     /**
-     * Lazy initialize PHPCR session
-     *
-     * @var boolean
-     */
-    protected $initialized = false;
-
-    /**
      * @param TransportRegistryInterface $transportRegistry
      * @param Profile $profile
      */
@@ -57,10 +51,14 @@ class PhpcrHelper extends Helper
 
     private function init()
     {
-        if (false === $this->initialized) {
+        if (null === $this->session) {
             $this->initSession();
-            $this->initialized = true;
         }
+    }
+
+    public function setSession(SessionInterface $session)
+    {
+        $this->session = $session;
     }
 
     /**

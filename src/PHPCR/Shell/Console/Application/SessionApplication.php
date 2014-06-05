@@ -28,10 +28,7 @@ class SessionApplication extends BaseApplication
     {
         parent::__construct(self::APP_NAME, self::APP_VERSION);
 
-        $this->shellApplication = new ShellApplication(
-            self::APP_NAME,
-            self::APP_VERSION
-        );
+        $this->shellApplication = new ShellApplication();
 
         $command = new ShellCommand($this->shellApplication);
         $command->setApplication($this);

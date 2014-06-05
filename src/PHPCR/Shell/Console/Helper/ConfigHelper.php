@@ -98,6 +98,11 @@ class ConfigHelper extends Helper
         return $home;
     }
 
+    private function getDistConfigDir()
+    {
+        return __DIR__ . '/../../Resources/config.dist';
+    }
+
     /**
      * Load the configuration
      */
@@ -106,13 +111,17 @@ class ConfigHelper extends Helper
         $config = array();
 
         $configDir = $this->getConfigDir();
+        $distConfigDir = $this->getDistConfigDir();
 
         foreach ($this->configKeys as $configKey) {
             $fullPath = $configDir . '/' . $configKey . '.yml';
+            $fullDistPath = $distConfigDir . '/' . $configKey . '.yml';
             $config[$configKey] = array();
 
             if ($this->filesystem->exists($fullPath)) {
                 $config[$configKey] = Yaml::parse($fullPath);
+            } elseif($this->filesystem->exists($fullDistPath)) {
+                $config[$configKey] = Yaml::parse($fullDistPath);
             }
         }
 
@@ -153,7 +162,7 @@ class ConfigHelper extends Helper
         }
 
         $configDir = $this->getConfigDir();
-        $distDir = __DIR__ . '/../../Resources/config.dist';
+        $distDir = $this->getDistConfigDir();
 
         if (!$this->filesystem->exists($configDir)) {
             $log('<info>[+] Creating directory:</info> ' . $configDir);

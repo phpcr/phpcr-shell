@@ -6,6 +6,7 @@ dev-master
 
 ### Features
 
+- [general] The shell supports being embedded as a dependency
 - [node:edit] New command `node:edit` enables editing of entire node
 
 alpha-4
