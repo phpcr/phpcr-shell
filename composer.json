@@ -2,13 +2,13 @@
     "name": "phpcr/phpcr-shell",
     "description": "Shell for PHPCR",
     "require": {
-        "symfony/console": "2.3.*",
-        "jackalope/jackalope-doctrine-dbal": "dev-master",
-        "jackalope/jackalope-jackrabbit": "dev-master",
-        "jackalope/jackalope": "dev-master",
-        "phpcr/phpcr": "dev-master",
-        "phpcr/phpcr-utils": "dev-master",
-        "symfony/finder": "~2.0"
+        "symfony/console": "2.5.*",
+        "jackalope/jackalope-doctrine-dbal": "1.1.*",
+        "jackalope/jackalope-jackrabbit": "1.1.*",
+        "jackalope/jackalope": "1.1.*",
+        "phpcr/phpcr": "2.1.*",
+        "phpcr/phpcr-utils": "1.2.*",
+        "symfony/finder": "2.6.*"
     },
     "require-dev": {
         "mockery/mockery": "0.9",
