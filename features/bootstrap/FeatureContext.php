@@ -472,6 +472,15 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^there should exist a property at "([^"]*)"$/
+     */
+    public function thereShouldExistAPropertyAt($arg1)
+    {
+        $session = $this->getSession();
+        $session->getProperty($arg1);
+    }
+
+    /**
      * @Given /^there should not exist a property at "([^"]*)"$/
      */
     public function thereShouldNotExistAPropertyAt($arg1)
