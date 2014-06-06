@@ -28,14 +28,10 @@ Feature: Export the repository to an XML file
         Invalid path 'cms'
         """
 
-    Scenario: Export to an existing file
+    Scenario: Export to an existing file (should overwrite as --no-interaction is specified)
         Given the file "foobar.xml" exists
-        And I execute the "session:export:view /tests_general_base foobar.xml" command
-        Then the command should fail
-        And the output should contain:
-        """
-        File "foobar.xml" already exists.
-        """
+        And I execute the "session:export:view /tests_general_base foobar.xml --no-interaction" command
+        Then the command should not fail
 
     Scenario: Export non recursive
         Given I execute the "session:export:view /tests_general_base foobar.xml --no-recurse" command
@@ -51,3 +47,10 @@ Feature: Export the repository to an XML file
     Scenario: Export the document view
         Given I execute the "session:export:view / foobar.xml --document" command
         Then the command should not fail
+
+    Scenario: Export the document view in pretty way
+        Given I execute the "session:export:view / foobar.xml --pretty" command
+        Then the command should not fail
+        And the file "foobar.xml" should exist
+        And the xpath count "/sv:node" is "1" in file "foobar.xml"
+        And the xpath count "/sv:node/sv:node" is "1" in file "foobar.xml"
