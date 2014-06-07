@@ -12,6 +12,8 @@ class NodeListCommand extends Command
 {
     protected $formatter;
     protected $filters;
+    protected $textHelper;
+    protected $maxLevel;
 
     protected function configure()
     {
@@ -21,6 +23,7 @@ class NodeListCommand extends Command
         $this->addOption('children', null, InputOption::VALUE_NONE, 'List only the children of this node');
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
         $this->addOption('filter', 'f', InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Optional filter to apply');
+        $this->addOption('level', 'L', InputOption::VALUE_REQUIRED, 'Depth of tree to show');
         $this->setHelp(<<<HERE
 List both or one of the children and properties of this node.
 HERE
@@ -32,53 +35,76 @@ HERE
         $this->formatter = $this->getHelper('result_formatter');
         $this->textHelper = $this->getHelper('text');
         $this->filters = $input->getOption('filter');
+        $this->maxLevel = $input->getOption('level');
 
-        $showChildren = $input->getOption('children');
-        $showProperties = $input->getOption('properties');
+        $this->showChildren = $input->getOption('children');
+        $this->showProperties = $input->getOption('properties');
 
         $session = $this->getHelper('phpcr')->getSession();
 
         $path = $session->getAbsPath($input->getArgument('path'));
         $currentNode = $session->getNode($path);
 
-        if (!$showChildren && !$showProperties) {
-            $showChildren = true;
-            $showProperties = true;
+        if (!$this->showChildren && !$this->showProperties) {
+            $this->showChildren = true;
+            $this->showProperties = true;
         }
 
         $table = clone $this->getHelper('table');
 
-        if ($showChildren) {
-            $this->renderChildren($currentNode, $table);
-        }
-
-        if ($showProperties) {
-            $this->renderProperties($currentNode, $table);
-        }
+        $this->renderNode($currentNode, $table);
 
         $table->render($output);
     }
 
-    private function renderChildren($currentNode, $table)
+    private function renderNode($currentNode, $table, $spacers = array())
     {
-        $children = $currentNode->getNodes($this->filters ? : null);
+        if ($this->showChildren) {
+            $this->renderChildren($currentNode, $table, $spacers);
+        }
 
-        foreach ($children as $child) {
-            $table->addRow(array(
-                '<node>' . $this->formatter->formatNodeName($child) . '</node>',
-                $child->getPrimaryNodeType()->getName(),
-                '',
-            ));
+        if ($this->showProperties) {
+            $this->renderProperties($currentNode, $table, $spacers);
         }
     }
 
-    private function renderProperties($currentNode, $table)
+    private function renderChildren($currentNode, $table, $spacers)
+    {
+        $children = $currentNode->getNodes($this->filters ? : null);
+
+        $i = 0;
+        foreach ($children as $child) {
+            $i++;
+            $isLast = count($children) === $i;
+
+            $table->addRow(array(
+                '<node>' . implode('', $spacers) . $this->formatter->formatNodeName($child) . '</node>',
+                $child->getPrimaryNodeType()->getName(),
+                '',
+            ));
+
+            if (count($spacers) < $this->maxLevel) {
+                $newSpacers = $spacers;
+                if ($isLast) {
+                    $newSpacers[] = '  ';
+                } else {
+                    $newSpacers[] = '| ';
+                }
+
+                $this->renderNode($child, $table, $newSpacers);
+            }
+        }
+    }
+
+    private function renderProperties($currentNode, $table, $spacers)
     {
         $properties = $currentNode->getProperties($this->filters ? : null);
 
+        $i = 0;
         foreach ($properties as $name => $property) {
+            $i++;
             $table->addRow(array(
-                '<property>' . $name . '</property>',
+                '<property>' . implode('', $spacers). $name . '</property>',
                 '<property-type>' . $this->formatter->getPropertyTypeName($property->getType()) . '</property-type>',
                 $this->textHelper->truncate($this->formatter->formatValue($property), 55),
             ));
