@@ -3,6 +3,7 @@
 ## Features
 
 - New command: `file:import`: - import files into the repository.
+- `node:list`: Added `--level` option to rescursively show children nodes and properties
 
 ## Improvements
 
