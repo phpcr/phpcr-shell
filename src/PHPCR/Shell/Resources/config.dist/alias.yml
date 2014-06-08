@@ -16,7 +16,7 @@ exit: shell:exit
 
 # Node commands
 ls: node:list {arg1}
-sl: node:clone {arg1} {arg2} # symlink, as in ln -s
+ln: node:clone {arg1} {arg2} # symlink, as in ln -s
 cp: node:copy {arg1} {arg2}
 cat: node:property:show {arg1}
 touch: node:property:set {arg1} {arg2} {arg3}
