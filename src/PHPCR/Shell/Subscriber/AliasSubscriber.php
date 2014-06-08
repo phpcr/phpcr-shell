@@ -72,6 +72,9 @@ class AliasSubscriber implements EventSubscriberInterface
         $tokens = $input->getTokens();
 
         foreach ($tokens as $i => $token) {
+            if (strstr($token, ' ')) {
+                $token = escapeshellarg($token);
+            }
             $replaces['{arg' . $i . '}'] = $token;
         }
 

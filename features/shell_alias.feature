@@ -7,6 +7,11 @@ Feature: Command aliases
         Given that I am logged in as "testuser"
         And the "cms.xml" fixtures are loaded
 
+    Scenario: Execute an alias with a quoted string
+        Given I execute the "ls 'cms/articles/Title with Spaces'" command
+        Then the command should not fail
+
+
     Scenario Outline: Execute an alias
         Given I execute the "<command>" command
         Then the command should not fail
@@ -20,8 +25,9 @@ Feature: Command aliases
             | mv cms smc |
             | ls |
             | ls cms |
-            | sl cms/articles cms/test/foobar |
+            | ln cms/articles cms/test/foobar |
             | cat cms/articles/article1/title |
+
 
     Scenario: List aliases
         Given I execute the "shell:alias:list" command
@@ -30,6 +36,3 @@ Feature: Command aliases
             | Alias | Command |
             | cd    | shell:path:change {arg1} |
             | ls    | node:list {arg1} |
-
-
-
