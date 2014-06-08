@@ -48,43 +48,18 @@ class PhpcrSession implements SessionInterface
      */
     public function autocomplete($text)
     {
-        // get last string
-        if (!preg_match('&^(.+) &', $text, $matches)) {
+        // return autocompletions for current path
+        $cwd = $this->getCwd();
+        try {
+            $node = $this->getNode($cwd);
+            $list = (array) $node->getNodeNames();
+            foreach ($node->getProperties() as $name => $v) {
+                $list[] = $name;
+            }
+
+            return $list;
+        } catch (PathNotFoundException $e) {
             return false;
-        }
-
-        $path = $matches[1];
-
-        if (substr($path, 0, 1) == '/') {
-            $parentPath = PathHelper::getParentPath($path);
-            try {
-                $node = $this->getNode($parentPath);
-                $list = array();
-                foreach ($node->getNodes() as $path => $node) {
-                    $list[] = substr($parentPath, 1) . '/' . $path;
-                }
-
-                return $list;
-            } catch (PathNotFoundException $e) {
-                return false;
-            }
-        } else {
-            $cwd = $this->getCwd();
-            try {
-                $node = $this->getNode($cwd);
-                $list = array();
-                foreach ($node->getNodes() as $path => $node) {
-                    if ($this->getCwd() == '/') {
-                        $list[] = $path;
-                    } else {
-                        $list[] = $path;
-                    }
-                }
-
-                return $list;
-            } catch (PathNotFoundException $e) {
-                return false;
-            }
         }
     }
 

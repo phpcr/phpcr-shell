@@ -103,31 +103,7 @@ EOF;
     {
         $info = readline_info();
         $text = substr($info['line_buffer'], 0, $info['end']);
-
         $list = $this->application->getHelperSet()->get('phpcr')->getSession()->autocomplete($text);
-
-        return $list;
-
-        if ($info['point'] !== $info['end']) {
-            return false;
-        }
-
-        // task name?
-        if (false === strpos($text, ' ') || !$text) {
-            return array_keys($this->application->all());
-        }
-
-        // options and arguments?
-        try {
-            $command = $this->application->find(substr($text, 0, strpos($text, ' ')));
-        } catch (\Exception $e) {
-            return false;
-        }
-
-        $list = array('--help');
-        foreach ($command->getDefinition()->getOptions() as $option) {
-            $list[] = '--' . $option->getName();
-        }
 
         return $list;
     }
