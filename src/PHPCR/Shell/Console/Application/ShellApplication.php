@@ -250,6 +250,12 @@ class ShellApplication extends Application
         $style = new OutputFormatterStyle(null, null, array('bold'));
         $formatter->setStyle('node', $style);
 
+        $style = new OutputFormatterStyle('blue', null, array('bold'));
+        $formatter->setStyle('templatenode', $style);
+
+        $style = new OutputFormatterStyle('blue', null, array());
+        $formatter->setStyle('templateproperty', $style);
+
         $style = new OutputFormatterStyle(null, null, array());
         $formatter->setStyle('property', $style);
 

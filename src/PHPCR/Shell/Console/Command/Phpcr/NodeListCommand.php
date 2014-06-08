@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\PropertyType;
 
 class NodeListCommand extends Command
 {
@@ -24,8 +25,14 @@ class NodeListCommand extends Command
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
         $this->addOption('filter', 'f', InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Optional filter to apply');
         $this->addOption('level', 'L', InputOption::VALUE_REQUIRED, 'Depth of tree to show');
+        $this->addOption('no-template', 'T', InputOption::VALUE_REQUIRED, 'Do not show template nodes and properties');
         $this->setHelp(<<<HERE
 List both or one of the children and properties of this node.
+
+Multiple levels can be shown by using the <info>--level</info> option.
+
+The <info>node:list</info> command also shows template nodes and properties as defined a nodes node-type.
+These can be suppressed using the <info>--no-template</info> option.
 HERE
         );
     }
@@ -72,9 +79,20 @@ HERE
     {
         $children = $currentNode->getNodes($this->filters ? : null);
 
+        $nodeType = $currentNode->getPrimaryNodeType();
+        $childNodeDefinitions = $nodeType->getDeclaredChildNodeDefinitions();
+        $childNodeNames = array();
+        foreach ($childNodeDefinitions as $childNodeDefinition) {
+            $childNodeNames[$childNodeDefinition->getName()] = $childNodeDefinition;
+        }
+
         $i = 0;
         foreach ($children as $child) {
             $i++;
+            if (isset($childNodeNames[$child->getName()])) {
+                unset($childNodeNames[$child->getName()]);
+            }
+
             $isLast = count($children) === $i;
 
             $table->addRow(array(
@@ -94,19 +112,49 @@ HERE
                 $this->renderNode($child, $table, $newSpacers);
             }
         }
+
+        // render empty schematic children
+        foreach ($childNodeNames as $childNodeName => $childNodeDefinition) {
+            // @todo: Determine and show cardinality, 1..*, *..*, 0..1, etc.
+            $table->addRow(array(
+                '<templatenode>' . implode('', $spacers) . '@' . $childNodeName . '</templatenode>',
+                implode('|', $childNodeDefinition->getRequiredPrimaryTypeNames()),
+                '',
+            ));
+        }
     }
 
     private function renderProperties($currentNode, $table, $spacers)
     {
         $properties = $currentNode->getProperties($this->filters ? : null);
 
+        $nodeType = $currentNode->getPrimaryNodeType();
+        $propertyDefinitions = $nodeType->getDeclaredPropertyDefinitions();
+
+        $propertyNames = array();
+        foreach ($propertyDefinitions as $name => $propertyDefinition) {
+            $propertyNames[$propertyDefinition->getName()] = $propertyDefinition;
+        }
+
         $i = 0;
         foreach ($properties as $name => $property) {
             $i++;
+            if (isset($propertyNames[$name])) {
+                unset($propertyNames[$name]);
+            }
+
             $table->addRow(array(
                 '<property>' . implode('', $spacers). $name . '</property>',
                 '<property-type>' . $this->formatter->getPropertyTypeName($property->getType()) . '</property-type>',
                 $this->textHelper->truncate($this->formatter->formatValue($property), 55),
+            ));
+        }
+
+        foreach ($propertyNames as $propertyName => $property) {
+            $table->addRow(array(
+                '<templateproperty>' . implode('', $spacers). '@' . $propertyName . '</templateproperty>',
+                '<property-type>' . strtoupper(PropertyType::nameFromValue($property->getRequiredType())) . '</property-type>',
+                ''
             ));
         }
     }
