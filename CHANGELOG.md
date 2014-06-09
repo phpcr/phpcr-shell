@@ -1,17 +1,22 @@
-# alpha2 / dev-master
+Changelog
+=========
 
-## Features
+alpha-3
+-------
 
-- New command: `file:import`: - import files into the repository.
-- `node:list`: Added `--level` option to rescursively show children nodes and properties
-- Autocomplete completes property names in addition to node names in current path
+### Features
 
-## Improvements
+- [file]: `file:import` - New command to import files into the repository.
+- [node]: `node:list` Added `--level` option to rescursively show children nodes and properties.
+- [node]: `node:list` Show "unulfilled" property and child node definitions when listing node contents.
 
-- `session:export:view`: Added `--pretty` option to `session:export:view` command to output formatted XML.
+### Improvements
+
+- [export]: `session:export:view`: Added `--pretty` option to `session:export:view` command to output formatted XML.
 - `session:export:view`: Ask confirmation before overwriting file.
+- [shell]: Autocomplete completes property names in addition to node names in current path.
 
-## Bugs
+### Bugs
 
-- Aliases: Allow quoted arguments
-- Fixed autocomplete segfault
+- [shell]: *Aliases*: Allow quoted arguments.
+- [shell]: Fixed autocomplete segfault.
