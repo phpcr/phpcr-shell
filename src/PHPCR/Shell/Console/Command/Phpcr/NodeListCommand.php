@@ -25,14 +25,14 @@ class NodeListCommand extends Command
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
         $this->addOption('filter', 'f', InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Optional filter to apply');
         $this->addOption('level', 'L', InputOption::VALUE_REQUIRED, 'Depth of tree to show');
-        $this->addOption('no-template', 'T', InputOption::VALUE_REQUIRED, 'Do not show template nodes and properties');
+        $this->addOption('template', 't', InputOption::VALUE_NONE, 'Show template nodes and properties');
         $this->setHelp(<<<HERE
 List both or one of the children and properties of this node.
 
 Multiple levels can be shown by using the <info>--level</info> option.
 
-The <info>node:list</info> command also shows template nodes and properties as defined a nodes node-type.
-These can be suppressed using the <info>--no-template</info> option.
+The <info>node:list</info> command can also shows template nodes and properties as defined a nodes node-type by
+using the <info>--template</info> option. Template nodes and properties are prefixed with the "@" symbol.
 HERE
         );
     }
@@ -46,6 +46,7 @@ HERE
 
         $this->showChildren = $input->getOption('children');
         $this->showProperties = $input->getOption('properties');
+        $this->showTemplate = $input->getOption('template');
 
         $session = $this->getHelper('phpcr')->getSession();
 
@@ -113,14 +114,16 @@ HERE
             }
         }
 
-        // render empty schematic children
-        foreach ($childNodeNames as $childNodeName => $childNodeDefinition) {
-            // @todo: Determine and show cardinality, 1..*, *..*, 0..1, etc.
-            $table->addRow(array(
-                '<templatenode>' . implode('', $spacers) . '@' . $childNodeName . '</templatenode>',
-                implode('|', $childNodeDefinition->getRequiredPrimaryTypeNames()),
-                '',
-            ));
+        if ($this->showTemplate) {
+            // render empty schematic children
+            foreach ($childNodeNames as $childNodeName => $childNodeDefinition) {
+                // @todo: Determine and show cardinality, 1..*, *..*, 0..1, etc.
+                $table->addRow(array(
+                    '<templatenode>' . implode('', $spacers) . '@' . $childNodeName . '</templatenode>',
+                    implode('|', $childNodeDefinition->getRequiredPrimaryTypeNames()),
+                    '',
+                ));
+            }
         }
     }
 
@@ -150,12 +153,14 @@ HERE
             ));
         }
 
-        foreach ($propertyNames as $propertyName => $property) {
-            $table->addRow(array(
-                '<templateproperty>' . implode('', $spacers). '@' . $propertyName . '</templateproperty>',
-                '<property-type>' . strtoupper(PropertyType::nameFromValue($property->getRequiredType())) . '</property-type>',
-                ''
-            ));
+        if ($this->showTemplate) {
+            foreach ($propertyNames as $propertyName => $property) {
+                $table->addRow(array(
+                    '<templateproperty>' . implode('', $spacers). '@' . $propertyName . '</templateproperty>',
+                    '<property-type>' . strtoupper(PropertyType::nameFromValue($property->getRequiredType())) . '</property-type>',
+                    ''
+                ));
+            }
         }
     }
 }

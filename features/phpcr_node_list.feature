@@ -41,3 +41,22 @@ Feature: List properites and chidren of current node
             | numberPropertyNode/           | nt:file   |                           |
             | NumberPropertyNodeToCompare1/ | nt:file   |                           |
             | NumberPropertyNodeToCompare2/ | nt:file   |                           |
+
+
+    Scenario: List node hierarchy
+        Given the current node is "/"
+        And I execute the "node:list --level=1" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        daniel
+        """
+
+    Scenario: Show templates
+        Given the current node is "/tests_general_base"
+        And I execute the "node:list --template" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        | @*                            | nt:base         |                 |
+        """
