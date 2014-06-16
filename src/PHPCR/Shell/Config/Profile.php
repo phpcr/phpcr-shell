@@ -45,9 +45,9 @@ class Profile
      * Set a domain configuration
      *
      * @param string $domain
-     * @param array  $value
+     * @param $key
+     * @param array|null $value
      *
-     * @throws \InvalidArgumentException
      */
     public function set($domain, $key, $value = null)
     {
@@ -63,7 +63,9 @@ class Profile
      * Get a domain configuration
      *
      * @param string $domain
+     * @param string $key
      *
+     * @throws \InvalidArgumentException
      * @return array
      */
     public function get($domain, $key = null) 
