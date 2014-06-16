@@ -3,8 +3,8 @@
 namespace PHPCR\Shell\Subscriber;
 
 use Jackalope\NotImplementedException;
-use PHPCR\Shell\Event\CommandExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PHPCR\Shell\Event\CommandExceptionEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\UnsupportedRepositoryOperationException;
 

@@ -25,7 +25,7 @@ interface TransportRegistryInterface
      *
      * @param string $name
      *
-     * @return PHPCR\Shell\Transport\Transport\TransportInterface
+     * @return \PHPCR\Shell\Transport\TransportInterface
      */
     public function getTransport($name);
 }

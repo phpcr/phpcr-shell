@@ -6,9 +6,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\PropertyType;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PathNotFoundException;
+use PHPCR\PropertyType;
 
 class NodeFileImportCommand extends Command
 {

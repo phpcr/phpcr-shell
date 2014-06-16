@@ -3,7 +3,6 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;

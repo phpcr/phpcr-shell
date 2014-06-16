@@ -24,7 +24,7 @@ would have thrown in that case, and none of the nodes are removed.
 
 If this node is not shared this method removes only this node.
 HERE
-    );
+        );
 
         $this->requiresDescriptor(RepositoryInterface::OPTION_SHAREABLE_NODES_SUPPORTED, true);
     }
