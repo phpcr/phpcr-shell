@@ -2,12 +2,11 @@
 
 namespace PHPCR\Shell\Config;
 
-use PHPCR\Shell\Config\Exception\FileExistsException;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-
+use PHPCR\Shell\Config\Exception\FileExistsException;
+use PHPCR\Shell\Console\Helper\ConfigHelper;
 
 class ProfileLoader
 {
@@ -24,16 +23,12 @@ class ProfileLoader
 
     protected function getProfileDir()
     {
-        $dir = sprintf('%s/%s', $this->config->getConfigDir(), self::DIR_PROFILE);;
-
-        return $dir;
+        return sprintf('%s/%s', $this->config->getConfigDir(), self::DIR_PROFILE);
     }
 
     public function getProfilePath($name)
     {
-        $dir = sprintf('%s/%s/%s.yml', $this->config->getConfigDir(), self::DIR_PROFILE, $name);;
-
-        return $dir;
+        return sprintf('%s/%s/%s.yml', $this->config->getConfigDir(), self::DIR_PROFILE, $name);
     }
 
     public function getProfileNames()

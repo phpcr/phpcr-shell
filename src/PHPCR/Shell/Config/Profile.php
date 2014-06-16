@@ -2,8 +2,6 @@
 
 namespace PHPCR\Shell\Config;
 
-use PHPCR\Shell\Transport\TransportConfig;
-
 /**
  * Configuration profile object
  */
