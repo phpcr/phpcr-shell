@@ -33,7 +33,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
             throw $exception;
         }
 
-
         if ($exception instanceof UnsupportedRepositoryOperationException) {
             $output->writeln('<error>Unsupported repository operation: This repository is not capable of performing the requested action</error>');
         }

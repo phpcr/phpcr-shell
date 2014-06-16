@@ -38,7 +38,7 @@ class PhpcrHelper extends Helper
 
     /**
      * @param TransportRegistryInterface $transportRegistry
-     * @param Profile $profile
+     * @param Profile                    $profile
      */
     public function __construct(TransportRegistryInterface $transportRegistry, Profile $profile)
     {

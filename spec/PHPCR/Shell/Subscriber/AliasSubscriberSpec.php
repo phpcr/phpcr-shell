@@ -11,12 +11,12 @@ use Symfony\Component\Console\Helper\HelperSet;
 
 class AliasSubscriberSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Subscriber\AliasSubscriber');
     }
 
-    function let(
+    public function let(
         HelperSet $helperSet,
         ConfigHelper $config
     ) {
@@ -32,7 +32,7 @@ class AliasSubscriberSpec extends ObjectBehavior
         ));
     }
 
-    function it_should_convert_an_aliased_input_into_a_real_command_input(
+    public function it_should_convert_an_aliased_input_into_a_real_command_input(
         CommandPreRunEvent $event,
         ConfigHelper $config,
         StringInput $input
@@ -47,7 +47,7 @@ class AliasSubscriberSpec extends ObjectBehavior
         $this->handleAlias($event)->shouldReturn('list:command me');
     }
 
-    function it_should_ommit_missing_arguments(
+    public function it_should_ommit_missing_arguments(
         CommandPreRunEvent $event,
         ConfigHelper $config,
         StringInput $input

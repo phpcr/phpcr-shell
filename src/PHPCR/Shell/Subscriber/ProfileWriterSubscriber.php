@@ -53,4 +53,3 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
         }
     }
 }
-

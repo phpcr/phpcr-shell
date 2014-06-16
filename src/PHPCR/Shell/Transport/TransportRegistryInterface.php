@@ -5,7 +5,7 @@ namespace PHPCR\Shell\Transport;
 /**
  * Interface for transport factory
  *
- * Note that transport registry is a bit of a misnomer - 
+ * Note that transport registry is a bit of a misnomer -
  * logically it would be RepositoryFactoryInitializerInterface,
  * which is too long imo.
  *

@@ -4,7 +4,6 @@ namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Console\Helper\HelperSet;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\CommandPreRunEvent;
 use PHPCR\Shell\Console\Input\StringInput;

@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Transport\Transport;
 
-use Symfony\Component\Console\Input\InputInterface;
 use Jackalope\RepositoryFactoryJackrabbit;
 use PHPCR\Shell\Transport\TransportInterface;
 

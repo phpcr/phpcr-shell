@@ -79,6 +79,7 @@ class FeatureContext extends BehatContext
 
         if (false === $force && isset($sessions[$workspaceName])) {
             $session = $sessions[$workspaceName];
+
             return $session;
         }
 
@@ -379,8 +380,8 @@ class FeatureContext extends BehatContext
         } catch (PathNotFoundException $e) {
             throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
         }
-    }    
-    
+    }
+
     /**
      * @Given /^there should exist a node at "([^"]*)" before "([^"]*)"$/
      */
