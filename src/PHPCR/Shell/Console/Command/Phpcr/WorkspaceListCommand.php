@@ -36,7 +36,7 @@ HERE
         $workspace = $session->getWorkspace();
         $availableWorkspaces = $workspace->getAccessibleWorkspaceNames();
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Name'));
         foreach ($availableWorkspaces as $availableWorkspace) {
             if ($availableWorkspace == $workspace->getName()) {

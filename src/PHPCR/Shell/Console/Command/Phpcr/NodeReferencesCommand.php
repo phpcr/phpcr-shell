@@ -52,7 +52,7 @@ HERE
         $references['weak'] = $currentNode->getWeakReferences($name ? : null);
         $references['strong'] = $currentNode->getReferences($name ? : null);
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array(
             'Type', 'Property', 'Node Path'
         ));

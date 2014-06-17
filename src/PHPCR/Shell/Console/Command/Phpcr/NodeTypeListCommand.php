@@ -30,7 +30,7 @@ HERE
 
         $nodeTypes = $nodeTypeManager->getAllNodeTypes();
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Name', 'Primary Item Name', 'Abstract?', 'Mixin?', 'Queryable?'));
 
         foreach ($nodeTypes as $nodeType) {

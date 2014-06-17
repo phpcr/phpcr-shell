@@ -26,7 +26,7 @@ HERE
 
         $prefixes = $namespaceRegistry->getPrefixes();
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Prefix', 'URI'));
 
         foreach ($prefixes as $prefix) {

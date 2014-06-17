@@ -50,10 +50,14 @@ class ResultFormatterHelper extends Helper
         $selectorNames = $result->getSelectorNames();
 
         $table = new TableHelper;
-        $table->setHeaders($result->getColumnNames());
+        $table->setHeaders(array_merge(array(
+            'Path',
+        ), $result->getColumnNames()));
 
         foreach ($result->getRows() as $i => $row) {
-            $values = $row->getValues();
+            $values = array_merge(array(
+                $row->getPath(),
+            ), $row->getValues());
 
             foreach ($values as $columnName => &$value) {
                 $value = $this->normalizeValue($value);

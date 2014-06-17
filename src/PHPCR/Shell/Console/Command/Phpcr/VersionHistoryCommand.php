@@ -24,7 +24,7 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $nodeHelper = $this->getHelper('node');
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
 
         $path = $session->getAbsPath($input->getArgument('path'));
         $workspace = $session->getWorkspace();

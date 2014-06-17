@@ -23,7 +23,7 @@ HERE
         $session = $this->getHelper('phpcr')->getSession();
         $prefixes = $session->getNamespacePrefixes();
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Prefix', 'URI'));
 
         foreach ($prefixes as $prefix) {

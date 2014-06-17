@@ -23,7 +23,7 @@ EOT
         $config = $this->getHelper('config');
         $aliases = $config->getConfig('alias');
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Alias', 'Command'));
 
         foreach ($aliases as $alias => $command) {

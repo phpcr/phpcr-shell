@@ -58,7 +58,7 @@ HERE
             $this->showProperties = true;
         }
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
 
         $this->renderNode($currentNode, $table);
 

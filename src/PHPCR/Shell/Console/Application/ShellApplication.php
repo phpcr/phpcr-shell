@@ -30,6 +30,7 @@ use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Transport\TransportRegistry;
 use PHPCR\Shell\Config\ProfileLoader;
+use PHPCR\Shell\Console\Helper\TableHelper;
 
 /**
  * Main application for PHPCRSH
@@ -130,7 +131,8 @@ class ShellApplication extends Application
             new RepositoryHelper($phpcrHelper),
             new ResultFormatterHelper(),
             new TextHelper(),
-            $phpcrHelper,
+            new TableHelper(),
+            $phpcrHelper
         );
 
         foreach ($helpers as $helper) {
