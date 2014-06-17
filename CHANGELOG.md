@@ -1,6 +1,11 @@
 Changelog
 =========
 
+alpha-4
+-------
+
+- [query] Always show path next to resultset
+
 alpha-3
 -------
 

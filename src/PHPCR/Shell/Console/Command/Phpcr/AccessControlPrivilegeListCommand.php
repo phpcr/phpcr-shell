@@ -62,7 +62,7 @@ HERE
             $privileges = $acm->getPrivileges($absPath);
         }
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Name'));
 
         foreach ($privileges as $privilege) {

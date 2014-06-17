@@ -36,7 +36,7 @@ HERE
             $attribute = $session->getAttribute($attributeName);
         }
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Key', 'Value'));
 
         foreach ($info as $key => $value) {

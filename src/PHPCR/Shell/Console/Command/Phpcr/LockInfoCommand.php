@@ -47,7 +47,7 @@ HERE
             'Session scoped?' => $lock->isSessionScoped() ? 'yes' : 'no',
         );
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
 
         foreach ($info as $label => $value) {
             $table->addRow(array($label, $value));

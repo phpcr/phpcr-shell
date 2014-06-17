@@ -25,7 +25,7 @@ HERE
         $repository = $session->getRepository();
         $keys = $repository->getDescriptorKeys();
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Key', 'Value', 'Standard?'));
 
         foreach ($keys as $key) {

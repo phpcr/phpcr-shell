@@ -33,7 +33,7 @@ HERE
 
         $lockTokens = $lockManager->getLockTokens();
 
-        $table = clone $this->getHelper('table');
+        $table = $this->getHelper('table')->create();
         $table->setHeaders(array('Token'));
 
         foreach ($lockTokens as $token) {
