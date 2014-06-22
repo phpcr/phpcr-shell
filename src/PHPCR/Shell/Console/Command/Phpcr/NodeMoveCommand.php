@@ -52,8 +52,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $srcPath = $session->getAbsPath($input->getArgument('srcPath'));
-        $destPath = $session->getAbsPath($input->getArgument('destPath'));
+        $srcPath = $input->getArgument('srcPath');
+        $destPath = $input->getArgument('destPath');
+
         $session->move($srcPath, $destPath);
     }
 }

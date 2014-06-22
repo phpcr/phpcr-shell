@@ -16,6 +16,12 @@ Feature: Clone a node from a given workspace to the current workspace
         And I save the session
         And there should exist a node at "/cms/clone"
 
+    Scenario: Clone node onto existing node 
+        Given I execute the "node:clone /cms/articles/article1 /cms/test" command
+        Then the command should not fail
+        And I save the session
+        And there should exist a node at "/cms/test/article1"
+
     Scenario: Clone node
         Given I execute the "node:clone  /tests_general_base /cms/foobar default_1" command
         Then the command should not fail
