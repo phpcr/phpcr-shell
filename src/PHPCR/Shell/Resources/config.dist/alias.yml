@@ -1,5 +1,5 @@
 # Shell shortcuts
-alist: shell:alias:list
+lsa: shell:alias:list
 creload: shell:config:reload
 cinit: shell:config:init
 
@@ -22,8 +22,8 @@ cat: node:property:show {arg1}
 touch: node:property:set {arg1} {arg2} {arg3}
 
 # Node type commands
-mixins: node-type:list "^mix:"
-ntlist: node-type:list
+lsmix: node-type:list "^mix:"
+lsnt: node-type:list {arg1}
 ntedit: node-type:edit {arg1}
 ntshow: node-type:show {arg1}
 
@@ -31,7 +31,7 @@ ntshow: node-type:show {arg1}
 wslist: workspace:list
 
 # Namespsce commands
-nslist: workspace:namespace:list
+lsns: workspace:namespace:list {arg1}
 nsset: workspace:namespace:register
 
 # Editor commands
@@ -42,12 +42,11 @@ nano: node:property:edit {arg1} {arg2}
 man: help {arg1}
 
 # Version commands
-checkin: version:checkin {arg1}
-checkout: version:checkout {arg1}
-checkpoint: version:checkpoint {arg1}
-checkpoint: version:checkpoint {arg1}
-vhlist: version:history {arg1}
+ci: version:checkin {arg1}
+co: version:checkout {arg1}
+cp: version:checkpoint {arg1}
+vhist: version:history {arg1}
 
 # Session commands
 save: session:save
-reload: session:reload
+refresh: session:refresh
