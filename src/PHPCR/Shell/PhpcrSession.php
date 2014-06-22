@@ -118,15 +118,17 @@ class PhpcrSession implements SessionInterface
      */
     public function getAbsTargetPath($srcPath, $targetPath)
     {
+        $targetPath = $this->getAbsPath($targetPath);
+
         try {
-            $this->getNode($this->getAbsPath($targetPath));
+            $this->getNode($targetPath);
         } catch (PathNotFoundException $e) {
             return $targetPath;
         }
 
         $basename = basename($this->getAbsPath($srcPath));
 
-        return sprintf('%s/%s', $targetPath, $basename);
+        return $this->getAbsPath(sprintf('%s/%s', $targetPath, $basename));
     }
 
     public function getAbsPaths($paths)
