@@ -8,8 +8,15 @@
         "jackalope/jackalope": "~1.1",
         "phpcr/phpcr": "~2.1",
         "phpcr/phpcr-utils": "~1.2",
-        "symfony/finder": "~2.3"
+        "symfony/finder": "~2.3",
+        "kukulich/fshl": "dev-symfony-console-formatter"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/dantleech/fshl"
+        }
+    ],
     "minimum-stability": "dev",
     "require-dev": {
         "mockery/mockery": "0.9",
