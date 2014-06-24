@@ -105,6 +105,32 @@ class PhpcrSession implements SessionInterface
         return $absPath;
     }
 
+    /**
+     * Infer the absolute target path for a given source path.
+     *
+     * This means that if there is a node at targetPath then we
+     * will return append the  basename of $srcPath to $targetPath.
+     *
+     * @param string $srcPath
+     * @param string $targetPath
+     *
+     * @return string
+     */
+    public function getAbsTargetPath($srcPath, $targetPath)
+    {
+        $targetPath = $this->getAbsPath($targetPath);
+
+        try {
+            $this->getNode($targetPath);
+        } catch (PathNotFoundException $e) {
+            return $targetPath;
+        }
+
+        $basename = basename($this->getAbsPath($srcPath));
+
+        return $this->getAbsPath(sprintf('%s/%s', $targetPath, $basename));
+    }
+
     public function getAbsPaths($paths)
     {
         $newPaths = array();
@@ -200,9 +226,9 @@ class PhpcrSession implements SessionInterface
         return $this->session->propertyExists($this->getAbsPath($path));
     }
 
-    public function move($srcAbsPath, $destAbsPath)
+    public function move($srcPath, $destPath)
     {
-        return $this->session->move($this->getAbsPath($srcAbsPath), $this->getAbsPath($destAbsPath));
+        return $this->session->move($this->getAbsPath($srcPath), $this->getAbsTargetPath($srcPath, $destPath));
     }
 
     public function removeItem($path)

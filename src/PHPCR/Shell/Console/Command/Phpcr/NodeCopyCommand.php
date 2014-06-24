@@ -88,7 +88,7 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $srcAbsPath = $session->getAbsPath($input->getArgument('srcPath'));
-        $destAbsPath = $session->getAbsPath($input->getArgument('destPath'));
+        $destAbsPath = $session->getAbsTargetPath($srcAbsPath, $input->getArgument('destPath'));
         $srcWorkspace = $input->getArgument('srcWorkspace');
 
         $workspace = $session->getWorkspace();

@@ -20,3 +20,9 @@ Feature: Copy a node from a given workspace to the current workspace
         Given I execute the "node:copy /tests_general_base/index.txt /index.txt default_1" command
         Then the command should not fail
         And there should exist a node at "/index.txt"
+
+    Scenario: Copy node onto existing target
+        Given I execute the "node:copy /tests_general_base/index.txt /tests_general_base/daniel" command
+        Then the command should not fail
+        And I save the session
+        And there should exist a node at "/tests_general_base/daniel"

@@ -21,3 +21,10 @@ Feature: Move a node in the current session
         And I execute the "session:save" command
         And there should exist a node at "/barfoo"
         And there should not exist a node at "/tests_general_base/index.txt"
+
+    Scenario: Move onto existing target
+        Given the current node is "/tests_general_base/index.txt"
+        And I execute the "node:move . /tests_general_base/daniel" command
+        Then the command should not fail
+        And I execute the "session:save" command
+        And there should exist a node at "/tests_general_base/daniel/index.txt"
