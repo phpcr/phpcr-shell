@@ -12,7 +12,7 @@ class NodeTypeUnregisterCommand extends PhpcrShellCommand
     {
         $this->setName('node-type:unregister');
         $this->setDescription('Unregister a node type UNSUPPORTED / TODO');
-        $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, 'The name of the node type to unregister');
+        $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'The name of the node type to unregister');
         $this->setHelp(<<<HERE
 Unregisters the specified node type
 HERE

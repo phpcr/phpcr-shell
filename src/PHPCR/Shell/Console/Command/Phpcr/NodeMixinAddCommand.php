@@ -14,7 +14,7 @@ class NodeMixinAddCommand extends Command
         $this->setName('node:mixin:add');
         $this->setDescription('Add the named mixin to the node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->addArgument('mixinName', null, InputArgument::REQUIRED, null, 'The name of the mixin node type to be added');
+        $this->addArgument('mixinName', InputArgument::REQUIRED, 'The name of the mixin node type to be added');
         $this->setHelp(<<<HERE
 Adds the mixin node type named <info>mixinName</info> to this node.
 

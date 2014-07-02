@@ -14,8 +14,8 @@ class NodeOrderBeforeCommand extends Command
         $this->setName('node:order-before');
         $this->setDescription('Reorder a child node of the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->addArgument('srcChildRelPath', null, InputArgument::REQUIRED, 'The relative path to the child node to be moved in the ordering');
-        $this->addArgument('destChildRelPath', null, InputArgument::REQUIRED, 'The relative path to the child before which the node srcChildRelPath will be placed');
+        $this->addArgument('srcChildRelPath', InputArgument::REQUIRED, 'The relative path to the child node to be moved in the ordering');
+        $this->addArgument('destChildRelPath', InputArgument::REQUIRED, 'The relative path to the child before which the node srcChildRelPath will be placed');
         $this->setHelp(<<<HERE
 If this node supports child node ordering, this method inserts the child
 node at <info>srcChildRelPath</info> into the child node list at the position

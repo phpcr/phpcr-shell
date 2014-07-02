@@ -14,8 +14,8 @@ class VersionRestoreCommand extends Command
     {
         $this->setName('version:restore');
         $this->setDescription('Restore a node version');
-        $this->addArgument('path', null, InputArgument::REQUIRED, 'Path to node');
-        $this->addArgument('versionName', null, InputArgument::REQUIRED, 'Name of version to retore');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path to node');
+        $this->addArgument('versionName', InputArgument::REQUIRED, 'Name of version to retore');
         $this->addOption('remove-existing', null, InputOption::VALUE_NONE, 'Flag that governs what happens in case of identifier collision');
         $this->setHelp(<<<HERE
 Attempt to restore an old version of a node.

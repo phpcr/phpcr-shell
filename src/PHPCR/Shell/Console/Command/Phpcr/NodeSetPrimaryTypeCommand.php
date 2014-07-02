@@ -14,7 +14,7 @@ class NodeSetPrimaryTypeCommand extends Command
         $this->setName('node:set-primary-type');
         $this->setDescription('Set the primary type of the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, null, 'New primary node type name');
+        $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'New primary node type name');
         $this->setHelp(<<<HERE
 Changes the primary node type of this node to nodeTypeName.
 

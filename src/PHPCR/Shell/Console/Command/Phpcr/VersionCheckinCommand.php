@@ -13,7 +13,7 @@ class VersionCheckinCommand extends Command
     {
         $this->setName('version:checkin');
         $this->setDescription('Checkin (commit) a node version');
-        $this->addArgument('path', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
         $this->setHelp(<<<HERE
 Creates for the versionable node at <info>path</info> a new version with a system
 generated version name and returns that version (which will be the new

@@ -14,7 +14,7 @@ class NodeUpdateCommand extends Command
         $this->setName('node:update');
         $this->setDescription('Updates a node corresponding to the current one in the given workspace');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->addArgument('srcWorkspace', null, InputArgument::REQUIRED, 'The name of the source workspace');
+        $this->addArgument('srcWorkspace', InputArgument::REQUIRED, 'The name of the source workspace');
         $this->setHelp(<<<HERE
 Updates a node corresponding to the current one in the given workspace.
 

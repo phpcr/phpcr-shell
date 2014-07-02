@@ -13,8 +13,8 @@ class SessionNamespaceSetCommand extends Command
     {
         $this->setName('session:namespace:set');
         $this->setDescription('Set a namespace in the current session');
-        $this->addArgument('prefix', null, InputArgument::REQUIRED, 'The namespace prefix to be set as identifier');
-        $this->addArgument('uri', null, InputArgument::REQUIRED, 'The location of the namespace definition (usually a URI');
+        $this->addArgument('prefix', InputArgument::REQUIRED, 'The namespace prefix to be set as identifier');
+        $this->addArgument('uri', InputArgument::REQUIRED, 'The location of the namespace definition (usually a URI');
         $this->setHelp(<<<HERE
 Sets the name of a namespace prefix.
 

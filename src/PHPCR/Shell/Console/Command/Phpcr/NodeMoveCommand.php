@@ -13,8 +13,8 @@ class NodeMoveCommand extends Command
     {
         $this->setName('node:move');
         $this->setDescription('Move a node in the current session');
-        $this->addArgument('srcPath', null, InputArgument::REQUIRED, 'The root of the subgraph to be moved.');
-        $this->addArgument('destPath', null, InputArgument::REQUIRED, 'The location to which the subgraph is to be moved');
+        $this->addArgument('srcPath', InputArgument::REQUIRED, 'The root of the subgraph to be moved.');
+        $this->addArgument('destPath', InputArgument::REQUIRED, 'The location to which the subgraph is to be moved');
         $this->setHelp(<<<HERE
 Moves the node at <info>srcPath</info> (and its entire subgraph) to the new
 location at <info>destPath</info>.
