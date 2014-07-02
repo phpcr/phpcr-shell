@@ -9,6 +9,10 @@ alpha-4
 - [node] copy,move and clone - Target paths automatically append basename if target is a node.
 - [query] Always show path next to resultset
 
+### Bugs Fixes
+
+- [args] 28 instances of bad InputArgument constructor fixed
+
 alpha-3
 -------
 
