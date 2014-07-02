@@ -17,7 +17,7 @@ class NodePropertySetCommand extends Command
         $this->setName('node:property:set');
         $this->setDescription('Rename the node at the current path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - can include the node name');
-        $this->addArgument('value', null, InputArgument::OPTIONAL, null, 'Value for named property');
+        $this->addArgument('value', InputArgument::OPTIONAL, 'Value for named property');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of named property');
         $this->setHelp(<<<HERE
 Defines a value for a property identified by its name.
