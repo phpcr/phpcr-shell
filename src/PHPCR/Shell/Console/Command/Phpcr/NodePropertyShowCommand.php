@@ -15,7 +15,7 @@ class NodePropertyShowCommand extends Command
     {
         $this->setName('node:property:show');
         $this->setDescription('Show the property at the given absolute path');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to property');
+        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to property');
         $this->setHelp(<<<HERE
 Show the property at the given absolute path
 HERE

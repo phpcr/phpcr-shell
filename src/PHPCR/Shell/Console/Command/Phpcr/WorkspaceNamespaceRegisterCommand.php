@@ -13,8 +13,8 @@ class WorkspaceNamespaceRegisterCommand extends Command
     {
         $this->setName('workspace:namespace:register');
         $this->setDescription('Sets a one-to-one mapping between prefix and uri in the global namespace');
-        $this->addArgument('prefix', null, InputArgument::REQUIRED, 'The namespace prefix to be mapped');
-        $this->addArgument('uri', null, InputArgument::REQUIRED, 'The URI to be mapped');
+        $this->addArgument('prefix', InputArgument::REQUIRED, 'The namespace prefix to be mapped');
+        $this->addArgument('uri', InputArgument::REQUIRED, 'The URI to be mapped');
         $this->setHelp(<<<HERE
 List all namespace prefix to URI  mappings in current session
 HERE

@@ -16,7 +16,7 @@ class NodeTypeEditCommand extends Command
     {
         $this->setName('node-type:edit');
         $this->setDescription('Edit or create a node type');
-        $this->addArgument('nodeTypeName', null, InputArgument::REQUIRED, 'The name of the node type to edit or create');
+        $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'The name of the node type to edit or create');
         $this->setHelp(<<<HERE
 Edit the given node type name with the editor defined in the EDITOR environment variable.
 

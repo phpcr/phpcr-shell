@@ -14,7 +14,7 @@ class NodeRenameCommand extends Command
         $this->setName('node:rename');
         $this->setDescription('Rename the node at the current path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->addArgument('newName', null, InputArgument::REQUIRED, 'The name of the node to create');
+        $this->addArgument('newName', InputArgument::REQUIRED, 'The name of the node to create');
         $this->setHelp(<<<HERE
 Renames this node to the specified <info>newName</info>. The ordering (if any) of
 this node among it siblings remains unchanged.

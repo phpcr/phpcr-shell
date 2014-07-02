@@ -13,7 +13,7 @@ class VersionCheckoutCommand extends Command
     {
         $this->setName('version:checkout');
         $this->setDescription('Checkout a node version and enable changes to be made');
-        $this->addArgument('path', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
         $this->setHelp(<<<HERE
 Sets the versionable node at <info>path</info> to checked-out status by setting
 its jcr:isCheckedOut property to true. Under full versioning it also sets

@@ -14,7 +14,7 @@ class NodePropertyRemoveCommand extends Command
     {
         $this->setName('node:property:remove');
         $this->setDescription('Remove the property at the given absolute path');
-        $this->addArgument('absPath', null, InputArgument::REQUIRED, 'Absolute path to property');
+        $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to property');
         $this->setHelp(<<<HERE
 Remove the property from the current session at the given absolute path
 HERE

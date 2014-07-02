@@ -13,7 +13,7 @@ class VersionHistoryCommand extends Command
     {
         $this->setName('version:history');
         $this->setDescription('Show version history of node at given absolute path');
-        $this->addArgument('path', null, InputArgument::REQUIRED, 'Absolute path to node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
         $this->setHelp(<<<HERE
 Lists the version history of the node given at <info>path</info>.
 HERE
