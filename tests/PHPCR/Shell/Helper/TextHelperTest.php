@@ -2,8 +2,6 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\Shell\Console\Helper\TextHelper;
-
 class TextHelperTest extends \PHPUnit_Framework_TestCase
 {
     protected $textHelper;

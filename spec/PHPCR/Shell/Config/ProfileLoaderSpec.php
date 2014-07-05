@@ -10,7 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ProfileLoaderSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         ConfigHelper $configHelper,
         Filesystem $filesystem
     )
@@ -19,19 +19,19 @@ class ProfileLoaderSpec extends ObjectBehavior
         $this->beConstructedWith($configHelper, $filesystem);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Config\ProfileLoader');
     }
 
-    function it_should_list_profile_names()
+    public function it_should_list_profile_names()
     {
         $this->getProfileNames()->shouldReturn(array(
             'one', 'two'
         ));
     }
 
-    function it_should_load_data_into_a_given_profile(
+    public function it_should_load_data_into_a_given_profile(
         Profile $profile,
         Filesystem $filesystem
     )
@@ -51,7 +51,7 @@ class ProfileLoaderSpec extends ObjectBehavior
         $this->loadProfile($profile);
     }
 
-    function it_should_save_a_given_profile(
+    public function it_should_save_a_given_profile(
         Profile $profile,
         Filesystem $filesystem
     )

@@ -3,9 +3,9 @@
 namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Console\Helper\DialogHelper;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
-use Symfony\Component\Console\Helper\DialogHelper;
 use PHPCR\Shell\Config\ProfileLoader;
 
 class ProfileWriterSubscriber implements EventSubscriberInterface
@@ -53,4 +53,3 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
         }
     }
 }
-

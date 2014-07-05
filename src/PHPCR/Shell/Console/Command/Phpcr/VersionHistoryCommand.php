@@ -46,6 +46,5 @@ HERE
         }
 
         $table->render($output);
-
     }
 }

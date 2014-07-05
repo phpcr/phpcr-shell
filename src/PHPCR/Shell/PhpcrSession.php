@@ -4,7 +4,6 @@ namespace PHPCR\Shell;
 
 use PHPCR\SessionInterface;
 use PHPCR\CredentialsInterface;
-use PHPCR\Util\PathHelper;
 use PHPCR\PathNotFoundException;
 
 class PhpcrSession implements SessionInterface

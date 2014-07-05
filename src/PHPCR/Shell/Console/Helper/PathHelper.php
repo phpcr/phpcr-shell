@@ -2,8 +2,8 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\Util\PathHelper as StaticPathHelper;
 use Symfony\Component\Console\Helper\Helper;
+use PHPCR\Util\PathHelper as StaticPathHelper;
 
 /**
  * Phpcr path helper

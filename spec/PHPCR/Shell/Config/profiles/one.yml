@@ -1,4 +1,4 @@
-transport: 
+transport:
     name: foobar
     bar_foo: barfoo
     foo_bar: foobar

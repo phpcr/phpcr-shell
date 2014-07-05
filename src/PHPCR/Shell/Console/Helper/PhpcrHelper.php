@@ -3,7 +3,6 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\PhpcrSession;
 use PHPCR\SimpleCredentials;
@@ -39,7 +38,7 @@ class PhpcrHelper extends Helper
 
     /**
      * @param TransportRegistryInterface $transportRegistry
-     * @param Profile $profile
+     * @param Profile                    $profile
      */
     public function __construct(TransportRegistryInterface $transportRegistry, Profile $profile)
     {

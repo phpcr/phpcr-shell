@@ -8,25 +8,25 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class ConfigHelperSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         Filesystem $filesystem
     )
     {
         $this->beConstructedWith($filesystem);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Console\Helper\ConfigHelper');
     }
 
-    function it_should_have_a_method_to_get_the_users_config_directory()
+    public function it_should_have_a_method_to_get_the_users_config_directory()
     {
         putenv('PHPCRSH_HOME=/home/foobar');
         $this->getConfigDir()->shouldReturn('/home/foobar');
     }
 
-    function it_should_be_able_to_parse_a_config_file_and_return_the_config_as_an_array(
+    public function it_should_be_able_to_parse_a_config_file_and_return_the_config_as_an_array(
         Filesystem $filesystem
     )
     {

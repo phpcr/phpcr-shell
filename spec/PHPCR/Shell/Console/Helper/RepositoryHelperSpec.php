@@ -3,24 +3,23 @@
 namespace spec\PHPCR\Shell\Console\Helper;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\RepositoryInterface;
 use PHPCR\Shell\Console\Helper\PhpcrHelper;
 
 class RepositoryHelperSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         PhpcrHelper $phpcrHelper
     ) {
         $this->beConstructedWith($phpcrHelper);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Console\Helper\RepositoryHelper');
     }
 
-    function it_provides_a_method_to_say_if_a_descriptor_exists_or_not(
+    public function it_provides_a_method_to_say_if_a_descriptor_exists_or_not(
         PhpcrHelper $phpcrHelper,
         RepositoryInterface $repository
     ) {

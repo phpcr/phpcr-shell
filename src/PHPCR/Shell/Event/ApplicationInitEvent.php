@@ -20,9 +20,8 @@ class ApplicationInitEvent extends Event
         $this->application = $application;
     }
 
-    public function getApplication() 
+    public function getApplication()
     {
         return $this->application;
     }
-    
 }

@@ -3,8 +3,8 @@
 namespace PHPCR\Shell\Subscriber;
 
 use Jackalope\NotImplementedException;
-use PHPCR\Shell\Event\CommandExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PHPCR\Shell\Event\CommandExceptionEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\UnsupportedRepositoryOperationException;
 
@@ -32,7 +32,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
         if ($input->hasOption('verbose') && $input->getOption('verbose')) {
             throw $exception;
         }
-
 
         if ($exception instanceof UnsupportedRepositoryOperationException) {
             $output->writeln('<error>Unsupported repository operation: This repository is not capable of performing the requested action</error>');

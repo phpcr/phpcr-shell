@@ -3,11 +3,10 @@
 namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
+use Symfony\Component\Console\Helper\HelperSet;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\CommandPreRunEvent;
 use PHPCR\Shell\Console\Input\StringInput;
-use Symfony\Component\Console\Helper\HelperSet;
 
 /**
  * Check to see if the input references a command alias and

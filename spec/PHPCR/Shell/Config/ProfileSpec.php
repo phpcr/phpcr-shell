@@ -3,30 +3,28 @@
 namespace spec\PHPCR\Shell\Config;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
-use PHPCR\Shell\Transport\TransportConfig;
 
 class ProfileSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith(
             'foobar'
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Config\Profile');
     }
 
-    function it_has_a_method_to_set_config(
+    public function it_has_a_method_to_set_config(
     )
     {
         $this->set('transport', array());
     }
 
-    function it_has_a_method_to_get_config()
+    public function it_has_a_method_to_get_config()
     {
         $this->set('transport', array(
             'foo' => 'bar'

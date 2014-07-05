@@ -4,7 +4,6 @@ namespace PHPCR\Shell\Transport\Transport;
 
 use Doctrine\DBAL\DriverManager;
 use Jackalope\RepositoryFactoryDoctrineDBAL;
-use Symfony\Component\Console\Input\InputInterface;
 use PHPCR\Shell\Transport\TransportInterface;
 
 class DoctrineDbal implements TransportInterface

@@ -25,7 +25,6 @@ class ResultFormatterHelper extends Helper
         return 'result_formatter';
     }
 
-
     /**
      * Return the name of a property from its enumeration (i.e.
      * the value of its CONSTANT)
