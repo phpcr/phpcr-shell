@@ -1,4 +1,4 @@
-Feature: List properites and chidren of current node
+Feature: List properites and chidren of current nodeA
     In order to list the properties and children of the current node
     As a user that is logged into the shell
     I should be able to run a command which does that
@@ -59,4 +59,12 @@ Feature: List properites and chidren of current node
         And I should see the following:
         """
         | @*                            | nt:base         |                 |
+        """
+
+    Scenario: List node by UUID
+        Given I execute the "node:list 842e61c0-09ab-42a9-87c0-308ccc90e6f4" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        jcr:uuid
         """
