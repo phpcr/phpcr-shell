@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
+use PHPCR\Util\UUIDHelper;
 
 class NodeListCommand extends Command
 {
@@ -19,7 +20,7 @@ class NodeListCommand extends Command
     protected function configure()
     {
         $this->setName('node:list');
-        $this->setDescription('List the children / properties of this node');
+        $this->setDescription('List the children / properties of this node at the given path or with the given UUID');
         $this->addArgument('path', InputArgument::OPTIONAL, 'Path of node', '.');
         $this->addOption('children', null, InputOption::VALUE_NONE, 'List only the children of this node');
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
@@ -33,6 +34,11 @@ Multiple levels can be shown by using the <info>--level</info> option.
 
 The <info>node:list</info> command can also shows template nodes and properties as defined a nodes node-type by
 using the <info>--template</info> option. Template nodes and properties are prefixed with the "@" symbol.
+
+The command accepts wither a path (relative or absolute) to the node or a UUID.
+
+    PHPCRSH> node:list 842e61c0-09ab-42a9-87c0-308ccc90e6f4
+    PHPCRSH> node:list /tests/foobar
 HERE
         );
     }
@@ -50,8 +56,14 @@ HERE
 
         $session = $this->getHelper('phpcr')->getSession();
 
-        $path = $session->getAbsPath($input->getArgument('path'));
-        $currentNode = $session->getNode($path);
+        $path = $input->getArgument('path');
+
+        if (true === UUIDHelper::isUUID($path)) {
+            $currentNode = $session->getNodeByIdentifier($path);
+        } else {
+            $path = $session->getAbsPath($path);
+            $currentNode = $session->getNode($path);
+        }
 
         if (!$this->showChildren && !$this->showProperties) {
             $this->showChildren = true;
