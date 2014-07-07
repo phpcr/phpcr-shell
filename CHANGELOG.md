@@ -13,6 +13,7 @@ alpha-4
 ### Bugs Fixes
 
 - [args] 28 instances of bad InputArgument constructor fixed
+- [node] `node:list` Catch exceptions when rendering property rows (e.g. on invalid references)
 
 alpha-3
 -------
