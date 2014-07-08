@@ -153,15 +153,22 @@ HERE
 
         $i = 0;
         foreach ($properties as $name => $property) {
-            $i++;
-            if (isset($propertyNames[$name])) {
-                unset($propertyNames[$name]);
+            try {
+                $i++;
+                if (isset($propertyNames[$name])) {
+                    unset($propertyNames[$name]);
+                }
+
+                $valueCell = $this->textHelper->truncate($this->formatter->formatValue($property), 55);
+
+            } catch (\Exception $e) {
+                $valueCell = '<error>' . $e->getMessage() . '</error>';
             }
 
             $table->addRow(array(
                 '<property>' . implode('', $spacers). $name . '</property>',
                 '<property-type>' . $this->formatter->getPropertyTypeName($property->getType()) . '</property-type>',
-                $this->textHelper->truncate($this->formatter->formatValue($property), 55),
+                $valueCell
             ));
         }
 

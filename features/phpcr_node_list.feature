@@ -68,3 +68,11 @@ Feature: List properites and chidren of current nodeA
         """
         jcr:uuid
         """
+
+    Scenario: Catch exception on invalid reference
+        Given I execute the "node:list /tests_general_base/numberPropertyNode/jcr:content" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        One or more weak reference targets have not been found
+        """
