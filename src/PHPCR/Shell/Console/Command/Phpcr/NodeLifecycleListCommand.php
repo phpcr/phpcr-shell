@@ -26,8 +26,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
-        $currentNode = $session->getNode($path);
+        $path = $input->getArgument('path');
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $transitions = $currentNode->getAllowedLifecycleTransitions();
 
         foreach ($transitions as $transition) {

@@ -42,8 +42,8 @@ HERE
         $this->showChildren = $input->getOption('children');
         $this->showProperties = $input->getOption('properties');
 
-        $path = $session->getAbsPath($input->getArgument('path'));
-        $currentNode = $session->getNode($path);
+        $path = $input->getArgument('path');
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
 
         if (!$showChildren && !$showProperties) {
             $this->showChildren = true;

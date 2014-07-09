@@ -31,8 +31,8 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
-        $currentNode = $session->getNode($path);
+        $path = $input->getArgument('path');
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $sharedSet = $currentNode->getSharedSet();
 
         foreach ($sharedSet as $sharedNode) {

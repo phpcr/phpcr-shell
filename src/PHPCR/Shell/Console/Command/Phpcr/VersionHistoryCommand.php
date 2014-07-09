@@ -26,10 +26,10 @@ HERE
         $nodeHelper = $this->getHelper('node');
         $table = $this->getHelper('table')->create();
 
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
         $workspace = $session->getWorkspace();
 
-        $node = $session->getNode($path);
+        $node = $session->getNodeByPathOrIdentifier($path);
         $nodeHelper->assertNodeIsVersionable($node);
         $versionManager = $workspace->getVersionManager();
         $history = $versionManager->getVersionHistory($path);

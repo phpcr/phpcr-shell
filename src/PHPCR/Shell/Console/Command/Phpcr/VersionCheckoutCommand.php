@@ -37,10 +37,10 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $nodeHelper = $this->getHelper('node');
-        $absPath = $session->getAbsPath($input->getArgument('path'));
+        $absPath = $input->getArgument('path');
         $workspace = $session->getWorkspace();
 
-        $node = $session->getNode($absPath);
+        $node = $session->getNodeByPathOrIdentifier($absPath);
         $nodeHelper->assertNodeIsVersionable($node);
 
         $versionManager = $workspace->getVersionManager();

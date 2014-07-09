@@ -8,7 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
-use PHPCR\Util\UUIDHelper;
 
 class NodeListCommand extends Command
 {
@@ -55,15 +54,9 @@ HERE
         $this->showTemplate = $input->getOption('template');
 
         $session = $this->getHelper('phpcr')->getSession();
-
         $path = $input->getArgument('path');
 
-        if (true === UUIDHelper::isUUID($path)) {
-            $currentNode = $session->getNodeByIdentifier($path);
-        } else {
-            $path = $session->getAbsPath($path);
-            $currentNode = $session->getNode($path);
-        }
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
 
         if (!$this->showChildren && !$this->showProperties) {
             $this->showChildren = true;

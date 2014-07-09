@@ -5,6 +5,7 @@ namespace PHPCR\Shell;
 use PHPCR\SessionInterface;
 use PHPCR\CredentialsInterface;
 use PHPCR\Util\PathHelper;
+use PHPCR\Util\UUIDHelper;
 use PHPCR\PathNotFoundException;
 
 class PhpcrSession implements SessionInterface
@@ -67,22 +68,27 @@ class PhpcrSession implements SessionInterface
     {
         $cwd = $this->getCwd();
 
-        // absolute path
-        if (substr($path, 0, 1) == '/') {
-            $newPath = $path;
-        } elseif ($path == '..') {
-            $newPath = dirname($cwd);
+        if (UUIDHelper::isUUID($path)) {
+            $node = $this->getNodeByIdentifier($path);
+            $newPath = $node->getPath();
         } else {
-            if ($this->cwd == '/') {
-                $newPath = sprintf('/%s', $path);
+            // absolute path
+            if (substr($path, 0, 1) == '/') {
+                $newPath = $path;
+            } elseif ($path == '..') {
+                $newPath = dirname($cwd);
             } else {
-                $newPath = sprintf('%s/%s', $cwd, $path);
+                if ($this->cwd == '/') {
+                    $newPath = sprintf('/%s', $path);
+                } else {
+                    $newPath = sprintf('%s/%s', $cwd, $path);
+                }
             }
+
+            // check that path is valid
+            $this->getNode($newPath);
         }
-
-        // check that path is valid
-        $this->getNode($newPath);
-
+        
         $this->setCwd($newPath);
     }
 
@@ -140,6 +146,31 @@ class PhpcrSession implements SessionInterface
 
         return $newPaths;
     }
+
+
+    /**
+     * If the given parameter looks like a UUID retrieve
+     * by Identifier, otherwise by path.
+     *
+     * @param string $pathOrId
+     *
+     * @return NodeInterface
+     *
+     * @throws PathNotFoundException if no accessible node is found at the specified path.
+     * @throws ItemNotFoundException if no node with the specified
+     *      identifier exists or if this Session does not have read access to
+     *      the node with the specified identifier.
+     */
+    public function getNodeByPathOrIdentifier($pathOrId)
+    {
+        if (true === UUIDHelper::isUUID($pathOrId)) {
+            return $this->getNodeByIdentifier($pathOrId);
+        }
+
+        $path = $this->getAbsPath($pathOrId);
+        return $this->getNode($pathOrId);
+    }
+
 
     public function getRepository()
     {

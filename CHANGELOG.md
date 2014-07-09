@@ -8,7 +8,7 @@ alpha-4
 
 - [node] copy,move and clone - Target paths automatically append basename if target is a node.
 - [query] Always show path next to resultset
-- [node] `node:list` Enable listing nodes by UUID
+- [node|shell] Most commands which accept a node path can also accept a UUID
 
 ### Bugs Fixes
 

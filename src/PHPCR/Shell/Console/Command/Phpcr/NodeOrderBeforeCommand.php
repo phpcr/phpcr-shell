@@ -40,10 +40,10 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
         $srcChildRelPath = $input->getArgument('srcChildRelPath');
         $destChildRelPath = $input->getArgument('destChildRelPath');
-        $node = $session->getNode($path);
+        $node = $session->getNodeByPathOrIdentifier($path);
         $node->orderBefore($srcChildRelPath, $destChildRelPath);
     }
 }
