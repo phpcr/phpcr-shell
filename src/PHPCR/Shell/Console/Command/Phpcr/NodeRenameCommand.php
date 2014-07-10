@@ -57,9 +57,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
         $newName = $input->getArgument('newName');
-        $currentNode = $session->getNode($path);
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $currentNode->rename($newName);
     }
 }

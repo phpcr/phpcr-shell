@@ -44,9 +44,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
         $mixinName = $input->getArgument('mixinName');
-        $currentNode = $session->getNode($path);
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $currentNode->addMixin($mixinName);
     }
 }

@@ -23,9 +23,9 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
         $nodeHelper = $this->getHelper('node');
-        $currentNode = $session->getNode($path);
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $formatter = $this->getHelper('result_formatter');
 
         $mixins = $currentNode->getMixinNodeTypes();

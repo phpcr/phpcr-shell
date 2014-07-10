@@ -49,12 +49,12 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $nodeHelper = $this->getHelper('node');
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
         $workspace = $session->getWorkspace();
 
         $versionManager = $workspace->getVersionManager();
 
-        $node = $session->getNode($path);
+        $node = $session->getNodeByPathOrIdentifier($path);
         $nodeHelper->assertNodeIsVersionable($node);
 
         $version = $versionManager->checkin($path);

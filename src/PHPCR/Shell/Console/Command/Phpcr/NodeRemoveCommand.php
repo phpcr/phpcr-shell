@@ -23,13 +23,13 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $targetPath = $session->getAbsPath($input->getArgument('path'));
+        $targetPath = $input->getArgument('path');
         $currentPath = $session->getCwd();
 
         // verify that node exists by trying to get it..
-        $targetNode = $session->getNode($targetPath);
+        $targetNode = $session->getNodeByPathOrIdentifier($targetPath);
 
-        if ($targetPath == '/') {
+        if ($targetNode->getPath() == '/') {
             throw new \InvalidArgumentException(
                 'You cannot delete the root node!'
             );
@@ -38,8 +38,7 @@ HERE
         $session->removeItem($targetPath);
 
         // if we deleted the current path, switch back to the parent node
-        if ($currentPath == $targetPath) {
-            echo $currentPath . ' vs. ' . $targetPath;
+        if ($currentPath == $session->getAbsPath($targetPath)) {
             $session->chdir('..');
         }
     }
