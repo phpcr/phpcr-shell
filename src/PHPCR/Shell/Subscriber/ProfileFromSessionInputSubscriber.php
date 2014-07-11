@@ -38,7 +38,26 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
         );
 
         foreach ($transportOptions as $optionName => $configName) {
-            $profile->set('transport', $configName, (string) $input->getOption($optionName));
+            $value = $input->getOption($optionName);
+
+            if (null !== $value) {
+                // sanitize some input values
+                switch ($optionName) {
+                    case 'db-path':
+                        if (!file_exists($value)) {
+                            throw new \InvalidArgumentException(sprintf(
+                                'DB file "%s" does not exist.'
+                            , $value));
+                        }
+
+                        $value = realpath(dirname($value)) . DIRECTORY_SEPARATOR . basename($value);
+                        break;
+                    default:
+                        // all good
+                }
+            }
+
+            $profile->set('transport', $configName, (string) $value);
         }
 
         foreach ($phpcrOptions as $optionName => $configName) {

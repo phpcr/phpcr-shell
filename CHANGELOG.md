@@ -15,6 +15,11 @@ alpha-4
 - [args] 28 instances of bad InputArgument constructor fixed
 - [node] `node:list` Catch exceptions when rendering property rows (e.g. on invalid references)
 
+### Improvements
+
+- [connect] Always expand relative paths for `db-path`
+- [connect] Throw exception if file indicated by `db-path` does not exist.
+
 alpha-3
 -------
 
