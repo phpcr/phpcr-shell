@@ -8,6 +8,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
+use PHPCR\ItemNotFoundException;
+use PHPCR\PropertyInterface;
+use PHPCR\NodeInterface;
 
 class NodeListCommand extends Command
 {
@@ -99,12 +102,24 @@ HERE
                 unset($childNodeNames[$child->getName()]);
             }
 
+            $primaryItemValue = '';
+            try {
+                $primaryItem = $child->getPrimaryItem();
+
+                if ($primaryItem instanceof PropertyInterface) {
+                    $primaryItemValue = $this->textHelper->truncate($this->formatter->formatValue($primaryItem), 55);
+                } elseif ($primaryItem instanceof NodeInterface) {
+                    $primaryItemValue = sprintf('+%s', $primaryItem->getName());
+                }
+            } catch (ItemNotFoundException $e) {
+            }
+
             $isLast = count($children) === $i;
 
             $table->addRow(array(
                 '<node>' . implode('', $spacers) . $this->formatter->formatNodeName($child) . '</node>',
                 $child->getPrimaryNodeType()->getName(),
-                '',
+                $primaryItemValue,
             ));
 
             if (count($spacers) < $this->maxLevel) {
@@ -135,6 +150,12 @@ HERE
     private function renderProperties($currentNode, $table, $spacers)
     {
         $properties = $currentNode->getProperties($this->filters ? : null);
+
+        try {
+            $primaryItem = $currentNode->getPrimaryItem();
+        } catch (ItemNotFoundException $e) {
+            $primaryItem = null;
+        }
 
         $nodeType = $currentNode->getPrimaryNodeType();
         $propertyDefinitions = $nodeType->getDeclaredPropertyDefinitions();
