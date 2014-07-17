@@ -14,6 +14,7 @@ class StringInput extends BaseInput
 {
     protected $rawCommand;
     protected $tokens;
+    protected $isQuery = false;
 
     /**
      * {@inheritDoc}
@@ -24,6 +25,12 @@ class StringInput extends BaseInput
 
         if (strpos(strtolower($this->rawCommand), 'select') === 0) {
             $command = 'select' . substr($command, 6);
+            $this->isQuery = true;
+        }
+
+        if (strpos(strtolower($this->rawCommand), 'update') === 0) {
+            $command = 'update' . substr($command, 6);
+            $this->isQuery = true;
         }
 
         parent::__construct($command);
@@ -90,10 +97,6 @@ class StringInput extends BaseInput
      */
     protected function isQuery()
     {
-        if (strpos(strtolower($this->rawCommand), 'select') === 0) {
-            return true;
-        }
-
-        return false;
+        return $this->isQuery;
     }
 }

@@ -10,6 +10,7 @@ alpha-4
 - [query] Always show path next to resultset
 - [node|shell] Most commands which accept a node path can also accept a UUID
 - [node] `node:list`: Show node primary item value
+- [query] Support for UPDATE queries
 
 ### Bugs Fixes
 
