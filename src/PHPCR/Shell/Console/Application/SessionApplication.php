@@ -16,7 +16,7 @@ use PHPCR\Shell\Console\Command\ShellCommand;
 class SessionApplication extends BaseApplication
 {
     const APP_NAME = 'PHPCRSH';
-    const APP_VERSION = '1.0.0-alpha3';
+    const APP_VERSION = '1.0.0-alpha4';
 
     protected $shellApplication;
 
