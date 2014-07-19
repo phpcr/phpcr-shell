@@ -163,6 +163,7 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\SessionSaveCommand());
         $this->add(new CommandPhpcr\QueryCommand());
         $this->add(new CommandPhpcr\QuerySelectCommand());
+        $this->add(new CommandPhpcr\QueryUpdateCommand());
         $this->add(new CommandPhpcr\RetentionHoldAddCommand());
         $this->add(new CommandPhpcr\RetentionHoldListCommand());
         $this->add(new CommandPhpcr\RetentionHoldRemoveCommand());

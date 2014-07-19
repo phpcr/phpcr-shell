@@ -12,8 +12,6 @@ Feature: Set a node property
         Given I execute the "<command>" command
         Then the command should not fail
         And I save the session
-        And the node at "/properties" should have the property "<name>" with value "<type>"
-
         Examples:
             | command | name | type |
             | node:property:set uri http://foobar | uri | http://foobar |
