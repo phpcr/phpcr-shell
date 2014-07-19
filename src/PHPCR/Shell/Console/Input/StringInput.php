@@ -33,6 +33,11 @@ class StringInput extends BaseInput
             $this->isQuery = true;
         }
 
+        if (strpos(strtolower($this->rawCommand), 'delete') === 0) {
+            $command = 'delete' . substr($command, 6);
+            $this->isQuery = true;
+        }
+
         parent::__construct($command);
     }
 

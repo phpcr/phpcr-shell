@@ -11,6 +11,7 @@ alpha-4
 - [node|shell] Most commands which accept a node path can also accept a UUID
 - [node] `node:list`: Show node primary item value
 - [query] Support for UPDATE queries
+- [query] Support for DELETE queries
 
 ### Bugs Fixes
 
