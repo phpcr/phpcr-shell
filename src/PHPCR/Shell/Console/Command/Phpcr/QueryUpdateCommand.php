@@ -46,8 +46,10 @@ EOT
 
         $start = microtime(true);
         $result = $query->execute();
+        $rows = 0;
 
         foreach ($result as $row) {
+            $rows++;
             foreach ($updates as $field => $property) {
                 $node = $row->getNode($property['selector']);
                 $node->setProperty($property['name'], $property['value']);
@@ -56,6 +58,6 @@ EOT
 
         $elapsed = microtime(true) - $start;
 
-        $output->writeln(sprintf('%s row(s) affected in %ss', count($result), number_format($elapsed, 2)));
+        $output->writeln(sprintf('%s row(s) affected in %ss', $rows, number_format($elapsed, 2)));
     }
 }

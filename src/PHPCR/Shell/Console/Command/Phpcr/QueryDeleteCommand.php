@@ -52,13 +52,15 @@ EOT
 
         $start = microtime(true);
         $result = $query->execute();
+        $rows = 0;
 
         foreach ($result as $row) {
+            $rows++;
             $node = $row->getNode();
             $node->remove();
         }
 
         $elapsed = microtime(true) - $start;
-        $output->writeln(sprintf('%s row(s) affected in %ss', count($result), number_format($elapsed, 2)));
+        $output->writeln(sprintf('%s row(s) affected in %ss', $rows, number_format($elapsed, 2)));
     }
 }
