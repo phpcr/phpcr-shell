@@ -96,6 +96,21 @@ PHPCRSH > node:property:show jcr:primaryType
 PHPCRSH > shell:exist
 ````
 
+## Executing queries
+
+PHPCR Shell allows JCR-SQL2 queries to be entered directly on the command line
+and adds supports UPDATE and DELETE queries in addition to SELECT.
+
+````sql
+SELECT * FROM [nt:unstructured] WHERE title = "foobar";
+UPDATE [nt:unstructured] SET title="barfoo" WHERE title="foobar"
+DELETE FROM [nt:unstructured] WHERE title="barfoo";
+````
+
+UPDATE and DELETE queries are bound to the session, and require a
+`session:save` command to be issued for the changes to be written to the
+database.
+
 ## Using profiles
 
 Profiles enable you to save and reuse connection settings. Profiles can be
