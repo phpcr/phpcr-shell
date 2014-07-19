@@ -628,7 +628,6 @@ class FeatureContext extends BehatContext
         try {
             $nodeTypeManager->getNodeType($arg1);
         } catch (\Exception $e) {
-            var_dump(get_class($e));die();
         }
 
         throw new \Exception('Node type ' . $arg1 . ' exists');
