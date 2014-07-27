@@ -16,11 +16,16 @@ class EditorHelper extends Helper
      * Launch an external editor and open a temporary
      * file containing the given string value.
      *
+     * An file extension can be provided which will be appended
+     * to the name of the temporary file, providing a type hint
+     * to the editor.
+     *
      * @param string $string
+     * @param string $extension
      *
      * @return string
      */
-    public function fromString($string)
+    public function fromString($string, $extension = null)
     {
         $fs = new Filesystem();
         $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell';
@@ -30,6 +35,11 @@ class EditorHelper extends Helper
         }
 
         $tmpName = tempnam($dir, '');
+
+        if ($extension) {
+            $tmpName .= '.' . $extension;
+        }
+
         file_put_contents($tmpName, $string);
         $editor = getenv('EDITOR');
 
@@ -45,7 +55,7 @@ class EditorHelper extends Helper
         return $contents;
     }
 
-    public function fromStringWithMessage($string, $message, $messagePrefix = '# ')
+    public function fromStringWithMessage($string, $message, $messagePrefix = '# ', $extension = null)
     {
         if (null !== $message) {
             $message = explode("\n", $message);
@@ -60,7 +70,7 @@ class EditorHelper extends Helper
 
         $source .= $string;
 
-        $res = $this->fromString($source);
+        $res = $this->fromString($source, $extension);
         $res = explode("\n", $res);
 
         $line = current($res);

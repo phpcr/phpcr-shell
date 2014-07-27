@@ -156,7 +156,6 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\SessionLogoutCommand());
         $this->add(new CommandPhpcr\SessionNamespaceListCommand());
         $this->add(new CommandPhpcr\SessionNamespaceSetCommand());
-        $this->add(new CommandPhpcr\NodePropertyEditCommand());
         $this->add(new CommandPhpcr\NodePropertyRemoveCommand());
         $this->add(new CommandPhpcr\NodePropertyShowCommand());
         $this->add(new CommandPhpcr\SessionRefreshCommand());
@@ -175,6 +174,7 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\WorkspaceListCommand());
         $this->add(new CommandPhpcr\NodeCloneCommand());
         $this->add(new CommandPhpcr\NodeCopyCommand());
+        $this->add(new CommandPhpcr\NodeEditCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceListCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceRegisterCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceUnregisterCommand());
