@@ -135,3 +135,10 @@ Feature: Edit a node
         Then the command should not fail
         And there should exist a node at "/cms/products/product2"
         And the primary type of "/cms/products/product2" should be "nt:resource"
+
+    Scenario: Editor returns empty string
+        Given I have an editor which produces the following:
+        """"
+        """
+        And I execute the "node:edit cms/products/product2 --no-interaction --type=nt:resource" command
+        Then the command should fail

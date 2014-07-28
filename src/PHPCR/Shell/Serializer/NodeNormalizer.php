@@ -7,6 +7,7 @@ use PHPCR\NodeInterface;
 use PHPCR\PropertyType;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Exception\InvalidArgumentException;
+use PHPCR\PropertyInterface;
 
 /**
  * Normalizer for PHPCR Nodes
@@ -15,6 +16,19 @@ use Symfony\Component\Serializer\Exception\InvalidArgumentException;
  */
 class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
+    protected $allowBinary;
+    protected $notes = array();
+
+    public function __construct($allowBinary = false)
+    {
+        $this->allowBinary = $allowBinary;
+    }
+
+    public function getNotes()
+    {
+        return $this->notes;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -23,6 +37,10 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         $res = array();
 
         foreach ($node->getProperties() as $property) {
+            if (false === $this->isPropertyEditable($property)) {
+                continue;
+            }
+
             $propertyType = $property->getType();
             $propertyValue = $property->getValue();
             $propertyName = $property->getName();
@@ -49,6 +67,12 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
      */
     public function denormalize($data, $class, $format = null, array $context = array())
     {
+        if (!$data) {
+            throw new \InvalidArgumentException(
+                'Editor returned nothing .. nodes must have at least one property (i.e. the jcr:primaryType property)'
+            );
+        }
+
         if (!isset($context['node'])) {
             throw new \InvalidArgumentException(sprintf(
                 'You must provide the PHPCR node instance to update in the context using the "node" key.'
@@ -61,7 +85,12 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 
         // Update / remove existing properties
         foreach ($node->getProperties() as $property) {
+            if (false === $this->isPropertyEditable($property)) {
+                continue;
+            }
+
             try {
+
                 if (!isset($data[$property->getName()])) {
                     $property->remove();
                     continue;
@@ -138,5 +167,25 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         }
 
         return $value;
+    }
+
+    /**
+     * Return false if property type is not editable
+     *
+     * (e.g. property type is binary)
+     *
+     * @return boolean
+     */
+    private function isPropertyEditable(PropertyInterface $property)
+    {
+        // do not serialize binary objects
+        if (false === $this->allowBinary && PropertyType::BINARY == $property->getType()) {
+            $this->notes[] = sprintf(
+                'Binary property "%s" has been omitted', $property->getName()
+            );
+            return false;
+        }
+
+        return true;
     }
 }

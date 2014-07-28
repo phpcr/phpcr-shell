@@ -54,24 +54,41 @@ HERE
 
         // for now we only support YAML
         $encoders = array(new YamlEncoder());
-        $normalizers = array(new NodeNormalizer());
-        $serializer = new Serializer($normalizers, $encoders);
+        $nodeNormalizer = new NodeNormalizer();
+        $serializer = new Serializer(array($nodeNormalizer), $encoders);
         $outStr = $serializer->serialize($node, 'yaml');
-
 
         $tryAgain = false;
         $message = '';
+        $error = '';
+        $notes = implode("\n", $nodeNormalizer->getNotes());
+
         do {
-            // string pass to editor
-            if ($message) {
+            $message = '';
+            if ($error) {
                 $template = <<<EOT
 Error encounred: 
-
 %s
+
 EOT
                 ;
+                $message .= sprintf($template, $error);
+            }
 
-                $inStr = $editor->fromStringWithMessage($outStr, sprintf($template, $message), '# ', 'yml');
+            if ($notes) {
+                $template = <<<EOT
+NOTE: 
+%s
+
+EOT
+                ;
+                $message .= sprintf($template, $notes);
+            }
+
+            // string pass to editor
+            if ($message) {
+
+                $inStr = $editor->fromStringWithMessage($outStr, $message, '# ', 'yml');
             } else {
                 $inStr = $editor->fromString($outStr, 'yml');
             }
@@ -82,14 +99,18 @@ EOT
                 ));
                 $tryAgain = false;
             } catch (\Exception $e) {
-                $message = $e->getMessage();
-                $output->writeln('<error>' . $message . '</error>');
+                $error = $e->getMessage();
+                $output->writeln('<error>' . $error . '</error>');
                 if (false === $input->getOption('no-interaction')) {
                     $tryAgain = $dialog->askConfirmation($output, 'Do you want to try again? (y/n)');
                 }
                 $outStr = $inStr;
             }
         } while ($tryAgain == true);
+
+        if ($error) {
+            return 1;
+        }
 
         return 0;
     }
