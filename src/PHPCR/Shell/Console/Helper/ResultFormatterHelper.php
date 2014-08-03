@@ -25,7 +25,6 @@ class ResultFormatterHelper extends Helper
         return 'result_formatter';
     }
 
-
     /**
      * Return the name of a property from its enumeration (i.e.
      * the value of its CONSTANT)
@@ -170,5 +169,17 @@ class ResultFormatterHelper extends Helper
         }
 
         return sprintf('[%s] %s', get_class($e), $e->getMessage());
+    }
+
+    public function formatXml($xmlString)
+    {
+        // format output
+        $dom = new \DOMDocument('1.0');
+        $dom->loadXml($xmlString);
+        $dom->preserveWhitespace = true;
+        $dom->formatOutput = true;
+        $out = $dom->saveXml();
+
+        return $out;
     }
 }

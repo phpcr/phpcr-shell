@@ -31,6 +31,7 @@ use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Transport\TransportRegistry;
 use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Console\Helper\TableHelper;
+use PHPCR\Shell\Console\Helper\SyntaxHighlighterHelper;
 
 /**
  * Main application for PHPCRSH
@@ -132,6 +133,7 @@ class ShellApplication extends Application
             new ResultFormatterHelper(),
             new TextHelper(),
             new TableHelper(),
+            new SyntaxHighlighterHelper(),
             $phpcrHelper
         );
 
@@ -175,6 +177,7 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\WorkspaceListCommand());
         $this->add(new CommandPhpcr\NodeCloneCommand());
         $this->add(new CommandPhpcr\NodeCopyCommand());
+        $this->add(new CommandPhpcr\NodeShowCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceListCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceRegisterCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceUnregisterCommand());
@@ -274,6 +277,18 @@ class ShellApplication extends Application
 
         $style = new OutputFormatterStyle(null, 'red', array());
         $formatter->setStyle('exception', $style);
+
+        // syntax highlighting
+        $colors = array(
+            'html-tag' => 'magenta',
+            'html-tagin' => 'yellow',
+            'html-quote' => null,
+        );
+
+        foreach ($colors as $tag => $color) {
+            $style = new OutputFormatterStyle($color, null, array());
+            $formatter->setStyle($tag, $style);
+        }
     }
 
     /**
