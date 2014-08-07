@@ -25,6 +25,34 @@
         </sv:property>
     </sv:node>
 
+    <sv:node sv:name="products">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name">
+            <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+        <sv:node sv:name="product1">
+            <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>nt:unstructured</sv:value>
+            </sv:property>
+            <sv:property sv:name="name" sv:type="String">
+                <sv:value>Product One</sv:value>
+            </sv:property>
+            <sv:property sv:name="cost" sv:type="Double">
+                <sv:value>12.13</sv:value>
+            </sv:property>
+            <sv:property sv:name="size" sv:type="String">
+                <sv:value>XL</sv:value>
+            </sv:property>
+            <sv:property sv:name="weight" sv:type="Double">
+                <sv:value>10</sv:value>
+            </sv:property>
+            <sv:property sv:name="tags" sv:type="String">
+                <sv:value>one</sv:value>
+                <sv:value>two</sv:value>
+                <sv:value>three</sv:value>
+            </sv:property>
+        </sv:node>
+    </sv:node>
+
     <sv:node sv:name="articles">
         <sv:property sv:name="jcr:primaryType" sv:type="Name">
             <sv:value>nt:unstructured</sv:value>

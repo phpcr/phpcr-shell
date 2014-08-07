@@ -1,6 +1,13 @@
 Changelog
 =========
 
+dev-master
+----------
+
+### Features
+
+- [node:edit] New command `node:edit` enables editing of entire node
+
 alpha-4
 -------
 

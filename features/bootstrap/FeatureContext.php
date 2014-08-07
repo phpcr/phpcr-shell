@@ -9,6 +9,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use PHPCR\PathNotFoundException;
 use PHPCR\Shell\Test\ApplicationTester;
 use PHPCR\Util\PathHelper;
+use PHPCR\PropertyInterface;
+use PHPCR\PropertyType;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -233,7 +235,7 @@ class FeatureContext extends BehatContext
             throw new \Exception('Command failed: (' . $exitCode . ') ' . $this->getOutput());
         }
 
-        PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
+        PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code: ' . $exitCode);
     }
 
     /**
@@ -718,6 +720,23 @@ class FeatureContext extends BehatContext
         $property = $node->getProperty($arg2);
         $propertyType = $property->getValue();
         PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
+    }
+
+    /**
+     * @Given /^the property "([^"]*)" should have type "([^"]*)" and value "([^"]*)"$/
+     */
+    public function thePropertyShouldHaveTypeAndValue($arg1, $arg2, $arg3)
+    {
+        $session = $this->getSession();
+        $property = $session->getItem($arg1);
+        if (!$property instanceof PropertyInterface) {
+            throw new \InvalidArgumentException(sprintf(
+                'Item at "%s" is not a property', $arg1
+            ));
+        }
+
+        PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
+        PHPUnit_Framework_Assert::assertEquals($arg3, $property->getValue());
     }
 
     /**
