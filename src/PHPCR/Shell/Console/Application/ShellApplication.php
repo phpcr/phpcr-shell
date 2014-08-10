@@ -56,11 +56,11 @@ class ShellApplication extends Application
      *
      * {@inheritDoc}
      */
-    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
+    public function __construct()
     {
-        parent::__construct($name, $version);
+        parent::__construct(SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
         $this->profile = new Profile();
-        $this->dispatcher = new EventDispatcher();
+        $this->setDispatcher($this->dispatcher = new EventDispatcher());
         $this->transportRegistry = new TransportRegistry();
         $this->registerTransports();
         $this->registerHelpers();
@@ -101,6 +101,9 @@ class ShellApplication extends Application
      * Note that we do this "lazily" because we instantiate the ShellApplication early,
      * before the SessionInput has been set. The SessionInput must be set before we
      * can initialize the application.
+     *
+     * @todo: The above scenario is no longer true, we use a Profile. So maybe it can
+     *        be refactored.
      */
     public function init()
     {
@@ -108,7 +111,8 @@ class ShellApplication extends Application
             return;
         }
 
-        $this->registerCommands();
+        $this->registerPhpcrCommands();
+        $this->registerShellCommands();
 
         $event = new ApplicationInitEvent($this);
         $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
@@ -119,7 +123,7 @@ class ShellApplication extends Application
     /**
      * Register the helpers required by the application
      */
-    private function registerHelpers()
+    protected function registerHelpers()
     {
         $phpcrHelper = new PhpcrHelper($this->transportRegistry, $this->profile);
 
@@ -143,7 +147,7 @@ class ShellApplication extends Application
     /**
      * Register the commands used in the shell
      */
-    private function registerCommands()
+    protected function registerPhpcrCommands()
     {
         // phpcr commands
         $this->add(new CommandPhpcr\AccessControlPrivilegeListCommand());
@@ -217,7 +221,10 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\LockTokenListCommand());
         $this->add(new CommandPhpcr\LockTokenRemoveCommand());
         $this->add(new CommandPhpcr\LockUnlockCommand());
+    }
 
+    protected function registerShellCommands()
+    {
         // add shell-specific commands
         $this->add(new CommandShell\AliasListCommand());
         $this->add(new CommandShell\ConfigInitCommand());
@@ -227,7 +234,7 @@ class ShellApplication extends Application
         $this->add(new CommandShell\ExitCommand());
     }
 
-    private function registerEventListeners()
+    protected function registerEventListeners()
     {
         $this->dispatcher->addSubscriber(new Subscriber\ProfileFromSessionInputSubscriber());
         $this->dispatcher->addSubscriber(new Subscriber\ProfileWriterSubscriber(
@@ -293,7 +300,7 @@ class ShellApplication extends Application
         $input = $event->getInput();
 
         if (!$name) {
-            $input = new ArrayInput(array('command' => 'shell:path:show'));
+            $input = new ArrayInput(array('command' => $this->getDefaultCommand()));
         }
 
         try {
@@ -305,6 +312,14 @@ class ShellApplication extends Application
         }
 
         return $exitCode;
+    }
+
+    /**
+     * Return the default command
+     */
+    protected function getDefaultCommand()
+    {
+        return 'shell:path:show';
     }
 
     /**

@@ -50,7 +50,7 @@ class FeatureContext extends BehatContext
 
         $session = $this->getSession(null, true);
 
-        $this->applicationTester = new ApplicationTester($this->application);
+        $this->applicationTester = new ApplicationTester();
         $this->applicationTester->run(array(
             '--transport' => 'jackrabbit',
             '--no-interaction' => true,
