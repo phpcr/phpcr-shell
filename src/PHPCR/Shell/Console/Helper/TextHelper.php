@@ -12,6 +12,12 @@ use Symfony\Component\Console\Helper\Helper;
 class TextHelper extends Helper
 {
     /**
+     * @todo: Make this configurable
+     * @var integer
+     */
+    protected $truncateLength = 75;
+
+    /**
      * {@inheritDoc}
      */
     public function getName()
@@ -29,8 +35,12 @@ class TextHelper extends Helper
      *
      * @return string
      */
-    public function truncate($string, $length, $alignment = null, $delimString = null)
+    public function truncate($string, $length = null, $alignment = null, $delimString = null)
     {
+        if (null === $length) {
+            $length = $this->truncateLength;
+        }
+
         $alignment = $alignment === null ? 'left' : $alignment;
         $delimString = $delimString === null ? '...' : $delimString;
         $delimLen = strlen($delimString);

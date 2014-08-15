@@ -126,15 +126,16 @@ class ShellApplication extends Application
     protected function registerHelpers()
     {
         $phpcrHelper = new PhpcrHelper($this->transportRegistry, $this->profile);
+        $textHelper = new TextHelper();
 
         $helpers = array(
+            $textHelper,
             new ConfigHelper(),
             new EditorHelper(),
             new NodeHelper(),
             new PathHelper(),
             new RepositoryHelper($phpcrHelper),
-            new ResultFormatterHelper(),
-            new TextHelper(),
+            new ResultFormatterHelper($textHelper),
             new TableHelper(),
             $phpcrHelper
         );

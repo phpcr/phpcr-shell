@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
+use PHPCR\Shell\Console\Helper\TextHelper;
 
 /**
  * Provide methods for formatting PHPCR objects
@@ -17,6 +18,13 @@ use PHPCR\PropertyInterface;
  */
 class ResultFormatterHelper extends Helper
 {
+    protected $textHelper;
+
+    public function __construct(TextHelper $textHelper)
+    {
+        $this->textHelper = $textHelper;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -87,7 +95,7 @@ class ResultFormatterHelper extends Helper
                 } else {
                     $value = $value;
                 }
-                $value = '[' . $i . '] ' . $value;
+                $value = '[' . $i . '] ' . $this->textHelper->truncate($value);
                 $values[] = $value;
             }
 
@@ -98,7 +106,7 @@ class ResultFormatterHelper extends Helper
             return $value->format('c');
         }
 
-        return $value;
+        return $this->textHelper->truncate($value);
     }
 
     public function formatValue(PropertyInterface $value, $showBinary = false)
@@ -133,6 +141,7 @@ class ResultFormatterHelper extends Helper
                 return $value->getValue()->getIdentifier();
             case PropertyType::URI :
             case PropertyType::STRING :
+                return $this->textHelper->truncate($value->getValue());
             case PropertyType::NAME :
             case PropertyType::LONG :
             case PropertyType::DOUBLE :

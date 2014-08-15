@@ -6,8 +6,13 @@ dev-master
 
 ### Features
 
+- [shell] Added "shell:clear" command to support clearing the console output
 - [general] The shell supports being embedded as a dependency
 - [node:edit] New command `node:edit` enables editing of entire node
+
+### Bug Fixes
+
+- [shell] Multivalue (and so multiline) property values are truncated as a single string (#70)
 
 alpha-4
 -------
