@@ -173,7 +173,7 @@ HERE
                     unset($propertyNames[$name]);
                 }
 
-                $valueCell = $this->textHelper->truncate($this->formatter->formatValue($property), 55);
+                $valueCell = $this->formatter->formatValue($property);
 
             } catch (\Exception $e) {
                 $valueCell = '<error>' . $e->getMessage() . '</error>';
