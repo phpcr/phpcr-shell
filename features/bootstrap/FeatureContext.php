@@ -723,6 +723,23 @@ class FeatureContext extends BehatContext
     }
 
     /**
+     * @Given /^the node at "([^"]*)" should have the property "([^"]*)" with value "([^"]*)" at index "([^"]*)"$/
+     */
+    public function theNodeAtShouldHaveThePropertyWithValueAtIndex($arg1, $arg2, $arg3, $index)
+    {
+        $session = $this->getSession();
+        $node = $session->getNode($arg1);
+        $property = $node->getProperty($arg2);
+        if (!$property->isMultiple()) {
+            throw new \Exception('Property is not multiple and you wanted to check an index');
+        }
+
+        $propertyType = $property->getValue();
+        PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType[$index]);
+    }
+
+
+    /**
      * @Given /^the property "([^"]*)" should have type "([^"]*)" and value "([^"]*)"$/
      */
     public function thePropertyShouldHaveTypeAndValue($arg1, $arg2, $arg3)

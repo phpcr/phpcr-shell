@@ -52,6 +52,28 @@ EOT
             $rows++;
             foreach ($updates as $field => $property) {
                 $node = $row->getNode($property['selector']);
+
+                if ($node->hasProperty($property['name'])) {
+                    $phpcrProperty = $node->getProperty($property['name']);
+
+                    if ($phpcrProperty->isMultiple()) {
+                        $currentValue = $phpcrProperty->getValue();
+
+                        if (sizeof($currentValue) > 1) {
+                            $output->writeln(sprintf(
+                                '<error>Cannot update property "%s". Updating multi-value nodes with more than one element not currently supported</error>',
+                                $phpcrProperty->getName()
+                            ));
+                            $output->writeln(sprintf(
+                                '<error>See: https://github.com/phpcr/phpcr-shell/issues/81</error>',
+                                $phpcrProperty->getName()
+                            ));
+                        }
+
+                        $property['value'] = (array) $property['value'];
+                    }
+                }
+
                 $node->setProperty($property['name'], $property['value']);
             }
         }

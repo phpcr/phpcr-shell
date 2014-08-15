@@ -12,6 +12,9 @@ dev-master
 
 ### Bug Fixes
 
+- [query] Disabled updating multivalue properties where properties have more
+          than one value with the UPDATE, as currently other items are overwritten and
+          data is lost. See: https://github.com/phpcr/phpcr-shell/issues/85
 - [shell] Multivalue (and so multiline) property values are truncated as a single string (#70)
 
 alpha-4
