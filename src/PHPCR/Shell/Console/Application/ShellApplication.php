@@ -227,6 +227,7 @@ class ShellApplication extends Application
     {
         // add shell-specific commands
         $this->add(new CommandShell\AliasListCommand());
+        $this->add(new CommandShell\ClearCommand());
         $this->add(new CommandShell\ConfigInitCommand());
         $this->add(new CommandShell\ConfigReloadCommand());
         $this->add(new CommandShell\PathChangeCommand());
