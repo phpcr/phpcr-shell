@@ -10,6 +10,7 @@ use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
 use PHPCR\Shell\Console\Input\StringInput;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\Shell\Console\Descriptor\RstDescriptor;
 
 /**
  * The shell command is the command used to configure the shell session
@@ -66,8 +67,11 @@ class ShellCommand extends Command
             new InputOption('--unsupported',    null,    InputOption::VALUE_NONE, 'Show all commands, including commands not supported by the repository'),
             new InputOption('--command',        null,    InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Run the given command'),
 
+            new InputOption('--reference', null,    InputOption::VALUE_NONE, 'Dump a complete command reference in RST format')
+
             new InputArgument('workspace', InputArgument::OPTIONAL, 'Workspace to start with', 'default'),
     ));
+        ));
     }
 
     /**
@@ -76,8 +80,11 @@ class ShellCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $showUnspported = $input->getOption('unsupported');
+        $noInteraction = $input->getOption('no-interaction');
+        $dumpReference = $input->getOption('reference');
 
         $application = $this->application;
+
         $application->setShowUnsupported($showUnspported);
         $application->dispatchProfileInitEvent($input, $output);
 
@@ -99,6 +106,14 @@ class ShellCommand extends Command
             return;
         } else {
             $application = new Shell($this->application);
+        }
+
+        if ($dumpReference) {
+            $this->application->init();
+            $descriptor = new RstDescriptor();
+            $out = $descriptor->describe($this->application);
+            die($out);
+            return 0;
         }
 
         if ($noInteraction) {
