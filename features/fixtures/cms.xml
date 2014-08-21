@@ -78,6 +78,14 @@
             <sv:property sv:name="title" sv:type="String">
                 <sv:value>Article 1</sv:value>
             </sv:property>
+            <sv:property sv:name="tags" sv:type="String" sv:multiple="true">
+                <sv:value>Planes</sv:value>
+                <sv:value>Trains</sv:value>
+                <sv:value>Automobiles</sv:value>
+            </sv:property>
+            <sv:property sv:name="tag" sv:type="String" sv:multiple="true">
+                <sv:value>Planes</sv:value>
+            </sv:property>
         </sv:node>
     </sv:node>
 </sv:node>

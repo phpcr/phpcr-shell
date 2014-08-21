@@ -60,7 +60,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         $query = $this->factory->createQuery($source, $constraint);
 
-        $res = new \ArrayObject(array($query, $updates));
+        $res = new \ArrayObject(array($query, $updates, $constraint));
 
         return $res;
     }
