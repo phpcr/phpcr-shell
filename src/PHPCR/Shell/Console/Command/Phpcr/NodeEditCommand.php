@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Serializer;
 use PHPCR\Shell\Serializer\YamlEncoder;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PathNotFoundException;
+use PHPCR\Util\UUIDHelper;
 
 class NodeEditCommand extends Command
 {
@@ -25,7 +26,14 @@ class NodeEditCommand extends Command
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Optional type to use when creating new nodes', 'nt:unstructured');
         $this->setHelp(<<<HERE
-Edit the given node
+Edit or create a node at the given path using the default editor as defined by the EDITOR environment variable.
+
+When you invoke the command a temporary file in YAML format will be created on the filesystem. This file will
+contain all the properties of the nodes (including system properties). You can change, add or delete properties in
+the text editor and save, where upon the changes will be registered in the session and you will be returned to the
+shell.
+
+When creating a new node you can also optionally specify the type of node which should be created.
 HERE
         );
     }
@@ -33,21 +41,30 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->getHelper('phpcr')->getSession();
-        $path = $session->getAbsPath($input->getArgument('path'));
-        $parentPath = $this->getHelper('path')->getParentPath($path);
-        $nodeName = $this->getHelper('path')->getNodeName($path);
-        $type = $input->getOption('type');
+        $path = $input->getArgument('path');
+
+        if (UUIDHelper::isUUID($path)) {
+            // If the node is a UUID, then just get it
+            $node = $session->getNodeByIdentifier($path);
+        } else {
+            $path = $session->getAbsPath($path);
+            // Otherwise it is a path which may or may not exist
+            $parentPath = $this->getHelper('path')->getParentPath($path);
+            $nodeName = $this->getHelper('path')->getNodeName($path);
+            $type = $input->getOption('type');
+
+            try {
+                // if it exists, then great
+                $node = $session->getNodeByPathOrIdentifier($path);
+            } catch (PathNotFoundException $e) {
+                // if it doesn't exist then we create it
+                $parentNode = $session->getNode($parentPath);
+                $node = $parentNode->addNode($nodeName, $type);
+            }
+        }
 
         $editor = $this->getHelper('editor');
         $dialog = $this->getHelper('dialog');
-
-        try {
-            $node = $session->getNode($path);
-        } catch (PathNotFoundException $e) {
-            $parentNode = $session->getNode($parentPath);
-            $node = $parentNode->addNode($nodeName, $type);
-        }
-
 
         $skipBinary = true;
         $noRecurse = true;

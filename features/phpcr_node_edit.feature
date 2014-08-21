@@ -142,3 +142,32 @@ Feature: Edit a node
         """
         And I execute the "node:edit cms/products/product2 --no-interaction --type=nt:resource" command
         Then the command should fail
+
+    Scenario: Edit a node by UUID
+        Given I have an editor which produces the following:
+        """"
+        title:
+            type: String
+            value: 'Article 1'
+        'jcr:uuid':
+            type: String
+            value: 66666fc6-1abf-4708-bfcc-e49511754b40
+        tag:
+            type: String
+            value: [Planes]
+        'jcr:primaryType':
+            type: Name
+            value: 'nt:unstructured'
+        'jcr:mixinTypes':
+            type: Name
+            value: ['mix:referenceable']
+        tags:
+            type: String
+            value: [Planes, Trains, Automobiles]
+        foobar: FOOOOOOO
+        """
+        And I execute the "node:edit 66666fc6-1abf-4708-bfcc-e49511754b40 --no-interaction" command
+        Then the command should not fail
+        And I save the session
+        Then the command should not fail
+        And the property "/cms/articles/article1/foobar" should have type "String" and value "FOOOOOOO"
