@@ -18,6 +18,12 @@ use PHPCR\Query\QOM\SourceInterface;
  */
 class UpdateParser extends Sql2ToQomQueryConverter
 {
+    // Instruction for update operations to add array values
+    const ARRAY_OPERATION_ADD = 'add';
+
+    // Instruction for update operations to subsitute values
+    const ARRAY_OPERATION_SUB = 'sub';
+
     /**
      * Parse an "SQL2" UPDATE statement and construct a query builder
      * for selecting the rows and build a field => value mapping for the 
@@ -83,36 +89,61 @@ class UpdateParser extends Sql2ToQomQueryConverter
         $updates = array();
 
         while (true) {
+
+            // parse left side
             $selectorName = $this->scanner->fetchNextToken();
             $delimiter = $this->scanner->fetchNextToken();
-
+            $property['array_op'] = null;
             if ($delimiter !== '.') {
-                $property = array(
-                    'selector' => null,
-                    'name' => $selectorName
-                );
-                $equals = $delimiter;
+                $property['selector'] = null;
+                $property['name'] = $selectorName;
+                $next = $delimiter;
             } else {
-                $property = array(
-                    'selector' => $selectorName,
-                    'name' => $this->scanner->fetchNextToken()
-                );
-                $equals = $this->scanner->fetchNextToken();
+                $property['selector'] = $selectorName;
+                $property['name'] = $this->scanner->fetchNextToken();
+                $next = $this->scanner->fetchNextToken();
             }
 
+            // handle array operations
+            if ($next === '[') {
+                $next = $this->scanner->fetchNextToken();
 
-            if ($equals !== '=') {
-                throw new InvalidQueryException(sprintf(
-                    'Expected "=" after property name in UPDATE query, got "%s"',
-                    $equals,
-                    $this->sql2
-                ));
+                if ($next === ']') {
+                    $property['array_op'] = self::ARRAY_OPERATION_ADD;
+                } else {
+                    if (is_numeric($next)) {
+                        $property['array_op'] = self::ARRAY_OPERATION_SUB;;
+                        $property['array_index'] = $next;
+                    }
+                    $this->scanner->expectToken(']');
+                }
+
+                // parse operator
+                $this->scanner->expectToken('=');
+            } else {
+                if ($next !== '=') {
+                    throw new InvalidQueryException(sprintf('Expected assignation operator "=", got "%s" in "%s"', $next, $this->sql2));
+                }
             }
 
-            $value = $this->parseLiteralValue();
+            // parse right side
+            $next = $this->scanner->lookupNextToken();
+
+            // match array syntaxes
+            if ($next == '[') {
+                $this->scanner->fetchNextToken();
+                $value = array();
+                while ($next != ']') {
+                    $value[] = $this->parseLiteralValue();
+                    $next = $this->scanner->fetchNextToken();
+                }
+            } else {
+                $value = $this->parseLiteralValue();
+            }
+
             $property['value'] = $value;
 
-            $updates[$property['selector'] . '.' . $property['name']] = $property;
+            $updates[] = $property;
 
             $next = $this->scanner->lookupNextToken();
 
