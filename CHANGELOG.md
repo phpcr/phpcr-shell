@@ -1,6 +1,13 @@
 Changelog
 =========
 
+dev-master
+----------
+
+### Bug fixes
+
+- [node] Mixin remove command does not accept a path
+
 alpha-5
 -------
 
