@@ -10,7 +10,7 @@ Feature: Remove mixin to the current node
 
     Scenario: Remove a mixin to the current node
         Given the current node is "/tests_general_base"
-        And I execute the "node:mixin:remove mix:versionable --no-ansi" command
+        And I execute the "node:mixin:remove . mix:versionable --no-ansi" command
         And I save the session
         Then the command should not fail
         And the node at "/tests_general_base" should not have the mixin "mix:versionable"

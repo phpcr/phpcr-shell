@@ -13,6 +13,7 @@ class NodeMixinRemoveCommand extends Command
     {
         $this->setName('node:mixin:remove');
         $this->setDescription('Remove the named mixin to the current node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('mixinName', InputArgument::REQUIRED, 'The name of the mixin node type to be removeed');
         $this->setHelp(<<<HERE
 Removes the specified mixin node type from this node and removes
@@ -28,7 +29,8 @@ HERE
     {
         $session = $this->getHelper('phpcr')->getSession();
         $mixinName = $input->getArgument('mixinName');
-        $currentNode = $session->getCurrentNode();
+        $path = $input->getArgument('path');
+        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $currentNode->removeMixin($mixinName);
     }
 }
