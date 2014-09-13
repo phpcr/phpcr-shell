@@ -25,31 +25,21 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
             | UPDATE nt:unstructured AS a SET title = 'DTL', foobar='barfoo' WHERE localname() = 'article1' | /cms/articles/article1 | foobar | barfoo |
 
     Scenario: Replace a multivalue index by value
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = 'Rockets' WHERE a.tags = 'Trains'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace(a.tags, 'Trains', 'Rockets') WHERE a.tags = 'Trains'" command
+        Then the command should not fail
         And I save the session
         Then the command should not fail
         And the node at "/cms/articles/article1" should have the property "tags" with value "Rockets" at index "1"
 
     Scenario: Set a multivalue value
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = ['Rockets', 'Dragons'] WHERE a.tags = 'Trains'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = [ 'Rockets', 'Dragons' ] WHERE a.tags = 'Trains'" command
         And I save the session
         Then the command should not fail
         And the node at "/cms/articles/article1" should have the property "tags" with value "Rockets" at index "0"
         And the node at "/cms/articles/article1" should have the property "tags" with value "Dragons" at index "1"
 
-    Scenario: Update single multivalue
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = 'Rockets' WHERE a.tags = 'Planes'" command
-        And I save the session
-        Then the command should not fail
-        And I should see the following:
-        """
-        1 row(s) affected
-        """
-        And the node at "/cms/articles/article1" should have the property "tags" with value "Rockets" at index "0"
-        And the node at "/cms/articles/article1" should have the property "tags" with value "Automobiles" at index "2"
-
     Scenario: Update single multivalue without selector
-        Given I execute the "UPDATE [nt:unstructured] SET tags = 'Rockets' WHERE tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] SET tags = array_replace(tags, 'Planes', 'Rockets') WHERE tags = 'Planes'" command
         And I save the session
         Then the command should not fail
         And I should see the following:
@@ -60,7 +50,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the property "tags" with value "Automobiles" at index "2"
 
     Scenario: Remove single multivalue
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = NULL WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_remove(a.tags, 'Planes') WHERE a.tags = 'Planes'" command
         And I save the session
         Then the command should not fail
         And I should see the following:
@@ -82,7 +72,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the property "tags" with value "Automobiles" at index "1"
 
     Scenario: Add a multivalue property
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags[] = 'Kite' WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_append(a.tags, 'Kite') WHERE a.tags = 'Planes'" command
         And I save the session
         Then the command should not fail
         And I should see the following:

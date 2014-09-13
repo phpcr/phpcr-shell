@@ -60,11 +60,13 @@ class ResultFormatterHelper extends Helper
         $table = new TableHelper;
         $table->setHeaders(array_merge(array(
             'Path',
+            'Index',
         ), $result->getColumnNames()));
 
         foreach ($result->getRows() as $i => $row) {
             $values = array_merge(array(
                 $row->getPath(),
+                $row->getNode()->getIndex(),
             ), $row->getValues());
 
             foreach ($values as $columnName => &$value) {

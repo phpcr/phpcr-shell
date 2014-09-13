@@ -13,6 +13,8 @@ use PHPCR\Query\QOM\PropertyValueInterface;
 use PHPCR\Query\QOM\LiteralInterface;
 use PHPCR\Query\QOM\ComparisonInterface;
 use PHPCR\Query\QueryInterface;
+use PHPCR\Shell\Query\FunctionOperand;
+use PHPCR\Shell\Query\ColumnOperand;
 
 class UpdateParserSpec extends ObjectBehavior
 {
@@ -114,12 +116,7 @@ EOT;
 
     function it_should_parse_array_addition (
         QueryObjectModelFactoryInterface $qomf,
-        ChildNodeJoinConditionInterface $joinCondition,
-        JoinInterface $join,
         SourceInterface $source,
-        PropertyValueInterface $tagsValue,
-        LiteralInterface $literalValue,
-        ComparisonInterface $comparison,
         QueryInterface $query
     )
     {
@@ -141,5 +138,23 @@ EOT;
                 'value' => 'asd',
             ),
         ));
+    }
+
+    function it_should_parse_functions (
+        QueryObjectModelFactoryInterface $qomf,
+        SourceInterface $source,
+        QueryInterface $query
+    )
+    {
+        $qomf->selector('a', 'dtl:article')->willReturn($source);
+        $qomf->createQuery($source, null)->willReturn($query);
+
+
+        $sql = <<<EOT
+UPDATE [dtl:article] AS a SET a.tags[] = array_replace(a.tags, 'asd', 'dsa')
+EOT;
+        $res = $this->parse($sql);
+
+        $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
     }
 }
