@@ -6,7 +6,7 @@ dev-master
 
 ### Bug fixes
 
-- [node] Mixin remove command does not accept a path
+- [mixin] Node mxin remove does not accept a path
 
 alpha-5
 -------
