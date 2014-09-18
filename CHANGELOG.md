@@ -8,6 +8,10 @@ dev-master
 
 - [mixin] Node mxin remove does not accept a path
 
+### Enhancements
+
+- [exit] Ask for confirmation before logging out when there are pending changes
+
 alpha-5
 -------
 

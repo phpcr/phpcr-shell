@@ -16,7 +16,23 @@ class ExitCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getHelper('phpcr')->getSession()->logout();
+        $dialog = $this->getHelper('dialog');
+        $session = $this->getHelper('phpcr')->getSession();
+        $noInteraction = $input->getOption('no-interaction');
+
+        if ($session->hasPendingChanges()) {
+            $res = false;
+
+            if ($input->isInteractive()) {
+                $res = $dialog->askConfirmation($output, '<question>Session has pending changes, are you sure you want to quit? (Y/N)</question>', false);
+            }
+
+            if (false === $res) {
+                return;
+            }
+        }
+
+        $session->logout();
         $output->writeln('<info>Bye!</info>');
         exit(0);
     }
