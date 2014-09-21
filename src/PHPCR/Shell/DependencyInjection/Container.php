@@ -19,6 +19,7 @@ class Container extends ContainerBuilder
     protected $transports = array(
         'transport.transport.doctrinedbal' => 'PHPCR\Shell\Transport\Transport\DoctrineDbal',
         'transport.transport.jackrabbit' => 'PHPCR\Shell\Transport\Transport\Jackrabbit',
+        'transport.transport.fs' => 'PHPCR\Shell\Transport\Transport\JackrabbitFs',
     );
 
     public function __construct($mode = self::MODE_STANDALONE)

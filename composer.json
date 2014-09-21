@@ -20,11 +20,13 @@
         "behat/behat": "~3.0.0",
         "phpspec/phpspec": "2.0",
         "jackalope/jackalope-doctrine-dbal": "~1.1",
-        "jackalope/jackalope-jackrabbit": "~1.1"
+        "jackalope/jackalope-jackrabbit": "~1.1",
+        "jackalope/jackalope-fs": "dev-master"
     },
     "suggest": {
         "jackalope/jackalope-doctrine-dbal": "To connect to jackalope doctrine-dbal",
-        "jackalope/jackalope-doctrine-dbal": "To connect to jackalope jackrabbit"
+        "jackalope/jackalope-jackrabbit": "To connect to jackalope jackrabbit",
+        "jackalope/jackalope-jackrabbit-fs": "To connect to jackalope jackalope-fs"
     },
     "license": "MIT",
     "authors": [

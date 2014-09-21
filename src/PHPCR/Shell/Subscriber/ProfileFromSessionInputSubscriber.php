@@ -29,6 +29,7 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
             'db-path' => 'db_path',
             'db-driver' => 'db_driver',
             'repo-url' => 'repo_url',
+            'repo-path' => 'repo_path',
         );
 
         $phpcrOptions = array(

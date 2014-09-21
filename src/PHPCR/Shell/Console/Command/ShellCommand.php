@@ -60,6 +60,7 @@ class ShellCommand extends Command
             new InputOption('--db-path',        '-dP',   InputOption::VALUE_REQUIRED, 'Database Path.'),
             new InputOption('--no-interaction', null,    InputOption::VALUE_NONE, 'Turn off interaction (for testing purposes)'),
             new InputOption('--repo-url',       '-url',  InputOption::VALUE_REQUIRED, 'URL of repository (e.g. for jackrabbit).', 'http://localhost:8080/server/'),
+            new InputOption('--repo-path',       '-path', InputOption::VALUE_REQUIRED, 'Path to repository (e.g. for Jackalope FS).', '/home/myuser/www/myproject/app/data'),
 
             new InputOption('--profile',      '-p',    InputOption::VALUE_OPTIONAL, 'Speicfy a profile name, use wit <info>--transport</info> to update or create'),
             new InputOption('--unsupported',    null,    InputOption::VALUE_NONE, 'Show all commands, including commands not supported by the repository'),
