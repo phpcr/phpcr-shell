@@ -10,6 +10,7 @@ dev-master
 
 ### Enhancements
 
+- [deps] The PHPCR implementations have been moved to require-dev
 - [exit] Ask for confirmation before logging out when there are pending changes
 
 alpha-5
