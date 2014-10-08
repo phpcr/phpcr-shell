@@ -39,6 +39,6 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         Then the command should not fail
         And I should see the following:
         """
-        1 row(s) affected
+        2 row(s) affected
         """
         And the node at "/cms/articles/article1" should have the property "tag" with value "Rockets" at index "0"

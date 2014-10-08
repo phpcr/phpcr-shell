@@ -7,6 +7,7 @@ dev-master
 ### Bug fixes
 
 - [mixin] Node mxin remove does not accept a path
+- [node:edit] Cannot edit nodes with multivalue References
 
 ### Enhancements
 

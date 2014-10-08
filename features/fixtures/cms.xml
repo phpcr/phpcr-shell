@@ -50,6 +50,10 @@
                 <sv:value>two</sv:value>
                 <sv:value>three</sv:value>
             </sv:property>
+            <sv:property sv:name="articles" sv:type="Reference" multiple="true">
+                <sv:value>66666fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+                <sv:value>77777777-1abf-4708-bfcc-e49511754b40</sv:value>
+            </sv:property>
         </sv:node>
     </sv:node>
 
@@ -74,6 +78,28 @@
             </sv:property>
             <sv:property sv:name="jcr:uuid" sv:type="String">
                 <sv:value>66666fc6-1abf-4708-bfcc-e49511754b40</sv:value>
+            </sv:property>
+            <sv:property sv:name="title" sv:type="String">
+                <sv:value>Article 1</sv:value>
+            </sv:property>
+            <sv:property sv:name="tags" sv:type="String" sv:multiple="true">
+                <sv:value>Planes</sv:value>
+                <sv:value>Trains</sv:value>
+                <sv:value>Automobiles</sv:value>
+            </sv:property>
+            <sv:property sv:name="tag" sv:type="String" sv:multiple="true">
+                <sv:value>Planes</sv:value>
+            </sv:property>
+        </sv:node>
+        <sv:node sv:name="article2">
+            <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>nt:unstructured</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+                <sv:value>mix:referenceable</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:uuid" sv:type="String">
+                <sv:value>77777777-1abf-4708-bfcc-e49511754b40</sv:value>
             </sv:property>
             <sv:property sv:name="title" sv:type="String">
                 <sv:value>Article 1</sv:value>

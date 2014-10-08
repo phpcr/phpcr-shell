@@ -42,8 +42,13 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
             }
 
             $propertyType = $property->getType();
+
             $propertyValue = $property->getValue();
             $propertyName = $property->getName();
+
+            if (in_array($property->getType(), array(PropertyType::REFERENCE, PropertyType::WEAKREFERENCE))) {
+                $propertyValue = array_keys($propertyValue);
+            }
 
             $res[$propertyName] = array(
                 'type' => PropertyType::nameFromValue($propertyType),
@@ -97,22 +102,19 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
                 }
 
                 $datum = $this->normalizeDatum($data[$property->getName()]);
-
-                if (isset($datum['type'])) {
-                    $typeName = $datum['type'];
-
-                    if ($datum['type'] != $typeName) {
-                        throw new \InvalidArgumentException(sprintf(
-                            'Cannot currently change a properties type for property "%s" (trying to change from "%s" to "%s")',
-                            $property->getPath(),
-                            $typeName, $datum['type']
-                        ));
-                    }
-                }
+                $typeValue = isset($datum['type']) ? PropertyType::valueFromName($datum['type']) : null;
 
                 if (isset($datum['value'])) {
-                    if ($datum['value'] != $property->getValue()) {
-                        $property->setValue($datum['value']);
+
+                    // if the type or the value is differnet, update the property
+                    if ($datum['value'] != $property->getValue() || $typeValue != $property->getType()) {
+
+                        // setValue doesn't like being passed a null value as a type ...
+                        if ($typeValue !== null) {
+                            $property->setValue($datum['value'], $typeValue);
+                        } else {
+                            $property->setValue($datum['value']);
+                        }
                     }
                 }
             } catch (\Exception $e) {
@@ -162,7 +164,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         if (is_scalar($value)) {
             return array(
                 'value' => $value,
-                'type' => 'String'
+                'type' => null
             );
         }
 

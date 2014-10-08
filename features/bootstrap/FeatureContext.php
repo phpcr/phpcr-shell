@@ -738,6 +738,22 @@ class FeatureContext extends BehatContext
         PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType[$index]);
     }
 
+    /**
+     * @Given /^the property "([^"]*)" should have type "([^"]*)"$/
+     */
+    public function thePropertyShouldHaveType($arg1, $arg2)
+    {
+        $session = $this->getSession();
+        $property = $session->getItem($arg1);
+        if (!$property instanceof PropertyInterface) {
+            throw new \InvalidArgumentException(sprintf(
+                'Item at "%s" is not a property', $arg1
+            ));
+        }
+
+        PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
+    }
+
 
     /**
      * @Given /^the property "([^"]*)" should have type "([^"]*)" and value "([^"]*)"$/
