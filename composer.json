@@ -3,8 +3,6 @@
     "description": "Shell for PHPCR",
     "require": {
         "symfony/console": "~2.3",
-        "jackalope/jackalope-doctrine-dbal": "~1.1",
-        "jackalope/jackalope-jackrabbit": "~1.1",
         "jackalope/jackalope": "~1.1",
         "phpcr/phpcr": "~2.1",
         "phpcr/phpcr-utils": "~1.2",
@@ -14,12 +12,17 @@
     },
     "minimum-stability": "dev",
     "require-dev": {
-        "mockery/mockery": "0.9",
         "symfony/process": "~2.3",
         "symfony/filesystem": "~2.3",
         "phpunit/phpunit": "~3.7.28",
         "behat/behat": "~2.5",
-        "phpspec/phpspec": "2.0"
+        "phpspec/phpspec": "2.0",
+        "jackalope/jackalope-doctrine-dbal": "~1.1",
+        "jackalope/jackalope-jackrabbit": "~1.1"
+    },
+    "suggest": {
+        "jackalope/jackalope-doctrine-dbal": "To connect to jackalope doctrine-dbal",
+        "jackalope/jackalope-doctrine-dbal": "To connect to jackalope jackrabbit"
     },
     "license": "MIT",
     "authors": [
