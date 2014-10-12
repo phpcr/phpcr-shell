@@ -32,12 +32,15 @@ Execute a PHPCR-Shell JCR-SQL2 update query. You can enter a query literally:
 You can also manipulate multivalue fields:
     
      # Delete index
-     UPDATE [nt:unstructured] SET a.tags[0] = NULL
 
-     # Set index
-     UPDATE [nt:unstructured] SET a.tags[0] = 'foo'
 
 And you have access to a set of functions when assigning a value:
+
+     # Delete a multivalue index
+     UPDATE [nt:unstructured] SET a.tags = array_set(a.tags, 0, NULL)
+
+     # Set a multivalue index
+     UPDATE [nt:unstructured] SET a.tags = array_set(a.tags, 0, 'foo')
 
      # Replace the multivalue value "Planes" with "Trains"
      UPDATE [nt:unstructured] AS a SET a.tags[] = array_replace(a.tags, 'Planes', 'Trains')

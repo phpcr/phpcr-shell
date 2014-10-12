@@ -22,6 +22,12 @@ class FunctionOperand
         $this->arguments = $arguments;
     }
 
+    /**
+     * Replace the Operand objects with their evaluations
+     *
+     * @param array Array of function closures
+     * @param RowInterface $row
+     */
     private function replaceColumnOperands($functionMap, RowInterface $row)
     {
         foreach ($this->arguments as $key => $value) {
@@ -35,11 +41,17 @@ class FunctionOperand
         }
     }
 
-    public function execute($functionMap, $row, $value)
+    /**
+     * Evaluate the result of the function
+     *
+     * @param array Array of function closures
+     * @param RowInterface $row
+     */
+    public function execute($functionMap, $row)
     {
         $this->replaceColumnOperands($functionMap, $row);
 
-        $functionName = $value->getFunctionName();
+        $functionName = $this->getFunctionName();
         if (!isset($functionMap[$functionName])) {
             throw new InvalidQueryException(sprintf('Unknown function "%s", known functions are "%s"',
                 $functionName,
@@ -48,13 +60,19 @@ class FunctionOperand
         }
 
         $callable = $functionMap[$functionName];
-        $args = $value->getArguments();
+        $args = $this->getArguments();
         array_unshift($args, $this);
         $value = call_user_func_array($callable, $args);
 
         return $value;
     }
 
+    /**
+     * Used as callback for closure functions
+     *
+     * @param array Array of values which must be scalars
+     * @throws InvalidArgumentException
+     */
     public function validateScalarArray($array)
     {
         if (!is_array($array)) {
@@ -74,12 +92,21 @@ class FunctionOperand
         }
     }
 
-
+    /**
+     * Return the name of the function to execute
+     *
+     * @return string
+     */
     public function getFunctionName()
     {
         return $this->functionName;
     }
 
+    /**
+     * Return the functions arguments
+     *
+     * @return mixed
+     */
     public function getArguments() 
     {
         return $this->arguments;

@@ -61,8 +61,6 @@ HERE
 
         $currentNode = $session->getNodeByPathOrIdentifier($path);
 
-        echo $currentNode->getIndex()."\n";
-
         if (!$this->showChildren && !$this->showProperties) {
             $this->showChildren = true;
             $this->showProperties = true;

@@ -69,73 +69,14 @@ EOT;
         $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
         $res->offsetGet(1)->shouldReturn(array(
             array(
-                'array_op' => null,
                 'selector' => 'parent',
                 'name' => 'foo',
                 'value' => 'PHPCR\\FOO\\Bar',
             ),
             array(
-                'array_op' => null,
                 'selector' => 'parent',
                 'name' => 'bar',
                 'value' => 'foo',
-            ),
-        ));
-    }
-
-    function it_should_parse_array_values (
-        QueryObjectModelFactoryInterface $qomf,
-        ChildNodeJoinConditionInterface $joinCondition,
-        JoinInterface $join,
-        SourceInterface $source,
-        PropertyValueInterface $tagsValue,
-        LiteralInterface $literalValue,
-        ComparisonInterface $comparison,
-        QueryInterface $query
-    )
-    {
-        $qomf->selector('a', 'dtl:article')->willReturn($source);
-        $qomf->createQuery($source, null)->willReturn($query);
-
-
-        $sql = <<<EOT
-UPDATE [dtl:article] AS a SET a.tags = ['one', 'two', 'three']
-EOT;
-        $res = $this->parse($sql);
-
-        $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
-        $res->offsetGet(1)->shouldReturn(array(
-            array(
-                'array_op' => null,
-                'selector' => 'a',
-                'name' => 'tags',
-                'value' => array('one', 'two', 'three'),
-            ),
-        ));
-    }
-
-    function it_should_parse_array_addition (
-        QueryObjectModelFactoryInterface $qomf,
-        SourceInterface $source,
-        QueryInterface $query
-    )
-    {
-        $qomf->selector('a', 'dtl:article')->willReturn($source);
-        $qomf->createQuery($source, null)->willReturn($query);
-
-
-        $sql = <<<EOT
-UPDATE [dtl:article] AS a SET a.tags[] = 'asd'
-EOT;
-        $res = $this->parse($sql);
-
-        $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
-        $res->offsetGet(1)->shouldReturn(array(
-            array(
-                'array_op' => 'add',
-                'selector' => 'a',
-                'name' => 'tags',
-                'value' => 'asd',
             ),
         ));
     }
@@ -151,7 +92,7 @@ EOT;
 
 
         $sql = <<<EOT
-UPDATE [dtl:article] AS a SET a.tags[] = array_replace(a.tags, 'asd', 'dsa')
+UPDATE [dtl:article] AS a SET a.tags = array_replace(a.tags, 'asd', 'dsa')
 EOT;
         $res = $this->parse($sql);
 

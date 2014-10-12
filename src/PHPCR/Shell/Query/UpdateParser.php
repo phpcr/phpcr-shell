@@ -18,12 +18,6 @@ use PHPCR\Util\QOM\Sql2Scanner;
  */
 class UpdateParser extends Sql2ToQomQueryConverter
 {
-    // Instruction for update operations to add array values
-    const ARRAY_OPERATION_ADD = 'add';
-
-    // Instruction for update operations to subsitute values
-    const ARRAY_OPERATION_SUB = 'sub';
-
     public function parse($sql2)
     {
         $this->scanner = new Sql2Scanner($sql2);
@@ -96,7 +90,6 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         while (true) {
             $property = array(
-                'array_op' => null,
                 'selector' => null,
                 'name' => null,
                 'value' => null

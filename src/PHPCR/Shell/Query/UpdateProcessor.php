@@ -17,7 +17,7 @@ class UpdateProcessor
      * 
      * @var \Closure[]
      */
-    protected $functionMap = array();
+    private $functionMap = array();
 
     public function __construct()
     {
@@ -95,7 +95,7 @@ class UpdateProcessor
         $node->setProperty($propertyData['name'], $value);
     }
 
-    protected function handleExisting($row, $node, $propertyData)
+    private function handleExisting($row, $node, $propertyData)
     {
         $phpcrProperty = $node->getProperty($propertyData['name']);
         $value = $propertyData['value'];
@@ -107,12 +107,12 @@ class UpdateProcessor
         return $value;
     }
 
-    protected function handleFunction($row, $node, $phpcrProperty, $propertyData)
+    private function handleFunction($row, $node, $phpcrProperty, $propertyData)
     {
         $currentValue = $phpcrProperty->getValue();
         $value = $propertyData['value'];
 
-        $value = $value->execute($this->functionMap, $row, $value);
+        $value = $value->execute($this->functionMap, $row);
 
         if ($phpcrProperty->isMultiple()) {
             // do not allow updating multivalue with scalar
