@@ -22,7 +22,8 @@ class UpdateProcessor
     public function __construct()
     {
         $this->functionMap = array(
-            'array_replace' => function ($v, $x, $y) {
+            'array_replace' => function ($operand, $v, $x, $y) {
+                $operand->validateScalarArray($v);
                 foreach ($v as $key => $value) {
                     if ($value === $x) {
                         $v[$key] = $y;
@@ -31,7 +32,7 @@ class UpdateProcessor
 
                 return $v;
             },
-            'array_remove' => function ($v, $x) {
+            'array_remove' => function ($operand, $v, $x) {
                 foreach ($v as $key => $value) {
                     if ($value === $x) {
                         unset($v[$key]);
@@ -40,9 +41,37 @@ class UpdateProcessor
 
                 return array_values($v);
             },
-            'array_append' => function ($v, $x) {
+            'array_append' => function ($operand, $v, $x) {
+                $operand->validateScalarArray($v);
                 $v[] = $x;
                 return $v;
+            },
+            'array' => function () {
+                $values = func_get_args();
+
+                // first argument is the operand
+                array_shift($values);
+                return $values;
+            },
+            'array_set' => function ($operand, $current, $index, $value) {
+                if (!isset($current[$index])) {
+                    throw new \InvalidArgumentException(sprintf(
+                        'Multivalue index "%s" does not exist',
+                        $index
+                    ));
+                }
+
+                if (null !== $value && !is_scalar($value)) {
+                    throw new \InvalidArgumentException('Cannot use an array as a value in a multivalue property');
+                }
+
+                if (null === $value) {
+                    unset($current[$index]);
+                } else {
+                    $current[$index] = $value;
+                }
+
+                return array_values($current);
             },
         );
     }
@@ -71,75 +100,28 @@ class UpdateProcessor
         $phpcrProperty = $node->getProperty($propertyData['name']);
         $value = $propertyData['value'];
 
-        if ($phpcrProperty->isMultiple()) {
-            return $this->handleMultiValue($row, $node, $phpcrProperty, $propertyData);
+        if ($value instanceof FunctionOperand) {
+            return $this->handleFunction($row, $node, $phpcrProperty, $propertyData);
         }
 
         return $value;
     }
 
-    protected function handleMultiValue($row, $node, $phpcrProperty, $propertyData)
+    protected function handleFunction($row, $node, $phpcrProperty, $propertyData)
     {
         $currentValue = $phpcrProperty->getValue();
         $value = $propertyData['value'];
 
-        // there is an array operator ([] or [x])
-        if (isset($propertyData['array_op'])) {
-            $arrayOp = $propertyData['array_op'];
-            if ($arrayOp === UpdateParser::ARRAY_OPERATION_ADD) {
-                foreach ((array) $value as $v) {
-                    $currentValue[] = $v;
-                }
+        $value = $value->execute($this->functionMap, $row, $value);
 
-                return $currentValue;
-            } elseif ($arrayOp === UpdateParser::ARRAY_OPERATION_SUB) {
-                $arrayIndex = $propertyData['array_index'];
-
-                if (!isset($currentValue[$arrayIndex])) {
-                    throw new \InvalidArgumentException(sprintf(
-                        'Multivalue index "%s" does not exist in multivalue field "%s"', $arrayIndex, $propertyData['name']
-                    ));
-                }
-
-                if (null === $value) {
-                    unset($currentValue[$arrayIndex]);
-                    return array_values($currentValue);
-                }
-
-                if (is_array($value)) {
-                    throw new \InvalidArgumentException(sprintf('Cannot set index to array value on "%s"', $propertyData['name']));
-                }
-
-                $currentValue[$arrayIndex] = $value;
-
-                return $currentValue;
-            }
-        }
-
-        if (is_array($value)) {
-            return $value;
-        }
-
-        if ($value instanceof FunctionOperand) {
-            $value->replaceColumnOperands($row);
-            $functionName = $value->getFunctionName();
-            if (!isset($this->functionMap[$functionName])) {
-                throw new InvalidQueryException(sprintf('Unknown function "%s", known functions are "%s"',
-                    $functionName,
-                    implode(', ', array_keys($this->functionMap))
+        if ($phpcrProperty->isMultiple()) {
+            // do not allow updating multivalue with scalar
+            if (false === is_array($value) && sizeof($currentValue) > 1) {
+                throw new \InvalidArgumentException(sprintf(
+                    '<error>Cannot update multivalue property "%s" with a scalar value.</error>',
+                    $phpcrProperty->getName()
                 ));
             }
-
-            $callable = $this->functionMap[$functionName];
-            $value = call_user_func_array($callable, $value->getArguments());
-        }
-
-        // do not allow updating multivalue with scalar
-        if (false === is_array($value) && sizeof($currentValue) > 1) {
-            throw new \InvalidArgumentException(sprintf(
-                '<error>Cannot update multivalue property "%s" with a scalar value.</error>',
-                $phpcrProperty->getName()
-            ));
         }
 
         return $value;

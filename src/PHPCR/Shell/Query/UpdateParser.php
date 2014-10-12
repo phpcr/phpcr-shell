@@ -116,28 +116,6 @@ class UpdateParser extends Sql2ToQomQueryConverter
                 $next = $this->scanner->fetchNextToken();
             }
 
-            // handle array operations
-            if ($next === '[') {
-                $next = $this->scanner->fetchNextToken();
-
-                if ($next === ']') {
-                    $property['array_op'] = self::ARRAY_OPERATION_ADD;
-                } else {
-                    if (is_numeric($next)) {
-                        $property['array_op'] = self::ARRAY_OPERATION_SUB;;
-                        $property['array_index'] = $next;
-                    }
-                    $this->scanner->expectToken(']');
-                }
-
-                // parse operator
-                $this->scanner->expectToken('=');
-            } else {
-                if ($next !== '=') {
-                    throw new InvalidQueryException(sprintf('Expected assignation operator "=", got "%s" in "%s"', $next, $this->sql2));
-                }
-            }
-
             // parse right side
             $property['value'] = $this->parseOperand();
 
@@ -159,6 +137,8 @@ class UpdateParser extends Sql2ToQomQueryConverter
     {
         if (substr($token, 0, 1) === '\'') {
             return true;
+        } elseif (is_numeric($token)) {
+            return true;
         } elseif (substr($token, 0, 1) === '"') {
             return true;
         }
@@ -169,10 +149,6 @@ class UpdateParser extends Sql2ToQomQueryConverter
     private function parseOperand()
     {
         $token = strtoupper($this->scanner->lookupNextToken());
-
-        if ('[' === $token) {
-            return $this->parseArrayValue();
-        }
 
         if ($this->scanner->lookupNextToken(1) == '(') {
             $functionData = $this->parseFunction();
@@ -190,24 +166,6 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         $columnData = $this->scanColumn();
         return new ColumnOperand($columnData[0], $columnData[1]);
-    }
-
-    private function parseArrayValue()
-    {
-        $this->scanner->expectToken('[');
-
-        $values = array();
-        $next = true;
-        while ($next && $next !== ']') {
-            $values[] = $this->parseLiteralValue();
-
-            $next = $this->scanner->fetchNextToken();
-            if (!in_array($next, array(',', ']'))) {
-                throw new InvalidQueryException(sprintf('Invalid array delimiter "%s" in "%s"', $next, $this->sql2));
-            }
-        }
-
-        return $values;
     }
 
     private function parseFunction()
