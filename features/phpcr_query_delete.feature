@@ -19,6 +19,6 @@ Feature: Execute a a raw DELETE query in JCR_SQL2
         """
         Examples:
             | query | path |
-            | DELETE FROM [nt:unstructured] AS a WHERE localname() = 'article1' | /cms/articles/article1 |
-            | delete FROM [nt:unstructured] as a where localname() = 'article1' | /cms/articles/article1 |
-            | DELETE FROM nt:unstructured AS a WHERE localname() = 'article1' | /cms/articles/article1 |
+            | DELETE FROM [nt:unstructured] AS a WHERE localname() = 'product1' | /cms/products/product1 |
+            | delete FROM [nt:unstructured] as a where localname() = 'product1' | /cms/products/product1 |
+            | DELETE FROM nt:unstructured AS a WHERE localname() = 'product1' | /cms/products/product1 |
