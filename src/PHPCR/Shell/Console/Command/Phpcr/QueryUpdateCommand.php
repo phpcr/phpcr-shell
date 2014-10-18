@@ -6,18 +6,52 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Query\UpdateParser;
+use Jackalope\Query\QOM\ComparisonConstraint;
+use Jackalope\Query\QOM\PropertyValue;
+use PHPCR\Query\QOM\QueryObjectModelConstantsInterface;
+use PHPCR\Query\QOM\LiteralInterface;
+use PHPCR\Shell\Query\UpdateProcessor;
 
 class QueryUpdateCommand extends Command
 {
+    /**
+     * @var OutputInterface
+     */
+    protected $output;
+
     protected function configure()
     {
         $this->setName('update');
         $this->setDescription('Execute an UPDATE JCR-SQL2 query');
         $this->addArgument('query');
         $this->setHelp(<<<EOT
-Execute a JCR-SQL2 update query. Unlike other commands you can enter a query literally:
+Execute a PHPCR-Shell JCR-SQL2 update query. You can enter a query literally:
 
      UPDATE [nt:unstructured] AS a SET title = 'foobar' WHERE a.title = 'barfoo';
+
+You can also manipulate multivalue fields:
+    
+     # Delete index
+
+
+And you have access to a set of functions when assigning a value:
+
+     # Delete a multivalue index
+     UPDATE [nt:unstructured] SET a.tags = array_set(a.tags, 0, NULL)
+
+     # Set a multivalue index
+     UPDATE [nt:unstructured] SET a.tags = array_set(a.tags, 0, 'foo')
+
+     # Replace the multivalue value "Planes" with "Trains"
+     UPDATE [nt:unstructured] AS a SET a.tags[] = array_replace(a.tags, 'Planes', 'Trains')
+
+     # Append a multivalue 
+     UPDATE [nt:unstructured] AS a SET a.tags = array_append(a.tags, 'Rockets')
+
+     # Remove by value
+     UPDATE [nt:unstructured] AS a SET a.tags = array_remove(a.tags, 'Plains')
+
+Refer to the documentation for a full reference: http://phpcr.readthedocs.org/en/latest/phpcr-shell
 
 You must call <info>session:save</info> to persist changes.
 
@@ -29,6 +63,7 @@ EOT
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
         $sql = $input->getRawCommand();
 
         // trim ";" for people used to MysQL
@@ -48,33 +83,12 @@ EOT
         $result = $query->execute();
         $rows = 0;
 
+        $updateProcessor = new UpdateProcessor();
+
         foreach ($result as $row) {
             $rows++;
-            foreach ($updates as $field => $property) {
-                $node = $row->getNode($property['selector']);
-
-                if ($node->hasProperty($property['name'])) {
-                    $phpcrProperty = $node->getProperty($property['name']);
-
-                    if ($phpcrProperty->isMultiple()) {
-                        $currentValue = $phpcrProperty->getValue();
-
-                        if (sizeof($currentValue) > 1) {
-                            $output->writeln(sprintf(
-                                '<error>Cannot update property "%s". Updating multi-value nodes with more than one element not currently supported</error>',
-                                $phpcrProperty->getName()
-                            ));
-                            $output->writeln(sprintf(
-                                '<error>See: https://github.com/phpcr/phpcr-shell/issues/81</error>',
-                                $phpcrProperty->getName()
-                            ));
-                        }
-
-                        $property['value'] = (array) $property['value'];
-                    }
-                }
-
-                $node->setProperty($property['name'], $property['value']);
+            foreach ($updates as $property) {
+                $updateProcessor->updateNode($row, $property);
             }
         }
 
