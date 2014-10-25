@@ -8,6 +8,6 @@ before_script:
     - bash tests/bin/travis_jackrabbit.sh
 
 script: 
-  - phpunit --coverage-text
+  - phpunit
   - php vendor/behat/behat/bin/behat
   - php vendor/bin/phpspec run
