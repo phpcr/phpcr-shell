@@ -44,6 +44,7 @@ class UpdateProcessor
             'array_append' => function ($operand, $v, $x) {
                 $operand->validateScalarArray($v);
                 $v[] = $x;
+
                 return $v;
             },
             'array' => function () {
@@ -85,44 +86,19 @@ class UpdateProcessor
     public function updateNode(RowInterface $row, $propertyData)
     {
         $node = $row->getNode($propertyData['selector']);
+        $value = $propertyData['value'];
 
-        if ($node->hasProperty($propertyData['name'])) {
-            $value = $this->handleExisting($row, $node, $propertyData);
-        } else {
-            $value = $propertyData['value'];
+        if ($value instanceof FunctionOperand) {
+            $value = $this->handleFunction($row, $propertyData);
         }
 
         $node->setProperty($propertyData['name'], $value);
     }
 
-    private function handleExisting($row, $node, $propertyData)
+    private function handleFunction($row, $propertyData)
     {
-        $phpcrProperty = $node->getProperty($propertyData['name']);
         $value = $propertyData['value'];
-
-        if ($value instanceof FunctionOperand) {
-            return $this->handleFunction($row, $node, $phpcrProperty, $propertyData);
-        }
-
-        return $value;
-    }
-
-    private function handleFunction($row, $node, $phpcrProperty, $propertyData)
-    {
-        $currentValue = $phpcrProperty->getValue();
-        $value = $propertyData['value'];
-
         $value = $value->execute($this->functionMap, $row);
-
-        if ($phpcrProperty->isMultiple()) {
-            // do not allow updating multivalue with scalar
-            if (false === is_array($value) && sizeof($currentValue) > 1) {
-                throw new \InvalidArgumentException(sprintf(
-                    '<error>Cannot update multivalue property "%s" with a scalar value.</error>',
-                    $phpcrProperty->getName()
-                ));
-            }
-        }
 
         return $value;
     }

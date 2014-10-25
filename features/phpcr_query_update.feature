@@ -32,7 +32,8 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the property "tags" with value "Rockets" at index "1"
 
     Scenario: Set a multivalue value
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array('Rockets', 'Dragons') WHERE a.tags = 'Trains'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array('Rockets', 'Dragons')" command
+        Then the command should not fail
         And I save the session
         Then the command should not fail
         And the node at "/cms/articles/article1" should have the property "tags" with value "Rockets" at index "0"
