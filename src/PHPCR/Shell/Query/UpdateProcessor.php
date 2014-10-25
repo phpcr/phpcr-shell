@@ -53,7 +53,7 @@ class UpdateProcessor
                 array_shift($values);
                 return $values;
             },
-            'array_set' => function ($operand, $current, $index, $value) {
+            'array_replace_at' => function ($operand, $current, $index, $value) {
                 if (!isset($current[$index])) {
                     throw new \InvalidArgumentException(sprintf(
                         'Multivalue index "%s" does not exist',
