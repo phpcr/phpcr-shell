@@ -62,7 +62,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the property "tags" with value "Automobiles" at index "1"
 
     Scenario: Remove single multivalue by index
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_set(a.tags, 0, NULL) WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace_at(a.tags, 0, NULL) WHERE a.tags = 'Planes'" command
         And I save the session
         Then the command should not fail
         And I should see the following:
@@ -85,7 +85,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the property "tags" with value "Kite" at index "3"
 
     Scenario: Replace a multivalue property by index
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_set(a.tags, 1, 'Kite'), a.tags = array_set(a.tags, 2, 'foobar') WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace_at(a.tags, 1, 'Kite'), a.tags = array_replace_at(a.tags, 2, 'foobar') WHERE a.tags = 'Planes'" command
         And I save the session
         Then the command should not fail
         And I should see the following:
@@ -97,7 +97,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the property "tags" with value "foobar" at index "2"
 
     Scenario: Replace a multivalue property by invalid index
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_set(a.tags, 10, 'Kite') WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace_at(a.tags, 10, 'Kite') WHERE a.tags = 'Planes'" command
         Then the command should fail
         And I should see the following:
         """
@@ -105,7 +105,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         """
 
     Scenario: Attempt to update a numerically named property (must use a selector)
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_set(a.tags, a.10, 'Kite') WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace_at(a.tags, a.10, 'Kite') WHERE a.tags = 'Planes'" command
         Then the command should fail
         And I should see the following:
         """
@@ -113,7 +113,7 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         """
 
     Scenario: Replace a multivalue property by invalid index with array (invalid)
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_set(a.tags, 0, array('Kite')) WHERE a.tags = 'Planes'" command
+        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace_at(a.tags, 0, array('Kite')) WHERE a.tags = 'Planes'" command
         Then the command should fail
         And I should see the following:
         """
