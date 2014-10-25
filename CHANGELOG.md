@@ -1,8 +1,13 @@
 Changelog
 =========
 
-dev-master
-----------
+alpha-6
+-------
+
+### Features
+
+- [query] Full support for manipulating multivalue properties via functions.
+          See http://phpcr.readthedocs.org/en/latest/phpcr-shell/querying.html
 
 ### Bug fixes
 
@@ -13,13 +18,6 @@ dev-master
 
 - [deps] The PHPCR implementations have been moved to require-dev
 - [exit] Ask for confirmation before logging out when there are pending changes
-
-alpha-5
--------
-
-### Features
-
-- [query] Full support for manipulating multivalue properties
 
 alpha-5
 -------
