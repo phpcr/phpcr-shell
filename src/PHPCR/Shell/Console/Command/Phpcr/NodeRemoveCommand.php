@@ -25,6 +25,7 @@ HERE
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
         $currentPath = $session->getCwd();
+        $nodePaths = array();
 
         // verify that node exists by trying to get it..
         $nodes = $session->findNodes($path);
@@ -36,11 +37,27 @@ HERE
                 );
             }
 
+            $references = $node->getReferences();
+
+            if (count($references) > 0) {
+                $paths = array();
+                foreach ($references as $reference) {
+                    $paths[] = $reference->getPath();
+                }
+
+                throw new \InvalidArgumentException(sprintf(
+                    'The node "%s" is referenced by the following properties: "%s"',
+                    $node->getPath(),
+                    implode('", "', $paths)
+                ));
+            }
+
+            $nodePaths[] = $node->getPath();
             $node->remove();
         }
 
         // if we deleted the current path, switch back to the parent node
-        if ($currentPath == $session->getAbsPath($path)) {
+        if (in_array($currentPath, $nodePaths)) {
             $session->chdir('..');
         }
     }

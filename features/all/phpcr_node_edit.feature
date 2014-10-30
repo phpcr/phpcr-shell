@@ -28,6 +28,9 @@ Feature: Edit a node
         articles:
             type: Reference
             value: [ 66666fc6-1abf-4708-bfcc-e49511754b40, 77777777-1abf-4708-bfcc-e49511754b40 ]
+        article-weak:
+            type: WeakReference
+            value: 99999999-1abf-4708-bfcc-e49511754b40
         'jcr:primaryType':
             type: Name
             value: 'nt:unstructured'

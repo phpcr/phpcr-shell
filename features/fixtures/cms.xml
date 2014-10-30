@@ -54,6 +54,26 @@
                 <sv:value>66666fc6-1abf-4708-bfcc-e49511754b40</sv:value>
                 <sv:value>77777777-1abf-4708-bfcc-e49511754b40</sv:value>
             </sv:property>
+            <sv:property sv:name="article-weak" sv:type="WeakReference">
+                <sv:value>99999999-1abf-4708-bfcc-e49511754b40</sv:value>
+            </sv:property>
+        </sv:node>
+    </sv:node>
+
+    <sv:node sv:name="users">
+        <sv:property sv:name="jcr:primaryType" sv:type="Name">
+            <sv:value>nt:unstructured</sv:value>
+        </sv:property>
+        <sv:node sv:name="daniel">
+            <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>nt:unstructured</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+                <sv:value>mix:referenceable</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:uuid" sv:type="String">
+                <sv:value>88888888-1abf-4708-bfcc-e49511754b40</sv:value>
+            </sv:property>
         </sv:node>
     </sv:node>
 
@@ -111,6 +131,20 @@
             </sv:property>
             <sv:property sv:name="tag" sv:type="String" sv:multiple="true">
                 <sv:value>Planes</sv:value>
+            </sv:property>
+        </sv:node>
+        <sv:node sv:name="article3">
+            <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>nt:unstructured</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:mixinTypes" sv:type="Name">
+                <sv:value>mix:referenceable</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:uuid" sv:type="String">
+                <sv:value>99999999-1abf-4708-bfcc-e49511754b40</sv:value>
+            </sv:property>
+            <sv:property sv:name="title" sv:type="String">
+                <sv:value>Article 3</sv:value>
             </sv:property>
         </sv:node>
     </sv:node>

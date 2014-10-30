@@ -7,9 +7,13 @@ dev-master
 ### Bug fixes
 
 - [config] Do not override CLI options with profile options
+- [node:remove] Cannot `node:remove` by UUID
+- [node:edit] Serialization of single value references doesn't work
 
 ### Features
 
+- [node:remove] Immediately fail when trying to delete a node which has a
+  (hard) referrer
 - [cli] Specify workspace with first argument
 - [global] Refactored to use DI container and various general improvements
 - [node:property:set] Allow setting reference property type by path
