@@ -1,6 +1,11 @@
 Changelog
 =========
 
+dev-master
+----------
+
+- [node:references] Shows the referencing node paths instead of the referrered-to node path(s)
+
 alpha-6
 -------
 
