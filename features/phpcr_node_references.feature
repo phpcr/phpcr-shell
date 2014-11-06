@@ -13,8 +13,8 @@ Feature: Show node references
         Then the command should not fail
         And I should see a table containing the following rows:
             | Type | Property | Node Path                                                      |
-            | weak | ref2     | /tests_general_base/idExample/jcr:content/weakreference_target |
-            | weak | ref1     | /tests_general_base/idExample/jcr:content/weakreference_target |
+            | weak | ref2     | /tests_general_base/idExample/jcr:content/weakreference_source2 |
+            | weak | ref1     | /tests_general_base/idExample/jcr:content/weakreference_source1 |
 
     Scenario: List named weak references
         Given the current node is "/tests_general_base/idExample/jcr:content/weakreference_target"
@@ -22,7 +22,7 @@ Feature: Show node references
         Then the command should not fail
         And I should see a table containing the following rows:
             | Type | Property | Node Path                                                      |
-            | weak | ref2     | /tests_general_base/idExample/jcr:content/weakreference_target |
+            | weak | ref2     | /tests_general_base/idExample/jcr:content/weakreference_source2 |
 
     Scenario: List strong references
         Given the current node is "/tests_general_base/idExample"
@@ -30,6 +30,6 @@ Feature: Show node references
         Then the command should not fail
         And I should see a table containing the following rows:
             | Type   | Property | Node Path                              |
-            | strong | ref      | /tests_general_base/idExample          |
-            | strong | multiref | /tests_general_base/idExample          |
-            |        |          | /tests_general_base/multiValueProperty |
+            | strong | ref      | /tests_general_base/numberPropertyNode/jcr:content |
+            | strong | multiref | /tests_general_base/numberPropertyNode/jcr:content |
+

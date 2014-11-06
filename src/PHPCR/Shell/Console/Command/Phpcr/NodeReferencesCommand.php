@@ -59,22 +59,12 @@ HERE
 
         foreach ($references as $type => $typeReferences) {
             foreach ($typeReferences as $property) {
-                if ($property->isMultiple()) {
-                    $nodes = $property->getNode();
-                } else {
-                    $nodes = array($property->getNode());
-                }
-
-                $nodePaths = array();
-
-                foreach ($nodes as $node) {
-                    $nodePaths[] = $node->getPath();
-                }
+                $nodePath = $property->getParent()->getPath();
 
                 $table->addRow(array(
                     $type,
                     $property->getName(),
-                    implode("\n", $nodePaths),
+                    $nodePath
                 ));
             }
         }
