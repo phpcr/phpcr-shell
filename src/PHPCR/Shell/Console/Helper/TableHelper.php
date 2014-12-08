@@ -17,9 +17,14 @@ class TableHelper extends OriginalTableHelper
 {
     private $numberOfRows = 0;
 
+    public function __construct()
+    {
+        parent::__construct(false);
+    }
+
     public function create()
     {
-        return new self;
+        return new self(false);
     }
 
     public function addRow(array $row)
