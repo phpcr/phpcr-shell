@@ -28,12 +28,12 @@ class ProfileInitEvent extends Event
         $this->output = $output;
     }
 
-    public function getInput() 
+    public function getInput()
     {
         return $this->input;
     }
 
-    public function getOutput() 
+    public function getOutput()
     {
         return $this->output;
     }

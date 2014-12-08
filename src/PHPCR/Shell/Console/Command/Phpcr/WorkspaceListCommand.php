@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class WorkspaceListCommand extends Command
+class WorkspaceListCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -31,12 +31,12 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
 
         $workspace = $session->getWorkspace();
         $availableWorkspaces = $workspace->getAccessibleWorkspaceNames();
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
         $table->setHeaders(array('Name'));
         foreach ($availableWorkspaces as $availableWorkspace) {
             if ($availableWorkspace == $workspace->getName()) {

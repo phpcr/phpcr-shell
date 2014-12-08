@@ -5,13 +5,13 @@ namespace PHPCR\Shell\Subscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
-use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use PHPCR\Shell\Config\ProfileLoader;
 
 class ProfileWriterSubscriber implements EventSubscriberInterface
 {
     protected $profileLoader;
-    protected $dialogHelper;
+    protected $questionHelper;
 
     public static function getSubscribedEvents()
     {
@@ -20,10 +20,10 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
         );
     }
 
-    public function __construct(ProfileLoader $profileLoader)
+    public function __construct(ProfileLoader $profileLoader, $questionHelper)
     {
         $this->profileLoader = $profileLoader;
-        $this->dialogHelper = new DialogHelper;
+        $this->questionHelper = $questionHelper;
     }
 
     public function handleProfileInit(ProfileInitEvent $e)
@@ -41,10 +41,10 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
             $overwrite = false;
 
             if (file_exists($this->profileLoader->getProfilePath($profileName))) {
-                $res = $this->dialogHelper->askConfirmation($output, sprintf('Update existing profile "%s"?', $profileName));
+                $res = $this->questionHelper->askConfirmation($output, sprintf('Update existing profile "%s"?', $profileName));
                 $overwrite = true;
             } else {
-                $res = $this->dialogHelper->askConfirmation($output, sprintf('Create new profile "%s"?', $profileName));
+                $res = $this->questionHelper->askConfirmation($output, sprintf('Create new profile "%s"?', $profileName));
             }
 
             if ($res) {
@@ -53,4 +53,3 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
         }
     }
 }
-

@@ -3,19 +3,20 @@
 namespace spec\PHPCR\Shell\Console\Helper;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\Shell\Console\Helper\TextHelper;
+use PHPCR\Shell\Console\Helper\TableHelper;
 
 class ResultFormatterHelperSpec extends ObjectBehavior
 {
-    function let(
-        TextHelper $textHelper
+    public function let(
+        TextHelper $textHelper,
+        TableHelper $tableHelper
     )
     {
-        $this->beConstructedWith($textHelper);
+        $this->beConstructedWith($textHelper, $tableHelper);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Console\Helper\ResultFormatterHelper');
     }

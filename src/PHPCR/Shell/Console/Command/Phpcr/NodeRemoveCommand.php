@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeRemoveCommand extends Command
+class NodeRemoveCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -22,7 +22,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $targetPath = $input->getArgument('path');
         $currentPath = $session->getCwd();
 

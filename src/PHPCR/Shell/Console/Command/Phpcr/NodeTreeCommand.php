@@ -32,9 +32,9 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->formatter = $this->getHelper('result_formatter');
-        $this->textHelper = $this->getHelper('text');
-        $this->session = $this->getHelper('phpcr')->getSession();
+        $this->formatter = $this->get('helper.result_formatter');
+        $this->textHelper = $this->get('helper.text');
+        $this->session = $this->get('phpcr.session');
 
         $this->filters = $input->getOption('filter');
         $this->level = $input->getOption('level');

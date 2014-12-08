@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Query;
 
-use PHPCR\Shell\Query\ColumnOperand;
 use PHPCR\Query\RowInterface;
 
 /**
@@ -107,7 +106,7 @@ class FunctionOperand
      *
      * @return mixed
      */
-    public function getArguments() 
+    public function getArguments()
     {
         return $this->arguments;
     }

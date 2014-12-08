@@ -9,28 +9,17 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
 use PHPCR\Shell\Console\Command\Shell as CommandShell;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
-use PHPCR\Shell\Console\Helper\EditorHelper;
-use PHPCR\Shell\Console\Helper\NodeHelper;
-use PHPCR\Shell\Console\Helper\PathHelper;
-use PHPCR\Shell\Console\Helper\RepositoryHelper;
-use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
-use PHPCR\Shell\Console\Helper\TextHelper;
-use PHPCR\Shell\Console\Helper\PhpcrHelper;
 
 use PHPCR\Shell\Event;
 use PHPCR\Shell\Event\ApplicationInitEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
-use PHPCR\Shell\Subscriber;
 use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
-use PHPCR\Shell\Transport\TransportRegistry;
-use PHPCR\Shell\Config\ProfileLoader;
-use PHPCR\Shell\Console\Helper\TableHelper;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Main application for PHPCRSH
@@ -52,36 +41,26 @@ class ShellApplication extends Application
     protected $showUnsupported = false;
 
     /**
+     * @var Symfony\Component\DependencyInjection\ContainerBuilder
+     */
+    protected $container;
+
+    /**
+     * @var boolean
+     */
+    protected $debug = false;
+
+    /**
      * Constructor - name and version inherited from SessionApplication
      *
      * {@inheritDoc}
      */
-    public function __construct()
+    public function __construct($container)
     {
         parent::__construct(SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
-        $this->profile = new Profile();
-        $this->setDispatcher($this->dispatcher = new EventDispatcher());
-        $this->transportRegistry = new TransportRegistry();
-        $this->registerTransports();
-        $this->registerHelpers();
-        $this->registerEventListeners();
-    }
-
-    /**
-     * Initialize the supported transports.
-     *
-     * @access private
-     */
-    protected function registerTransports()
-    {
-        $transports = array(
-            new \PHPCR\Shell\Transport\Transport\DoctrineDbal($this->profile),
-            new \PHPCR\Shell\Transport\Transport\Jackrabbit($this->profile),
-        );
-
-        foreach ($transports as $transport) {
-            $this->transportRegistry->register($transport);
-        }
+        $this->dispatcher = $container->get('event.dispatcher') ? : new EventDispatcher();
+        $this->setDispatcher($this->dispatcher);
+        $this->container = $container;
     }
 
     /**
@@ -112,37 +91,13 @@ class ShellApplication extends Application
         }
 
         $this->registerPhpcrCommands();
+        $this->registerPhpcrStandaloneCommands();
         $this->registerShellCommands();
 
         $event = new ApplicationInitEvent($this);
         $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
 
         $this->initialized = true;
-    }
-
-    /**
-     * Register the helpers required by the application
-     */
-    protected function registerHelpers()
-    {
-        $phpcrHelper = new PhpcrHelper($this->transportRegistry, $this->profile);
-        $textHelper = new TextHelper();
-
-        $helpers = array(
-            $textHelper,
-            new ConfigHelper(),
-            new EditorHelper(),
-            new NodeHelper(),
-            new PathHelper(),
-            new RepositoryHelper($phpcrHelper),
-            new ResultFormatterHelper($textHelper),
-            new TableHelper(),
-            $phpcrHelper
-        );
-
-        foreach ($helpers as $helper) {
-            $this->getHelperSet()->set($helper);
-        }
     }
 
     /**
@@ -157,8 +112,6 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\SessionImpersonateCommand());
         $this->add(new CommandPhpcr\SessionImportXMLCommand());
         $this->add(new CommandPhpcr\SessionInfoCommand());
-        $this->add(new CommandPhpcr\SessionLoginCommand());
-        $this->add(new CommandPhpcr\SessionLogoutCommand());
         $this->add(new CommandPhpcr\SessionNamespaceListCommand());
         $this->add(new CommandPhpcr\SessionNamespaceSetCommand());
         $this->add(new CommandPhpcr\NodePropertyRemoveCommand());
@@ -174,16 +127,12 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\RetentionHoldRemoveCommand());
         $this->add(new CommandPhpcr\RetentionPolicyGetCommand());
         $this->add(new CommandPhpcr\RetentionPolicyRemoveCommand());
-        $this->add(new CommandPhpcr\WorkspaceCreateCommand());
-        $this->add(new CommandPhpcr\WorkspaceDeleteCommand());
-        $this->add(new CommandPhpcr\WorkspaceListCommand());
         $this->add(new CommandPhpcr\NodeCloneCommand());
         $this->add(new CommandPhpcr\NodeCopyCommand());
         $this->add(new CommandPhpcr\NodeEditCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceListCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceRegisterCommand());
         $this->add(new CommandPhpcr\WorkspaceNamespaceUnregisterCommand());
-        $this->add(new CommandPhpcr\WorkspaceUseCommand());
         $this->add(new CommandPhpcr\NodeTypeShowCommand());
         $this->add(new CommandPhpcr\NodeTypeEditCommand());
         $this->add(new CommandPhpcr\NodeTypeUnregisterCommand());
@@ -224,6 +173,16 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\LockUnlockCommand());
     }
 
+    protected function registerPhpcrStandaloneCommands()
+    {
+        $this->add(new CommandPhpcr\SessionLoginCommand());
+        $this->add(new CommandPhpcr\SessionLogoutCommand());
+        $this->add(new CommandPhpcr\WorkspaceUseCommand());
+        $this->add(new CommandPhpcr\WorkspaceCreateCommand());
+        $this->add(new CommandPhpcr\WorkspaceDeleteCommand());
+        $this->add(new CommandPhpcr\WorkspaceListCommand());
+    }
+
     protected function registerShellCommands()
     {
         // add shell-specific commands
@@ -234,25 +193,6 @@ class ShellApplication extends Application
         $this->add(new CommandShell\PathChangeCommand());
         $this->add(new CommandShell\PathShowCommand());
         $this->add(new CommandShell\ExitCommand());
-    }
-
-    protected function registerEventListeners()
-    {
-        $this->dispatcher->addSubscriber(new Subscriber\ProfileFromSessionInputSubscriber());
-        $this->dispatcher->addSubscriber(new Subscriber\ProfileWriterSubscriber(
-            new ProfileLoader(
-                $this->getHelperSet()->get('config')
-            )
-        ));
-        $this->dispatcher->addSubscriber(new Subscriber\ProfileLoaderSubscriber(
-            new ProfileLoader(
-                $this->getHelperSet()->get('config')
-            )
-        ));
-
-        $this->dispatcher->addSubscriber(new Subscriber\ConfigInitSubscriber());
-        $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
-        $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()));
     }
 
     /**
@@ -308,7 +248,7 @@ class ShellApplication extends Application
         try {
             $exitCode = parent::doRun($input, $output);
         } catch (\Exception $e) {
-            $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $input, $output));
+            $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $this, $output));
 
             return 1;
         }
@@ -342,8 +282,12 @@ class ShellApplication extends Application
      */
     public function add(Command $command)
     {
+        if ($command instanceof ContainerAwareInterface) {
+            $command->setContainer($this->container);
+        }
+
         if ($command instanceof PhpcrShellCommand) {
-            if ($this->showUnsupported || $command->isSupported($this->getHelperSet()->get('repository'))) {
+            if ($this->showUnsupported || $command->isSupported()) {
                 parent::add($command);
             }
         } else {
@@ -353,7 +297,29 @@ class ShellApplication extends Application
 
     public function dispatchProfileInitEvent(InputInterface $sessionInput, OutputInterface $output)
     {
-        $event = new Event\ProfileInitEvent($this->profile, $sessionInput, $output);
+        $event = new Event\ProfileInitEvent($this->container->get('config.profile'), $sessionInput, $output);
         $this->dispatcher->dispatch(PhpcrShellEvents::PROFILE_INIT, $event);
     }
+
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * Return if the shell is in debug mode
+     */
+    public function isDebug()
+    {
+        return $this->debug;
+    }
+
+    /**
+     * Debug mode -- more verbose exceptions
+     */
+    public function setDebug($debug)
+    {
+        $this->debug = $debug;
+    }
+
 }

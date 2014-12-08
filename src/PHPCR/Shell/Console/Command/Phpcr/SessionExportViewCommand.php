@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Util\PathHelper;
 
-class SessionExportViewCommand extends Command
+class SessionExportViewCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -57,11 +57,11 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $file = $input->getArgument('file');
         $pretty = $input->getOption('pretty');
         $exportDocument = $input->getOption('document');
-        $dialog = $this->getHelper('dialog');
+        $dialog = $this->get('helper.question');
 
         if (file_exists($file)) {
             $confirmed = true;

@@ -3,7 +3,6 @@
 namespace spec\PHPCR\Shell\Query;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\Query\QOM\QueryObjectModelFactoryInterface;
 use PHPCR\Query\QOM\JoinInterface;
 use PHPCR\Query\QOM\SourceInterface;
@@ -13,12 +12,10 @@ use PHPCR\Query\QOM\PropertyValueInterface;
 use PHPCR\Query\QOM\LiteralInterface;
 use PHPCR\Query\QOM\ComparisonInterface;
 use PHPCR\Query\QueryInterface;
-use PHPCR\Shell\Query\FunctionOperand;
-use PHPCR\Shell\Query\ColumnOperand;
 
 class UpdateParserSpec extends ObjectBehavior
 {
-    function let(
+    public function let(
         QueryObjectModelFactoryInterface $qomf
     )
     {
@@ -27,12 +24,12 @@ class UpdateParserSpec extends ObjectBehavior
         );
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Query\UpdateParser');
     }
 
-    function it_should_provide_a_qom_object_for_selecting(
+    public function it_should_provide_a_qom_object_for_selecting(
         QueryObjectModelFactoryInterface $qomf,
         ChildNodeJoinConditionInterface $joinCondition,
         JoinInterface $join,
@@ -54,11 +51,10 @@ class UpdateParserSpec extends ObjectBehavior
 
         $qomf->createQuery($join, $comparison)->willReturn($query);
 
-
         $sql = <<<EOT
 UPDATE [mgnl:page] AS parent
     INNER JOIN [mgnl:metaData] AS child ON ISCHILDNODE(child,parent)
-    SET 
+    SET
         parent.foo = 'PHPCR\\FOO\\Bar',
         parent.bar = 'foo'
     WHERE
@@ -81,7 +77,7 @@ EOT;
         ));
     }
 
-    function it_should_parse_functions (
+    public function it_should_parse_functions (
         QueryObjectModelFactoryInterface $qomf,
         SourceInterface $source,
         QueryInterface $query

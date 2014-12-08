@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class VersionHistoryCommand extends Command
+class VersionHistoryCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -22,9 +22,9 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
-        $nodeHelper = $this->getHelper('node');
-        $table = $this->getHelper('table')->create();
+        $session = $this->get('phpcr.session');
+        $nodeHelper = $this->get('helper.node');
+        $table = $this->get('helper.table')->create();
 
         $path = $input->getArgument('path');
         $workspace = $session->getWorkspace();

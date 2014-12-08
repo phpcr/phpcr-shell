@@ -1,16 +1,17 @@
 <?php
 
-require_once(__DIR__.'/../../vendor/autoload.php');
+namespace PHPCR\Shell\Test;
 
 use Jackalope\RepositoryFactoryJackrabbit;
 use PHPCR\SimpleCredentials;
 use PHPCR\Util\NodeHelper;
 use Symfony\Component\Filesystem\Filesystem;
 use PHPCR\PathNotFoundException;
-use PHPCR\Shell\Test\ApplicationTester;
 use PHPCR\Util\PathHelper;
 use PHPCR\PropertyInterface;
 use PHPCR\PropertyType;
+use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Behat\Context\Context;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -23,13 +24,17 @@ use Behat\Gherkin\Node\PyStringNode,
 /**
  * Features context.
  */
-class FeatureContext extends BehatContext
+abstract class ContextBase implements Context, SnippetAcceptingContext
 {
-    protected $application;
     protected $applicationTester;
     protected $filesystem;
     protected $workingDir;
     protected $currentWorkspaceName = 'default';
+
+    /**
+     * Return the application tester
+     */
+    abstract protected function createTester();
 
     /**
      * Initializes context.
@@ -47,17 +52,7 @@ class FeatureContext extends BehatContext
         mkdir($this->workingDir, 0777, true);
         chdir($this->workingDir);
         $this->filesystem = new Filesystem();
-
-        $session = $this->getSession(null, true);
-
-        $this->applicationTester = new ApplicationTester();
-        $this->applicationTester->run(array(
-            '--transport' => 'jackrabbit',
-            '--no-interaction' => true,
-            '--unsupported' => true, // test all the commands, even if they are unsupported (we test for the fail)
-        ), array(
-            'interactive' => true,
-        ));
+        $this->applicationTester = $this->createTester();
     }
 
     /**
@@ -71,7 +66,7 @@ class FeatureContext extends BehatContext
         $fs->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell');
     }
 
-    private function getSession($workspaceName = null, $force = false)
+    protected function getSession($workspaceName = null, $force = false)
     {
         if ($workspaceName === null) {
             $workspaceName = $this->currentWorkspaceName;
@@ -81,6 +76,7 @@ class FeatureContext extends BehatContext
 
         if (false === $force && isset($sessions[$workspaceName])) {
             $session = $sessions[$workspaceName];
+
             return $session;
         }
 
@@ -118,7 +114,7 @@ class FeatureContext extends BehatContext
 
     private function getFixtureFilename($filename)
     {
-        $fixtureFile = realpath(__DIR__).'/../fixtures/'.$filename;
+        $fixtureFile = realpath(__DIR__).'/../../../../features/fixtures/'.$filename;
         if (!file_exists($fixtureFile)) {
             throw new \Exception('Fixtures do not exist at ' . $fixtureFile);
         }
@@ -190,7 +186,7 @@ class FeatureContext extends BehatContext
             }
         }
 
-        PHPUnit_Framework_Assert::assertGreaterThanOrEqual(count($expectedRows), $foundRows, $this->getOutput());
+        \PHPUnit_Framework_Assert::assertGreaterThanOrEqual(count($expectedRows), $foundRows, $this->getOutput());
     }
 
     /**
@@ -199,7 +195,7 @@ class FeatureContext extends BehatContext
     public function iShouldSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        PHPUnit_Framework_Assert::assertContains($string->getRaw(), $output);
+        \PHPUnit_Framework_Assert::assertContains($string->getRaw(), $output);
     }
 
     /**
@@ -208,7 +204,7 @@ class FeatureContext extends BehatContext
     public function iShouldNotSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        PHPUnit_Framework_Assert::assertNotContains($string->getRaw(), $output);
+        \PHPUnit_Framework_Assert::assertNotContains($string->getRaw(), $output);
     }
 
     /**
@@ -220,6 +216,10 @@ class FeatureContext extends BehatContext
         $session = $this->getSession(null, true);
         NodeHelper::purgeWorkspace($session);
         $session->save();
+
+        // shouldn't have to do this, but this seems to be a bug in jackalope
+        $session->refresh(false);
+
         $session->importXml('/', $fixtureFile, 0);
         $session->save();
     }
@@ -235,7 +235,7 @@ class FeatureContext extends BehatContext
             throw new \Exception('Command failed: (' . $exitCode . ') ' . $this->getOutput());
         }
 
-        PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code: ' . $exitCode);
+        \PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code: ' . $exitCode);
     }
 
     /**
@@ -245,7 +245,7 @@ class FeatureContext extends BehatContext
     {
         $exitCode = $this->applicationTester->getLastExitCode();
 
-        PHPUnit_Framework_Assert::assertNotEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
+        \PHPUnit_Framework_Assert::assertNotEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
     }
 
     /**
@@ -256,14 +256,14 @@ class FeatureContext extends BehatContext
         $exitCode = $this->applicationTester->getLastExitCode();
         $output = $this->getOutput();
 
-        PHPUnit_Framework_Assert::assertEquals($arg1, $output);
+        \PHPUnit_Framework_Assert::assertEquals($arg1, $output);
     }
     /**
      * @Given /^the file "([^"]*)" should exist$/
      */
     public function theFileShouldExist($arg1)
     {
-        PHPUnit_Framework_Assert::assertTrue(file_exists($this->getWorkingFilePath($arg1)));
+        \PHPUnit_Framework_Assert::assertTrue(file_exists($this->getWorkingFilePath($arg1)));
     }
 
     /**
@@ -289,8 +289,8 @@ class FeatureContext extends BehatContext
      */
     public function theOutputShouldContain(PyStringNode $string)
     {
-        foreach ($string->getLines() as $line) {
-            PHPUnit_Framework_Assert::assertContains($line, $this->getOutput());
+        foreach ($string->getStrings() as $line) {
+            \PHPUnit_Framework_Assert::assertContains($line, $this->getOutput());
         }
     }
 
@@ -301,7 +301,7 @@ class FeatureContext extends BehatContext
     {
         $session = $this->getSession();
         $node = $session->getNode($arg1);
-        PHPUnit_Framework_Assert::assertNull($node);
+        \PHPUnit_Framework_Assert::assertNull($node);
     }
 
     /**
@@ -312,7 +312,7 @@ class FeatureContext extends BehatContext
         $xpath = $this->getXPathForFile($arg3);
         $res = $xpath->query($arg1);
 
-        PHPUnit_Framework_Assert::assertEquals($arg2, $res->length);
+        \PHPUnit_Framework_Assert::assertEquals($arg2, $res->length);
     }
 
     /**
@@ -349,13 +349,13 @@ class FeatureContext extends BehatContext
     {
         $this->executeCommand('session:info');
         $output = $this->getOutput();
-        PHPUnit_Framework_Assert::assertRegExp('/live .*no/', $output);
+        \PHPUnit_Framework_Assert::assertRegExp('/live .*no/', $output);
     }
 
     /**
      * @Given /^there exists a namespace prefix "([^"]*)" with URI "([^"]*)"$/
      */
-    public function thereExistsANamespacePrefixWithUri($arg1, $arg2)
+    public function thereExistsANamespacePrefixWithUri($arg, $arg2)
     {
         $session = $this->getSession();
         $session->setNamespacePrefix($arg1, $arg2);
@@ -381,8 +381,8 @@ class FeatureContext extends BehatContext
         } catch (PathNotFoundException $e) {
             throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
         }
-    }    
-    
+    }
+
     /**
      * @Given /^there should exist a node at "([^"]*)" before "([^"]*)"$/
      */
@@ -412,7 +412,7 @@ class FeatureContext extends BehatContext
             throw new \Exception('Could not find child node ' . $arg1);
         }
 
-        PHPUnit_Framework_Assert::assertEquals($arg2, $afterNode->getPath());
+        \PHPUnit_Framework_Assert::assertEquals($arg2, $afterNode->getPath());
     }
 
     /**
@@ -513,7 +513,7 @@ class FeatureContext extends BehatContext
         $session = $this->getSession();
         $userId = $session->getUserID();
 
-        PHPUnit_Framework_Assert::assertEquals($userId, $arg1);
+        \PHPUnit_Framework_Assert::assertEquals($userId, $arg1);
     }
 
     /**
@@ -669,7 +669,7 @@ class FeatureContext extends BehatContext
     {
         $this->executeCommand('shell:path:show');
         $cnp = $this->applicationTester->getLastLine();
-        PHPUnit_Framework_Assert::assertEquals($arg1, $cnp, 'Current path is ' . $arg1);
+        \PHPUnit_Framework_Assert::assertEquals($arg1, $cnp, 'Current path is ' . $arg1);
     }
 
     /**
@@ -707,7 +707,7 @@ class FeatureContext extends BehatContext
         $session = $this->getSession();
         $node = $session->getNode($arg1);
         $primaryTypeName = $node->getPrimaryNodeType()->getName();
-        PHPUnit_Framework_Assert::assertEquals($arg2, $primaryTypeName, 'Node type of ' . $arg1 . ' is ' . $arg2);
+        \PHPUnit_Framework_Assert::assertEquals($arg2, $primaryTypeName, 'Node type of ' . $arg1 . ' is ' . $arg2);
     }
 
     /**
@@ -719,7 +719,7 @@ class FeatureContext extends BehatContext
         $node = $session->getNode($arg1);
         $property = $node->getProperty($arg2);
         $propertyType = $property->getValue();
-        PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
+        \PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
     }
 
     /**
@@ -735,7 +735,7 @@ class FeatureContext extends BehatContext
         }
 
         $propertyType = $property->getValue();
-        PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType[$index]);
+        \PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType[$index]);
     }
 
     /**
@@ -751,7 +751,7 @@ class FeatureContext extends BehatContext
             ));
         }
 
-        PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
+        \PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
     }
 
 
@@ -768,8 +768,8 @@ class FeatureContext extends BehatContext
             ));
         }
 
-        PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
-        PHPUnit_Framework_Assert::assertEquals($arg3, $property->getValue());
+        \PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
+        \PHPUnit_Framework_Assert::assertEquals($arg3, $property->getValue());
     }
 
     /**
@@ -839,7 +839,7 @@ class FeatureContext extends BehatContext
         $lockManager = $workspace->getLockManager();
         $isLocked = $lockManager->isLocked($arg1);
 
-        PHPUnit_Framework_Assert::assertTrue($isLocked);
+        \PHPUnit_Framework_Assert::assertTrue($isLocked);
     }
 
     /**
@@ -852,7 +852,7 @@ class FeatureContext extends BehatContext
         $lockManager = $workspace->getLockManager();
         $isLocked = $lockManager->isLocked($arg1);
 
-        PHPUnit_Framework_Assert::assertFalse($isLocked);
+        \PHPUnit_Framework_Assert::assertFalse($isLocked);
     }
 
     /**

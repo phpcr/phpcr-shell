@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
 
-class QueryDeleteCommand extends Command
+class QueryDeleteCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -36,7 +36,7 @@ EOT
             $sql = substr($sql, 0, -1);
         }
 
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $qm = $session->getWorkspace()->getQueryManager();
 
         if (!preg_match('{^delete from}', strtolower($sql))) {

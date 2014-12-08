@@ -3,11 +3,9 @@
 namespace PHPCR\Shell\Config;
 
 use PHPCR\Shell\Config\Exception\FileExistsException;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
-
 
 class ProfileLoader
 {
@@ -16,10 +14,10 @@ class ProfileLoader
     protected $config;
     protected $filesystem;
 
-    public function __construct(ConfigHelper $config, Filesystem $filesystem = null)
+    public function __construct(ConfigManager $config, Filesystem $filesystem = null)
     {
         $this->config = $config;
-        $this->filesystem = $filesystem ? : new Filesystem;
+        $this->filesystem = $filesystem ? : new Filesystem();
     }
 
     protected function getProfileDir()

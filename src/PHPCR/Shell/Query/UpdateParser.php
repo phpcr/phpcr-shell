@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Query;
 
-use PHPCR\Util\ValueConverter;
 use PHPCR\Query\InvalidQueryException;
 use PHPCR\Query\QOM\SourceInterface;
 use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
@@ -22,12 +21,13 @@ class UpdateParser extends Sql2ToQomQueryConverter
     {
         $this->scanner = new Sql2Scanner($sql2);
         $this->sql2 = $sql2;
+
         return $this->doParse($sql2);
     }
 
     /**
      * Parse an "SQL2" UPDATE statement and construct a query builder
-     * for selecting the rows and build a field => value mapping for the 
+     * for selecting the rows and build a field => value mapping for the
      * update.
      *
      * @param string $sql2
@@ -75,7 +75,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
      * Parse the SET section of the query, returning
      * an array containing the property names (<selectorName.propertyName)
      * as keys and an array
-     * 
+     *
      * array(
      *     'selector' => <selector>,
      *     'name' => <name>,
@@ -145,6 +145,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         if ($this->scanner->lookupNextToken(1) == '(') {
             $functionData = $this->parseFunction();
+
             return new FunctionOperand($functionData[0], $functionData[1]);
         }
 
@@ -154,10 +155,12 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         if ($token === 'NULL') {
             $this->scanner->fetchNextToken();
+
             return null;
         }
 
         $columnData = $this->scanColumn();
+
         return new ColumnOperand($columnData[0], $columnData[1]);
     }
 

@@ -1,3 +1,4 @@
+@standlone
 Feature: Login to the session
     In order to reconnect as a different user from a session
     As a user logged into the shell

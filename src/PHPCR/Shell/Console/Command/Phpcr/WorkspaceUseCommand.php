@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class WorkspaceUseCommand extends Command
+class WorkspaceUseCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -24,6 +24,6 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $workspaceName = $input->getArgument('name');
-        $this->getHelper('phpcr')->changeWorkspace($workspaceName);
+        $this->get('phpcr.session_manager')->changeWorkspace($workspaceName);
     }
 }

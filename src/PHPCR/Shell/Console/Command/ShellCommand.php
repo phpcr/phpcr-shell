@@ -78,6 +78,10 @@ class ShellCommand extends Command
         $application->setShowUnsupported($showUnspported);
         $application->dispatchProfileInitEvent($input, $output);
 
+        if ($input->getOption('verbose')) {
+            $application->setDebug(true);
+        }
+
         $noInteraction = $input->getOption('no-interaction');
 
         if ($commands = $input->getOption('command')) {

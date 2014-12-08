@@ -4,34 +4,34 @@ namespace spec\PHPCR\Shell\Config;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
+use PHPCR\Shell\Config\ConfigManager;
 use PHPCR\Shell\Config\Profile;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ProfileLoaderSpec extends ObjectBehavior
 {
-    function let(
-        ConfigHelper $configHelper,
+    public function let(
+        ConfigManager $configManager,
         Filesystem $filesystem
     )
     {
-        $configHelper->getConfigDir()->willReturn(__DIR__);
-        $this->beConstructedWith($configHelper, $filesystem);
+        $configManager->getConfigDir()->willReturn(__DIR__);
+        $this->beConstructedWith($configManager, $filesystem);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Config\ProfileLoader');
     }
 
-    function it_should_list_profile_names()
+    public function it_should_list_profile_names()
     {
         $this->getProfileNames()->shouldReturn(array(
             'one', 'two'
         ));
     }
 
-    function it_should_load_data_into_a_given_profile(
+    public function it_should_load_data_into_a_given_profile(
         Profile $profile,
         Filesystem $filesystem
     )
@@ -51,7 +51,7 @@ class ProfileLoaderSpec extends ObjectBehavior
         $this->loadProfile($profile);
     }
 
-    function it_should_save_a_given_profile(
+    public function it_should_save_a_given_profile(
         Profile $profile,
         Filesystem $filesystem
     )

@@ -3,6 +3,8 @@ Feature: Unregister a node type
     As a user that is logged into the shell
     I need to be able to do that
 
+    # This is not currently implemented by Jackrabbit
+
     Background:
         Given that I am logged in as "testuser"
 
@@ -10,10 +12,6 @@ Feature: Unregister a node type
         Given the "example.cnd" node type is loaded
         And I execute the "node-type:unregister ns:NodeType" command
         Then the command should fail
-        And I should see the following:
-        """
-        NodeType not found
-        """
 
     Scenario: Attempt to unregister a non-registered node type
         Given the "example.cnd" node type is loaded

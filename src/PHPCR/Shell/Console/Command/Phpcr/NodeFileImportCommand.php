@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,7 +9,7 @@ use PHPCR\PropertyType;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PathNotFoundException;
 
-class NodeFileImportCommand extends Command
+class NodeFileImportCommand extends BasePhpcrCommand
 {
     /**
      * @var PHPCR\SessionInterface
@@ -54,7 +53,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->session = $this->getHelper('phpcr')->getSession();
+        $this->session = $this->get('phpcr.session');
 
         $filePath = $input->getArgument('file');
         $force = $input->getOption('force');

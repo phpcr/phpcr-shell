@@ -5,17 +5,17 @@ Feature: Move a node in the current session
 
     Background:
         Given that I am logged in as "testuser"
-        And the "session_data.xml" fixtures are loaded
+        And the "cms.xml" fixtures are loaded
 
     Scenario: Move node
-        Given I execute the "node:move /tests_general_base/index.txt /foobar" command
+        Given I execute the "node:move /cms/test /foobar" command
         Then the command should not fail
         And I execute the "session:save" command
         And there should exist a node at "/foobar"
         And there should not exist a node at "/tests_general_base/index.txt"
 
     Scenario: Move node relative paths
-        Given the current node is "/tests_general_base/index.txt"
+        Given the current node is "/cms/test"
         And I execute the "node:move . /barfoo" command
         Then the command should not fail
         And I execute the "session:save" command
@@ -23,8 +23,8 @@ Feature: Move a node in the current session
         And there should not exist a node at "/tests_general_base/index.txt"
 
     Scenario: Move onto existing target
-        Given the current node is "/tests_general_base/index.txt"
-        And I execute the "node:move . /tests_general_base/daniel" command
+        Given the current node is "/cms/test"
+        And I execute the "node:move . /cms/products" command
         Then the command should not fail
         And I execute the "session:save" command
-        And there should exist a node at "/tests_general_base/daniel/index.txt"
+        And there should exist a node at "/cms/products/test"

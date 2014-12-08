@@ -103,7 +103,7 @@ EOF;
     {
         $info = readline_info();
         $text = substr($info['line_buffer'], 0, $info['end']);
-        $list = $this->application->getHelperSet()->get('phpcr')->getSession()->autocomplete($text);
+        $list = $this->application->getContainer()->get('phpcr.session')->autocomplete($text);
 
         return $list;
     }

@@ -2,11 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
-use Symfony\Component\Console\Command\Command;
+use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConfigReloadCommand extends Command
+class ConfigReloadCommand extends BaseCommand
 {
     protected $output;
 
@@ -23,7 +23,7 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $config = $this->getHelper('config');
+        $config = $this->get('config.manager');
         $config->loadConfig();
     }
 }

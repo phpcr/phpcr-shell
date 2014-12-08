@@ -3,11 +3,10 @@
 namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use PHPCR\Shell\Console\Helper\ConfigHelper;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\CommandPreRunEvent;
 use PHPCR\Shell\Console\Input\StringInput;
-use Symfony\Component\Console\Helper\HelperSet;
+use PHPCR\Shell\Config\ConfigManager;
 
 /**
  * Check to see if the input references a command alias and
@@ -18,20 +17,13 @@ use Symfony\Component\Console\Helper\HelperSet;
 class AliasSubscriber implements EventSubscriberInterface
 {
     /**
-     * Lazy load helper
-     *
-     * @var HelperSet
+     * @var ConfigManager
      */
-    protected $helperSet;
+    protected $configManager;
 
-    public function __construct(HelperSet $helperSet)
+    public function __construct(ConfigManager $configManager)
     {
-        $this->helperSet = $helperSet;
-    }
-
-    protected function getConfig()
-    {
-        return $this->helperSet->get('config');
+        $this->configManager = $configManager;
     }
 
     public static function getSubscribedEvents()
@@ -53,7 +45,7 @@ class AliasSubscriber implements EventSubscriberInterface
 
         $commandName = $input->getFirstArgument();
 
-        $aliasConfig = $this->getConfig()->getConfig('alias');
+        $aliasConfig = $this->configManager->getConfig('alias');
 
         if (!isset($aliasConfig[$commandName])) {
             return;

@@ -17,7 +17,7 @@ class TableHelper extends Helper
 {
     public function create()
     {
-        return new OriginalTableHelper();
+        return new OriginalTableHelper(false);
     }
 
     public function getName()

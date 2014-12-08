@@ -2,8 +2,6 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\Shell\Console\Helper\EditorHelper;
-
 class EditorHelperTest extends \PHPUnit_Framework_TestCase
 {
     protected $helper;
@@ -48,7 +46,7 @@ EOT
                 <<<EOT
 This is some text that I want to edit
 EOT
-            , 
+            ,
                 <<<EOT
 This is some text that I want the user to see in a commend
 

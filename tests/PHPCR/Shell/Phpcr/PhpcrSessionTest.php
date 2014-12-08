@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPCR\Shell;
+namespace PHPCR\Shell\Phpcr;
 
 use PHPCR\SessionInterface;
 use PHPCR\PathNotFoundException;
@@ -76,7 +76,7 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
             ->with($expSrc, $expTar);
         $this->phpcr->expects($this->once())
             ->method('getNode')
-            ->will($this->throwException(new PathNotFoundException));
+            ->will($this->throwException(new PathNotFoundException()));
         $this->session->setCwd($cwd);
         $this->session->move($relSrc, $relTar);
     }

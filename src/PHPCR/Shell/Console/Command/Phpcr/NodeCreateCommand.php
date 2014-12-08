@@ -2,12 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeCreateCommand extends Command
+class NodeCreateCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -40,8 +39,8 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
-        $pathHelper = $this->getHelper('path');
+        $session = $this->get('phpcr.session');
+        $pathHelper = $this->get('helper.path');
 
         $path = $session->getAbsPath($input->getArgument('path'));
         $primaryNodeTypeName = $input->getArgument('primaryNodeTypeName');

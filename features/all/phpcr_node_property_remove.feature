@@ -14,7 +14,7 @@ Feature: Remove a single property at a specified path
         And there should not exist a property at "/cms/articles/article1/title"
 
     Scenario: Try and remove a node
-        And I execute the "node:property:remove /tests_general_base" command
+        Given I execute the "node:property:remove /tests_general_base" command
         Then the command should fail
         And I should see the following:
         """

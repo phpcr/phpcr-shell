@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class SessionNamespaceListCommand extends Command
+class SessionNamespaceListCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -20,10 +20,10 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $prefixes = $session->getNamespacePrefixes();
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
         $table->setHeaders(array('Prefix', 'URI'));
 
         foreach ($prefixes as $prefix) {

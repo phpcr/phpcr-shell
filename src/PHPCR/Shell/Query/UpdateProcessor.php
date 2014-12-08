@@ -2,9 +2,6 @@
 
 namespace PHPCR\Shell\Query;
 
-use PHPCR\Shell\Query\FunctionOperand;
-use PHPCR\NodeInterface;
-use PHPCR\Query\InvalidQueryException;
 use PHPCR\Query\RowInterface;
 
 /**
@@ -14,7 +11,7 @@ class UpdateProcessor
 {
     /**
      * Functions available when calling SET
-     * 
+     *
      * @var \Closure[]
      */
     private $functionMap = array();
@@ -52,6 +49,7 @@ class UpdateProcessor
 
                 // first argument is the operand
                 array_shift($values);
+
                 return $values;
             },
             'array_replace_at' => function ($operand, $current, $index, $value) {

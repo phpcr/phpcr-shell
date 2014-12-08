@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Util\PathHelper;
 
-class SessionImportXMLCommand extends Command
+class SessionImportXMLCommand extends BasePhpcrCommand
 {
     protected $uuidBehaviors = array(
         'create-new',
@@ -90,7 +90,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $file = $input->getArgument('file');
         $parentAbsPath = $input->getArgument('parentAbsPath');
         $uuidBehavior = $input->getOption('uuid-behavior');

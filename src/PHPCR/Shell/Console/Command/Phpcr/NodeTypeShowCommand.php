@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 
-class NodeTypeShowCommand extends Command
+class NodeTypeShowCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -24,7 +24,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $nodeTypeName = $input->getArgument('nodeTypeName');
         $workspace = $session->getWorkspace();
         $namespaceRegistry = $workspace->getNamespaceRegistry();

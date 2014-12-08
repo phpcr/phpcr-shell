@@ -3,24 +3,23 @@
 namespace spec\PHPCR\Shell\Event;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Symfony\Component\Console\Application;
 
 class ApplicationInitEventSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Event\ApplicationInitEvent');
     }
 
-    function let(
+    public function let(
         Application $application
     )
     {
         $this->beConstructedWith($application);
     }
 
-    function it_will_return_the_application(
+    public function it_will_return_the_application(
         Application $application
     )
     {

@@ -2,11 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
-use Symfony\Component\Console\Command\Command;
+use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExitCommand extends Command
+class ExitCommand extends BaseCommand
 {
     public function configure()
     {
@@ -16,8 +16,8 @@ class ExitCommand extends Command
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getHelper('dialog');
-        $session = $this->getHelper('phpcr')->getSession();
+        $dialog = $this->get('helper.question');
+        $session = $this->get('phpcr.session');
         $noInteraction = $input->getOption('no-interaction');
 
         if ($session->hasPendingChanges()) {

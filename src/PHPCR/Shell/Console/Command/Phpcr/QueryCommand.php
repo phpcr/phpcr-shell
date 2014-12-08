@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class QueryCommand extends Command
+class QueryCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -34,7 +34,7 @@ EOT
         $offset = $input->getOption('offset');
         $query = $input->getArgument('query');
 
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $workspace = $session->getWorkspace();;
         $supportedQueryLanguages = $workspace->getQueryManager()->getSupportedQueryLanguages();
 
@@ -61,6 +61,6 @@ EOT
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
 
-        $this->getHelper('result_formatter')->formatQueryResult($result, $output, $elapsed);
+        $this->get('helper.result_formatter')->formatQueryResult($result, $output, $elapsed);
     }
 }

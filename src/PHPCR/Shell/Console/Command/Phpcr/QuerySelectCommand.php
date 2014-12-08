@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class QuerySelectCommand extends Command
+class QuerySelectCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -32,7 +32,7 @@ EOT
             $sql = substr($sql, 0, -1);
         }
 
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $qm = $session->getWorkspace()->getQueryManager();
 
         $query = $qm->createQuery($sql, 'JCR-SQL2');
@@ -41,6 +41,6 @@ EOT
         $result = $query->execute();
         $elapsed = microtime(true) - $start;
 
-        $this->getHelper('result_formatter')->formatQueryResult($result, $output, $elapsed);
+        $this->get('helper.result_formatter')->formatQueryResult($result, $output, $elapsed);
     }
 }

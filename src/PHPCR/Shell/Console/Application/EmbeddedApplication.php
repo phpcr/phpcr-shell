@@ -2,7 +2,8 @@
 
 namespace PHPCR\Shell\Console\Application;
 
-use PHPCR\Shell\Subscriber;
+use PHPCR\Shell\DependencyInjection\Container;
+use PHPCR\Shell\Console\Helper\PhpcrHelper;
 
 /**
  * Subclass of the full ShellApplication for running as an EmbeddedApplication
@@ -12,10 +13,17 @@ use PHPCR\Shell\Subscriber;
  */
 class EmbeddedApplication extends ShellApplication
 {
-    const MODE_SHELL = 'shell';
-    const MODE_COMMAND = 'command';
+    /**
+     * @deprecated remove after DoctrinePhpcrBundle is upgraded
+     */
+    const MODE_COMMAND = Container::MODE_EMBEDDED_COMMAND;
 
-    protected $mode = self::MODE_SHELL;
+    /**
+     * @deprecated remove after DoctrinePhpcrBundle is upgraded
+     */
+    const MODE_SHELL = Container::MODE_EMBEDDED_SHELL;
+
+    protected $mode;
 
     /**
      * The $mode can be one of EmbeddedApplication::MODE_SHELL or EmbeddedApplication::MODE_COMMAND.
@@ -27,9 +35,11 @@ class EmbeddedApplication extends ShellApplication
      */
     public function __construct($mode)
     {
-        parent::__construct(SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
         $this->mode = $mode;
+        $container = new Container($this->mode);
+        parent::__construct($container, SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
         $this->setAutoExit(false);
+        $this->getHelperSet()->set(new PhpcrHelper($container->get('phpcr.session_manager')));
     }
 
     /**
@@ -43,7 +53,7 @@ class EmbeddedApplication extends ShellApplication
 
         $this->registerPhpcrCommands();
 
-        if ($this->mode === self::MODE_SHELL) {
+        if ($this->container->getMode() === self::MODE_SHELL) {
             $this->registerShellCommands();
         }
 
@@ -55,17 +65,6 @@ class EmbeddedApplication extends ShellApplication
      */
     protected function getDefaultCommand()
     {
-        return 'shell:path:show';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function registerEventListeners()
-    {
-        $this->dispatcher->addSubscriber(new Subscriber\ProfileFromSessionInputSubscriber());
-        $this->dispatcher->addSubscriber(new Subscriber\ExceptionSubscriber());
-        $this->dispatcher->addSubscriber(new Subscriber\AliasSubscriber($this->getHelperSet()));
-        $this->dispatcher->addSubscriber(new Subscriber\AutoSaveSubscriber());
+        return $this->mode === self::MODE_SHELL ? 'shell:path:show' : 'list';
     }
 }

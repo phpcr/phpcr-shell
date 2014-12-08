@@ -3,18 +3,17 @@
 namespace spec\PHPCR\Shell\Console\Helper;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\NodeInterface;
 use PHPCR\NodeType\NodeTypeInterface;
 
 class NodeHelperSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Console\Helper\NodeHelper');
     }
 
-    function it_should_provide_a_method_to_determine_if_a_node_has_a_given_mixin(
+    public function it_should_provide_a_method_to_determine_if_a_node_has_a_given_mixin(
         NodeInterface $node,
         NodeTypeInterface $mixin1,
         NodeTypeInterface $mixin2,
@@ -33,7 +32,7 @@ class NodeHelperSpec extends ObjectBehavior
         $this->nodeHasMixinType($node, 'mixin5')->shouldReturn(false);
     }
 
-    function it_should_provide_a_method_to_determine_if_a_node_is_versionable(
+    public function it_should_provide_a_method_to_determine_if_a_node_is_versionable(
         NodeInterface $nodeVersionable,
         NodeInterface $nodeNotVersionable,
         NodeTypeInterface $mixin1,

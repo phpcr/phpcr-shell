@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
 use PHPCR\PathNotFoundException;
 
-class NodePropertySetCommand extends Command
+class NodePropertySetCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -61,8 +61,8 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
-        $pathHelper = $this->getHelper('path');
+        $session = $this->get('phpcr.session');
+        $pathHelper = $this->get('helper.path');
         $path = $session->getAbsPath($input->getArgument('path'));
         $value = $input->getArgument('value');
         $type = $input->getOption('type');

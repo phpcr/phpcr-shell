@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
 
-class LockLockCommand extends PhpcrShellCommand
+class LockLockCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -58,7 +58,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 
