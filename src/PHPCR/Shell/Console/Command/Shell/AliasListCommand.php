@@ -2,11 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
-use Symfony\Component\Console\Command\Command;
+use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class AliasListCommand extends Command
+class AliasListCommand extends BaseCommand
 {
     public function configure()
     {
@@ -20,10 +20,10 @@ EOT
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $config = $this->getHelper('config');
+        $config = $this->get('config.manager');
         $aliases = $config->getConfig('alias');
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
         $table->setHeaders(array('Alias', 'Command'));
 
         foreach ($aliases as $alias => $command) {

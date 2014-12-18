@@ -2,14 +2,9 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\ImportUUIDBehaviorInterface;
-use PHPCR\Shell\Console\Helper\PathHelper;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use PHPCR\Shell\Serializer\NodeNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use PHPCR\Shell\Serializer\YamlEncoder;
@@ -17,7 +12,7 @@ use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PathNotFoundException;
 use PHPCR\Util\UUIDHelper;
 
-class NodeEditCommand extends Command
+class NodeEditCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -40,7 +35,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
 
         if (UUIDHelper::isUUID($path)) {
@@ -49,8 +44,8 @@ HERE
         } else {
             $path = $session->getAbsPath($path);
             // Otherwise it is a path which may or may not exist
-            $parentPath = $this->getHelper('path')->getParentPath($path);
-            $nodeName = $this->getHelper('path')->getNodeName($path);
+            $parentPath = $this->get('helper.path')->getParentPath($path);
+            $nodeName = $this->get('helper.path')->getNodeName($path);
             $type = $input->getOption('type');
 
             try {
@@ -63,8 +58,8 @@ HERE
             }
         }
 
-        $editor = $this->getHelper('editor');
-        $dialog = $this->getHelper('dialog');
+        $editor = $this->get('helper.editor');
+        $dialog = $this->get('helper.question');
 
         $skipBinary = true;
         $noRecurse = true;
@@ -84,7 +79,7 @@ HERE
             $message = '';
             if ($error) {
                 $template = <<<EOT
-Error encounred: 
+Error encounred:
 %s
 
 EOT
@@ -94,7 +89,7 @@ EOT
 
             if ($notes) {
                 $template = <<<EOT
-NOTE: 
+NOTE:
 %s
 
 EOT

@@ -24,7 +24,7 @@ class AutoSaveSubscriber implements EventSubscriberInterface
     {
         $command = $event->getCommand();
         $output = $event->getOutput();
-        $session = $command->getHelper('phpcr')->getSession();
+        $session = $command->get('phpcr.session');
 
         if ($session->hasPendingChanges()) {
             $output->writeln('<info>Auto-saving session</info>');

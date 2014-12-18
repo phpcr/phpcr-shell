@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeReferencesCommand extends Command
+class NodeReferencesCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -39,7 +39,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
         $currentNode = $session->getNodeByPathOrIdentifier($path);
         $name = $input->getArgument('name');
@@ -52,7 +52,7 @@ HERE
         $references['weak'] = $currentNode->getWeakReferences($name ? : null);
         $references['strong'] = $currentNode->getReferences($name ? : null);
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
         $table->setHeaders(array(
             'Type', 'Property', 'Node Path'
         ));

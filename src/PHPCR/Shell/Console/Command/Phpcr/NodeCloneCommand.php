@@ -2,13 +2,12 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class NodeCloneCommand extends Command
+class NodeCloneCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -56,7 +55,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $srcWorkspace = $input->getArgument('srcWorkspace');
         $srcAbsPath = $session->getAbsPath($input->getArgument('srcPath'));
         $destAbsPath = $session->getAbsTargetPath($srcAbsPath, $input->getArgument('destPath'));

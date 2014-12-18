@@ -3,17 +3,19 @@
 namespace spec\PHPCR\Shell\Console\Application;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\Shell\Console\Application\EmbeddedApplication;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class EmbeddedApplicationSpec extends ObjectBehavior
 {
-    function let()
+    public function let(
+        ContainerInterface $container
+    )
     {
-        $this->beConstructedWith(EmbeddedApplication::MODE_COMMAND);
+        $this->beConstructedWith($container, EmbeddedApplication::MODE_COMMAND);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Console\Application\EmbeddedApplication');
     }

@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Serializer;
 
-use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Serializer\Encoder\EncoderInterface;
 use Symfony\Component\Serializer\Encoder\DecoderInterface;
@@ -27,6 +26,7 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
     public function decode($data, $format, array $context = array())
     {
         $arr = Yaml::parse($data);
+
         return $arr;
     }
 

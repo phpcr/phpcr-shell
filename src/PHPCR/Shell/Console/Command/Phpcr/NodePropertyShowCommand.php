@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\PathNotFoundException;
 use PHPCR\PropertyInterface;
 
-class NodePropertyShowCommand extends Command
+class NodePropertyShowCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -24,9 +24,9 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $absPath = $session->getAbsPath($input->getArgument('absPath'));
-        $resultFormatHelper = $this->getHelper('result_formatter');
+        $resultFormatHelper = $this->get('helper.result_formatter');
 
         try {
             $property = $session->getItem($absPath);

@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class WorkspaceNamespaceListCommand extends Command
+class WorkspaceNamespaceListCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -20,13 +20,13 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $workspace = $session->getWorkspace();
         $namespaceRegistry = $workspace->getNamespaceRegistry();
 
         $prefixes = $namespaceRegistry->getPrefixes();
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
         $table->setHeaders(array('Prefix', 'URI'));
 
         foreach ($prefixes as $prefix) {

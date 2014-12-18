@@ -3,13 +3,11 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
-use Symfony\Component\Console\Helper\TableHelper;
 use PHPCR\Query\QueryResultInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
-use PHPCR\Shell\Console\Helper\TextHelper;
 
 /**
  * Provide methods for formatting PHPCR objects
@@ -19,10 +17,12 @@ use PHPCR\Shell\Console\Helper\TextHelper;
 class ResultFormatterHelper extends Helper
 {
     protected $textHelper;
+    protected $tableHelper;
 
-    public function __construct(TextHelper $textHelper)
+    public function __construct(TextHelper $textHelper, TableHelper $tableHelper)
     {
         $this->textHelper = $textHelper;
+        $this->tableHelper = $tableHelper;
     }
 
     /**
@@ -32,7 +32,6 @@ class ResultFormatterHelper extends Helper
     {
         return 'result_formatter';
     }
-
 
     /**
      * Return the name of a property from its enumeration (i.e.
@@ -57,7 +56,7 @@ class ResultFormatterHelper extends Helper
     {
         $selectorNames = $result->getSelectorNames();
 
-        $table = new TableHelper;
+        $table = $this->tableHelper->create();
         $table->setHeaders(array_merge(array(
             'Path',
             'Index',

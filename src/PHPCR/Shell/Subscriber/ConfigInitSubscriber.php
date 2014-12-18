@@ -5,6 +5,7 @@ namespace PHPCR\Shell\Subscriber;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ApplicationInitEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PHPCR\Shell\Config\ConfigManager;
 
 /**
  * Subscriber to initialize the configuration if it does not
@@ -14,6 +15,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ConfigInitSubscriber implements EventSubscriberInterface
 {
+    private $configManager;
+
+    public function __construct(ConfigManager $configManager)
+    {
+        $this->configManager = $configManager;
+    }
+
     public static function getSubscribedEvents()
     {
         return array(
@@ -23,12 +31,10 @@ class ConfigInitSubscriber implements EventSubscriberInterface
 
     public function handleApplicationInit(ApplicationInitEvent $event)
     {
-        $application = $event->getApplication();
-        $config = $application->getHelperSet()->get('config');
-        $configDir = $config->getConfigDir();
+        $configDir = $this->configManager->getConfigDir();
 
         if (!file_exists($configDir)) {
-            $config->initConfig();
+            $this->configManager->initConfig();
         }
     }
 }

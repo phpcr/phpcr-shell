@@ -1,0 +1,16 @@
+default:
+    suites:
+        standalone:
+            contexts:
+                - PHPCR\Shell\Test\StandaloneContext
+            paths:
+                - features/all
+                - features/standalone
+                - features/shell
+        embedded:
+            filter:
+                tag: "~@standalone"
+            contexts:
+                - PHPCR\Shell\Test\EmbeddedContext
+            paths:
+                - features/all

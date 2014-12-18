@@ -12,7 +12,7 @@ use PHPCR\ItemNotFoundException;
 use PHPCR\PropertyInterface;
 use PHPCR\NodeInterface;
 
-class NodeListCommand extends Command
+class NodeListCommand extends BasePhpcrCommand
 {
     protected $formatter;
     protected $filters;
@@ -47,8 +47,8 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->formatter = $this->getHelper('result_formatter');
-        $this->textHelper = $this->getHelper('text');
+        $this->formatter = $this->get('helper.result_formatter');
+        $this->textHelper = $this->get('helper.text');
         $this->filters = $input->getOption('filter');
         $this->maxLevel = $input->getOption('level');
 
@@ -56,7 +56,7 @@ HERE
         $this->showProperties = $input->getOption('properties');
         $this->showTemplate = $input->getOption('template');
 
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
 
         $currentNode = $session->getNodeByPathOrIdentifier($path);
@@ -66,7 +66,7 @@ HERE
             $this->showProperties = true;
         }
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
 
         $this->renderNode($currentNode, $table);
 

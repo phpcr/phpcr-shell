@@ -3,26 +3,27 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use Symfony\Component\Console\Helper\Helper;
+use PHPCR\Shell\Phpcr\SessionManager;
 
 class RepositoryHelper extends Helper
 {
     /**
      * @var PhpcrHelper
      */
-    protected $phpcrHelper;
+    protected $sessionManager;
 
     /**
      * @var array
      */
     protected $descriptors;
 
-    public function __construct(PhpcrHelper $phpcrHelper)
+    public function __construct(SessionManager $sessionManager)
     {
-        $this->phpcrHelper = $phpcrHelper;
+        $this->sessionManager = $sessionManager;
     }
 
     /**
-     * Return true if the phpcrHelper supports the given descriptor
+     * Return true if the sessionManager supports the given descriptor
      * which relates to a descriptor key
      *
      * @param string $descriptor
@@ -61,7 +62,7 @@ class RepositoryHelper extends Helper
     private function loadDescriptors()
     {
         if (null === $this->descriptors) {
-            $repository = $this->phpcrHelper->getRepository();
+            $repository = $this->sessionManager->getRepository();
 
             foreach ($repository->getDescriptorKeys() as $key) {
                 $this->descriptors[$key] = $repository->getDescriptor($key);

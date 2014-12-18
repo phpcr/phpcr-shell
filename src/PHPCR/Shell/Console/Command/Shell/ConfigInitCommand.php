@@ -2,11 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
-use Symfony\Component\Console\Command\Command;
+use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConfigInitCommand extends Command
+class ConfigInitCommand extends BaseCommand
 {
     protected $output;
 
@@ -23,7 +23,7 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $configHelper = $this->getHelper('config');
-        $configHelper->initConfig($output, $this->getHelper('dialog'), $input->getOption('no-interaction'));
+        $configHelper = $this->get('config.manager');
+        $configHelper->initConfig($output, $this->get('helper.question'), $input->getOption('no-interaction'));
     }
 }

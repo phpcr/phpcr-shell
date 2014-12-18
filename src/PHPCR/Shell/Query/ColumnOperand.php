@@ -19,12 +19,12 @@ class ColumnOperand
         $this->propertyName = $propertyName;
     }
 
-    public function getSelectorName() 
+    public function getSelectorName()
     {
         return $this->selectorName;
     }
 
-    public function getPropertyName() 
+    public function getPropertyName()
     {
         return $this->propertyName;
     }

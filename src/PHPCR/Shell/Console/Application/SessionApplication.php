@@ -6,6 +6,7 @@ use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use PHPCR\Shell\Console\Command\ShellCommand;
+use PHPCR\Shell\DependencyInjection\Container;
 
 /**
  * This application wraps a single command which accepts
@@ -28,7 +29,8 @@ class SessionApplication extends BaseApplication
     {
         parent::__construct(self::APP_NAME, self::APP_VERSION);
 
-        $this->shellApplication = new ShellApplication();
+        $container = new Container();
+        $this->shellApplication = new ShellApplication($container);
 
         $command = new ShellCommand($this->shellApplication);
         $command->setApplication($this);

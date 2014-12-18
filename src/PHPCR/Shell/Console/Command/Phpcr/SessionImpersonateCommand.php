@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\SimpleCredentials;
 
-class SessionImpersonateCommand extends PhpcrShellCommand
+class SessionImpersonateCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -41,7 +41,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $username = $input->getArgument('username');
 
         $credentials = new SimpleCredentials($username, '');

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class VersionCheckpointCommand extends Command
+class VersionCheckpointCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -25,8 +25,8 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
-        $nodeHelper = $this->getHelper('node');
+        $session = $this->get('phpcr.session');
+        $nodeHelper = $this->get('helper.node');
         $path = $input->getArgument('path');
         $workspace = $session->getWorkspace();
 

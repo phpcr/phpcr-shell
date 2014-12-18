@@ -2,8 +2,6 @@
 
 namespace PHPCR\Shell\Config;
 
-use PHPCR\Shell\Transport\TransportConfig;
-
 /**
  * Configuration profile object
  */
@@ -44,7 +42,7 @@ class Profile
     /**
      * Set a domain configuration
      *
-     * @param string $domain
+     * @param string     $domain
      * @param $key
      * @param array|null $value
      *
@@ -68,7 +66,7 @@ class Profile
      * @throws \InvalidArgumentException
      * @return array
      */
-    public function get($domain, $key = null) 
+    public function get($domain, $key = null)
     {
         $this->validateDomain($domain);
 

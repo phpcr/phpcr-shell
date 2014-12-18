@@ -2,12 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeInfoCommand extends Command
+class NodeInfoCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -22,11 +21,11 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
-        $nodeHelper = $this->getHelper('node');
+        $nodeHelper = $this->get('helper.node');
         $currentNode = $session->getNodeByPathOrIdentifier($path);
-        $formatter = $this->getHelper('result_formatter');
+        $formatter = $this->get('helper.result_formatter');
 
         $mixins = $currentNode->getMixinNodeTypes();
         $mixinNodeTypeNames = array();
@@ -61,7 +60,7 @@ HERE
             'Locked?' => $isLocked,
         );
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
 
         foreach ($info as $label => $value) {
             $table->addRow(array($label, $value));

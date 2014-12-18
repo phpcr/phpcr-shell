@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class NodeTypeLoadCommand extends Command
+class NodeTypeLoadCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -32,7 +32,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $cndFile = $input->getArgument('cndFile');
         $update = $input->getOption('update');
         $workspace = $session->getWorkspace();

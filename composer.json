@@ -8,14 +8,16 @@
         "phpcr/phpcr-utils": "~1.2",
         "symfony/finder": "~2.3",
         "symfony/serializer": "~2.3",
-        "symfony/yaml": "~2.3"
+        "symfony/yaml": "~2.3",
+        "symfony/dependency-injection": "~2.3"
     },
     "minimum-stability": "dev",
     "require-dev": {
+        "symfony/symfony": "2.6",
         "symfony/process": "~2.3",
         "symfony/filesystem": "~2.3",
         "phpunit/phpunit": "~3.7.28",
-        "behat/behat": "~2.5",
+        "behat/behat": "~3.0.0",
         "phpspec/phpspec": "2.0",
         "jackalope/jackalope-doctrine-dbal": "~1.1",
         "jackalope/jackalope-jackrabbit": "~1.1"

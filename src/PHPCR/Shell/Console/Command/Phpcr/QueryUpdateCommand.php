@@ -6,13 +6,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Query\UpdateParser;
-use Jackalope\Query\QOM\ComparisonConstraint;
-use Jackalope\Query\QOM\PropertyValue;
-use PHPCR\Query\QOM\QueryObjectModelConstantsInterface;
-use PHPCR\Query\QOM\LiteralInterface;
 use PHPCR\Shell\Query\UpdateProcessor;
 
-class QueryUpdateCommand extends Command
+class QueryUpdateCommand extends BasePhpcrCommand
 {
     /**
      * @var OutputInterface
@@ -30,7 +26,7 @@ Execute a PHPCR-Shell JCR-SQL2 update query. You can enter a query literally:
      UPDATE [nt:unstructured] AS a SET title = 'foobar' WHERE a.title = 'barfoo';
 
 You can also manipulate multivalue fields:
-    
+
      # Delete index
 
 
@@ -45,7 +41,7 @@ And you have access to a set of functions when assigning a value:
      # Replace the multivalue value "Planes" with "Trains"
      UPDATE [nt:unstructured] AS a SET a.tags[] = array_replace(a.tags, 'Planes', 'Trains')
 
-     # Append a multivalue 
+     # Append a multivalue
      UPDATE [nt:unstructured] AS a SET a.tags = array_append(a.tags, 'Rockets')
 
      # Remove by value
@@ -71,7 +67,7 @@ EOT
             $sql = substr($sql, 0, -1);
         }
 
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $qm = $session->getWorkspace()->getQueryManager();
 
         $updateParser = new UpdateParser($qm->getQOMFactory());

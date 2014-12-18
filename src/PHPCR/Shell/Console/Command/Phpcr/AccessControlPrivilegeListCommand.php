@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
 
-class AccessControlPrivilegeListCommand extends PhpcrShellCommand
+class AccessControlPrivilegeListCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -51,7 +51,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $supported = $input->getOption('supported');
         $absOath = $input->getArgument('absPath');
         $acm = $session->getAccessControlManager();
@@ -62,7 +62,7 @@ HERE
             $privileges = $acm->getPrivileges($absPath);
         }
 
-        $table = $this->getHelper('table')->create();
+        $table = $this->get('helper.table')->create();
         $table->setHeaders(array('Name'));
 
         foreach ($privileges as $privilege) {

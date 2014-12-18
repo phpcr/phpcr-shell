@@ -4,19 +4,19 @@ namespace PHPCR\Shell\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputInterface;
+use PHPCR\Shell\Console\Application\ShellApplication;
 
 class CommandExceptionEvent extends Event
 {
     protected $exception;
     protected $output;
-    protected $input;
+    protected $application;
 
-    public function __construct(\Exception $exception, InputInterface $input, OutputInterface $output)
+    public function __construct(\Exception $exception, ShellApplication $application, OutputInterface $output)
     {
         $this->exception = $exception;
         $this->output = $output;
-        $this->input = $input;
+        $this->application = $application;
     }
 
     public function getException()
@@ -29,8 +29,8 @@ class CommandExceptionEvent extends Event
         return $this->output;
     }
 
-    public function getInput()
+    public function getApplication()
     {
-        return $this->input;
+        return $this->application;
     }
 }

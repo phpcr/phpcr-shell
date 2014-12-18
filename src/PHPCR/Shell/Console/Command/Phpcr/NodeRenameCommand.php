@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeRenameCommand extends Command
+class NodeRenameCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -56,7 +56,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
         $newName = $input->getArgument('newName');
         $currentNode = $session->getNodeByPathOrIdentifier($path);

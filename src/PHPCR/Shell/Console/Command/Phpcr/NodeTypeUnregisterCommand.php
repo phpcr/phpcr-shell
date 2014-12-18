@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class NodeTypeUnregisterCommand extends PhpcrShellCommand
+class NodeTypeUnregisterCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -23,7 +23,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $nodeTypeName = $input->getArgument('nodeTypeName');
         $workspace = $session->getWorkspace();
         $namespaceRegistry = $workspace->getNamespaceRegistry();

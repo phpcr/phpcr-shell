@@ -2,10 +2,15 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use PHPCR\Shell\Console\Helper\RepositoryHelper;
+use PHPCR\Shell\Console\Command\BaseCommand;
 
-class PhpcrShellCommand extends Command
+/**
+ * Base command for all PHPCR action commands
+ *
+ * @author Daniel Leech <daniel@dantleech.com>
+ */
+class BasePhpcrCommand extends BaseCommand
 {
     protected $descriptorRequires = array();
     protected $descriptorDequires = array();
@@ -30,8 +35,9 @@ class PhpcrShellCommand extends Command
         return $this->descriptorDequires;
     }
 
-    public function isSupported(RepositoryHelper $repositoryHelper)
+    public function isSupported()
     {
+        $repositoryHelper = $this->get('helper.repository');
         foreach ($this->descriptorRequires as $key => $value) {
             $has = $repositoryHelper->hasDescriptor($key, $value);
             if (!$has) {

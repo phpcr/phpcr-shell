@@ -47,7 +47,11 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
             $propertyName = $property->getName();
 
             if (in_array($property->getType(), array(PropertyType::REFERENCE, PropertyType::WEAKREFERENCE))) {
-                $propertyValue = array_keys($propertyValue);
+                $nodesUuids = array();
+                foreach ((array) $propertyValue as $node) {
+                    $nodeUuids[] = $node->getIdentifier();
+                }
+                $propertyValue = $nodeUuids;
             }
 
             $res[$propertyName] = array(
@@ -185,6 +189,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
             $this->notes[] = sprintf(
                 'Binary property "%s" has been omitted', $property->getName()
             );
+
             return false;
         }
 

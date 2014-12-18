@@ -3,24 +3,23 @@
 namespace spec\PHPCR\Shell\Serializer;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
 use PHPCR\PropertyType;
 
 class NodeNormalizerSpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Serializer\NodeNormalizer');
     }
 
-    function it_can_normalize_a_node_to_an_array(
+    public function it_can_normalize_a_node_to_an_array(
         NodeInterface $node,
         PropertyInterface $p1,
         PropertyInterface $p2,
         PropertyInterface $p3
-    ) 
+    )
     {
         $node->getProperties()->willReturn(array(
             $p1, $p2, $p3

@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
 
-class LockTokenAddCommand extends PhpcrShellCommand
+class LockTokenAddCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -28,7 +28,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
         $lockToken = $input->getArgument('lockToken');

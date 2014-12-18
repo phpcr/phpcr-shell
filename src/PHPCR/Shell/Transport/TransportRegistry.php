@@ -2,9 +2,6 @@
 
 namespace PHPCR\Shell\Transport;
 
-use PHPCR\Shell\Transport\TransportInterface;
-use PHPCR\Shell\Config\Profile;
-
 class TransportRegistry implements TransportRegistryInterface
 {
     protected $transports = array();

@@ -4,9 +4,9 @@ namespace PHPCR\Shell\Console\Command\Shell;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
+use PHPCR\Shell\Console\Command\BaseCommand;
 
-class PathShowCommand extends Command
+class PathShowCommand extends BaseCommand
 {
     protected function configure()
     {
@@ -17,7 +17,7 @@ class PathShowCommand extends Command
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(
-            '<comment>' . $this->getHelper('phpcr')->getSession()->getCwd() . '</comment>'
+            '<comment>' . $this->get('phpcr.session')->getCwd() . '</comment>'
         );
     }
 }

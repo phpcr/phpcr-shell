@@ -2,11 +2,11 @@
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
-use Symfony\Component\Console\Command\Command;
+use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ClearCommand extends Command
+class ClearCommand extends BaseCommand
 {
     public function configure()
     {
@@ -23,4 +23,3 @@ EOT
         $output->write("\033[2J\033[;H");
     }
 }
-

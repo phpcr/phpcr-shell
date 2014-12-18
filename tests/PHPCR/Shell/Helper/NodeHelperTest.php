@@ -2,9 +2,6 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\Shell\Console\Helper\NodeHelper;
-use PHPCR\NodeInterface;
-
 class NodeHelperTest extends \PHPUnit_Framework_TestCase
 {
     protected $nodeHelper;
@@ -50,4 +47,3 @@ class NodeHelperTest extends \PHPUnit_Framework_TestCase
         $this->helper->assertNodeIsVersionable($this->node);
     }
 }
-

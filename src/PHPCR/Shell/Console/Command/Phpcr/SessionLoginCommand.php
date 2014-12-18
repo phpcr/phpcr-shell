@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
-class SessionLoginCommand extends Command
+class SessionLoginCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -26,6 +26,6 @@ HERE
         $username = $input->getArgument('userId');
         $password = $input->getArgument('password');
         $workspaceName = $input->getArgument('workspaceName');
-        $this->getHelper('phpcr')->relogin($username, $password, $workspaceName);
+        $this->get('phpcr.session_manager')->relogin($username, $password, $workspaceName);
     }
 }

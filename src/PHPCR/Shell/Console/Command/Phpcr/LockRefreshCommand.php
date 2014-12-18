@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
 
-class LockRefreshCommand extends PhpcrShellCommand
+class LockRefreshCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -29,7 +29,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 

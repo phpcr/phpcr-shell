@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
 
-class RetentionHoldAddCommand extends PhpcrShellCommand
+class RetentionHoldAddCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -33,7 +33,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $retentionManager = $session->getRetentionManager();
         $absPath = $input->getArgument('absPath');
         $isDeep = $input->getOption('is-deep');

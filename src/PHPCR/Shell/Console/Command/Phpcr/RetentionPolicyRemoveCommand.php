@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
 
-class RetentionPolicyRemoveCommand extends PhpcrShellCommand
+class RetentionPolicyRemoveCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -25,7 +25,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
         $retentionManager = $session->getRetentionManager();
         $absPath = $input->removeArgument('absPath');
 

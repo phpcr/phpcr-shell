@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use PHPCR\Shell\Console\Input\StringInput;
-use PHPCR\Shell\Console\Application\SessionApplication;
+use PHPCR\Shell\Console\Application\ShellApplication;
 
 /**
  * Eases the testing of console applications.
@@ -23,6 +23,7 @@ use PHPCR\Shell\Console\Application\SessionApplication;
 class ApplicationTester
 {
     private $application;
+    private $shellApplication;
     private $input;
     private $output;
     private $lastExitCode;
@@ -32,9 +33,12 @@ class ApplicationTester
      *
      * @param Application $application An Application instance to test.
      */
-    public function __construct()
+    public function __construct(Application $application, ShellApplication $shellApplication = null)
     {
-        $this->application = new SessionApplication();
+        $this->output = new StreamOutput(fopen('php://memory', 'w', false));
+
+        $this->application = $application;
+        $this->shellApplication = $shellApplication;
     }
 
     /**
@@ -55,7 +59,6 @@ class ApplicationTester
     {
         $this->input = new ArrayInput($input);
 
-        $this->output = new StreamOutput(fopen('php://memory', 'w', false));
         if (isset($options['decorated'])) {
             $this->output->setDecorated($options['decorated']);
         }
@@ -64,7 +67,10 @@ class ApplicationTester
         }
 
         $this->application->setAutoExit(false);
-        $this->application->getShellApplication()->setAutoExit(false);
+
+        if ($this->shellApplication) {
+            $this->shellApplication->setAutoExit(false);
+        }
         $this->application->setCatchExceptions(false);
 
         return $this->application->run($this->input, $this->output);
@@ -124,7 +130,12 @@ class ApplicationTester
 
     public function runShellCommand($command)
     {
-        $ret = $this->application->getShellApplication()->run(new StringInput($command), $this->output);
+        if ($this->shellApplication) {
+            $ret = $this->shellApplication->run(new StringInput($command), $this->output);
+        } else {
+            $ret = $this->application->run(new StringInput($command), $this->output);
+        }
+
         $this->lastExitCode = $ret;
 
         return $ret;

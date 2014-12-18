@@ -3,17 +3,16 @@
 namespace spec\PHPCR\Shell\Transport;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\Shell\Transport\TransportInterface;
 
 class TransportRegistrySpec extends ObjectBehavior
 {
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType('PHPCR\Shell\Transport\TransportRegistry');
     }
 
-    function it_can_register_transports(
+    public function it_can_register_transports(
         TransportInterface $transport
     )
     {
@@ -21,7 +20,7 @@ class TransportRegistrySpec extends ObjectBehavior
         $this->register($transport);
     }
 
-    function it_can_return_the_names_of_the_transports(
+    public function it_can_return_the_names_of_the_transports(
         TransportInterface $transport1,
         TransportInterface $transport2
     )
@@ -36,7 +35,7 @@ class TransportRegistrySpec extends ObjectBehavior
         ));
     }
 
-    function it_can_return_a_named_transport_object(
+    public function it_can_return_a_named_transport_object(
         TransportInterface $transport
     )
     {

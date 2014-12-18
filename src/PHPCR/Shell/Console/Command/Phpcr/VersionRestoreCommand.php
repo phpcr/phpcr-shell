@@ -8,7 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class VersionRestoreCommand extends Command
+class VersionRestoreCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -93,7 +93,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
+        $session = $this->get('phpcr.session');
 
         $path = $session->getAbsPath($input->getArgument('path'));
         $versionName = $input->getArgument('versionName');

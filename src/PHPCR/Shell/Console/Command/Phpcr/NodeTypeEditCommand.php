@@ -10,7 +10,7 @@ use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
 
-class NodeTypeEditCommand extends Command
+class NodeTypeEditCommand extends BasePhpcrCommand
 {
     protected function configure()
     {
@@ -32,9 +32,9 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $session = $this->getHelper('phpcr')->getSession();
-        $editor = $this->getHelper('editor');
-        $dialog = $this->getHelper('dialog');
+        $session = $this->get('phpcr.session');
+        $editor = $this->get('helper.editor');
+        $dialog = $this->get('helper.question');
         $nodeTypeName = $input->getArgument('nodeTypeName');
         $workspace = $session->getWorkspace();
         $namespaceRegistry = $workspace->getNamespaceRegistry();

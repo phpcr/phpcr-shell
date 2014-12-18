@@ -1,19 +1,17 @@
 <?php
 
-namespace PHPCR\Shell\Console\Helper;
+namespace PHPCR\Shell\Config;
 
-use Symfony\Component\Console\Helper\Helper;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Console\Helper\DialogHelper;
 
 /**
- * Helper for config stuff
+ * Configuration manager
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
-class ConfigHelper extends Helper
+class ConfigManager
 {
     /**
      * Base filenames of all the possible configuration files
@@ -40,26 +38,25 @@ class ConfigHelper extends Helper
     protected $filesystem;
 
     /**
+     * @var QuestionHelper|DialogHelper
+     */
+    protected $questionHelper;
+
+    /**
      * Constuctor - can optionally accept a Filesystem object
      * for testing purposes, otherwise one is created.
      *
-     * @param Filesystem $filesystem
+     * @param QuestionHelper|DialogHelper $questionHelper
+     * @param Filesystem                  $filesystem
      */
-    public function __construct(Filesystem $filesystem = null)
+    public function __construct($questionHelper, Filesystem $filesystem = null)
     {
         if (null === $filesystem) {
             $filesystem = new Filesystem();
         }
 
         $this->filesystem = $filesystem;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
-    {
-        return 'config';
+        $this->questionHelper = $questionHelper;
     }
 
     /**
@@ -74,7 +71,6 @@ class ConfigHelper extends Helper
         if ($home) {
             return $home;
         }
-
         // handle windows ..
         if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
             if (!getenv('APPDATA')) {
@@ -100,7 +96,7 @@ class ConfigHelper extends Helper
 
     private function getDistConfigDir()
     {
-        return __DIR__ . '/../../Resources/config.dist';
+        return __DIR__ . '/../Resources/config.dist';
     }
 
     /**
@@ -119,9 +115,9 @@ class ConfigHelper extends Helper
             $config[$configKey] = array();
 
             if ($this->filesystem->exists($fullPath)) {
-                $config[$configKey] = Yaml::parse($fullPath);
-            } elseif($this->filesystem->exists($fullDistPath)) {
-                $config[$configKey] = Yaml::parse($fullDistPath);
+                $config[$configKey] = Yaml::parse(file_get_contents($fullPath));
+            } elseif ($this->filesystem->exists($fullDistPath)) {
+                $config[$configKey] = Yaml::parse(file_get_contents($fullDistPath));
             }
         }
 
@@ -149,7 +145,7 @@ class ConfigHelper extends Helper
     /**
      * Initialize a configuration files
      */
-    public function initConfig(OutputInterface $output = null, DialogHelper $dialogHelper = null, $noInteraction = false)
+    public function initConfig(OutputInterface $output = null, $noInteraction = false)
     {
         $log = function ($message) use ($output) {
             if ($output) {
@@ -182,9 +178,9 @@ class ConfigHelper extends Helper
             }
 
             if ($this->filesystem->exists($destFile)) {
-                if (null !== $dialogHelper) {
+                if (null !== $this->questionHelper) {
                     if (false === $noInteraction) {
-                        $confirmed = $dialogHelper->askConfirmation(
+                        $confirmed = $this->questionHelper->askConfirmation(
                             $output,
                             '"' . $configFilename . '" already exists, do you want to overwrite it?'
                         );

@@ -18,7 +18,6 @@ Feature: Command aliases
 
         Examples:
             | command | 
-            | use default |
             | select * from [nt:unstructured] |
             | cd cms |
             | rm cms |

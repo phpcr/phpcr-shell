@@ -4,6 +4,7 @@ Changelog
 dev-master
 ----------
 
+- [global] Refactored to use DI container and various general improvements
 - [node:references] Shows the referencing node paths instead of the referrered-to node path(s)
 
 alpha-6

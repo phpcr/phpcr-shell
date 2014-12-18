@@ -2,15 +2,13 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-use PHPCR\Shell\Console\Helper\TextHelper;
-
 class TextHelperTest extends \PHPUnit_Framework_TestCase
 {
     protected $textHelper;
 
     public function setUp()
     {
-        $this->textHelper = new TextHelper;
+        $this->textHelper = new TextHelper();
     }
 
     public function provideTruncate()
