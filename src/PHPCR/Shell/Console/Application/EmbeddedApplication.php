@@ -39,6 +39,8 @@ class EmbeddedApplication extends ShellApplication
         $container = new Container($this->mode);
         parent::__construct($container, SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
         $this->setAutoExit(false);
+
+        // @deprecated This will be removed in 1.0
         $this->getHelperSet()->set(new PhpcrHelper($container->get('phpcr.session_manager')));
     }
 
