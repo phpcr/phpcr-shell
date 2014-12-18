@@ -62,7 +62,7 @@ HERE
             $nodes = array($session->getNodeByPathOrIdentifier($path));
             $filter = null;
         } catch (\Exception $e) {
-            $parentPath = $this->getHelper('path')->getParentPath($path);
+            $parentPath = $this->get('helper.path')->getParentPath($path);
 
             $filter = substr($path, strlen($parentPath));
 

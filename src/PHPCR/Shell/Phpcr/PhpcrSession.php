@@ -6,6 +6,7 @@ use PHPCR\SessionInterface;
 use PHPCR\CredentialsInterface;
 use PHPCR\Util\UUIDHelper;
 use PHPCR\PathNotFoundException;
+use DTL\Glob\Finder\PhpcrTraversalFinder;
 
 /**
  * Custom session wrapper for PHPCR Shell
@@ -18,10 +19,12 @@ class PhpcrSession implements SessionInterface
 {
     protected $session;
     protected $cwd = '/';
+    protected $finder;
 
-    public function __construct(SessionInterface $session)
+    public function __construct(SessionInterface $session, $finder = null)
     {
         $this->session = $session;
+        $this->finder = $finder ? : new PhpcrTraversalFinder($session);
     }
 
     /**
