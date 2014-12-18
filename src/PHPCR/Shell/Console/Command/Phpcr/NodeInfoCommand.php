@@ -27,8 +27,8 @@ HERE
     {
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
-        $nodeHelper = $this->getHelper('node');
-        $formatter = $this->getHelper('result_formatter');
+        $nodeHelper = $this->get('helper.node');
+        $formatter = $this->get('helper.result_formatter');
 
         $nodes = $session->findNodes($path);
 

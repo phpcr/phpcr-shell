@@ -28,7 +28,7 @@ HERE
         $path = $session->getAbsPath($input->getArgument('path'));
         $resultFormatHelper = $this->get('helper.result_formatter');
         $pathHelper = $this->get('helper.path');
-        $resultFormatHelper = $this->getHelper('result_formatter');
+        $resultFormatHelper = $this->get('helper.result_formatter');
 
         $parentPath = $pathHelper->getParentPath($path);
         $filter = $pathHelper->getNodeName($path);
