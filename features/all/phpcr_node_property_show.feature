@@ -41,7 +41,7 @@ hello world
         Then the command should fail
         And I should see the following:
         """
-        Item at "/tests_general_base" is not a property
+        Could not find property(s) at path
         """
 
     Scenario: Try to show non-existing property
@@ -49,5 +49,13 @@ hello world
         Then the command should fail
         And I should see the following:
         """
-        There is no property at the path "/this/path/does/not/exist"
+        Could not find property(s) at path
+        """
+
+    Scenario: Show properties using wildcard
+        Given I execute the "node:property:show /tests_general_base/idExample/jcr:*" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        /tests_general_base/idExample/jcr:primaryType: nt:file
         """

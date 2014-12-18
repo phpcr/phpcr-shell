@@ -76,3 +76,62 @@ Feature: List properites and chidren of current nodeA
         """
         One or more weak reference targets have not been found
         """
+
+    Scenario: Wildcard on name
+        Given I execute the "node:list /tests_general_base/numberPropertyNode/jcr:con*" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        +-------------+-----------------+--+
+        | jcr:content | nt:unstructured |  |
+        +-------------+-----------------+--+
+        """
+
+    Scenario: Wildcard on directory
+        Given I execute the "node:list /tests_general_base/*/jcr:content" command
+        Then the command should not fail
+        And I should see the following:
+        """
+/tests_general_base/index.txt
++-------------+-----------------+--+
+| jcr:content | nt:unstructured |  |
++-------------+-----------------+--+
+/tests_general_base/idExample
++--------------+-----------------+--+
+| jcr:content/ | nt:unstructured |  |
++--------------+-----------------+--+
+/tests_general_base/numberPropertyNode
++-------------+-----------------+--+
+| jcr:content | nt:unstructured |  |
++-------------+-----------------+--+
+/tests_general_base/NumberPropertyNodeToCompare1
++-------------+-----------------+--+
+| jcr:content | nt:unstructured |  |
++-------------+-----------------+--+
+/tests_general_base/NumberPropertyNodeToCompare2
++-------------+-----------------+--+
+| jcr:content | nt:unstructured |  |
++-------------+-----------------+--+
+"""
+
+    Scenario: Wildcard from relative path
+        Given the current node is "/tests_general_base"
+        And I execute the "node:list numberPropertyNode/jcr:con*" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        +-------------+-----------------+--+
+        | jcr:content | nt:unstructured |  |
+        +-------------+-----------------+--+
+        """
+
+    Scenario: Wildcard from relative path 2
+        Given the current node is "/tests_general_base"
+        And I execute the "node:list num*" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        +---------------------+---------+--------------+
+        | numberPropertyNode/ | nt:file | +jcr:content |
+        +---------------------+---------+--------------+
+        """

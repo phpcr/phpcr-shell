@@ -14,7 +14,7 @@ class NodeSharedShowCommand extends BasePhpcrCommand
     {
         $this->setName('node:shared:show');
         $this->setDescription('Show all the nodes are in the shared set of this node');
-        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
         $this->setHelp(<<<HERE
 Lists all nodes that are in the shared set of this node.
 
@@ -32,11 +32,15 @@ HERE
     {
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
-        $currentNode = $session->getNodeByPathOrIdentifier($path);
-        $sharedSet = $currentNode->getSharedSet();
+        $nodes = $session->findNodes($path);
 
-        foreach ($sharedSet as $sharedNode) {
-            $output->writeln($sharedNode->getPath());
+        foreach ($nodes as $node) {
+            $output->writeln('<path>' . $node->getPath() . '</path>');
+            $sharedSet = $node->getSharedSet();
+
+            foreach ($sharedSet as $sharedNode) {
+                $output->writeln($sharedNode->getPath());
+            }
         }
     }
 }

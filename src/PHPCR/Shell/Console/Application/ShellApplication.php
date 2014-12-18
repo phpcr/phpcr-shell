@@ -200,6 +200,12 @@ class ShellApplication extends Application
      */
     private function configureFormatter(OutputFormatter $formatter)
     {
+        $style = new OutputFormatterStyle('yellow', null, array('bold'));
+        $formatter->setStyle('path', $style);
+
+        $style = new OutputFormatterStyle('green');
+        $formatter->setStyle('localname', $style);
+
         $style = new OutputFormatterStyle(null, null, array('bold'));
         $formatter->setStyle('node', $style);
 

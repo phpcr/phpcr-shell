@@ -14,7 +14,6 @@ Feature: Show information about node
         And I should see the following:
         """
         +-------------------+--------------------------------------+
-        | Path              | /tests_general_base/daniel           |
         | UUID              | N/A                                  |
         | Index             | 1                                    |
         | Primary node type | nt:unstructured                      |

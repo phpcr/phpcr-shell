@@ -4,6 +4,8 @@ Changelog
 dev-master
 ----------
 
+- [transport] Added transport layer for experimental Jackalope FS implementation
+- [node] Added wilcard support to applicable node commands, including "node:list", "node:remove" and "node:property:show"
 - [global] Refactored to use DI container and various general improvements
 - [node:references] Shows the referencing node paths instead of the referrered-to node path(s)
 

@@ -33,9 +33,13 @@ HERE
         $workspace = $session->getWorkspace();
         $lockManager = $workspace->getLockManager();
 
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $path = $input->getArgument('path');
+        $nodes = $session->findNodes($path);
 
-        $lock = $lockManager->getLock($path);
-        $lock->refresh();
+        foreach ($nodes as $node) {
+
+            $lock = $lockManager->getLock($node->getPath());
+            $lock->refresh();
+        }
     }
 }

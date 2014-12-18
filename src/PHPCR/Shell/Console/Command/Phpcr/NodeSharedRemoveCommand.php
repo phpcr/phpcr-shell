@@ -14,7 +14,7 @@ class NodeSharedRemoveCommand extends BasePhpcrCommand
     {
         $this->setName('node:shared:remove');
         $this->setDescription('Removes this node and every other node in the shared set of this node');
-        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
         $this->setHelp(<<<HERE
 Removes this node and every other node in the shared set of this node.
 
@@ -33,7 +33,11 @@ HERE
     {
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
-        $currentNode = $session->getNodeByPathOrIdentifier($path);
-        $sharedSet = $currentNode->removeSharedSet();
+
+        $nodes = $session->findNodes($path);
+
+        foreach ($nodes as $node) {
+            $node->removeSharedSet();
+        }
     }
 }

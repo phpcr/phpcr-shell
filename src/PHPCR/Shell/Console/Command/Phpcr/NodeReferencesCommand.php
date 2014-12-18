@@ -13,7 +13,7 @@ class NodeReferencesCommand extends BasePhpcrCommand
     {
         $this->setName('node:references');
         $this->setDescription('Returns all REFERENCE properties that refer to this node');
-        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
         $this->addArgument('name', InputArgument::OPTIONAL, 'Limit references to given name');
         $this->setHelp(<<<HERE
 This command returns all REFERENCE properties that refer to this node,
@@ -41,34 +41,40 @@ HERE
     {
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
-        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $name = $input->getArgument('name');
 
-        $references = array(
-            'weak' => array(),
-            'strong' => array(),
-        );
+        $nodes = $session->findNodes($path);
 
-        $references['weak'] = $currentNode->getWeakReferences($name ? : null);
-        $references['strong'] = $currentNode->getReferences($name ? : null);
+        foreach ($nodes as $node) {
+            $references = array(
+                'weak' => array(),
+                'strong' => array(),
+            );
 
-        $table = $this->get('helper.table')->create();
-        $table->setHeaders(array(
-            'Type', 'Property', 'Node Path'
-        ));
+            $references['weak'] = $node->getWeakReferences($name ? : null);
+            $references['strong'] = $node->getReferences($name ? : null);
 
-        foreach ($references as $type => $typeReferences) {
-            foreach ($typeReferences as $property) {
-                $nodePath = $property->getParent()->getPath();
+            $table = $this->get('helper.table')->create();
+            $table->setHeaders(array(
+                'Type', 'Property', 'Node Path'
+            ));
 
-                $table->addRow(array(
-                    $type,
-                    $property->getName(),
-                    $nodePath
-                ));
+            foreach ($references as $type => $typeReferences) {
+                foreach ($typeReferences as $property) {
+                    $nodePath = $property->getParent()->getPath();
+
+                    $table->addRow(array(
+                        $type,
+                        $property->getName(),
+                        $nodePath
+                    ));
+                }
+            }
+
+            if (0 !== count($references['weak']) || 0 !== count($references['strong'])) {
+                $output->writeln('<path>' . $node->getPath() . '</path>');
+                $table->render($output);
             }
         }
-
-        $table->render($output);
     }
 }

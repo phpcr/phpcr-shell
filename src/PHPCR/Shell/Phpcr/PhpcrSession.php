@@ -172,7 +172,7 @@ class PhpcrSession implements SessionInterface
             return $this->getNodeByIdentifier($pathOrId);
         }
 
-        $path = $this->getAbsPath($pathOrId);
+        $pathOrId = $this->getAbsPath($pathOrId);
 
         return $this->getNode($pathOrId);
     }
@@ -219,7 +219,7 @@ class PhpcrSession implements SessionInterface
 
     public function getNodesByIdentifier($ids)
     {
-        return $this->session->getNodesByIdentifier($id);
+        return $this->session->getNodesByIdentifier($ids);
     }
 
     public function getItem($path)
@@ -229,7 +229,7 @@ class PhpcrSession implements SessionInterface
 
     public function getNode($path, $depthHint = -1)
     {
-        return $this->session->getNode($this->getAbsPath($path));
+        return $this->session->getNode($this->getAbsPath($path), $depthHint);
     }
 
     public function getNodes($paths)
@@ -297,7 +297,7 @@ class PhpcrSession implements SessionInterface
         return $this->session->checkPermission($this->getAbsPath($path), $actions);
     }
 
-    public function hasCapability($methodName, $target, array $arguments)
+    public function hasCapability($methodNames, $target, array $arguments)
     {
         return $this->session->hasCapability($methodNames, $target, $arguments);
     }
@@ -355,5 +355,16 @@ class PhpcrSession implements SessionInterface
     public function getRetentionManager()
     {
         return $this->session->getRetentionManager();
+    }
+
+    public function findNodes($patternOrId)
+    {
+        if (true === UUIDHelper::isUUID($patternOrId)) {
+            return $this->getNodeByIdentifier($patternOrId);
+        }
+
+        $res = $this->finder->find($this->getAbsPath($patternOrId));
+
+        return $res;
     }
 }

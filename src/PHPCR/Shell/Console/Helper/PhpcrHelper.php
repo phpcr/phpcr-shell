@@ -5,6 +5,7 @@ namespace PHPCR\Shell\Console\Helper;
 use Symfony\Component\Console\Helper\Helper;
 use PHPCR\Shell\Phpcr\SessionManager;
 use PHPCR\SessionInterface;
+use PHPCR\Shell\Query\PhpcrRepository;
 
 /**
  * @deprecated
