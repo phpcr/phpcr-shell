@@ -7,6 +7,8 @@ dev-master
 - [references] Show UUIDs when listing reference properties
 - [import/export] Renamed session import and export to `session:import` &
   `session:export`
+- [config] Added user config for general settings
+- [config] Enable / disable showing execution times and set decimal expansion
 - [transport] Added transport layer for experimental Jackalope FS implementation
 - [misc] Wildcard (single asterisk) support in paths
 - [node] Added wilcard support to applicable node commands, including "node:list", "node:remove" and "node:property:show"

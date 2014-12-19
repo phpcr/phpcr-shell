@@ -1,0 +1,16 @@
+# PHPCRSH configuration
+#
+# This is a copy of the default configuration
+#
+# You may delete any or all of the keys as it will be merged
+# on top of the default configuration.
+#
+
+# Amount of decimal expansion when showing timing information
+execution_time_expansion: 6
+
+# Show execution time for queries
+show_execution_time_query: true
+
+# Show execution time for node list operations (i.e. node:list)
+show_execution_time_list: true

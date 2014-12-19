@@ -17,6 +17,8 @@ class NodeListCommand extends BasePhpcrCommand
     protected $formatter;
     protected $textHelper;
     protected $maxLevel;
+    protected $time;
+    protected $nbNodes;
 
     protected function configure()
     {
@@ -54,6 +56,10 @@ HERE
         $this->showChildren = $input->getOption('children');
         $this->showProperties = $input->getOption('properties');
         $this->showTemplate = $input->getOption('template');
+        $this->time = 0;
+        $this->nbNodes = 0;
+
+        $config = $this->get('config.config.phpcrsh');
 
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
@@ -70,7 +76,10 @@ HERE
                 $filter = substr($filter, 1);
             }
 
+
+            $start = microtime(true);
             $nodes = $session->findNodes($parentPath);
+            $this->time = microtime(true) - $start;
         }
 
         if (!$this->showChildren && !$this->showProperties) {
@@ -88,10 +97,18 @@ HERE
             }
         }
 
+        if ($config['show_execution_time_list']) {
+            $output->writeln(sprintf(
+                '%s nodes in set (%s sec)',
+                $this->nbNodes,
+                number_format($this->time, $config['execution_time_expansion']))
+            );
+        }
     }
 
     private function renderNode($currentNode, $table, $spacers = array(), $filter = null)
     {
+        $this->nbNodes++;
         if ($this->showChildren) {
             $this->renderChildren($currentNode, $table, $spacers, $filter);
         }
@@ -103,7 +120,9 @@ HERE
 
     private function renderChildren($currentNode, $table, $spacers, $filter = null)
     {
+        $start = microtime(true);
         $children = $currentNode->getNodes($filter ? : null);
+        $this->time += microtime(true) - $start;
 
         $nodeType = $currentNode->getPrimaryNodeType();
         $childNodeDefinitions = $nodeType->getDeclaredChildNodeDefinitions();

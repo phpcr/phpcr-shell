@@ -34,10 +34,7 @@ class ConfigManagerSpec extends ObjectBehavior
         putenv('PHPCRSH_HOME=' . $dir);
         $filesystem->exists(Argument::any())->willReturn(true);
 
-        $this->getConfig('alias')->shouldReturn(array(
-            'foobar' => 'barfoo',
-            'barfoo' => 'foobar',
-        ));
-
+        $this->getConfig('alias')->offsetGet('foobar')->shouldReturn('barfoo');
+        $this->getConfig('alias')->offsetGet('barfoo')->shouldReturn('foobar');
     }
 }

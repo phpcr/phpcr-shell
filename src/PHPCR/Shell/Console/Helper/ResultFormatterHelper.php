@@ -8,6 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
+use PHPCR\Shell\Config\Config;
 
 /**
  * Provide methods for formatting PHPCR objects
@@ -18,11 +19,13 @@ class ResultFormatterHelper extends Helper
 {
     protected $textHelper;
     protected $tableHelper;
+    protected $config;
 
-    public function __construct(TextHelper $textHelper, TableHelper $tableHelper)
+    public function __construct(TextHelper $textHelper, TableHelper $tableHelper, Config $config)
     {
         $this->textHelper = $textHelper;
         $this->tableHelper = $tableHelper;
+        $this->config = $config;
     }
 
     /**
@@ -74,7 +77,14 @@ class ResultFormatterHelper extends Helper
         }
 
         $table->render($output);
-        $output->writeln(sprintf('%s rows in set (%s sec)', count($result->getRows()), number_format($elapsed, 2)));
+
+        if (true === $this->config['execution_time']['query']) {
+            $output->writeln(sprintf(
+                '%s rows in set (%s sec)',
+                count($result->getRows()),
+                number_format($elapsed, $this->config['execution_time_expansion']))
+            );
+        }
     }
 
     public function normalizeValue($value)
