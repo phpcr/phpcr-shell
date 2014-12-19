@@ -44,7 +44,8 @@ class Container extends ContainerBuilder
         $this->register('helper.node', 'PHPCR\Shell\Console\Helper\NodeHelper');
         $this->register('helper.result_formatter', 'PHPCR\Shell\Console\Helper\ResultFormatterHelper')
             ->addArgument(new Reference('helper.text'))
-            ->addArgument(new Reference('helper.table'));
+            ->addArgument(new Reference('helper.table'))
+            ->addArgument(new Reference('config.config.phpcrsh'));
         $this->register('helper.table', 'PHPCR\Shell\Console\Helper\TableHelper');
     }
 
@@ -56,6 +57,9 @@ class Container extends ContainerBuilder
         $this->register('config.profile', 'PHPCR\Shell\Config\Profile');
         $this->register('config.profile_loader', 'PHPCR\Shell\Config\ProfileLoader')
             ->addArgument(new Reference('config.manager'));
+        $this->register('config.config.phpcrsh', 'PHPCR\Shell\Config\Config')
+            ->setFactoryService('config.manager')
+            ->setFactoryMethod('getPhpcrshConfig');
     }
 
     public function registerPhpcr()
@@ -84,13 +88,8 @@ class Container extends ContainerBuilder
         $repositoryDefinition = $this->register('phpcr.repository');
         $sessionDefinition = $this->register('phpcr.session');
 
-        if (method_exists($repositoryDefinition, 'setFactory')) {
-            $repositoryDefinition->setFactory(array(new Reference('phpcr.session_manager'), 'getRepository'));
-            $sessionDefinition->setFactory(array(new Reference('phpcr.session_manager'), 'getSession'));
-        } else {
-            $repositoryDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getRepository');
-            $sessionDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getSession');
-        }
+        $repositoryDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getRepository');
+        $sessionDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getSession');
     }
 
     public function registerEvent()
@@ -123,7 +122,6 @@ class Container extends ContainerBuilder
             )
                 ->addArgument(new Reference('config.manager'))
                 ->addTag('event.subscriber');
-
         }
 
         $this->register(

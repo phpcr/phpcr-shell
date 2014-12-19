@@ -5,6 +5,7 @@ namespace PHPCR\Shell\Config;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use PHPCR\Shell\Config\Config;
 
 /**
  * Configuration manager
@@ -20,7 +21,8 @@ class ConfigManager
      * @var array
      */
     protected $configKeys = array(
-        'alias'
+        'alias',
+        'phpcrsh',
     );
 
     /**
@@ -114,11 +116,24 @@ class ConfigManager
             $fullDistPath = $distConfigDir . '/' . $configKey . '.yml';
             $config[$configKey] = array();
 
+            $userConfig = array();
             if ($this->filesystem->exists($fullPath)) {
-                $config[$configKey] = Yaml::parse(file_get_contents($fullPath));
-            } elseif ($this->filesystem->exists($fullDistPath)) {
-                $config[$configKey] = Yaml::parse(file_get_contents($fullDistPath));
+                $userConfig = Yaml::parse(file_get_contents($fullPath));
             }
+            
+            if ($this->filesystem->exists($fullDistPath)) {
+                $distConfig = Yaml::parse(file_get_contents($fullDistPath));
+            } else {
+                throw new \RuntimeException(sprintf(
+                    'Could not find dist config at path (%s)',
+                    $fullDistPath
+                ));
+            }
+
+            $config[$configKey] = new Config(array_merge(
+                $distConfig,
+                $userConfig
+            ));
         }
 
         $this->cachedConfig = $config;
@@ -140,6 +155,11 @@ class ConfigManager
         $this->loadConfig();
 
         return $this->cachedConfig[$type];
+    }
+
+    public function getPhpcrshConfig()
+    {
+        return $this->getConfig('phpcrsh');
     }
 
     /**
@@ -167,6 +187,7 @@ class ConfigManager
 
         $configFilenames = array(
             'alias.yml',
+            'phpcrsh.yml',
         );
 
         foreach ($configFilenames as $configFilename) {
