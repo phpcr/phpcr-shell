@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PropertyType;
 use PHPCR\PathNotFoundException;
+use PHPCR\Util\UUIDHelper;
 
 class NodePropertySetCommand extends BasePhpcrCommand
 {
@@ -77,6 +78,26 @@ HERE
 
             if ($type) {
                 $intType = PropertyType::valueFromName($type);
+
+                if ($intType === PropertyType::REFERENCE  || $intType === PropertyType::WEAKREFERENCE) {
+
+                    // convert path to UUID
+                    if (false === UUIDHelper::isUuid($value)) {
+                        $path = $value;
+                        try {
+                            $targetNode = $session->getNode($path);
+                            $value = $targetNode->getIdentifier();
+                        } catch (PathNotFoundException $e) {
+                        }
+
+                        if (null === $value) {
+                            throw new \InvalidArgumentException(sprintf(
+                                'Node at path "%s" specified for reference is not referenceable',
+                                $path
+                            ));
+                        }
+                    }
+                }
             } else {
                 try {
                     $property = $node->getProperty($propName);

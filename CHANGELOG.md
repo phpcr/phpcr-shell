@@ -12,6 +12,7 @@ dev-master
 
 - [cli] Specify workspace with first argument
 - [global] Refactored to use DI container and various general improvements
+- [node:property:set] Allow setting reference property type by path
 - [references] Show UUIDs when listing reference properties
 - [import/export] Renamed session import and export to `session:import` &
   `session:export`
