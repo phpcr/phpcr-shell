@@ -9,7 +9,8 @@
         "symfony/finder": "~2.3",
         "symfony/serializer": "~2.3",
         "symfony/yaml": "~2.3",
-        "symfony/dependency-injection": "~2.3"
+        "symfony/dependency-injection": "~2.3",
+        "dantleech/glob-finder": "~0.1"
     },
     "minimum-stability": "dev",
     "require-dev": {

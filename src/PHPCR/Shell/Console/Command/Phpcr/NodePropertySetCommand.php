@@ -16,7 +16,7 @@ class NodePropertySetCommand extends BasePhpcrCommand
     {
         $this->setName('node:property:set');
         $this->setDescription('Rename the node at the current path');
-        $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - can include the node name');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - parent path can include wildcards');
         $this->addArgument('value', InputArgument::OPTIONAL, 'Value for named property');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of named property');
         $this->setHelp(<<<HERE
@@ -69,22 +69,25 @@ HERE
 
         $nodePath = $pathHelper->getParentPath($path);
         $propName = $pathHelper->getNodeName($path);
-        $node = $session->getNode($nodePath);
 
-        $intType = null;
+        $nodes = $session->findNodes($nodePath);
 
-        if ($type) {
-            $intType = PropertyType::valueFromName($type);
-        } else {
-            try {
-                $property = $node->getProperty($propName);
-                $intType = $property->getType();
-            } catch (PathNotFoundException $e) {
-                // property doesn't exist and no type specified, default to string
-                $intType = PropertyType::STRING;
+        foreach ($nodes as $node) {
+            $intType = null;
+
+            if ($type) {
+                $intType = PropertyType::valueFromName($type);
+            } else {
+                try {
+                    $property = $node->getProperty($propName);
+                    $intType = $property->getType();
+                } catch (PathNotFoundException $e) {
+                    // property doesn't exist and no type specified, default to string
+                    $intType = PropertyType::STRING;
+                }
             }
-        }
 
-        $node->setProperty($propName, $value, $intType);
+            $node->setProperty($propName, $value, $intType);
+        }
     }
 }

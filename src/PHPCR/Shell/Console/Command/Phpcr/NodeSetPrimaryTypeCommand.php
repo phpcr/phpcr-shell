@@ -13,7 +13,7 @@ class NodeSetPrimaryTypeCommand extends BasePhpcrCommand
     {
         $this->setName('node:set-primary-type');
         $this->setDescription('Set the primary type of the current node');
-        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
+        $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
         $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'New primary node type name');
         $this->setHelp(<<<HERE
 Changes the primary node type of this node to nodeTypeName.
@@ -34,7 +34,10 @@ HERE
         $path = $input->getArgument('path');
         $nodeTypeName = $input->getArgument('nodeTypeName');
 
-        $currentNode = $session->getNodeByPathOrIdentifier($path);
-        $currentNode->setPrimaryType($nodeTypeName);
+        $nodes = $session->findNodes($path);
+
+        foreach ($nodes as $node) {
+            $node->setPrimaryType($nodeTypeName);
+        }
     }
 }

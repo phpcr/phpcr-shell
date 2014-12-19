@@ -14,7 +14,11 @@ class NodeInfoCommand extends BasePhpcrCommand
         $this->setDescription('Show information about the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
-Show information about the current node
+Show information about the node(s) at the given path:
+
+    PHPCRSH> node:info path/to/node
+
+The path can include wildcards.
 HERE
         );
     }
@@ -24,48 +28,51 @@ HERE
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
         $nodeHelper = $this->get('helper.node');
-        $currentNode = $session->getNodeByPathOrIdentifier($path);
         $formatter = $this->get('helper.result_formatter');
 
-        $mixins = $currentNode->getMixinNodeTypes();
-        $mixinNodeTypeNames = array();
+        $nodes = $session->findNodes($path);
 
-        foreach ($mixins as $name => $mixin) {
-            $mixinNodeTypeNames[] = $mixin->getName();
-        }
+        foreach ($nodes as $node) {
+            $mixins = $node->getMixinNodeTypes();
+            $mixinNodeTypeNames = array();
 
-        if ($nodeHelper->nodeHasMixinType($currentNode, 'mix:versionable')) {
-            try {
-                $isCheckedOut = $currentNode->isCheckedOut() ? 'yes' : 'no';
-            } catch (\Exception $e) {
-                $isCheckedOut = $formatter->formatException($e);
+            foreach ($mixins as $mixin) {
+                $mixinNodeTypeNames[] = $mixin->getName();
             }
-        } else {
-            $isCheckedOut = 'N/A';
+
+            if ($nodeHelper->nodeHasMixinType($node, 'mix:versionable')) {
+                try {
+                    $isCheckedOut = $node->isCheckedOut() ? 'yes' : 'no';
+                } catch (\Exception $e) {
+                    $isCheckedOut = $formatter->formatException($e);
+                }
+            } else {
+                $isCheckedOut = 'N/A';
+            }
+
+            try {
+                $isLocked = $node->isLocked() ? 'yes' : 'no';
+            } catch (\Exception $e) {
+                $isLocked = $formatter->formatException($e);
+            }
+
+            $info = array(
+                'UUID' => $node->hasProperty('jcr:uuid') ? $node->getProperty('jcr:uuid')->getValue() : 'N/A',
+                'Index' => $node->getIndex(),
+                'Primary node type' => $node->getPrimaryNodeType()->getName(),
+                'Mixin node types' => implode(', ', $mixinNodeTypeNames),
+                'Checked out?' => $isCheckedOut,
+                'Locked?' => $isLocked,
+            );
+
+            $output->writeln('<path>' . $node->getPath() . '</path>');
+            $table = $this->get('helper.table')->create();
+
+            foreach ($info as $label => $value) {
+                $table->addRow(array($label, $value));
+            }
+
+            $table->render($output);
         }
-
-        try {
-            $isLocked = $currentNode->isLocked() ? 'yes' : 'no';
-        } catch (\Exception $e) {
-            $isLocked = $formatter->formatException($e);
-        }
-
-        $info = array(
-            'Path' => $currentNode->getPath(),
-            'UUID' => $currentNode->hasProperty('jcr:uuid') ? $currentNode->getProperty('jcr:uuid')->getValue() : 'N/A',
-            'Index' => $currentNode->getIndex(),
-            'Primary node type' => $currentNode->getPrimaryNodeType()->getName(),
-            'Mixin node types' => implode(', ', $mixinNodeTypeNames),
-            'Checked out?' => $isCheckedOut,
-            'Locked?' => $isLocked,
-        );
-
-        $table = $this->get('helper.table')->create();
-
-        foreach ($info as $label => $value) {
-            $table->addRow(array($label, $value));
-        }
-
-        $table->render($output);
     }
 }

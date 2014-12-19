@@ -15,7 +15,6 @@ use PHPCR\NodeInterface;
 class NodeListCommand extends BasePhpcrCommand
 {
     protected $formatter;
-    protected $filters;
     protected $textHelper;
     protected $maxLevel;
 
@@ -26,7 +25,6 @@ class NodeListCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::OPTIONAL, 'Path of node', '.');
         $this->addOption('children', null, InputOption::VALUE_NONE, 'List only the children of this node');
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
-        $this->addOption('filter', 'f', InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Optional filter to apply');
         $this->addOption('level', 'L', InputOption::VALUE_REQUIRED, 'Depth of tree to show');
         $this->addOption('template', 't', InputOption::VALUE_NONE, 'Show template nodes and properties');
         $this->setHelp(<<<HERE
@@ -37,10 +35,12 @@ Multiple levels can be shown by using the <info>--level</info> option.
 The <info>node:list</info> command can also shows template nodes and properties as defined a nodes node-type by
 using the <info>--template</info> option. Template nodes and properties are prefixed with the "@" symbol.
 
-The command accepts wither a path (relative or absolute) to the node or a UUID.
+The command accepts either a path (relative or absolute) to the node, a UUID or a pattern:
 
     PHPCRSH> node:list 842e61c0-09ab-42a9-87c0-308ccc90e6f4
     PHPCRSH> node:list /tests/foobar
+    PHPCRSH> node:list /tests/*/foobar
+    PHPCRSH> node:list /tests/*/foo*
 HERE
         );
     }
@@ -49,7 +49,6 @@ HERE
     {
         $this->formatter = $this->get('helper.result_formatter');
         $this->textHelper = $this->get('helper.text');
-        $this->filters = $input->getOption('filter');
         $this->maxLevel = $input->getOption('level');
 
         $this->showChildren = $input->getOption('children');
@@ -59,34 +58,52 @@ HERE
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
 
-        $currentNode = $session->getNodeByPathOrIdentifier($path);
+        try {
+            $nodes = array($session->getNodeByPathOrIdentifier($path));
+            $filter = null;
+        } catch (\Exception $e) {
+            $parentPath = $this->get('helper.path')->getParentPath($path);
+
+            $filter = substr($path, strlen($parentPath));
+
+            if ($filter[0] == '/') {
+                $filter = substr($filter, 1);
+            }
+
+            $nodes = $session->findNodes($parentPath);
+        }
 
         if (!$this->showChildren && !$this->showProperties) {
             $this->showChildren = true;
             $this->showProperties = true;
         }
 
-        $table = $this->get('helper.table')->create();
+        foreach ($nodes as $node) {
+            $table = $this->get('helper.table')->create();
+            $this->renderNode($node, $table, array(), $filter);
 
-        $this->renderNode($currentNode, $table);
+            if ($table->getNumberOfRows() > 0) {
+                $output->writeln('<path>' . $node->getPath() . '</path>');
+                $table->render($output);
+            }
+        }
 
-        $table->render($output);
     }
 
-    private function renderNode($currentNode, $table, $spacers = array())
+    private function renderNode($currentNode, $table, $spacers = array(), $filter = null)
     {
         if ($this->showChildren) {
-            $this->renderChildren($currentNode, $table, $spacers);
+            $this->renderChildren($currentNode, $table, $spacers, $filter);
         }
 
         if ($this->showProperties) {
-            $this->renderProperties($currentNode, $table, $spacers);
+            $this->renderProperties($currentNode, $table, $spacers, $filter);
         }
     }
 
-    private function renderChildren($currentNode, $table, $spacers)
+    private function renderChildren($currentNode, $table, $spacers, $filter = null)
     {
-        $children = $currentNode->getNodes($this->filters ? : null);
+        $children = $currentNode->getNodes($filter ? : null);
 
         $nodeType = $currentNode->getPrimaryNodeType();
         $childNodeDefinitions = $nodeType->getDeclaredChildNodeDefinitions();
@@ -147,9 +164,9 @@ HERE
         }
     }
 
-    private function renderProperties($currentNode, $table, $spacers)
+    private function renderProperties($currentNode, $table, $spacers, $filter = null)
     {
-        $properties = $currentNode->getProperties($this->filters ? : null);
+        $properties = $currentNode->getProperties($filter ? : null);
 
         try {
             $primaryItem = $currentNode->getPrimaryItem();

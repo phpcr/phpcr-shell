@@ -32,3 +32,8 @@ Feature: Remove a node
         You cannot delete the root node
         """
 
+    Scenario: Delete root node by wildcard
+        Given I execute the "node:remove /tests_general_base/*" command
+        Then the command should not fail
+        And I save the session
+        And there should not exist a node at "/tests_general_base/daniel"

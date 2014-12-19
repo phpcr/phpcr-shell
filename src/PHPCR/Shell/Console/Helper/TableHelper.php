@@ -13,15 +13,28 @@ use Symfony\Component\Console\Helper\Helper;
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
-class TableHelper extends Helper
+class TableHelper extends OriginalTableHelper
 {
-    public function create()
+    private $numberOfRows = 0;
+
+    public function __construct()
     {
-        return new OriginalTableHelper(false);
+        parent::__construct(false);
     }
 
-    public function getName()
+    public function create()
     {
-        return 'table';
+        return new self(false);
+    }
+
+    public function addRow(array $row)
+    {
+        parent::addRow($row);
+        $this->numberOfRows++;
+    }
+
+    public function getNumberOfRows()
+    {
+        return $this->numberOfRows;
     }
 }

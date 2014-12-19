@@ -12,7 +12,7 @@ class NodeRemoveCommand extends BasePhpcrCommand
     protected function configure()
     {
         $this->setName('node:remove');
-        $this->setDescription('Remove the node at path');
+        $this->setDescription('Remove the node at path (can include wildcards)');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->setHelp(<<<HERE
 Remove the node at the given path.
@@ -23,22 +23,24 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->get('phpcr.session');
-        $targetPath = $input->getArgument('path');
+        $path = $input->getArgument('path');
         $currentPath = $session->getCwd();
 
         // verify that node exists by trying to get it..
-        $targetNode = $session->getNodeByPathOrIdentifier($targetPath);
+        $nodes = $session->findNodes($path);
 
-        if ($targetNode->getPath() == '/') {
-            throw new \InvalidArgumentException(
-                'You cannot delete the root node!'
-            );
+        foreach ($nodes as $node) {
+            if ($node->getPath() == '/') {
+                throw new \InvalidArgumentException(
+                    'You cannot delete the root node!'
+                );
+            }
+
+            $node->remove();
         }
 
-        $session->removeItem($targetPath);
-
         // if we deleted the current path, switch back to the parent node
-        if ($currentPath == $session->getAbsPath($targetPath)) {
+        if ($currentPath == $session->getAbsPath($path)) {
             $session->chdir('..');
         }
     }
