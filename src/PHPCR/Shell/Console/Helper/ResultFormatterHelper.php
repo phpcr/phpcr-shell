@@ -54,21 +54,19 @@ class ResultFormatterHelper extends Helper
      */
     public function formatQueryResult(QueryResultInterface $result, OutputInterface $output, $elapsed)
     {
-        $selectorNames = $result->getSelectorNames();
-
         $table = $this->tableHelper->create();
         $table->setHeaders(array_merge(array(
             'Path',
             'Index',
         ), $result->getColumnNames()));
 
-        foreach ($result->getRows() as $i => $row) {
+        foreach ($result->getRows() as $row) {
             $values = array_merge(array(
                 $row->getPath(),
                 $row->getNode()->getIndex(),
             ), $row->getValues());
 
-            foreach ($values as $columnName => &$value) {
+            foreach ($values as &$value) {
                 $value = $this->normalizeValue($value);
             }
 
@@ -90,13 +88,17 @@ class ResultFormatterHelper extends Helper
 
             foreach ($array as $i => $value) {
                 if ($value instanceof NodeInterface) {
+                    $uuid = $value->getIdentifier();
                     $value = $value->getPath();
+                    if ($uuid) {
+                        $value .= ' (' . $uuid . ')';
+                    }
                 } elseif (is_object($value)) {
                     $value = '<UNKNOWN OBJECT>';
                 } else {
                     $value = $value;
                 }
-                $value = '[' . $i . '] ' . $this->textHelper->truncate($value);
+                $value = '[' . $i . '] ' . $this->textHelper->truncate($value, 255);
                 $values[] = $value;
             }
 
@@ -112,10 +114,8 @@ class ResultFormatterHelper extends Helper
 
     public function formatValue(PropertyInterface $value, $showBinary = false)
     {
-        $v = $value->getValue();
-
-        if (is_array($v)) {
-            return $this->normalizeValue($v);
+        if (is_array($value->getValue())) {
+            return $this->normalizeValue($value->getValue());
         }
 
         switch (intval($value->getType())) {

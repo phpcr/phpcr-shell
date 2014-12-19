@@ -12,24 +12,24 @@ Feature: Show node references
         And I execute the "node:references . --no-ansi" command
         Then the command should not fail
         And I should see a table containing the following rows:
-            | Type | Property | Node Path                                                      |
-            | weak | ref2     | /tests_general_base/idExample/jcr:content/weakreference_source2 |
-            | weak | ref1     | /tests_general_base/idExample/jcr:content/weakreference_source1 |
+            | Path | Property | Type |
+            | /tests_general_base/idExample/jcr:content/weakreference_source1 |ref1 | weak | 
+            | /tests_general_base/idExample/jcr:content/weakreference_source2 |ref2 | weak |
 
     Scenario: List named weak references
         Given the current node is "/tests_general_base/idExample/jcr:content/weakreference_target"
         And I execute the "node:references . ref2 --no-ansi" command
         Then the command should not fail
         And I should see a table containing the following rows:
-            | Type | Property | Node Path                                                      |
-            | weak | ref2     | /tests_general_base/idExample/jcr:content/weakreference_source2 |
+            | Path | Property | Type |
+            | /tests_general_base/idExample/jcr:content/weakreference_source2 |ref2 | weak |
 
     Scenario: List strong references
         Given the current node is "/tests_general_base/idExample"
         And I execute the "node:references . --no-ansi" command
         Then the command should not fail
         And I should see a table containing the following rows:
-            | Type   | Property | Node Path                              |
-            | strong | ref      | /tests_general_base/numberPropertyNode/jcr:content |
-            | strong | multiref | /tests_general_base/numberPropertyNode/jcr:content |
+            | Path | Property | Type |
+            | /tests_general_base/numberPropertyNode/jcr:content | multiref | strong |
+            | /tests_general_base/numberPropertyNode/jcr:content | ref      | strong |
 
