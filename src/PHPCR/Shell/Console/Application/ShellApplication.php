@@ -108,9 +108,9 @@ class ShellApplication extends Application
         // phpcr commands
         $this->add(new CommandPhpcr\AccessControlPrivilegeListCommand());
         $this->add(new CommandPhpcr\RepositoryDescriptorListCommand());
-        $this->add(new CommandPhpcr\SessionExportViewCommand());
+        $this->add(new CommandPhpcr\SessionExportCommand());
         $this->add(new CommandPhpcr\SessionImpersonateCommand());
-        $this->add(new CommandPhpcr\SessionImportXMLCommand());
+        $this->add(new CommandPhpcr\SessionImportCommand());
         $this->add(new CommandPhpcr\SessionInfoCommand());
         $this->add(new CommandPhpcr\SessionNamespaceListCommand());
         $this->add(new CommandPhpcr\SessionNamespaceSetCommand());
