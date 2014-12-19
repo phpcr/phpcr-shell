@@ -80,7 +80,7 @@ class Shell
     {
         return <<<EOF
 
-Welcome to the <info>{$this->application->getName()}</info> shell (<comment>{$this->application->getVersion()}</comment>).
+Welcome to <info>{$this->application->getName()}</info> (<comment>{$this->application->getVersion()}</comment>).
 
 At the prompt, type <comment>help</comment> for some help.
 
@@ -88,6 +88,8 @@ At the prompt, type <comment>help</comment> for some help.
 - To list all of the registered command aliases, type <comment>aliases</comment>.
 
 To exit the shell, type <comment>exit</comment>.
+
+For full documentation visit: <info>http://phpcr.readthedocs.org/en/latest/phpcr-shell/index.html</info>
 
 EOF;
     }
