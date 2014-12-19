@@ -97,6 +97,14 @@ class Container extends ContainerBuilder
     {
         if ($this->mode === self::MODE_STANDALONE) {
             $this->register(
+                'event.subscriber.profile_loader',
+                'PHPCR\Shell\Subscriber\ProfileLoaderSubscriber'
+            )
+                ->addArgument(new Reference('config.profile_loader'))
+                ->addArgument(new Reference('helper.question'))
+                ->addTag('event.subscriber');
+
+            $this->register(
                 'event.subscriber.profile_from_session_input',
                 'PHPCR\Shell\Subscriber\ProfileFromSessionInputSubscriber'
             )->addTag('event.subscriber');
@@ -110,20 +118,11 @@ class Container extends ContainerBuilder
                 ->addTag('event.subscriber');
 
             $this->register(
-                'event.subscriber.profile_loader',
-                'PHPCR\Shell\Subscriber\ProfileLoaderSubscriber'
-            )
-                ->addArgument(new Reference('config.profile_loader'))
-                ->addArgument(new Reference('helper.question'))
-                ->addTag('event.subscriber');
-
-            $this->register(
                 'event.subscriber.config_init',
                 'PHPCR\Shell\Subscriber\ConfigInitSubscriber'
             )
                 ->addArgument(new Reference('config.manager'))
                 ->addTag('event.subscriber');
-
         }
 
         $this->register(

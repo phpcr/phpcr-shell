@@ -35,11 +35,14 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
         $phpcrOptions = array(
             'phpcr-username' => 'username',
             'phpcr-password' => 'password',
-            'phpcr-workspace' => 'workspace',
         );
 
         foreach ($transportOptions as $optionName => $configName) {
             $value = $input->getOption($optionName);
+
+            if (!$value) {
+                continue;
+            }
 
             if (null !== $value) {
                 // sanitize some input values
@@ -61,7 +64,17 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
             $profile->set('transport', $configName, (string) $value);
         }
 
+        $workspace = $input->getArgument('workspace');
+
+        if ($workspace) {
+            $profile->set('phpcr', 'workspace', $workspace);
+        }
+
         foreach ($phpcrOptions as $optionName => $configName) {
+            if (!$input->getOption($optionName)) {
+                continue;
+            }
+
             $profile->set('phpcr', $configName, $input->getOption($optionName));
         }
     }
