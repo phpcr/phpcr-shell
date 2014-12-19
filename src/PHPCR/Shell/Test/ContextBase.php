@@ -12,6 +12,7 @@ use PHPCR\PropertyInterface;
 use PHPCR\PropertyType;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Context\Context;
+use PHPCR\NodeInterface;
 
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -718,8 +719,13 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $session = $this->getSession();
         $node = $session->getNode($arg1);
         $property = $node->getProperty($arg2);
-        $propertyType = $property->getValue();
-        \PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType);
+        $propertyValue = $property->getValue();
+
+        if ($propertyValue instanceof NodeInterface) {
+            $propertyValue = $propertyValue->getIdentifier();
+        }
+
+        \PHPUnit_Framework_Assert::assertEquals($arg3, $propertyValue);
     }
 
     /**
