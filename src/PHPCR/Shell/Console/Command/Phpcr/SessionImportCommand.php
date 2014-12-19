@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Util\PathHelper;
 
-class SessionImportXMLCommand extends BasePhpcrCommand
+class SessionImportCommand extends BasePhpcrCommand
 {
     protected $uuidBehaviors = array(
         'create-new',
@@ -20,10 +20,10 @@ class SessionImportXMLCommand extends BasePhpcrCommand
 
     protected function configure()
     {
-        $this->setName('session:import-xml');
+        $this->setName('session:import');
         $this->setDescription('Import content from an XML file');
         $this->addArgument('parentAbsPath', InputArgument::REQUIRED, 'Path of node to export');
-        $this->addArgument('file', InputArgument::REQUIRED, 'File to export to');
+        $this->addArgument('file', InputArgument::REQUIRED, 'File to import from');
         $this->addOption('uuid-behavior', null, InputOption::VALUE_REQUIRED, 'UUID behavior', 'create-new');
         $this->setHelp(<<<HERE
 Deserializes an XML document and adds the resulting item subgraph as a
