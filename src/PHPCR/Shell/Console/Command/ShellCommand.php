@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Console\Application\Shell;
 use PHPCR\Shell\Console\Input\StringInput;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * The shell command is the command used to configure the shell session
@@ -51,7 +52,6 @@ class ShellCommand extends Command
             new InputOption('--transport',      '-t',    InputOption::VALUE_REQUIRED, 'Transport to use.'),
             new InputOption('--phpcr-username', '-pu',   InputOption::VALUE_REQUIRED, 'PHPCR Username.', 'admin'),
             new InputOption('--phpcr-password', '-pp',   InputOption::VALUE_OPTIONAL, 'PHPCR Password.', 'admin'),
-            new InputOption('--phpcr-workspace','-pw',   InputOption::VALUE_OPTIONAL, 'PHPCR Workspace.', 'default'),
             new InputOption('--db-username',    '-du',   InputOption::VALUE_REQUIRED, 'Database Username.', 'root'),
             new InputOption('--db-name',        '-dn',   InputOption::VALUE_REQUIRED, 'Database Name.', 'phpcr'),
             new InputOption('--db-password',    '-dp',   InputOption::VALUE_OPTIONAL, 'Database Password.'),
@@ -65,6 +65,8 @@ class ShellCommand extends Command
             new InputOption('--profile',      '-p',    InputOption::VALUE_OPTIONAL, 'Speicfy a profile name, use wit <info>--transport</info> to update or create'),
             new InputOption('--unsupported',    null,    InputOption::VALUE_NONE, 'Show all commands, including commands not supported by the repository'),
             new InputOption('--command',        null,    InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Run the given command'),
+
+            new InputArgument('workspace', InputArgument::OPTIONAL, 'Workspace to start with', 'default'),
     ));
     }
 

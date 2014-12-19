@@ -4,15 +4,21 @@ Changelog
 dev-master
 ----------
 
+### Bug fixes
+
+- [config] Do not override CLI options with profile options
+
+### Features
+
+- [cli] Specify workspace with first argument
+- [global] Refactored to use DI container and various general improvements
 - [references] Show UUIDs when listing reference properties
 - [import/export] Renamed session import and export to `session:import` &
   `session:export`
 - [config] Added user config for general settings
 - [config] Enable / disable showing execution times and set decimal expansion
 - [transport] Added transport layer for experimental Jackalope FS implementation
-- [misc] Wildcard (single asterisk) support in paths
 - [node] Added wilcard support to applicable node commands, including "node:list", "node:remove" and "node:property:show"
-- [global] Refactored to use DI container and various general improvements
 - [node:references] Shows the referencing node paths instead of the referrered-to node path(s)
 
 alpha-6
