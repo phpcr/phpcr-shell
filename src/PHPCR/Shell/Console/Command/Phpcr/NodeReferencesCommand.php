@@ -56,7 +56,7 @@ HERE
 
             $table = $this->get('helper.table')->create();
             $table->setHeaders(array(
-                'Type', 'Property', 'Node Path'
+                'Path', 'Property', 'Type',
             ));
 
             foreach ($references as $type => $typeReferences) {
@@ -64,9 +64,9 @@ HERE
                     $nodePath = $property->getParent()->getPath();
 
                     $table->addRow(array(
-                        $type,
+                        $nodePath,
                         $property->getName(),
-                        $nodePath
+                        $type,
                     ));
                 }
             }

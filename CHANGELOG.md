@@ -4,6 +4,7 @@ Changelog
 dev-master
 ----------
 
+- [references] Show UUIDs when listing reference properties
 - [transport] Added transport layer for experimental Jackalope FS implementation
 - [misc] Wildcard (single asterisk) support in paths
 - [node] Added wilcard support to applicable node commands, including "node:list", "node:remove" and "node:property:show"
