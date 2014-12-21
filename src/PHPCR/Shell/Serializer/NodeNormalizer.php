@@ -48,7 +48,12 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 
             if (in_array($property->getType(), array(PropertyType::REFERENCE, PropertyType::WEAKREFERENCE))) {
                 $nodesUuids = array();
-                foreach ((array) $propertyValue as $node) {
+
+                if (false === is_array($propertyValue)) {
+                    $propertyValue = array($propertyValue);
+                }
+
+                foreach ($propertyValue as $node) {
                     $nodeUuids[] = $node->getIdentifier();
                 }
                 $propertyValue = $nodeUuids;
