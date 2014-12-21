@@ -58,6 +58,17 @@
                 <sv:value>99999999-1abf-4708-bfcc-e49511754b40</sv:value>
             </sv:property>
         </sv:node>
+        <sv:node sv:name="product2">
+            <sv:property sv:name="jcr:primaryType" sv:type="Name">
+                <sv:value>nt:unstructured</sv:value>
+            </sv:property>
+            <sv:property sv:name="jcr:mixinTypes" sv:type="name">
+                <sv:value>mix:title</sv:value>
+            </sv:property>
+            <sv:property sv:name="name" sv:type="String">
+                <sv:value>Product Two</sv:value>
+            </sv:property>
+        </sv:node>
     </sv:node>
 
     <sv:node sv:name="users">

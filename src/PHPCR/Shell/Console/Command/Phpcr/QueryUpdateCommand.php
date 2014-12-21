@@ -74,6 +74,7 @@ EOT
         $res = $updateParser->parse($sql);
         $query = $res->offsetGet(0);
         $updates = $res->offsetGet(1);
+        $applies = $res->offsetGet(3);
 
         $start = microtime(true);
         $result = $query->execute();
@@ -84,7 +85,11 @@ EOT
         foreach ($result as $row) {
             $rows++;
             foreach ($updates as $property) {
-                $updateProcessor->updateNode($row, $property);
+                $updateProcessor->updateNodeSet($row, $property);
+            }
+
+            foreach ($applies as $apply) {
+                $updateProcessor->updateNodeApply($row, $apply);
             }
         }
 

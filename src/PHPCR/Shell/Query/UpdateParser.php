@@ -40,6 +40,8 @@ class UpdateParser extends Sql2ToQomQueryConverter
         $this->sql2 = $sql2;
         $source = null;
         $constraint = null;
+        $updates = array();
+        $applies = array();
 
         while ($this->scanner->lookupNextToken() !== '') {
             switch (strtoupper($this->scanner->lookupNextToken())) {
@@ -50,6 +52,10 @@ class UpdateParser extends Sql2ToQomQueryConverter
                 case 'SET':
                     $this->scanner->expectToken('SET');
                     $updates = $this->parseUpdates();
+                    break;
+                case 'APPLY':
+                    $this->scanner->expectToken('APPLY');
+                    $applies = $this->parseApply();
                     break;
                 case 'WHERE':
                     $this->scanner->expectToken('WHERE');
@@ -66,7 +72,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         $query = $this->factory->createQuery($source, $constraint);
 
-        $res = new \ArrayObject(array($query, $updates, $constraint));
+        $res = new \ArrayObject(array($query, $updates, $constraint, $applies));
 
         return $res;
     }
@@ -162,6 +168,31 @@ class UpdateParser extends Sql2ToQomQueryConverter
         $columnData = $this->scanColumn();
 
         return new ColumnOperand($columnData[0], $columnData[1]);
+    }
+
+    private function parseApply()
+    {
+        $functions = array();
+
+        while (true) {
+            $token = strtoupper($this->scanner->lookupNextToken());
+
+            if ($this->scanner->lookupNextToken(1) == '(') {
+                $functionData = $this->parseFunction();
+
+                $functions[] = new FunctionOperand($functionData[0], $functionData[1]);
+            }
+
+            $next = $this->scanner->lookupNextToken();
+
+            if ($next == ',') {
+                $next = $this->scanner->fetchNextToken();
+            } elseif (strtolower($next) == 'where' || !$next) {
+                break;
+            }
+        }
+
+        return $functions;
     }
 
     private function parseFunction()

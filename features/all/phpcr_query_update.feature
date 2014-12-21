@@ -113,10 +113,30 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         [PHPCR\PathNotFoundException] Property 10
         """
 
-    Scenario: Replace a multivalue property by invalid index with array (invalid)
-        Given I execute the "UPDATE [nt:unstructured] AS a SET a.tags = array_replace_at(a.tags, 0, array('Kite')) WHERE a.tags = 'Planes'" command
-        Then the command should fail
-        And I should see the following:
-        """
-        Cannot use an array as a value in a multivalue property
-        """
+    Scenario: Apply mixin_remove
+        Given I execute the "UPDATE [nt:unstructured] AS a APPLY mixin_remove('mix:title') WHERE a.name = 'Product Two'" command
+        Then the command should not fail
+        And I save the session
+        Then the command should not fail
+        Then the node at "/cms/products/product2" should not have the mixin "mix:title"
+
+    Scenario: Apply mixin_add
+        Given I execute the "UPDATE [nt:unstructured] AS a APPLY mixin_add('mix:mimeType') WHERE a.tags = 'Planes'" command
+        Then the command should not fail
+        And I save the session
+        And the node at "/cms/articles/article1" should have the mixin "mix:mimeType"
+
+    Scenario: Apply mixin_add existing
+        Given I execute the "UPDATE [nt:unstructured] AS a APPLY mixin_add('mix:title') WHERE a.name = 'Product Two'" command
+        Then the command should not fail
+        And I save the session
+        Then the command should not fail
+        Then the node at "/cms/products/product2" should have the mixin "mix:title"
+
+    Scenario: Apply multiple functions
+        Given I execute the "UPDATE [nt:unstructured] AS a APPLY mixin_add('mix:mimeType'), mixin_add('mix:lockable') WHERE a.tags = 'Planes'" command
+        Then the command should not fail
+        And I save the session
+        And the node at "/cms/articles/article1" should have the mixin "mix:mimeType"
+        Then the node at "/cms/articles/article1" should have the mixin "mix:lockable"
+

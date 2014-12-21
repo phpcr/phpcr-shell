@@ -218,6 +218,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         NodeHelper::purgeWorkspace($session);
         $session->save();
 
+
         // shouldn't have to do this, but this seems to be a bug in jackalope
         $session->refresh(false);
 

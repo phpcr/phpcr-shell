@@ -3,6 +3,7 @@
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\RowInterface;
+use PHPCR\Shell\Query\FunctionOperand;
 
 /**
  * Processor for node updates
@@ -18,8 +19,22 @@ class UpdateProcessor
 
     public function __construct()
     {
-        $this->functionMap = array(
-            'array_replace' => function ($operand, $v, $x, $y) {
+        $this->functionMapApply = array(
+            'mixin_add' => function ($operand, $row, $mixinName) {
+                $node = $row->getNode();
+                $node->addMixin($mixinName);
+            },
+            'mixin_remove' => function ($operand, $row, $mixinName) {
+                $node = $row->getNode();
+
+                if ($node->isNodeType($mixinName)) {
+                    $node->removeMixin($mixinName);
+                }
+            }
+        );
+
+        $this->functionMapSet = array(
+            'array_replace' => function ($operand, $row, $v, $x, $y) {
                 $operand->validateScalarArray($v);
                 foreach ($v as $key => $value) {
                     if ($value === $x) {
@@ -29,7 +44,7 @@ class UpdateProcessor
 
                 return $v;
             },
-            'array_remove' => function ($operand, $v, $x) {
+            'array_remove' => function ($operand, $row, $v, $x) {
                 foreach ($v as $key => $value) {
                     if ($value === $x) {
                         unset($v[$key]);
@@ -38,7 +53,7 @@ class UpdateProcessor
 
                 return array_values($v);
             },
-            'array_append' => function ($operand, $v, $x) {
+            'array_append' => function ($operand, $row, $v, $x) {
                 $operand->validateScalarArray($v);
                 $v[] = $x;
 
@@ -49,10 +64,12 @@ class UpdateProcessor
 
                 // first argument is the operand
                 array_shift($values);
+                // second is the row
+                array_shift($values);
 
                 return $values;
             },
-            'array_replace_at' => function ($operand, $current, $index, $value) {
+            'array_replace_at' => function ($operand, $row, $current, $index, $value) {
                 if (!isset($current[$index])) {
                     throw new \InvalidArgumentException(sprintf(
                         'Multivalue index "%s" does not exist',
@@ -81,22 +98,32 @@ class UpdateProcessor
      * @param PHPCR\Query\RowInterface
      * @param array
      */
-    public function updateNode(RowInterface $row, $propertyData)
+    public function updateNodeSet(RowInterface $row, $propertyData)
     {
         $node = $row->getNode($propertyData['selector']);
         $value = $propertyData['value'];
 
         if ($value instanceof FunctionOperand) {
-            $value = $this->handleFunction($row, $propertyData);
+            $value = $propertyData['value'];
+            $value = $value->execute($this->functionMapSet, $row);
         }
 
         $node->setProperty($propertyData['name'], $value);
     }
 
+    public function updateNodeApply(RowInterface $row, FunctionOperand $apply)
+    {
+        if (!$apply instanceof FunctionOperand) {
+            throw new \InvalidArgumentException(
+                'Was expecting a function operand but got something else'
+            );
+        }
+
+        $apply->execute($this->functionMapApply, $row);
+    }
+
     private function handleFunction($row, $propertyData)
     {
-        $value = $propertyData['value'];
-        $value = $value->execute($this->functionMap, $row);
 
         return $value;
     }
