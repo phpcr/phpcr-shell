@@ -10,23 +10,24 @@ dev-master
 - [node:remove] Cannot `node:remove` by UUID
 - [node:edit] Serialization of single value references doesn't work
 
-### Features
+### Enhancements
 
-- [query:update] Added APPLY method to queries.
-- [query:update] APPLY `mixin_add` and `mixin_remove` functions
-- [node:remove] Immediately fail when trying to delete a node which has a
-  (hard) referrer
-- [cli] Specify workspace with first argument
-- [global] Refactored to use DI container and various general improvements
-- [node:property:set] Allow setting reference property type by path
+- [autocomplete] Autocomplete now includes command names
 - [references] Show UUIDs when listing reference properties
 - [import/export] Renamed session import and export to `session:import` &
-  `session:export`
+
+### Features
+
+- [cli] Specify workspace with first argument
 - [config] Added user config for general settings
 - [config] Enable / disable showing execution times and set decimal expansion
-- [transport] Added transport layer for experimental Jackalope FS implementation
-- [node] Added wilcard support to applicable node commands, including "node:list", "node:remove" and "node:property:show"
+- [global] Refactored to use DI container and various general improvements
+- [node:property:set] Allow setting reference property type by path`session:export`
 - [node:references] Shows the referencing node paths instead of the referrered-to node path(s)
+- [node:remove] Immediately fail when trying to delete a node which has a (hard) referrer
+- [node] Added wilcard support to applicable node commands, including "node:list", "node:remove" and "node:property:show"
+- [query:update] Added APPLY method to queries, permits addition and removal of mixins
+- [transport] Added transport layer for experimental Jackalope FS implementation
 
 alpha-6
 -------

@@ -30,7 +30,7 @@ class SessionApplication extends BaseApplication
         parent::__construct(self::APP_NAME, self::APP_VERSION);
 
         $container = new Container();
-        $this->shellApplication = new ShellApplication($container);
+        $this->shellApplication = $container->get('console.application.shell');
 
         $command = new ShellCommand($this->shellApplication);
         $command->setApplication($this);

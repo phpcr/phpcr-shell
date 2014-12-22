@@ -29,13 +29,6 @@ use PHPCR\Shell\Config\Profile;
 class ShellApplication extends Application
 {
     /**
-     * True when application has been initialized once
-     *
-     * @var boolean
-     */
-    protected $initialized;
-
-    /**
      * @var boolean
      */
     protected $showUnsupported = false;
@@ -61,6 +54,7 @@ class ShellApplication extends Application
         $this->dispatcher = $container->get('event.dispatcher') ? : new EventDispatcher();
         $this->setDispatcher($this->dispatcher);
         $this->container = $container;
+        $this->init();
     }
 
     /**
@@ -75,29 +69,16 @@ class ShellApplication extends Application
     }
 
     /**
-     * Initialize the application.
-     *
-     * Note that we do this "lazily" because we instantiate the ShellApplication early,
-     * before the SessionInput has been set. The SessionInput must be set before we
-     * can initialize the application.
-     *
-     * @todo: The above scenario is no longer true, we use a Profile. So maybe it can
-     *        be refactored.
+     * Initialize the application
      */
     public function init()
     {
-        if (true === $this->initialized) {
-            return;
-        }
-
         $this->registerPhpcrCommands();
         $this->registerPhpcrStandaloneCommands();
         $this->registerShellCommands();
 
         $event = new ApplicationInitEvent($this);
         $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
-
-        $this->initialized = true;
     }
 
     /**
@@ -236,8 +217,6 @@ class ShellApplication extends Application
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
-        $this->init();
-
         // configure the formatter for the output
         $this->configureFormatter($output->getFormatter());
 
