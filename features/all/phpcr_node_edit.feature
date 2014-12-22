@@ -106,11 +106,11 @@ Feature: Edit a node
             type: String
             value: 'FOOOOOOO'
         """
-        And I execute the "node:edit cms/products/product2" command
+        And I execute the "node:edit cms/products/productx" command
         Then the command should not fail
         And I save the session
         Then the command should not fail
-        And the property "/cms/products/product2/foobar" should have type "String" and value "FOOOOOOO"
+        And the property "/cms/products/productx/foobar" should have type "String" and value "FOOOOOOO"
 
     Scenario: Create a new node with short syntax
         Given I have an editor which produces the following:
@@ -120,11 +120,11 @@ Feature: Edit a node
             value: 'nt:unstructured'
         foobar: FOOOOOOO
         """
-        And I execute the "node:edit cms/products/product2" command
+        And I execute the "node:edit cms/products/productx" command
         Then the command should not fail
         And I save the session
         Then the command should not fail
-        And the property "/cms/products/product2/foobar" should have type "String" and value "FOOOOOOO"
+        And the property "/cms/products/productx/foobar" should have type "String" and value "FOOOOOOO"
 
     Scenario: Create a new node with a specified type
         Given I have an editor which produces the following:
@@ -136,18 +136,18 @@ Feature: Edit a node
             type: Binary
             value: foo
         """
-        And I execute the "node:edit cms/products/product2 --type=nt:resource" command
+        And I execute the "node:edit cms/products/productx --type=nt:resource" command
         Then the command should not fail
         And I save the session
         Then the command should not fail
-        And there should exist a node at "/cms/products/product2"
-        And the primary type of "/cms/products/product2" should be "nt:resource"
+        And there should exist a node at "/cms/products/productx"
+        And the primary type of "/cms/products/productx" should be "nt:resource"
 
     Scenario: Editor returns empty string
         Given I have an editor which produces the following:
         """"
         """
-        And I execute the "node:edit cms/products/product2 --no-interaction --type=nt:resource" command
+        And I execute the "node:edit cms/products/productx --no-interaction --type=nt:resource" command
         Then the command should fail
 
     Scenario: Edit a node by UUID

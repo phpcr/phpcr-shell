@@ -60,6 +60,7 @@ class FunctionOperand
 
         $callable = $functionMap[$functionName];
         $args = $this->getArguments();
+        array_unshift($args, $row);
         array_unshift($args, $this);
         $value = call_user_func_array($callable, $args);
 

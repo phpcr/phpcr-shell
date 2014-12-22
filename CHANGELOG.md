@@ -12,6 +12,8 @@ dev-master
 
 ### Features
 
+- [query:update] Added APPLY method to queries.
+- [query:update] APPLY `mixin_add` and `mixin_remove` functions
 - [node:remove] Immediately fail when trying to delete a node which has a
   (hard) referrer
 - [cli] Specify workspace with first argument

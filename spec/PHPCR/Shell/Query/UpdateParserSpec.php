@@ -94,4 +94,22 @@ EOT;
 
         $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
     }
+
+    public function it_should_parse_apply (
+        QueryObjectModelFactoryInterface $qomf,
+        SourceInterface $source,
+        QueryInterface $query
+    )
+    {
+        $qomf->selector('a', 'dtl:article')->willReturn($source);
+        $qomf->createQuery($source, null)->willReturn($query);
+
+
+        $sql = <<<EOT
+UPDATE [dtl:article] AS a APPLY nodetype_add('nt:barbar')
+EOT;
+        $res = $this->parse($sql);
+
+        $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
+    }
 }
