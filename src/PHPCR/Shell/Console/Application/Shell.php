@@ -103,10 +103,12 @@ EOF;
      */
     private function autocompleter($text)
     {
-        $info = readline_info();
-        $text = substr($info['line_buffer'], 0, $info['end']);
-        $list = $this->application->getContainer()->get('phpcr.session')->autocomplete($text);
-
+        // the following does not work at all on my system
+        // it only returns the previous line:
+        //
+        // $info = readline_info();
+        // $text = substr($info['line_buffer'], 0, $info['end']);
+        $list = $this->application->getContainer()->get('console.input.autocomplete')->autocomplete('');
         return $list;
     }
 

@@ -49,17 +49,11 @@ class EmbeddedApplication extends ShellApplication
      */
     public function init()
     {
-        if (true === $this->initialized) {
-            return;
-        }
-
         $this->registerPhpcrCommands();
 
         if ($this->container->getMode() === self::MODE_SHELL) {
             $this->registerShellCommands();
         }
-
-        $this->initialized = true;
     }
 
     /**

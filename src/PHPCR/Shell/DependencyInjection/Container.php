@@ -27,10 +27,13 @@ class Container extends ContainerBuilder
         parent::__construct();
         $this->mode = $mode;
 
+        $this->set('container', $this);
+
         $this->registerHelpers();
         $this->registerConfig();
         $this->registerPhpcr();
         $this->registerEvent();
+        $this->registerConsole();
     }
 
     public function registerHelpers()
@@ -141,6 +144,15 @@ class Container extends ContainerBuilder
         foreach (array_keys($this->findTaggedServiceIds('event.subscriber')) as $id) {
             $dispatcher->addMethodCall('addSubscriber', array(new Reference($id)));
         }
+    }
+
+    public function registerConsole()
+    {
+        $this->register('console.application.shell', 'PHPCR\Shell\Console\Application\ShellApplication')
+            ->addArgument(new Reference('container'));
+        $this->register('console.input.autocomplete', 'PHPCR\Shell\Console\Input\AutoComplete')
+            ->addArgument(new Reference('console.application.shell'))
+            ->addArgument(new Reference('phpcr.session'));
     }
 
     public function getMode()
