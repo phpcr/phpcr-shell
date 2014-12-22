@@ -67,10 +67,9 @@ class ShellCommand extends Command
             new InputOption('--unsupported',    null,    InputOption::VALUE_NONE, 'Show all commands, including commands not supported by the repository'),
             new InputOption('--command',        null,    InputOption::VALUE_REQUIRED|InputOption::VALUE_IS_ARRAY, 'Run the given command'),
 
-            new InputOption('--reference', null,    InputOption::VALUE_NONE, 'Dump a complete command reference in RST format')
+            new InputOption('--reference', null,    InputOption::VALUE_NONE, 'Dump a complete command reference in RST format'),
 
-            new InputArgument('workspace', InputArgument::OPTIONAL, 'Workspace to start with', 'default'),
-    ));
+            new InputArgument('workspace', InputArgument::OPTIONAL, 'Workspace to start with', 'default')
         ));
     }
 
@@ -111,8 +110,7 @@ class ShellCommand extends Command
         if ($dumpReference) {
             $this->application->init();
             $descriptor = new RstDescriptor();
-            $out = $descriptor->describe($this->application);
-            die($out);
+            $descriptor->describe($output, $this->application);
             return 0;
         }
 
