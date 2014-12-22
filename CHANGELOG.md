@@ -52,6 +52,8 @@ alpha-5
 
 ### Features
 
+- [shell] Added "--reference" option to session command to dump a complete shell reference
+          in restructured text format for the official documentation.
 - [shell] Added "shell:clear" command to support clearing the console output
 - [general] The shell supports being embedded as a dependency
 - [node:edit] New command `node:edit` enables editing of entire node

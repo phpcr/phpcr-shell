@@ -31,6 +31,7 @@ exists, a new node N' is created at that location.
 The subgraph rooted at and including N' (call it S') is created and is
 identical to the subgraph rooted at and including N (call it S) with the
 following exceptions:
+
 - Every node in S' is given a new and distinct identifier
   - or, if <info>srcWorkspace</info> is given -
   Every referenceable node in S' is given a new and distinct identifier
