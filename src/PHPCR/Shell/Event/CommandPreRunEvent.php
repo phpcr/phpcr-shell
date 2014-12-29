@@ -30,5 +30,4 @@ class CommandPreRunEvent extends Event
     {
         return $this->commandName;
     }
-
 }

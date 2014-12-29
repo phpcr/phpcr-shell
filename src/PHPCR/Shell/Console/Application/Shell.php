@@ -107,6 +107,7 @@ EOF;
         // $info = readline_info();
         // $text = substr($info['line_buffer'], 0, $info['end']);
         $list = $this->application->getContainer()->get('console.input.autocomplete')->autocomplete('');
+
         return $list;
     }
 

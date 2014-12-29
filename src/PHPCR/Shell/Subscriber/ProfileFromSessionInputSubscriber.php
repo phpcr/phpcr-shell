@@ -11,7 +11,7 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            PhpcrShellEvents::PROFILE_INIT=> 'handleProfileInit',
+            PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
         );
     }
 
@@ -50,8 +50,7 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
                     case 'db-path':
                         if (!file_exists($value)) {
                             throw new \InvalidArgumentException(sprintf(
-                                'DB file "%s" does not exist.'
-                            , $value));
+                                'DB file "%s" does not exist.', $value));
                         }
 
                         $value = realpath(dirname($value)) . DIRECTORY_SEPARATOR . basename($value);

@@ -17,19 +17,19 @@ class ProfileLoader
     public function __construct(ConfigManager $config, Filesystem $filesystem = null)
     {
         $this->config = $config;
-        $this->filesystem = $filesystem ? : new Filesystem();
+        $this->filesystem = $filesystem ?: new Filesystem();
     }
 
     protected function getProfileDir()
     {
-        $dir = sprintf('%s/%s', $this->config->getConfigDir(), self::DIR_PROFILE);;
+        $dir = sprintf('%s/%s', $this->config->getConfigDir(), self::DIR_PROFILE);
 
         return $dir;
     }
 
     public function getProfilePath($name)
     {
-        $dir = sprintf('%s/%s/%s.yml', $this->config->getConfigDir(), self::DIR_PROFILE, $name);;
+        $dir = sprintf('%s/%s/%s.yml', $this->config->getConfigDir(), self::DIR_PROFILE, $name);
 
         return $dir;
     }

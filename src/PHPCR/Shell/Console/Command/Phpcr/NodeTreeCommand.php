@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -56,7 +55,7 @@ HERE
 
     protected function renderNode(NodeInterface $node, OutputInterface $output)
     {
-        foreach ($node->getNodes($this->filters ? : null) as $child) {
+        foreach ($node->getNodes($this->filters ?: null) as $child) {
             $output->writeln($this->formatNode($child));
         }
     }

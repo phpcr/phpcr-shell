@@ -5,7 +5,7 @@ namespace PHPCR\Shell\Config;
 /**
  * Configuration profile object
  */
-class Config implements \ArrayAccess, \Iterator 
+class Config implements \ArrayAccess, \Iterator
 {
     private $data;
 

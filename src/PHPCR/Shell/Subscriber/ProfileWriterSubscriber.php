@@ -16,7 +16,7 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            PhpcrShellEvents::PROFILE_INIT=> 'handleProfileInit',
+            PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
         );
     }
 

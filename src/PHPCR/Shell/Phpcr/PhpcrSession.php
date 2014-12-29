@@ -24,7 +24,7 @@ class PhpcrSession implements SessionInterface
     public function __construct(SessionInterface $session, $finder = null)
     {
         $this->session = $session;
-        $this->finder = $finder ? : new PhpcrTraversalFinder($session);
+        $this->finder = $finder ?: new PhpcrTraversalFinder($session);
     }
 
     /**

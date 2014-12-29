@@ -76,7 +76,6 @@ HERE
                 $filter = substr($filter, 1);
             }
 
-
             $start = microtime(true);
             $nodes = $session->findNodes($parentPath);
             $this->time = microtime(true) - $start;
@@ -121,7 +120,7 @@ HERE
     private function renderChildren($currentNode, $table, $spacers, $filter = null)
     {
         $start = microtime(true);
-        $children = $currentNode->getNodes($filter ? : null);
+        $children = $currentNode->getNodes($filter ?: null);
         $this->time += microtime(true) - $start;
 
         $nodeType = $currentNode->getPrimaryNodeType();
@@ -185,7 +184,7 @@ HERE
 
     private function renderProperties($currentNode, $table, $spacers, $filter = null)
     {
-        $properties = $currentNode->getProperties($filter ? : null);
+        $properties = $currentNode->getProperties($filter ?: null);
 
         try {
             $primaryItem = $currentNode->getPrimaryItem();
@@ -210,7 +209,6 @@ HERE
                 }
 
                 $valueCell = $this->formatter->formatValue($property);
-
             } catch (\Exception $e) {
                 $valueCell = '<error>' . $e->getMessage() . '</error>';
             }
@@ -218,7 +216,7 @@ HERE
             $table->addRow(array(
                 '<property>' . implode('', $spacers). $name . '</property>',
                 '<property-type>' . $this->formatter->getPropertyTypeName($property->getType()) . '</property-type>',
-                $valueCell
+                $valueCell,
             ));
         }
 
@@ -227,7 +225,7 @@ HERE
                 $table->addRow(array(
                     '<templateproperty>' . implode('', $spacers). '@' . $propertyName . '</templateproperty>',
                     '<property-type>' . strtoupper(PropertyType::nameFromValue($property->getRequiredType())) . '</property-type>',
-                    ''
+                    '',
                 ));
             }
         }

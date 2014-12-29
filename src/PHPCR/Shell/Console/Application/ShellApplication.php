@@ -11,14 +11,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-
 use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
 use PHPCR\Shell\Console\Command\Shell as CommandShell;
-
 use PHPCR\Shell\Event;
 use PHPCR\Shell\Event\ApplicationInitEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
-use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\PhpcrShell;
 use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
@@ -58,7 +55,7 @@ class ShellApplication extends Application
     public function __construct($container)
     {
         parent::__construct(PhpcrShell::APP_NAME, PhpcrShell::APP_VERSION);
-        $this->dispatcher = $container->get('event.dispatcher') ? : new EventDispatcher();
+        $this->dispatcher = $container->get('event.dispatcher') ?: new EventDispatcher();
         $this->setDispatcher($this->dispatcher);
         $this->container = $container;
     }
@@ -319,5 +316,4 @@ class ShellApplication extends Application
     {
         $this->debug = $debug;
     }
-
 }

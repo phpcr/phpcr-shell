@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Test;
 
-use PHPCR\Shell\Console\Application\EmbeddedApplication;
 use PHPCR\Shell\Phpcr\PhpcrSession;
 use PHPCR\Shell\PhpcrShell;
 use PHPCR\Shell\DependencyInjection\Container;

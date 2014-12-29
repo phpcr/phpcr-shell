@@ -2,7 +2,6 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,8 +33,7 @@ HERE
             $nodeType = $nodeTypeManager->getNodeType($nodeTypeName);
         } catch (NoSuchNodeTypeException $e) {
             throw new \Exception(sprintf(
-                'The node type "%s" does not exist'
-            , $nodeTypeName));
+                'The node type "%s" does not exist', $nodeTypeName));
         }
         $cndWriter = new CndWriter($namespaceRegistry);
         $out = $cndWriter->writeString(array($nodeType));

@@ -98,7 +98,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
             $property = array(
                 'selector' => null,
                 'name' => null,
-                'value' => null
+                'value' => null,
             );
 
             // parse left side
@@ -162,7 +162,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
         if ($token === 'NULL') {
             $this->scanner->fetchNextToken();
 
-            return null;
+            return;
         }
 
         $columnData = $this->scanColumn();

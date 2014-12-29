@@ -37,7 +37,6 @@ HERE
         $nodes = $session->findNodes($path);
 
         foreach ($nodes as $node) {
-
             $lock = $lockManager->getLock($node->getPath());
             $lock->refresh();
         }

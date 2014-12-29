@@ -99,7 +99,6 @@ EOT
 
             // string pass to editor
             if ($message) {
-
                 $inStr = $editor->fromStringWithMessage($outStr, $message, '# ', 'yml');
             } else {
                 $inStr = $editor->fromString($outStr, 'yml');
@@ -107,7 +106,7 @@ EOT
 
             try {
                 $norm = $serializer->deserialize($inStr, 'PHPCR\NodeInterface', 'yaml', array(
-                    'node' => $node
+                    'node' => $node,
                 ));
                 $tryAgain = false;
             } catch (\Exception $e) {

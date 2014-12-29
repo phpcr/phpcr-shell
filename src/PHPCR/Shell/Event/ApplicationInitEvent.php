@@ -24,5 +24,4 @@ class ApplicationInitEvent extends Event
     {
         return $this->application;
     }
-
 }

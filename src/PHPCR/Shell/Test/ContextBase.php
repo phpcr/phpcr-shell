@@ -13,14 +13,8 @@ use PHPCR\PropertyType;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Context\Context;
 use PHPCR\NodeInterface;
-
-use Behat\Behat\Context\ClosuredContextInterface,
-    Behat\Behat\Context\TranslatedContextInterface,
-    Behat\Behat\Context\BehatContext,
-    Behat\Behat\Exception\PendingException,
-    Behat\Behat\Event\SuiteEvent;
-use Behat\Gherkin\Node\PyStringNode,
-    Behat\Gherkin\Node\TableNode;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 
 /**
  * Features context.
@@ -217,7 +211,6 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $session = $this->getSession(null, true);
         NodeHelper::purgeWorkspace($session);
         $session->save();
-
 
         // shouldn't have to do this, but this seems to be a bug in jackalope
         $session->refresh(false);
@@ -760,7 +753,6 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         \PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
     }
-
 
     /**
      * @Given /^the property "([^"]*)" should have type "([^"]*)" and value "([^"]*)"$/

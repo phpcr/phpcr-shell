@@ -3,7 +3,6 @@
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\RowInterface;
-use PHPCR\Shell\Query\FunctionOperand;
 
 /**
  * Processor for node updates
@@ -30,7 +29,7 @@ class UpdateProcessor
                 if ($node->isNodeType($mixinName)) {
                     $node->removeMixin($mixinName);
                 }
-            }
+            },
         );
 
         $this->functionMapSet = array(
@@ -124,7 +123,6 @@ class UpdateProcessor
 
     private function handleFunction($row, $propertyData)
     {
-
         return $value;
     }
 }

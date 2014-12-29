@@ -2,10 +2,7 @@
 
 namespace PHPCR\Shell;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Console\Application\SessionApplication;
-use PHPCR\Shell\PhpcrShell;
 use PHPCR\SessionInterface;
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\Console\Application\Shell;
@@ -27,7 +24,7 @@ class PhpcrShell
     /**
      * Create a new embedded shell
      *
-     * @param SessionInterface $session
+     * @param  SessionInterface $session
      * @return Shell
      */
     public static function createEmbeddedShell(SessionInterface $session)
@@ -43,7 +40,7 @@ class PhpcrShell
      * Create a new (non-interactive) embedded application (e.g. for running
      * single commands)
      *
-     * @param SessionInterface $session
+     * @param  SessionInterface    $session
      * @return EmbeddedApplication
      */
     public static function createEmbeddedApplication(SessionInterface $session)

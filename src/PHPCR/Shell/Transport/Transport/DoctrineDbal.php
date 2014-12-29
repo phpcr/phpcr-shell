@@ -26,7 +26,7 @@ class DoctrineDbal implements TransportInterface
 
         $factory = new RepositoryFactoryDoctrineDBAL();
         $repository = $factory->getRepository(array(
-            'jackalope.doctrine_dbal_connection' => $connection
+            'jackalope.doctrine_dbal_connection' => $connection,
         ));
 
         return $repository;

@@ -51,8 +51,8 @@ HERE
                 'strong' => array(),
             );
 
-            $references['weak'] = $node->getWeakReferences($name ? : null);
-            $references['strong'] = $node->getReferences($name ? : null);
+            $references['weak'] = $node->getWeakReferences($name ?: null);
+            $references['strong'] = $node->getReferences($name ?: null);
 
             $table = $this->get('helper.table')->create();
             $table->setHeaders(array(

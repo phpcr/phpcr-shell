@@ -35,7 +35,7 @@ EOT
         $query = $input->getArgument('query');
 
         $session = $this->get('phpcr.session');
-        $workspace = $session->getWorkspace();;
+        $workspace = $session->getWorkspace();
         $supportedQueryLanguages = $workspace->getQueryManager()->getSupportedQueryLanguages();
 
         if (!in_array($language, $supportedQueryLanguages)) {

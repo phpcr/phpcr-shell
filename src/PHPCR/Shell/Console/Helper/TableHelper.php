@@ -3,7 +3,6 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use Symfony\Component\Console\Helper\TableHelper as OriginalTableHelper;
-use Symfony\Component\Console\Helper\Helper;
 
 /**
  * Factory wrapper for Table class.
