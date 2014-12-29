@@ -140,3 +140,16 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
         And the node at "/cms/articles/article1" should have the mixin "mix:mimeType"
         Then the node at "/cms/articles/article1" should have the mixin "mix:lockable"
 
+    Scenario Outline: Execute an invalid query
+        Given I execute the "<query>" command
+        Then the command should fail
+        And I should see the following:
+        """
+        InvalidQueryException
+        """
+        Examples:
+            | query |
+            | UPDATE foo FOR fi |
+            | UPDATE [nt:unstructured] mixin_foo('bar') |
+            | UPDATE [nt:unstructured] APPLY mixin_foo('bar') |
+            | UPDATE [nt:unstructured] mixin_foo'bar') |

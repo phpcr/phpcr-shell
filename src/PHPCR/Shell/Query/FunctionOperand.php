@@ -3,6 +3,7 @@
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\RowInterface;
+use PHPCR\Query\InvalidQueryException;
 
 /**
  * Simple class to represent function operands in query
