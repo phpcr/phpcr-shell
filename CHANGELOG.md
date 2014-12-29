@@ -4,6 +4,11 @@ Changelog
 dev-master
 ----------
 
+### BC Break
+
+- [DoctrinePhpcrBundle] Shell must now be initiated in a different way in
+  embedded mode. The DoctrinePhpcrBundle will need to be updated.
+
 ### Bug fixes
 
 - [config] Do not override CLI options with profile options

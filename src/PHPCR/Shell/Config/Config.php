@@ -36,11 +36,12 @@ class Config implements \ArrayAccess, \Iterator
     {
         if (isset($this->data[$offset])) {
             $value = $this->data[$offset];
+
             if (is_array($value)) {
                 return new self($value);
-            } else {
-                return $value;
             }
+
+            return $value;
         }
     }
 

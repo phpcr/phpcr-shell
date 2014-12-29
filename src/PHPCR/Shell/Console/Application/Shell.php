@@ -18,7 +18,6 @@ class Shell
     private $output;
     private $hasReadline;
     private $prompt;
-    private $processIsolation;
 
     /**
      * Constructor.
@@ -35,7 +34,6 @@ class Shell
         $this->history = getenv('HOME').'/.history_'.$application->getName();
         $this->output = new ConsoleOutput();
         $this->prompt = $application->getName().' > ';
-        $this->processIsolation = false;
     }
 
     /**
@@ -128,15 +126,5 @@ EOF;
         }
 
         return $line;
-    }
-
-    public function getProcessIsolation()
-    {
-        return $this->processIsolation;
-    }
-
-    public function setProcessIsolation($processIsolation)
-    {
-        $this->processIsolation = (Boolean) $processIsolation;
     }
 }

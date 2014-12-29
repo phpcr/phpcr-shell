@@ -5,14 +5,16 @@ namespace spec\PHPCR\Shell\Console\Application;
 use PhpSpec\ObjectBehavior;
 use PHPCR\Shell\Console\Application\EmbeddedApplication;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use PHPCR\Shell\PhpcrShell;
+use PHPCR\Shell\DependencyInjection\Container;
 
 class EmbeddedApplicationSpec extends ObjectBehavior
 {
     public function let(
-        ContainerInterface $container
+        Container $container
     )
     {
-        $this->beConstructedWith($container, EmbeddedApplication::MODE_COMMAND);
+        $this->beConstructedWith($container);
     }
 
     public function it_is_initializable()
