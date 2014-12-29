@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Serializer;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -61,7 +70,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 
             $res[$propertyName] = array(
                 'type' => PropertyType::nameFromValue($propertyType),
-                'value' => $propertyValue
+                'value' => $propertyValue,
             );
         }
 
@@ -104,7 +113,6 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
             }
 
             try {
-
                 if (!isset($data[$property->getName()])) {
                     $property->remove();
                     continue;
@@ -114,10 +122,8 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
                 $typeValue = isset($datum['type']) ? PropertyType::valueFromName($datum['type']) : null;
 
                 if (isset($datum['value'])) {
-
                     // if the type or the value is differnet, update the property
                     if ($datum['value'] != $property->getValue() || $typeValue != $property->getType()) {
-
                         // setValue doesn't like being passed a null value as a type ...
                         if ($typeValue !== null) {
                             $property->setValue($datum['value'], $typeValue);
@@ -173,7 +179,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         if (is_scalar($value)) {
             return array(
                 'value' => $value,
-                'type' => null
+                'type' => null,
             );
         }
 

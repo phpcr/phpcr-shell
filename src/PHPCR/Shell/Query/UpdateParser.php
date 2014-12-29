@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\InvalidQueryException;
@@ -98,7 +107,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
             $property = array(
                 'selector' => null,
                 'name' => null,
-                'value' => null
+                'value' => null,
             );
 
             // parse left side
@@ -162,7 +171,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
         if ($token === 'NULL') {
             $this->scanner->fetchNextToken();
 
-            return null;
+            return;
         }
 
         $columnData = $this->scanColumn();

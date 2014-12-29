@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,7 +20,7 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            PhpcrShellEvents::PROFILE_INIT=> 'handleProfileInit',
+            PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
         );
     }
 
@@ -50,8 +59,7 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
                     case 'db-path':
                         if (!file_exists($value)) {
                             throw new \InvalidArgumentException(sprintf(
-                                'DB file "%s" does not exist.'
-                            , $value));
+                                'DB file "%s" does not exist.', $value));
                         }
 
                         $value = realpath(dirname($value)) . DIRECTORY_SEPARATOR . basename($value);

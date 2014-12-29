@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -18,7 +27,7 @@ class ProfileLoaderSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            PhpcrShellEvents::PROFILE_INIT=> 'handleProfileInit',
+            PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
         );
     }
 

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Transport\Transport;
 
 use Doctrine\DBAL\DriverManager;
@@ -26,7 +35,7 @@ class DoctrineDbal implements TransportInterface
 
         $factory = new RepositoryFactoryDoctrineDBAL();
         $repository = $factory->getRepository(array(
-            'jackalope.doctrine_dbal_connection' => $connection
+            'jackalope.doctrine_dbal_connection' => $connection,
         ));
 
         return $repository;

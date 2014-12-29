@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\RowInterface;
-use PHPCR\Shell\Query\FunctionOperand;
 
 /**
  * Processor for node updates
@@ -30,7 +38,7 @@ class UpdateProcessor
                 if ($node->isNodeType($mixinName)) {
                     $node->removeMixin($mixinName);
                 }
-            }
+            },
         );
 
         $this->functionMapSet = array(
@@ -124,7 +132,6 @@ class UpdateProcessor
 
     private function handleFunction($row, $propertyData)
     {
-
         return $value;
     }
 }

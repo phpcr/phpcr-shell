@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Console\Application;
 
 use Symfony\Component\Console\Application;
@@ -107,6 +116,7 @@ EOF;
         // $info = readline_info();
         // $text = substr($info['line_buffer'], 0, $info['end']);
         $list = $this->application->getContainer()->get('console.input.autocomplete')->autocomplete('');
+
         return $list;
     }
 

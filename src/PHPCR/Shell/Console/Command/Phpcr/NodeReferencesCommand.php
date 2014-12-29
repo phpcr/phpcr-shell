@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Command\Command;
@@ -51,8 +60,8 @@ HERE
                 'strong' => array(),
             );
 
-            $references['weak'] = $node->getWeakReferences($name ? : null);
-            $references['strong'] = $node->getReferences($name ? : null);
+            $references['weak'] = $node->getWeakReferences($name ?: null);
+            $references['strong'] = $node->getReferences($name ?: null);
 
             $table = $this->get('helper.table')->create();
             $table->setHeaders(array(
