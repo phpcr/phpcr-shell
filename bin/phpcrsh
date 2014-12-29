@@ -12,5 +12,5 @@ if (file_exists($file)) {
     exit(1);
 }
 
-$shell = new PHPCR\Shell\Console\Application\SessionApplication();
+$shell = \PHPCR\Shell\PhpcrShell::createShell();
 $shell->run();

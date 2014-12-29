@@ -4,13 +4,10 @@ namespace PHPCR\Shell\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use PHPCR\Shell\PhpcrShell;
 
 class Container extends ContainerBuilder
 {
-    const MODE_EMBEDDED_SHELL = 'shell';
-    const MODE_EMBEDDED_COMMAND = 'command';
-    const MODE_STANDALONE = 'standalon';
-
     protected $mode;
 
     /**
@@ -22,7 +19,7 @@ class Container extends ContainerBuilder
         'transport.transport.fs' => 'PHPCR\Shell\Transport\Transport\JackalopeFs',
     );
 
-    public function __construct($mode = self::MODE_STANDALONE)
+    public function __construct($mode = PhpcrShell::MODE_STANDALONE)
     {
         parent::__construct();
         $this->mode = $mode;
@@ -97,7 +94,7 @@ class Container extends ContainerBuilder
 
     public function registerEvent()
     {
-        if ($this->mode === self::MODE_STANDALONE) {
+        if ($this->mode === PhpcrShell::MODE_STANDALONE) {
             $this->register(
                 'event.subscriber.profile_loader',
                 'PHPCR\Shell\Subscriber\ProfileLoaderSubscriber'
@@ -148,10 +145,16 @@ class Container extends ContainerBuilder
 
     public function registerConsole()
     {
-        $this->register('console.application.shell', 'PHPCR\Shell\Console\Application\ShellApplication')
-            ->addArgument(new Reference('container'));
+        if ($this->mode === PhpcrShell::MODE_STANDALONE) {
+            $this->register('application', 'PHPCR\Shell\Console\Application\ShellApplication')
+                ->addArgument(new Reference('container'));
+        } else {
+            $this->register('application', 'PHPCR\Shell\Console\Application\EmbeddedApplication')
+                ->addArgument(new Reference('container'));
+        }
+
         $this->register('console.input.autocomplete', 'PHPCR\Shell\Console\Input\AutoComplete')
-            ->addArgument(new Reference('console.application.shell'))
+            ->addArgument(new Reference('application'))
             ->addArgument(new Reference('phpcr.session'));
     }
 
