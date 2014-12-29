@@ -27,6 +27,10 @@ Feature: Import an external file as to a node
         And I execute the "file:import . phpcr.png" command
         Then the command should fail
 
+    Scenario: Import non-regular file onto existing file, force not specified
+        Given I execute the "file:import foo ." command
+        Then the command should fail
+
     Scenario: Import a file onto existing file, force specified
         Given I execute the "file:import . phpcr.png" command
         And I execute the "file:import . phpcr.png --force" command

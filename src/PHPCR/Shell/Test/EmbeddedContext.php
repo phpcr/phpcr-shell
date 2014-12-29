@@ -21,7 +21,7 @@ class EmbeddedContext extends ContextBase
         $container = new Container(PhpcrShell::MODE_EMBEDDED_SHELL);
         $container->get('phpcr.session_manager')->setSession(new PhpcrSession($session));
         $application = $container->get('application');
-
+        $application->setShowUnsupported(true);
         $tester = new ApplicationTester($application);
 
         return $tester;
