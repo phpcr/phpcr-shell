@@ -15,6 +15,7 @@ use PHPCR\Shell\Console\Application\SessionApplication;
 use PHPCR\SessionInterface;
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\Console\Application\Shell;
+use PHPCR\Shell\Phpcr\PhpcrSession;
 
 /**
  * PHPCRShell entry point

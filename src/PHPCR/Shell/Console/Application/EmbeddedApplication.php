@@ -22,15 +22,8 @@ use PHPCR\Shell\PhpcrShell;
  */
 class EmbeddedApplication extends ShellApplication
 {
-    protected $mode;
-
     /**
-     * The $mode can be one of PhpcrShell::MODE_SHELL or PhpcrShell::MODE_COMMAND.
-     *
-     * - Shell mode initializes the whole environement
-     * - Command mode initailizes only enough to run commands
-     *
-     * @param string $mode
+     * @param Container $container
      */
     public function __construct(Container $container)
     {
@@ -55,6 +48,6 @@ class EmbeddedApplication extends ShellApplication
      */
     protected function getDefaultCommand()
     {
-        return $this->mode === PhpcrShell::MODE_EMBEDDED_SHELL ? 'shell:path:show' : 'list';
+        return $this->container->getMode() === PhpcrShell::MODE_EMBEDDED_SHELL ? 'shell:path:show' : 'list';
     }
 }

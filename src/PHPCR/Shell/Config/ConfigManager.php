@@ -207,20 +207,19 @@ class ConfigManager
             }
 
             if ($this->filesystem->exists($destFile)) {
-                if (null !== $this->questionHelper) {
-                    if (false === $noInteraction) {
-                        $confirmed = $this->questionHelper->askConfirmation(
-                            $output,
-                            '"' . $configFilename . '" already exists, do you want to overwrite it?'
-                        );
+                if (false === $noInteraction) {
+                    $confirmed = $this->questionHelper->askConfirmation(
+                        $output,
+                        '"' . $configFilename . '" already exists, do you want to overwrite it?'
+                    );
 
-                        if (!$confirmed) {
-                            return;
-                        }
+                    if (!$confirmed) {
+                        return;
                     }
-                } else {
-                    $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
                 }
+
+                $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
+                return;
             }
 
             $this->filesystem->copy($srcFile, $destFile);
