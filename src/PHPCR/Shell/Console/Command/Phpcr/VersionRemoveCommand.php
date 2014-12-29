@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\RepositoryInterface;
 
 class VersionRemoveCommand extends BasePhpcrCommand
 {
@@ -33,6 +34,7 @@ respect to normal repository methods, save does not even function in
 this context.
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_VERSIONING_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

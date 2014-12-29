@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\RepositoryInterface;
 
 class VersionCheckpointCommand extends BasePhpcrCommand
 {
@@ -21,6 +22,7 @@ Performs a <info>version:checkin</info> followed by a <info>version:checkout</in
 If this node is already checked-in, this method is equivalent to <info>version:checkout</info>.
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_VERSIONING_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

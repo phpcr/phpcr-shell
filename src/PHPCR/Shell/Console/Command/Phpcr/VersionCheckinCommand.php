@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\RepositoryInterface;
 
 class VersionCheckinCommand extends BasePhpcrCommand
 {
@@ -42,7 +43,9 @@ the current base version of this node.
 If checkin succeeds, the change to the <comment>jcr:isCheckedOut</comment> property is
 dispatched immediately.
 HERE
-        );
+    );
+
+        $this->requiresDescriptor(RepositoryInterface::OPTION_VERSIONING_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
