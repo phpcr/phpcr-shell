@@ -5,6 +5,8 @@ namespace PHPCR\Shell\Console\Application;
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\Console\Helper\PhpcrHelper;
 use PHPCR\Shell\PhpcrShell;
+use PHPCR\SessionInterface;
+use PHPCR\Shell\Phpcr\PhpcrSession;
 
 /**
  * Subclass of the full ShellApplication for running as an EmbeddedApplication

@@ -21,6 +21,7 @@ use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\PhpcrShell;
+use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
 
 /**
  * Main application for PHPCRSH
@@ -45,6 +46,11 @@ class ShellApplication extends Application
     protected $debug = false;
 
     /**
+     * @var boolean
+     */
+    protected $initialized = false;
+
+    /**
      * Constructor - name and version inherited from SessionApplication
      *
      * {@inheritDoc}
@@ -55,7 +61,6 @@ class ShellApplication extends Application
         $this->dispatcher = $container->get('event.dispatcher') ? : new EventDispatcher();
         $this->setDispatcher($this->dispatcher);
         $this->container = $container;
-        $this->init();
     }
 
     /**
@@ -74,12 +79,17 @@ class ShellApplication extends Application
      */
     public function init()
     {
+        if (true === $this->initialized) {
+            return;
+        }
+
         $this->registerPhpcrCommands();
         $this->registerPhpcrStandaloneCommands();
         $this->registerShellCommands();
 
         $event = new ApplicationInitEvent($this);
         $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
+        $this->initialized = true;
     }
 
     /**
@@ -218,6 +228,8 @@ class ShellApplication extends Application
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
+        $this->init();
+
         // configure the formatter for the output
         $this->configureFormatter($output->getFormatter());
 
@@ -272,7 +284,7 @@ class ShellApplication extends Application
             $command->setContainer($this->container);
         }
 
-        if ($command instanceof PhpcrShellCommand) {
+        if ($command instanceof BasePhpcrCommand) {
             if ($this->showUnsupported || $command->isSupported()) {
                 parent::add($command);
             }

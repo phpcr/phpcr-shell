@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
+use PHPCR\RepositoryInterface;
 
 class VersionRestoreCommand extends BasePhpcrCommand
 {
@@ -89,6 +90,7 @@ OnParentVersion settings of COPY or VERSION are also governed by the
 signatures, you need to act accordingly in your implementation.
 HERE
         );
+        $this->requiresDescriptor(RepositoryInterface::OPTION_VERSIONING_SUPPORTED, true);
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

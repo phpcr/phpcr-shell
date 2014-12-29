@@ -70,6 +70,13 @@ HERE
             ));
         }
 
+        if (!is_file($filePath)) {
+            throw new \InvalidArgumentException(sprintf(
+                'File "%s" is not a regular file.',
+                $filePath
+            ));
+        }
+
         try {
             // first assume the user specified the path to the parent node
             $parentNode = $this->session->getNode($path);
