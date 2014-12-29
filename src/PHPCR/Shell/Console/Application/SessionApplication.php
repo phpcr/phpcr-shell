@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
 use PHPCR\Shell\Console\Command\ShellCommand;
 use PHPCR\Shell\DependencyInjection\Container;
+use PHPCR\Shell\PhpcrShell;
 
 /**
  * This application wraps a single command which accepts
@@ -16,9 +17,6 @@ use PHPCR\Shell\DependencyInjection\Container;
  */
 class SessionApplication extends BaseApplication
 {
-    const APP_NAME = 'PHPCRSH';
-    const APP_VERSION = '1.0.0-alpha6';
-
     protected $shellApplication;
 
     /**
@@ -27,10 +25,10 @@ class SessionApplication extends BaseApplication
      */
     public function __construct()
     {
-        parent::__construct(self::APP_NAME, self::APP_VERSION);
+        parent::__construct(PhpcrShell::APP_NAME, PhpcrShell::APP_VERSION);
 
         $container = new Container();
-        $this->shellApplication = $container->get('console.application.shell');
+        $this->shellApplication = $container->get('application');
 
         $command = new ShellCommand($this->shellApplication);
         $command->setApplication($this);

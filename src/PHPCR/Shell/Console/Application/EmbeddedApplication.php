@@ -4,6 +4,7 @@ namespace PHPCR\Shell\Console\Application;
 
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\Console\Helper\PhpcrHelper;
+use PHPCR\Shell\PhpcrShell;
 
 /**
  * Subclass of the full ShellApplication for running as an EmbeddedApplication
@@ -13,35 +14,20 @@ use PHPCR\Shell\Console\Helper\PhpcrHelper;
  */
 class EmbeddedApplication extends ShellApplication
 {
-    /**
-     * @deprecated remove after DoctrinePhpcrBundle is upgraded
-     */
-    const MODE_COMMAND = Container::MODE_EMBEDDED_COMMAND;
-
-    /**
-     * @deprecated remove after DoctrinePhpcrBundle is upgraded
-     */
-    const MODE_SHELL = Container::MODE_EMBEDDED_SHELL;
-
     protected $mode;
 
     /**
-     * The $mode can be one of EmbeddedApplication::MODE_SHELL or EmbeddedApplication::MODE_COMMAND.
+     * The $mode can be one of PhpcrShell::MODE_SHELL or PhpcrShell::MODE_COMMAND.
      *
      * - Shell mode initializes the whole environement
      * - Command mode initailizes only enough to run commands
      *
      * @param string $mode
      */
-    public function __construct($mode)
+    public function __construct(Container $container)
     {
-        $this->mode = $mode;
-        $container = new Container($this->mode);
-        parent::__construct($container, SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
+        parent::__construct($container);
         $this->setAutoExit(false);
-
-        // @deprecated This will be removed in 1.0
-        $this->getHelperSet()->set(new PhpcrHelper($container->get('phpcr.session_manager')));
     }
 
     /**
@@ -51,7 +37,7 @@ class EmbeddedApplication extends ShellApplication
     {
         $this->registerPhpcrCommands();
 
-        if ($this->container->getMode() === self::MODE_SHELL) {
+        if ($this->container->getMode() === PhpcrShell::MODE_EMBEDDED_SHELL) {
             $this->registerShellCommands();
         }
     }
@@ -61,6 +47,6 @@ class EmbeddedApplication extends ShellApplication
      */
     protected function getDefaultCommand()
     {
-        return $this->mode === self::MODE_SHELL ? 'shell:path:show' : 'list';
+        return $this->mode === PhpcrShell::MODE_EMBEDDED_SHELL ? 'shell:path:show' : 'list';
     }
 }

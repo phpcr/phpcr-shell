@@ -20,6 +20,7 @@ use PHPCR\Shell\Event\ApplicationInitEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\PhpcrShell;
 
 /**
  * Main application for PHPCRSH
@@ -50,7 +51,7 @@ class ShellApplication extends Application
      */
     public function __construct($container)
     {
-        parent::__construct(SessionApplication::APP_NAME, SessionApplication::APP_VERSION);
+        parent::__construct(PhpcrShell::APP_NAME, PhpcrShell::APP_VERSION);
         $this->dispatcher = $container->get('event.dispatcher') ? : new EventDispatcher();
         $this->setDispatcher($this->dispatcher);
         $this->container = $container;
