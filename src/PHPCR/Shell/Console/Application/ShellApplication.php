@@ -21,6 +21,7 @@ use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Console\Command\Phpcr\PhpcrShellCommand;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\PhpcrShell;
+use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
 
 /**
  * Main application for PHPCRSH
@@ -272,7 +273,7 @@ class ShellApplication extends Application
             $command->setContainer($this->container);
         }
 
-        if ($command instanceof PhpcrShellCommand) {
+        if ($command instanceof BasePhpcrCommand) {
             if ($this->showUnsupported || $command->isSupported()) {
                 parent::add($command);
             }

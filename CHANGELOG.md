@@ -11,6 +11,7 @@ dev-master
 
 ### Bug fixes
 
+- [capability] Commands not being disabled based on capability
 - [config] Do not override CLI options with profile options
 - [node:remove] Cannot `node:remove` by UUID
 - [node:edit] Serialization of single value references doesn't work
