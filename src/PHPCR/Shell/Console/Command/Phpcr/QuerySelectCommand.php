@@ -20,7 +20,7 @@ class QuerySelectCommand extends BasePhpcrCommand
     protected function configure()
     {
         $this->setName('select');
-        $this->setDescription('Execute a literal JCR-SQL2 query');
+        $this->setDescription('Execute a SELECT query (JCR-SQL2)');
         $this->addArgument('query');
         $this->setHelp(<<<EOT
 Execute a JCR-SQL2 query. Unlike other commands you can enter a query literally:

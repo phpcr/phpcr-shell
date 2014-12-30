@@ -45,7 +45,7 @@ If the <info>--remove-existing</info> option is set and an existing node in
 this workspace (the destination workspace) has the same identifier as a node
 being cloned from srcWorkspace, then the incoming node takes precedence, and
 the existing node (and its subgraph) is removed. If
-<info>--remove-existing<info> option is not set then an identifier collision
+<info>--remove-existing</info> option is not set then an identifier collision
 causes this method to throw an ItemExistsException and no changes are made.
 
 If successful, the change is persisted immediately, there is no need to call

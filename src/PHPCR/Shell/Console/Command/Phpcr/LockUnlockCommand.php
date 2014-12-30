@@ -44,6 +44,7 @@ lock-related properties will be changed despite the checked-in status).
 HERE
         );
         $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
+        $this->dequiresDescriptor('jackalope.not_implemented.get_lock');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

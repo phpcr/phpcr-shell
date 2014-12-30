@@ -33,7 +33,7 @@ HERE
         );
 
         $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
-        $this->dequiresDescriptor('jackalope.not_implemented.lock.get');
+        $this->dequiresDescriptor('jackalope.not_implemented.get_lock');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

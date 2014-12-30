@@ -31,7 +31,7 @@ specified by that particular lock token.
 HERE
         );
         $this->requiresDescriptor(RepositoryInterface::OPTION_LOCKING_SUPPORTED, true);
-        $this->dequiresDescriptor('jackalope.not_implemented.lock.token');
+        $this->dequiresDescriptor('jackalope.not_implemented.lock_token');
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

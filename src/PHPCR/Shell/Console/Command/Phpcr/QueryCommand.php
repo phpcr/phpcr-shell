@@ -21,7 +21,7 @@ class QueryCommand extends BasePhpcrCommand
     protected function configure()
     {
         $this->setName('query');
-        $this->setDescription('Execute a query ');
+        $this->setDescription('Execute a SELECT query (advanced)');
         $this->addArgument('query');
         $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'JCR-SQL2');
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The query limit', 0);

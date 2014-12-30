@@ -21,10 +21,10 @@ class QueryDeleteCommand extends BasePhpcrCommand
     protected function configure()
     {
         $this->setName('delete');
-        $this->setDescription('Execute a literal JCR-SQL2 query');
+        $this->setDescription('Execute a DELETE query (non standard)');
         $this->addArgument('query');
         $this->setHelp(<<<EOT
-Execute a JCR-SQL2 query. Unlike other commands you can enter a query literally:
+Execute a DELETE query. Unlike other commands you can enter a query literally:
 
      DELETE FROM [nt:unstructured] WHERE title = 'foo';
 
