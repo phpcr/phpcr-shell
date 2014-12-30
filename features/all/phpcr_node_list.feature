@@ -92,23 +92,23 @@ Feature: List properites and chidren of current nodeA
         Then the command should not fail
         And I should see the following:
         """
-/tests_general_base/index.txt
+/tests_general_base/index.txt [nt:file] > nt:hierarchyNode
 +-------------+-----------------+--+
 | jcr:content | nt:unstructured |  |
 +-------------+-----------------+--+
-/tests_general_base/idExample
+/tests_general_base/idExample [nt:file] > nt:hierarchyNode
 +--------------+-----------------+--+
 | jcr:content/ | nt:unstructured |  |
 +--------------+-----------------+--+
-/tests_general_base/numberPropertyNode
+/tests_general_base/numberPropertyNode [nt:file] > nt:hierarchyNode
 +-------------+-----------------+--+
 | jcr:content | nt:unstructured |  |
 +-------------+-----------------+--+
-/tests_general_base/NumberPropertyNodeToCompare1
+/tests_general_base/NumberPropertyNodeToCompare1 [nt:file] > nt:hierarchyNode
 +-------------+-----------------+--+
 | jcr:content | nt:unstructured |  |
 +-------------+-----------------+--+
-/tests_general_base/NumberPropertyNodeToCompare2
+/tests_general_base/NumberPropertyNodeToCompare2 [nt:file] > nt:hierarchyNode
 +-------------+-----------------+--+
 | jcr:content | nt:unstructured |  |
 +-------------+-----------------+--+

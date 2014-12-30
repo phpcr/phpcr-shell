@@ -100,7 +100,11 @@ HERE
             $this->renderNode($node, $table, array(), $filter);
 
             if ($table->getNumberOfRows() > 0) {
-                $output->writeln('<path>' . $node->getPath() . '</path>');
+                $output->writeln(sprintf('<path>%s</path> [%s] > %s',
+                    $node->getPath(),
+                    $node->getPrimaryNodeType()->getName(),
+                    implode(', ', $node->getPrimaryNodeType()->getDeclaredSupertypeNames())
+                ));
                 $table->render($output);
             }
         }
