@@ -21,5 +21,5 @@ Feature: Restore a version
         And I execute the "ls" command
         Then I should see the following:
         """
-        | foo                | STRING    | inital
+        | foo                | STRING (9)     | initalbar
         """
