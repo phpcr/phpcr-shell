@@ -224,7 +224,11 @@ HERE
 
             $table->addRow(array(
                 '<property>' . implode('', $spacers). $name . '</property>',
-                '<property-type>' . $this->formatter->getPropertyTypeName($property->getType()) . '</property-type>',
+                sprintf(
+                    '<property-type>%s (%s)</property-type>',
+                    $this->formatter->getPropertyTypeName($property->getType()),
+                    implode(',', (array) $property->getLength())
+                ),
                 $valueCell,
             ));
         }

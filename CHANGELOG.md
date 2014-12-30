@@ -19,6 +19,7 @@ dev-master
 
 ### Enhancements
 
+- [node:list] Show property length
 - [autocomplete] Autocomplete now includes command names
 - [references] Show UUIDs when listing reference properties
 - [import/export] Renamed session import and export to `session:import` &
