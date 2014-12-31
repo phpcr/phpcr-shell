@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 class NodeRemoveCommand extends BasePhpcrCommand
 {
@@ -22,6 +23,7 @@ class NodeRemoveCommand extends BasePhpcrCommand
         $this->setName('node:remove');
         $this->setDescription('Remove the node at path (can include wildcards)');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
+        $this->addOption('shared', null, InputOption::VALUE_NONE, 'Remove nodes in shared set');
         $this->setHelp(<<<HERE
 Remove the node at the given path.
 HERE
@@ -61,7 +63,12 @@ HERE
             }
 
             $nodePaths[] = $node->getPath();
-            $node->remove();
+
+            if ($input->getOption('shared')) {
+                $node->removeSharedSet();
+            } else {
+                $node->remove();
+            }
         }
 
         // if we deleted the current path, switch back to the parent node

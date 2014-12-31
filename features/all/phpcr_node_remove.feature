@@ -54,3 +54,12 @@ Feature: Remove a node
     Scenario: Delete weak referenced node
         Given I execute the "node:remove /cms/articles/article3" command
         Then the command should not fail
+
+    Scenario: Remove the current node and all of its shared paths
+        Given the current node is "/cms/articles"
+        And I execute the "node:remove . --shared" command
+        Then the command should fail
+        And I should see the following:
+        """
+        Not implemented
+        """

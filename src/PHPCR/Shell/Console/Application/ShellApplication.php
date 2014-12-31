@@ -160,7 +160,6 @@ class ShellApplication extends Application
         $this->add(new CommandPhpcr\NodeUpdateCommand());
         $this->add(new CommandPhpcr\NodeReferencesCommand());
         $this->add(new CommandPhpcr\NodeSharedShowCommand());
-        $this->add(new CommandPhpcr\NodeSharedRemoveCommand());
         $this->add(new CommandPhpcr\NodeRemoveCommand());
         $this->add(new CommandPhpcr\LockLockCommand());
         $this->add(new CommandPhpcr\LockInfoCommand());
