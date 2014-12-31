@@ -231,7 +231,7 @@ HERE
                 sprintf(
                     '<property-type>%s (%s)</property-type>',
                     $this->formatter->getPropertyTypeName($property->getType()),
-                    implode(',', (array) $property->getLength())
+                    implode(',', (array) $property->getLength()) ? : '0'
                 ),
                 $valueCell,
             ));
