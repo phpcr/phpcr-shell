@@ -25,12 +25,9 @@ class SessionRefreshCommand extends BasePhpcrCommand
         $this->setHelp(<<<HERE
 Reloads the current session.
 
-If the <info>keep-changes</info> option is not given then this method discards
+If the <info>--keep-changes</info> option is not given then this command discards
 all pending changes currently recorded in this Session and returns all items to
-reflect the current saved state. Outside a transaction this state is simply the
-current state of persistent storage. Within a transaction, this state will
-reflect persistent storage as modified by changes that have been saved but not
-yet committed.
+reflect the current saved state.
 
 If <info>keep-changes</info> is true then pending change are not discarded but
 items that do not have changes pending have their state refreshed to reflect

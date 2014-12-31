@@ -24,7 +24,7 @@ class NodePropertyRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove the property at the given absolute path');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to property');
         $this->setHelp(<<<HERE
-Remove the property from the current session at the given absolute path
+Remove the property from the current session at the given path
 HERE
         );
     }

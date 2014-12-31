@@ -27,11 +27,7 @@ class NodeSetPrimaryTypeCommand extends BasePhpcrCommand
 Changes the primary node type of this node to nodeTypeName.
 
 Also immediately changes this node's jcr:primaryType property
-appropriately. Semantically, the new node type may take effect
-immediately or on dispatch but must take effect on persist. Whichever
-behavior is adopted it must be the same as the behavior adopted for
-addMixin() (see below) and the behavior that occurs when a node is first
-created.
+appropriately.
 HERE
         );
     }

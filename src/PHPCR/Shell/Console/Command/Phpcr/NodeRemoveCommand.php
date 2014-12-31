@@ -26,6 +26,10 @@ class NodeRemoveCommand extends BasePhpcrCommand
         $this->addOption('shared', null, InputOption::VALUE_NONE, 'Remove nodes in shared set');
         $this->setHelp(<<<HERE
 Remove the node at the given path.
+
+If the `--shared` option is specified then any nodes within this nodes
+shared-set (i.e. nodes which reference this node from other workspaces) will
+also be removed (if the repository supports shared sets).
 HERE
         );
     }

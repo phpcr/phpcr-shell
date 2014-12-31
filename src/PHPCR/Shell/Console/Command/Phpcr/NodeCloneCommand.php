@@ -21,7 +21,7 @@ class NodeCloneCommand extends BasePhpcrCommand
     protected function configure()
     {
         $this->setName('node:clone');
-        $this->setDescription('Clone a node');
+        $this->setDescription('Clone a node (immediate)');
         $this->addArgument('srcPath', InputArgument::REQUIRED, 'Path to source node');
         $this->addArgument('destPath', InputArgument::REQUIRED, 'Path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');
@@ -31,15 +31,9 @@ Clones the subgraph at the node <info>srcAbsPath</info> in
 <info>srcWorkspace</info> to the new location at <info>destAbsPath</info> in
 the current workspace.
 
-Unlike the signature of copy that copies between workspaces, this method does
-not assign new identifiers to the newly cloned nodes but preserves the
-identifiers of their respective source nodes. This applies to both
-referenceable and non-referenceable nodes.
-
-In some implementations there may be cases where preservation of a
-non-referenceable identifier is not possible, due to how non-referenceable
-identifiers are constructed in that implementation. In such a case this method
-will throw a RepositoryException.
+This method does not assign new identifiers to the newly cloned nodes but
+preserves the identifiers of their respective source nodes. This applies to
+both referenceable and non-referenceable nodes.
 
 If the <info>--remove-existing</info> option is set and an existing node in
 this workspace (the destination workspace) has the same identifier as a node

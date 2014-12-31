@@ -25,22 +25,15 @@ class NodeOrderBeforeCommand extends BasePhpcrCommand
         $this->addArgument('srcChildRelPath', InputArgument::REQUIRED, 'The relative path to the child node to be moved in the ordering');
         $this->addArgument('destChildRelPath', InputArgument::REQUIRED, 'The relative path to the child before which the node srcChildRelPath will be placed');
         $this->setHelp(<<<HERE
-If this node supports child node ordering, this method inserts the child
-node at <info>srcChildRelPath</info> into the child node list at the position
-immediately before <info>destChildRelPath</info>
+This command is used to change the order of a child node relative to the current node.
 
-To place the node <info>srcChildRelPath</info> at the end of the list, a
-destChildRelPath of null is used.
+For example, given that the node <path>/foobar</path> has the children <node>child2</node> and
+<node>child4</node> then:
 
-Note that (apart from the case where <info>destChildRelPath</info> is null) both of
-these arguments must be relative paths of depth one, in other words they
-are the names of the child nodes, possibly suffixed with an index.
+    PHPCRSH> cd foobar
+    PHPCRSH> node-order . child4 child2
 
-If <info>srcChildRelPath</info> and <info>destChildRelPath</info> are the same, then no change is
-made.
-
-This is session-write method, meaning that a change made by this method
-is dispatched on save.
+Will reorder "child4" before "child2".
 HERE
         );
     }

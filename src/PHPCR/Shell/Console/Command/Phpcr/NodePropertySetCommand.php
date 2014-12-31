@@ -29,41 +29,18 @@ class NodePropertySetCommand extends BasePhpcrCommand
         $this->addArgument('value', InputArgument::OPTIONAL, 'Value for named property');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of named property');
         $this->setHelp(<<<HERE
-Defines a value for a property identified by its name.
+Defines or set a value for a property identified by its name.
 
-Sets the property of this node called <info>name</info> to the specified value.
-This method works as factory method to create new properties and as a
-shortcut for PropertyInterface::setValue()
+    PHPCRSH> node:property:set . propname "some value" --type="String"
 
-If the property does not yet exist, it is created and its property type
-determined by the node type of this node. If, based on the name and
-value passed, there is more than one property definition that applies,
-the repository chooses one definition according to some implementation-
-specific criteria.
+You can also use wildcards:
 
-Once property with name P has been created, the behavior of a subsequent
-<info>node:set</info> may differ across implementations. Some repositories
-may allow P to be dynamically re-bound to a different property
-definition (based for example, on the new value being of a different
-type than the original value) while other repositories may not allow
-such dynamic re-binding.
-
-Passing a null as the second parameter removes the property. It is
-equivalent to calling remove on the Property object itself. For example,
-<info>node:set P</info>  would remove property called "P" of the
-current node.
+    PHPCRSH> node:property:set * propname "some value"
 
 This is a session-write method, meaning that changes made through this
-method are dispatched on SessionInterface::save().
+method are dispatched on <info>session:save</info>.
 
-If <info>type</info> is given:
-The behavior of this method is identical to that of <info>node:set prop
-value</info> except that the intended property type is explicitly specified.
-
-<b>Note:</b>
-Have a look at the JSR-283 spec and/or API documentation for more details
-on what is supposed to happen for different types of values being passed
-to this method.
+Note that this command does NOT support multivalue, use <info>node:edit</info> instead.
 HERE
         );
     }

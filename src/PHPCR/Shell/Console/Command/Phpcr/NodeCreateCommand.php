@@ -35,13 +35,10 @@ otherwise a RepositoryException is thrown.
 If ordering is supported by the node type of the parent node of the new
 node then the new node is appended to the end of the child node list.
 
-If <info>primaryNodeTypeName</info> is specified, this type will be used (or a
-ConstraintViolationException thrown if this child type is not allowed).
+If <info>primaryNodeTypeName</info> is specified, this type will be used.
+
 Otherwise the new node's primary node type will be determined by the
-child node definitions in the node types of its parent. This may occur
-either immediately, on dispatch (save, whether within or without
-transactions) or on persist (save without transactions, commit within
-a transaction), depending on the implementation.
+child node definitions in the node types of its parent.
 HERE
         );
     }

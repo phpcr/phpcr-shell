@@ -31,12 +31,7 @@ NOTE: This command is not supported by Jackrabbit.
 List the privileges of the current session or the node at the given path.
 
 List the privileges for the object specified by <info>abs-path</info>
-argument. If <info>abs-path</info>
-is the absolute path of an accessible node then the specified object is
-that node. If <info>abs-path</info> is null then the specified object is the
-repository as a whole and the privileges in question are those that are
-not associated with any particular node. This includes such privileges
-as being able administer the node type registry, for example.
+argument.
 
 By default the returned privileges are those for which
 AccessControlManagerInterface::hasPrivileges() would return true.

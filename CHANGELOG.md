@@ -8,6 +8,8 @@ dev-master
 
 - [DoctrinePhpcrBundle] Shell must now be initiated in a different way in
   embedded mode. The DoctrinePhpcrBundle will need to be updated.
+- [node:shared:remove] Removed this command and integrated it into
+  `node:remove` instead (`node:remove . --shared`)
 
 ### Bug fixes
 

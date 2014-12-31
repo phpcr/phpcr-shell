@@ -31,17 +31,6 @@ Session.
 
 If the <info>name</info> parameter is null then all referring REFERENCES are returned
 regardless of name.
-
-Some implementations may only return properties that have been
-persisted. Some may return both properties that have been persisted and
-those that have been dispatched but not persisted (for example, those
-saved within a transaction but not yet committed) while others
-implementations may return these two categories of property as well as
-properties that are still pending and not yet dispatched.
-
-In implementations that support versioning, this method does not return
-properties that are part of the frozen state of a version in version
-storage.
 HERE
         );
     }

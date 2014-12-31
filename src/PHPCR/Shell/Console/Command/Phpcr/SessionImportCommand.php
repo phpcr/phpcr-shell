@@ -35,20 +35,11 @@ class SessionImportCommand extends BasePhpcrCommand
         $this->addArgument('file', InputArgument::REQUIRED, 'File to import from');
         $this->addOption('uuid-behavior', null, InputOption::VALUE_REQUIRED, 'UUID behavior', 'create-new');
         $this->setHelp(<<<HERE
-Deserializes an XML document and adds the resulting item subgraph as a
-child of the node at <info>parentAbsPath</info>.
+Import the specified XML document into the current session as a child of the node specified
+by the <info>parentAbsPath</info> argument.
 
 If the incoming XML does not appear to be a JCR system view XML document
 then it is interpreted as a document view XML document.
-
-The tree of new items is built in the transient storage of the Session.
-In order to persist the new content, save must be called. The advantage
-of this through-the-session method is that (depending on what constraint
-checks the implementation leaves until save) structures that violate
-node type constraints can be imported, fixed and then saved. The
-disadvantage is that a large import will result in a large cache of
-pending nodes in the session. See WorkspaceInterface::importXML() for a
-version of this method that does not go through the Session.
 
 The option <info>uuid-behavior</info> governs how the identifiers of incoming nodes are
 handled. There are four options:
@@ -83,16 +74,6 @@ handled. There are four options:
 - <info>import-uuid-collision-throw</info>: If an incoming node
      has the same identifier as a node already existing in the workspace
      then an ItemExistsException is thrown.
-
-Unlike <info>workspace:import</info>), this command does not
-necessarily enforce all node type constraints during deserialization.
-Those that would be immediately enforced in a normal write method
-(NodeInterface::addNode(), NodeInterface::setProperty() etc.) of this
-implementation cause an immediate ConstraintViolationException during
-deserialization. All other constraints are checked on save, just as they
-are in normal write operations. However, which node type constraints are
-enforced depends upon whether node type information in the imported data
-is respected, and this is an implementation-specific issue.
 HERE
         );
     }

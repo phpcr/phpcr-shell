@@ -26,7 +26,7 @@ class VersionCheckinCommand extends BasePhpcrCommand
         $this->setHelp(<<<HERE
 Creates for the versionable node at <info>path</info> a new version with a system
 generated version name and returns that version (which will be the new
-base version of this node). Sets the <comment>jcr:checkedOut</comment> property to false
+base version of this node). Sets the <property>jcr:checkedOut</property> property to false
 thus putting the node into the checked-in state. This means that the node
 and its connected non-versionable subgraph become read-only. A node's
 connected non-versionable subgraph is the set of non-versionable descendant
@@ -48,7 +48,7 @@ read-only (since removal is an alteration of the parent node).
 If this node is already checked-in, this method has no effect but returns
 the current base version of this node.
 
-If checkin succeeds, the change to the <comment>jcr:isCheckedOut</comment> property is
+If checkin succeeds, the change to the <property>jcr:isCheckedOut</property> property is
 dispatched immediately.
 HERE
     );

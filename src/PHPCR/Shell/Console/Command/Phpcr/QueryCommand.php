@@ -31,7 +31,7 @@ Execute an SQL query. This command differs from <info>select</info> in that it
 is executed conventionally and not literally. The advantage is that you can
 specify a specific query language and additional options:
 
-    <info>query "SELECT * FROM [nt:unstructured]" --language=JCR_SQL2 --limit=5 --offset=4</info>
+    query "SELECT * FROM [nt:unstructured]" --language=JCR_SQL2 --limit=5 --offset=4
 EOT
         );
     }

@@ -32,7 +32,7 @@ Edit the given node type name with the editor defined in the EDITOR environment 
 If the node type does not exist, it will be created. All node types must be prefixed with
 a namespace prefix as shown in the <info>session:namespace:list</info> command
 
-    $ node-type:edit nt:examplenode
+    PHPCRSH> node-type:edit nt:examplenode
 
 Will open an editor with a new node type.
 HERE

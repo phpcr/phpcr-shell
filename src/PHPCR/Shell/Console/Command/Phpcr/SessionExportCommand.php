@@ -30,27 +30,15 @@ class SessionExportCommand extends BasePhpcrCommand
         $this->addOption('document', null, InputOption::VALUE_NONE, 'Export the document view');
         $this->addOption('pretty', null, InputOption::VALUE_NONE, 'Export in human readable format');
         $this->setHelp(<<<HERE
-Serializes the node (and if <info>--no-recurse</info> is false, the whole subgraph) at
-<info>absPath</info> as an XML stream and outputs it to the supplied URI. The
-resulting XML is in the system view form. Note that <info>absPath</info> must be
-the path of a node, not a property.
+Export the node at the given path to the named XML file.
 
-If <info>--skip-binary</info> is true then any properties of PropertyType::BINARY will
-be serialized as if they are empty. That is, the existence of the
-property will be serialized, but its content will not appear in the
-serialized output (the <sv:value> element will have no content). Note
-that in the case of multi-value BINARY properties, the number of values
-in the property will be reflected in the serialized output, though they
-will all be empty. If <info>--skip-binary</info> is false then the actual value(s) of
-each BINARY property is recorded using Base64 encoding.
+By default the entire subgraph of the node will be exported unless the <info>--no-recurse</info> option
+is given.
 
-If <info>no-recurse</info> is true then only the node at <info>abs-path</info> and its properties,
-but not its child nodes, are serialized. If <info>no-recurse</info> is false then the
-entire subgraph rooted at <info>absPath</info> is serialized.
-
-If the user lacks read access to some subsection of the specified tree,
-that section simply does not get serialized, since, from the user's
-point of view, it is not there.
+If <info>--skip-binary</info> is true then any properties of
+PropertyType::BINARY will be serialized as if they are empty. If
+<info>--skip-binary</info> is false then the actual value(s) of each BINARY
+property is recorded using Base64 encoding.
 
 The serialized output will reflect the state of the current workspace as
 modified by the state of this Session. This means that pending changes
