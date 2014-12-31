@@ -13,6 +13,8 @@ namespace PHPCR\Shell\Console\Application;
 
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\PhpcrShell;
+use PHPCR\Shell\Console\Input\StringInput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Subclass of the full ShellApplication for running as an EmbeddedApplication
@@ -49,5 +51,11 @@ class EmbeddedApplication extends ShellApplication
     protected function getDefaultCommand()
     {
         return $this->container->getMode() === PhpcrShell::MODE_EMBEDDED_SHELL ? 'shell:path:show' : 'list';
+    }
+
+    public function runWithStringInput($stringInput, OutputInterface $output)
+    {
+        $input = new StringInput($stringInput);
+        $this->run($input, $output);
     }
 }
