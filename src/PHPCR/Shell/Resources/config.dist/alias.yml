@@ -56,4 +56,6 @@ versions: version:history {arg1}
 
 # Session commands
 save: session:save
+s: session:save
 refresh: session:refresh
+r: session:refresh

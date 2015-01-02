@@ -22,7 +22,7 @@ class SessionExportCommand extends BasePhpcrCommand
     protected function configure()
     {
         $this->setName('session:export');
-        $this->setDescription('Export the to XML');
+        $this->setDescription('Export the session to XML');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Path of node to export');
         $this->addArgument('file', InputArgument::REQUIRED, 'File to export to');
         $this->addOption('no-recurse', null, InputOption::VALUE_NONE, 'Do not recurse');

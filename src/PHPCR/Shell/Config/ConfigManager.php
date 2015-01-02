@@ -214,12 +214,11 @@ class ConfigManager
                     );
 
                     if (!$confirmed) {
-                        return;
+                        continue;
                     }
+                } else {
+                    $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
                 }
-
-                $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
-                return;
             }
 
             $this->filesystem->copy($srcFile, $destFile);

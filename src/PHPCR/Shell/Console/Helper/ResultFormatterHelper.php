@@ -87,7 +87,7 @@ class ResultFormatterHelper extends Helper
 
         $table->render($output);
 
-        if (true === $this->config['execution_time']['query']) {
+        if (true === $this->config['show_execution_time_query']) {
             $output->writeln(sprintf(
                 '%s rows in set (%s sec)',
                 count($result->getRows()),
