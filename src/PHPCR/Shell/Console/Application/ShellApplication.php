@@ -304,6 +304,19 @@ class ShellApplication extends Application
         $this->dispatcher->dispatch(PhpcrShellEvents::PROFILE_INIT, $event);
     }
 
+    /**
+     * Autocomplete invokes this method to get the command name completiongs.
+     * If autocomplete is invoked before a command has been run, then
+     * we need to initialize the application (and register the commands).
+     *
+     * {@inheritDoc}
+     */
+    public function all($namespace = null)
+    {
+        $this->init();
+        return parent::all($namespace);
+    }
+
     public function getContainer()
     {
         return $this->container;
