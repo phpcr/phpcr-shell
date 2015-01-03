@@ -18,6 +18,7 @@ dev-master
 - [node:remove] Cannot `node:remove` by UUID
 - [node:edit] Serialization of single value references doesn't work
 - [file:import] Irregular files are accepted
+- [query] Possible to try and execute query without a query
 
 ### Enhancements
 

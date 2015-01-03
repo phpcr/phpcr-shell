@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 
 class QueryCommand extends BasePhpcrCommand
 {
@@ -22,7 +23,7 @@ class QueryCommand extends BasePhpcrCommand
     {
         $this->setName('query');
         $this->setDescription('Execute a SELECT query (advanced)');
-        $this->addArgument('query');
+        $this->addArgument('query', InputArgument::REQUIRED, 'Query to execute');
         $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'JCR-SQL2');
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The query limit', 0);
         $this->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'The query offset', 0);

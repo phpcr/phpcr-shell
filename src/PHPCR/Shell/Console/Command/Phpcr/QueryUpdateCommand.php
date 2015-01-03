@@ -85,6 +85,7 @@ EOT
         $updates = $res->offsetGet(1);
         $applies = $res->offsetGet(3);
 
+
         $start = microtime(true);
         $result = $query->execute();
         $rows = 0;

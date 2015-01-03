@@ -36,6 +36,9 @@
             "email": "daniel@dantleech.com"
         }
     ],
+    "conflict": {
+        "doctrine/phpcr-bundle": "<=1.2.1"
+    },
     "autoload": {
         "psr-0": {"": "src"}
     },

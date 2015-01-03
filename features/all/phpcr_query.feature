@@ -29,3 +29,7 @@ Feature: Execute a query
     Scenario: Execute query with language
         Given I execute the "query '/jcr:root/nodes' --language=xpath" command
         Then the command should not fail
+
+    Scenario: Execute query with no query
+        Given I execute the "query --language=xpath" command
+        Then the command should fail
