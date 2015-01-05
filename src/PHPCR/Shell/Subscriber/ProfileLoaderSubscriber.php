@@ -1,20 +1,11 @@
 <?php
 
-/*
- * This file is part of the PHPCR Shell package
- *
- * (c) Daniel Leech <daniel@dantleech.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace PHPCR\Shell\Subscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
-use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Helper\DialogHelper;
 use PHPCR\Shell\Config\ProfileLoader;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Config\Profile;
@@ -22,7 +13,7 @@ use PHPCR\Shell\Config\Profile;
 class ProfileLoaderSubscriber implements EventSubscriberInterface
 {
     protected $profileLoader;
-    protected $questionHelper;
+    protected $dialogHelper;
 
     public static function getSubscribedEvents()
     {
@@ -31,10 +22,10 @@ class ProfileLoaderSubscriber implements EventSubscriberInterface
         );
     }
 
-    public function __construct(ProfileLoader $profileLoader, $questionHelper)
+    public function __construct(ProfileLoader $profileLoader, $dialogHelper)
     {
         $this->profileLoader = $profileLoader;
-        $this->questionHelper = $questionHelper;
+        $this->dialogHelper = $dialogHelper;
     }
 
     public function handleProfileInit(ProfileInitEvent $e)
@@ -82,13 +73,15 @@ EOT
             $output->writeln('<info>No connection parameters, given. Select an existing profile:</info>');
             $output->writeln('');
 
+            foreach ($profileNames as $i => $profileName) {
+                $output->writeln(sprintf('  (%d) <comment>%s</comment>', $i, $profileName));
+            }
+
+            $output->writeln('');
+
             $selectedName = null;
             while (null === $selectedName) {
-                $number = $this->questionHelper->select(
-                    $output,
-                    '<info>Choose a profile</info>: ',
-                    $profileNames
-                );
+                $number = $this->dialogHelper->ask($output, '<info>Enter profile number</info>: ');
 
                 if (!isset($profileNames[$number])) {
                     $output->writeln('<error>Invalid selection!</error>');
