@@ -1,8 +1,16 @@
 Changelog
 =========
 
+
 dev-master
 ----------
+
+### Bug fixes
+
+- [embedded] No exit code returned
+
+beta1
+-----
 
 ### BC Break
 

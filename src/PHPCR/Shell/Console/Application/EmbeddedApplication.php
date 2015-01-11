@@ -56,6 +56,6 @@ class EmbeddedApplication extends ShellApplication
     public function runWithStringInput($stringInput, OutputInterface $output)
     {
         $input = new StringInput($stringInput);
-        $this->run($input, $output);
+        return $this->run($input, $output);
     }
 }
