@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Transport\Transport;
 use Doctrine\DBAL\DriverManager;
 use Jackalope\RepositoryFactoryDoctrineDBAL;
 use PHPCR\Shell\Transport\TransportInterface;
+use PHPCR\Shell\Config\Config;
 
 class DoctrineDbal implements TransportInterface
 {
@@ -22,7 +23,7 @@ class DoctrineDbal implements TransportInterface
         return 'doctrine-dbal';
     }
 
-    public function getRepository(array $config)
+    public function getRepository(Config $config)
     {
         $connection = DriverManager::getConnection($ops = array(
             'user' => $config['db_username'],

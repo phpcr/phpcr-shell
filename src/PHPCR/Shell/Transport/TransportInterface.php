@@ -11,6 +11,8 @@
 
 namespace PHPCR\Shell\Transport;
 
+use PHPCR\Shell\Config\Config;
+
 /**
  * All phpcr-shell transports must implement this interface
  *
@@ -20,5 +22,5 @@ interface TransportInterface
 {
     public function getName();
 
-    public function getRepository(array $config);
+    public function getRepository(Config $config);
 }

@@ -13,6 +13,7 @@ namespace PHPCR\Shell\Transport\Transport;
 
 use PHPCR\Shell\Transport\TransportInterface;
 use Jackalope\RepositoryFactoryFilesystem;
+use PHPCR\Shell\Config\Config;
 
 class JackalopeFs implements TransportInterface
 {
@@ -21,7 +22,7 @@ class JackalopeFs implements TransportInterface
         return 'jackalope-fs';
     }
 
-    public function getRepository(array $config)
+    public function getRepository(Config $config)
     {
         $params = array(
             'path'  => $config['repo_path'],
