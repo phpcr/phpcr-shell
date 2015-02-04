@@ -40,6 +40,7 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
         $profile = $e->getProfile();
         $input = $e->getInput();
         $output = $e->getOutput();
+        $noInteraction = $input->getOption('no-interaction');
         $transport = $input->getOption('transport');
         $profileName = $input->getOption('profile');
 
@@ -50,10 +51,17 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
             $overwrite = false;
 
             if (file_exists($this->profileLoader->getProfilePath($profileName))) {
-                $res = $this->questionHelper->askConfirmation($output, sprintf('Update existing profile "%s"?', $profileName));
+                $res = true;
+                if (false === $noInteraction) {
+                    $res = $this->questionHelper->askConfirmation($output, sprintf('Update existing profile "%s"?', $profileName));
+                }
                 $overwrite = true;
             } else {
-                $res = $this->questionHelper->askConfirmation($output, sprintf('Create new profile "%s"?', $profileName));
+                $res = true;
+
+                if (false === $noInteraction) {
+                    $res = $this->questionHelper->askConfirmation($output, sprintf('Create new profile "%s"?', $profileName));
+                }
             }
 
             if ($res) {

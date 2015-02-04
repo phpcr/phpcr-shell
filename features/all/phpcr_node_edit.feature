@@ -7,7 +7,7 @@ Feature: Edit a node
         Given that I am logged in as "testuser"
         And the "cms.xml" fixtures are loaded
 
-    Scenario: Make a nutral edit
+    Scenario: Make a neutral edit
         Given I have an editor which produces the following:
         """"
         weight:
@@ -91,7 +91,7 @@ Feature: Edit a node
         And I save the session
         Then the command should not fail
         And the property "/cms/products/product1/weight" should have type "Long" and value "10"
-        And the property "/cms/products/product1/cost" should have type "Long" and value "100"
+        And the property "/cms/products/product1/cost" should have type "Double" and value "100"
         And the property "/cms/products/product1/size" should have type "String" and value "XXL"
         And the property "/cms/products/product1/name" should have type "String" and value "Product One"
         And the property "/cms/products/product1/jcr:primaryType" should have type "Name" and value "nt:unstructured"

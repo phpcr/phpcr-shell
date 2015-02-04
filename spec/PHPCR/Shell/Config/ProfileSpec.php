@@ -12,6 +12,7 @@
 namespace spec\PHPCR\Shell\Config;
 
 use PhpSpec\ObjectBehavior;
+use PHPCR\Shell\Config\Config;
 
 class ProfileSpec extends ObjectBehavior
 {
@@ -39,9 +40,7 @@ class ProfileSpec extends ObjectBehavior
             'foo' => 'bar'
         ));
 
-        $this->get('transport')->shouldReturn(array(
-            'foo' => 'bar'
-        ));
+        $this->get('transport')->shouldHaveType('PHPCR\Shell\Config\Config');
 
         $this->get('transport', 'foo')->shouldReturn('bar');
     }
