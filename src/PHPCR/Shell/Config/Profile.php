@@ -80,7 +80,7 @@ class Profile
         $this->validateDomain($domain);
 
         if (null === $key) {
-            return $this->profile[$domain];
+            return new Config($this->profile[$domain]);
         }
 
         if (!isset($this->profile[$domain][$key])) {

@@ -8,6 +8,7 @@ dev-master
 ### Bug fixes
 
 - [embedded] No exit code returned
+- [profile] Profile configuration overwritten by session parameters
 
 beta1
 -----

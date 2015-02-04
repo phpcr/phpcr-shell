@@ -14,3 +14,8 @@ default:
                 - PHPCR\Shell\Test\EmbeddedContext
             paths:
                 - features/all
+        cli:
+            contexts:
+                - PHPCR\Shell\Test\CliContext
+            paths:
+                - features/cli

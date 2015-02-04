@@ -13,6 +13,7 @@ namespace PHPCR\Shell\Transport\Transport;
 
 use Jackalope\RepositoryFactoryJackrabbit;
 use PHPCR\Shell\Transport\TransportInterface;
+use PHPCR\Shell\Config\Config;
 
 class Jackrabbit implements TransportInterface
 {
@@ -21,7 +22,7 @@ class Jackrabbit implements TransportInterface
         return 'jackrabbit';
     }
 
-    public function getRepository(array $config)
+    public function getRepository(Config $config)
     {
         $params = array(
             'jackalope.jackrabbit_uri'  => $config['repo_url'],
