@@ -5,6 +5,10 @@ Changelog
 dev-master
 ----------
 
+### Features
+
+- [profile:show] Added command to display current profile
+
 ### Bug fixes
 
 - [embedded] No exit code returned

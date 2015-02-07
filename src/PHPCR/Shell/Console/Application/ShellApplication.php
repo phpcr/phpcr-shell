@@ -189,6 +189,7 @@ class ShellApplication extends Application
         $this->add(new CommandShell\ConfigReloadCommand());
         $this->add(new CommandShell\PathChangeCommand());
         $this->add(new CommandShell\PathShowCommand());
+        $this->add(new CommandShell\ProfileShowCommand());
         $this->add(new CommandShell\ExitCommand());
     }
 
