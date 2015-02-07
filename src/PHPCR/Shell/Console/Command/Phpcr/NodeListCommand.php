@@ -100,6 +100,7 @@ HERE
             $this->renderNode($node, $table, array(), $filter);
 
             if ($table->getNumberOfRows() > 0) {
+                $this->nbNodes++;
                 $output->writeln(sprintf('<path>%s</path> [%s] > %s',
                     $node->getPath(),
                     $node->getPrimaryNodeType()->getName(),
@@ -120,7 +121,6 @@ HERE
 
     private function renderNode($currentNode, $table, $spacers = array(), $filter = null)
     {
-        $this->nbNodes++;
         if ($this->showChildren) {
             $this->renderChildren($currentNode, $table, $spacers, $filter);
         }
@@ -173,11 +173,12 @@ HERE
             if (count($spacers) < $this->maxLevel) {
                 $newSpacers = $spacers;
                 if ($isLast) {
-                    $newSpacers[] = '  ';
+                    $newSpacers[] = ': ';
                 } else {
                     $newSpacers[] = '| ';
                 }
 
+                $this->nbNodes++;
                 $this->renderNode($child, $table, $newSpacers);
             }
         }

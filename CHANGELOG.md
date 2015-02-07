@@ -13,6 +13,7 @@ dev-master
 
 - [embedded] No exit code returned
 - [profile] Profile configuration overwritten by session parameters
+- [node:list] Incorrect node count
 
 beta1
 -----

@@ -135,3 +135,11 @@ Feature: List properites and chidren of current nodeA
         | numberPropertyNode/ | nt:file | +jcr:content |
         +---------------------+---------+--------------+
         """
+
+    Scenario: Correct node count
+        Given I execute the "node:list /tests_general_base/*/jcr:content" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        5 nodes in set
+        """
