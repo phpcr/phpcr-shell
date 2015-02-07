@@ -3,6 +3,7 @@ language: php
 env:
     - BEHAT_SUITE=standalone
     - BEHAT_SUITE=embedded
+    - BEHAT_SUITE=cli
 
 
 php:
