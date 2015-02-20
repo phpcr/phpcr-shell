@@ -153,3 +153,30 @@ Feature: Execute a a raw UPDATE query in JCR_SQL2
             | UPDATE [nt:unstructured] mixin_foo('bar') |
             | UPDATE [nt:unstructured] APPLY mixin_foo('bar') |
             | UPDATE [nt:unstructured] mixin_foo'bar') |
+
+    Scenario Outline: Execute update query with expressions
+        When I execute the "<query>" command
+        Then the command should not fail
+        And I save the session
+        Then the node at "<path>" should have the property "<property>" with value "<expectedValue>"
+        And I should see the following:
+        """
+        1 row(s) affected
+        """
+        Examples:
+            | query | path | property | expectedValue |
+            | UPDATE [nt:unstructured] AS a SET a.title = expr('row.getNode().getName()') WHERE localname() = 'article1' | /cms/articles/article1 | title | article1 |
+            | UPDATE [nt:unstructured] AS a SET a.title = expr('row.getPath()') WHERE localname() = 'article1' | /cms/articles/article1 | title |  /cms/articles/article1 |
+
+    Scenario: Execute an update with a quoted expression (can't do this in Examples above)
+        When I execute the following command:
+        """
+        UPDATE [nt:unstructured] AS a SET a.weight = expr('row.getNode().getPropertyValue("weight") * 2') WHERE a.name = 'Product One'
+        """
+        Then the command should not fail
+        And I save the session
+        Then the node at "/cms/products/product1" should have the property "weight" with value "20"
+        And I should see the following:
+        """
+        1 row(s) affected
+        """

@@ -40,6 +40,7 @@ class Container extends ContainerBuilder
         $this->registerPhpcr();
         $this->registerEvent();
         $this->registerConsole();
+        $this->registerQuery();
     }
 
     public function registerHelpers()
@@ -165,6 +166,13 @@ class Container extends ContainerBuilder
         $this->register('console.input.autocomplete', 'PHPCR\Shell\Console\Input\AutoComplete')
             ->addArgument(new Reference('application'))
             ->addArgument(new Reference('phpcr.session'));
+    }
+
+    public function registerQuery()
+    {
+        $this->register('query.update.expression_language', 'Symfony\Component\ExpressionLanguage\ExpressionLanguage');
+        $this->register('query.update.processor', 'PHPCR\Shell\Query\UpdateProcessor')
+            ->addArgument(new Reference('query.update.expression_language'));
     }
 
     public function getMode()

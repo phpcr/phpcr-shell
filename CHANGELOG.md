@@ -8,6 +8,7 @@ dev-master
 ### Features
 
 - [profile:show] Added command to display current profile
+- [query:update] Introduced `expr()` function to allow setting poperty values using expression language.
 
 ### Bug fixes
 
