@@ -9,6 +9,7 @@ dev-master
 
 - [profile:show] Added command to display current profile
 - [query:update] Introduced `expr()` function to allow setting poperty values using expression language.
+- [node:list] Sort properties by default, added option to specify
 
 ### Bug fixes
 

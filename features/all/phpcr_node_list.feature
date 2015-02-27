@@ -143,3 +143,19 @@ Feature: List properites and chidren of current nodeA
         """
         5 nodes in set
         """
+
+    Scenario: List with sort order ascending
+        When I execute the "node:list --sort=asc" command
+        Then the command should not fail
+
+    Scenario: List with sort order descending
+        When I execute the "node:list --sort=desc" command
+        Then the command should not fail
+
+    Scenario: List with no sorting
+        When I execute the "node:list --sort=none" command
+        Then the command should not fail
+
+    Scenario: List with invalid sorting
+        When I execute the "node:list --sort=foobar" command
+        Then the command should fail
