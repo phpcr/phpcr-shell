@@ -23,6 +23,8 @@ use PHPCR\NodeInterface;
 
 class NodeListCommand extends BasePhpcrCommand
 {
+    protected $sortOptions = array('none', 'asc', 'desc');
+
     protected $formatter;
     protected $textHelper;
     protected $maxLevel;
@@ -38,6 +40,10 @@ class NodeListCommand extends BasePhpcrCommand
         $this->addOption('properties', null, InputOption::VALUE_NONE, 'List only the properties of this node');
         $this->addOption('level', 'L', InputOption::VALUE_REQUIRED, 'Depth of tree to show');
         $this->addOption('template', 't', InputOption::VALUE_NONE, 'Show template nodes and properties');
+        $this->addOption('sort', 's', InputOption::VALUE_REQUIRED, sprintf(
+            'Sort properties, one of: <comment>%s</comment>',
+            implode('</comment>, <comment>', $this->sortOptions)
+        ), 'asc');
         $this->setHelp(<<<HERE
 List both or one of the children and properties of this node.
 
@@ -61,6 +67,15 @@ HERE
         $this->formatter = $this->get('helper.result_formatter');
         $this->textHelper = $this->get('helper.text');
         $this->maxLevel = $input->getOption('level');
+        $this->sort = strtolower($input->getOption('sort'));
+
+        if (!in_array($this->sort, $this->sortOptions)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Sort must be one of "%s". "%s" given',
+                implode('", "', $this->sortOptions),
+                $this->sort
+            ));
+        }
 
         $this->showChildren = $input->getOption('children');
         $this->showProperties = $input->getOption('properties');
@@ -198,7 +213,8 @@ HERE
 
     private function renderProperties($currentNode, $table, $spacers, $filter = null)
     {
-        $properties = $currentNode->getProperties($filter ?: null);
+        $properties = (array) $currentNode->getProperties($filter ?: null);
+        $properties = $this->sort($properties);
 
         try {
             $primaryItem = $currentNode->getPrimaryItem();
@@ -247,5 +263,20 @@ HERE
                 ));
             }
         }
+    }
+
+    private function sort($array)
+    {
+        switch ($this->sort) {
+            case 'asc':
+                ksort($array);
+                return $array;
+            case 'desc':
+                ksort($array);
+                $array = array_reverse($array);
+                return $array;
+        }
+
+        return $array;
     }
 }
