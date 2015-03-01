@@ -90,7 +90,7 @@ EOT
         $result = $query->execute();
         $rows = 0;
 
-        $updateProcessor = new UpdateProcessor();
+        $updateProcessor = $this->get('query.update.processor');
 
         foreach ($result as $row) {
             $rows++;

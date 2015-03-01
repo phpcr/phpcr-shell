@@ -12,6 +12,7 @@
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\RowInterface;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
  * Processor for node updates
@@ -25,7 +26,7 @@ class UpdateProcessor
      */
     private $functionMap = array();
 
-    public function __construct()
+    public function __construct(ExpressionLanguage $expressionLanguage)
     {
         $this->functionMapApply = array(
             'mixin_add' => function ($operand, $row, $mixinName) {
@@ -42,6 +43,14 @@ class UpdateProcessor
         );
 
         $this->functionMapSet = array(
+            'expr' => function ($operand, $row, $expression) use ($expressionLanguage) {
+                return $expressionLanguage->evaluate(
+                    $expression,
+                    array(
+                        'row' => $row,
+                    )
+                );
+            },
             'array_replace' => function ($operand, $row, $v, $x, $y) {
                 $operand->validateScalarArray($v);
                 foreach ($v as $key => $value) {

@@ -152,6 +152,14 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I execute the following command:
+     */
+    public function iExecuteTheFollowingCommand(PyStringNode $command)
+    {
+        $this->executeCommand($command);
+    }
+
+    /**
      * @Given /^I execute the following commands:$/
      */
     public function iExecuteTheFollowingCommands(TableNode $table)
