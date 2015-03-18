@@ -64,6 +64,7 @@ HERE
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $globHelper = $this->get('dtl.glob.helper');
         $this->formatter = $this->get('helper.result_formatter');
         $this->textHelper = $this->get('helper.text');
         $this->maxLevel = $input->getOption('level');
@@ -92,6 +93,10 @@ HERE
             $nodes = array($session->getNodeByPathOrIdentifier($path));
             $filter = null;
         } catch (\Exception $e) {
+            if (!$globHelper->isGlobbed($session->getAbsPath($path))) {
+                throw $e;
+            }
+
             $parentPath = $this->get('helper.path')->getParentPath($path);
 
             $filter = substr($path, strlen($parentPath));

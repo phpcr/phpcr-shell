@@ -100,6 +100,8 @@ class Container extends ContainerBuilder
 
         $repositoryDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getRepository');
         $sessionDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getSession');
+
+        $this->register('dtl.glob.helper', 'DTL\Glob\GlobHelper');
     }
 
     public function registerEvent()
