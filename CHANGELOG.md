@@ -20,6 +20,8 @@ dev-master
 - [node:edit] Multivalue references encoded as arrays when editing
 - [node:edit] Fixed undefined variable
 - [version] Versioning commands can use relative paths
+- [node:property:show] Text fields are truncated
+- [profile] Workspace given from CLI does not override profile workspace
 
 beta1
 -----

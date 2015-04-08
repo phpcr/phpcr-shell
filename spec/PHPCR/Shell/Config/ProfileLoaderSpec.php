@@ -45,6 +45,7 @@ class ProfileLoaderSpec extends ObjectBehavior
         Filesystem $filesystem
     )
     {
+        $profile->get('phpcr', 'workspace')->willReturn('default');
         $profile->getName()->willReturn('one');
         $profile->set('transport', array(
             'name' => 'foobar',

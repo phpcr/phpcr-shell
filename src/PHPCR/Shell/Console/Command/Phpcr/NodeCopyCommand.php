@@ -45,10 +45,6 @@ HERE
         $srcWorkspace = $input->getArgument('srcWorkspace');
 
         $workspace = $session->getWorkspace();
-
-        $start = microtime(true);
         $workspace->copy($srcAbsPath, $destAbsPath, $srcWorkspace);
-        $end = microtime(true) - $start;
-        $output->writeln(number_format($end, 6));
     }
 }

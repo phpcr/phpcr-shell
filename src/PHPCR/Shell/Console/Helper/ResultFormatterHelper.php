@@ -79,7 +79,7 @@ class ResultFormatterHelper extends Helper
             ), $row->getValues());
 
             foreach ($values as &$value) {
-                $value = $this->normalizeValue($value);
+                $value = $this->textHelper->truncate($value, 255);
             }
 
             $table->addRow($values);
@@ -96,7 +96,7 @@ class ResultFormatterHelper extends Helper
         }
     }
 
-    public function formatValue(PropertyInterface $property, $showBinary = false)
+    public function formatValue(PropertyInterface $property, $showBinary = false, $truncate = true)
     {
         $values = $property->getValue();
         if (false === $property->isMultiple()) {
@@ -117,6 +117,7 @@ class ResultFormatterHelper extends Helper
                         }
 
                         $return[] = implode('', $lines);
+                        break;
                     }
 
                     return '(binary data)';
@@ -136,7 +137,7 @@ class ResultFormatterHelper extends Helper
                     break;
                 case PropertyType::URI :
                 case PropertyType::STRING :
-                    $return[] = $this->textHelper->truncate($value);
+                    $return[] = $truncate ? $this->textHelper->truncate($value) : $value;
                     break;
                 case PropertyType::NAME :
                 case PropertyType::LONG :
