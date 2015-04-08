@@ -16,6 +16,9 @@ dev-master
 - [embedded] No exit code returned
 - [profile] Profile configuration overwritten by session parameters
 - [node:list] Incorrect node count
+- [node:edit] Multivalue references encoded as arrays when editing
+- [node:edit] Fixed undefined variable
+- [version] Versioning commands can use relative paths
 
 beta1
 -----

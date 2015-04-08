@@ -48,13 +48,17 @@ HERE
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $session = $this->get('phpcr.session');
+        $nodeHelper = $this->get('helper.node');
+        $path = $input->getArgument('path');
 
         $versionName = $input->getArgument('versionName');
-        $path = $session->getAbsPath($input->getArgument('path'));
+        $node = $session->getNodeByPathOrIdentifier($path);
+        $nodeHelper->assertNodeIsVersionable($node);
+
         $workspace = $session->getWorkspace();
         $versionManager = $workspace->getVersionManager();
 
-        $history = $versionManager->getVersionHistory($path);
+        $history = $versionManager->getVersionHistory($node->getPath());
         $history->removeVersion($versionName);
     }
 }

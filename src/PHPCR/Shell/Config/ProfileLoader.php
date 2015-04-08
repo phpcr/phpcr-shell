@@ -80,8 +80,14 @@ class ProfileLoader
             $profile->set('transport', $data['transport']);
         }
 
+        $profileWorkspace = $profile->get('phpcr', 'workspace');
         if (isset($data['phpcr'])) {
             $profile->set('phpcr', $data['phpcr']);
+        }
+
+        // workspace argument overrides profile workspace
+        if ($profileWorkspace && $profileWorkspace !== 'default') {
+            $profile->set('phpcr', 'workspace', $profileWorkspace);
         }
     }
 

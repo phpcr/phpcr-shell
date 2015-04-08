@@ -54,6 +54,6 @@ HERE
         $nodeHelper->assertNodeIsVersionable($node);
 
         $versionManager = $workspace->getVersionManager();
-        $version = $versionManager->checkout($absPath);
+        $version = $versionManager->checkout($node->getPath());
     }
 }

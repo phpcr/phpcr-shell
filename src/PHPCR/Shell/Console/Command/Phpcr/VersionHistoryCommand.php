@@ -40,9 +40,10 @@ HERE
         $workspace = $session->getWorkspace();
 
         $node = $session->getNodeByPathOrIdentifier($path);
+
         $nodeHelper->assertNodeIsVersionable($node);
         $versionManager = $workspace->getVersionManager();
-        $history = $versionManager->getVersionHistory($path);
+        $history = $versionManager->getVersionHistory($node->getPath());
 
         $versions = $history->getAllVersions();
 
