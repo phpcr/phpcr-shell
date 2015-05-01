@@ -68,7 +68,7 @@ HERE
         $node = $session->getNodeByPathOrIdentifier($path);
         $nodeHelper->assertNodeIsVersionable($node);
 
-        $version = $versionManager->checkin($path);
+        $version = $versionManager->checkin($node->getPath());
 
         $output->writeln('Version: ' . $version->getName());
     }

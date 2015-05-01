@@ -56,7 +56,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
             $propertyName = $property->getName();
 
             if (in_array($property->getType(), array(PropertyType::REFERENCE, PropertyType::WEAKREFERENCE))) {
-                $nodesUuids = array();
+                $nodeUuids = array();
 
                 if (false === is_array($propertyValue)) {
                     $propertyValue = array($propertyValue);
@@ -66,6 +66,10 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
                     $nodeUuids[] = $node->getIdentifier();
                 }
                 $propertyValue = $nodeUuids;
+
+                if (false === $property->isMultiple()) {
+                    $propertyValue = reset($propertyValue);
+                }
             }
 
             $res[$propertyName] = array(

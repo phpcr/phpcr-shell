@@ -8,7 +8,7 @@ Feature: Restore a version
         And the "versionable.xml" fixtures are loaded
 
     Scenario: Restore node version
-        Given I execute the following commands:
+        When I execute the following commands:
             | cd /tests_version_base/versioned |
             | node:property:set foo initalbar |
             | session:save |

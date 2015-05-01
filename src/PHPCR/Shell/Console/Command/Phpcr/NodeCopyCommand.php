@@ -45,7 +45,6 @@ HERE
         $srcWorkspace = $input->getArgument('srcWorkspace');
 
         $workspace = $session->getWorkspace();
-
         $workspace->copy($srcAbsPath, $destAbsPath, $srcWorkspace);
     }
 }

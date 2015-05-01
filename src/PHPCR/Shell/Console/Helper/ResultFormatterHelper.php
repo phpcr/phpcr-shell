@@ -79,7 +79,7 @@ class ResultFormatterHelper extends Helper
             ), $row->getValues());
 
             foreach ($values as &$value) {
-                $value = $this->normalizeValue($value);
+                $value = $this->textHelper->truncate($value, 255);
             }
 
             $table->addRow($values);
@@ -96,81 +96,69 @@ class ResultFormatterHelper extends Helper
         }
     }
 
-    public function normalizeValue($value)
+    public function formatValue(PropertyInterface $property, $showBinary = false, $truncate = true)
     {
-        if (is_array($value)) {
-            if (empty($value)) {
-                return '';
-            }
-            $array = $value;
-            $values = array();
-
-            foreach ($array as $i => $value) {
-                if ($value instanceof NodeInterface) {
-                    $uuid = $value->getIdentifier();
-                    $value = $value->getPath();
-                    if ($uuid) {
-                        $value .= ' (' . $uuid . ')';
-                    }
-                } elseif (is_object($value)) {
-                    $value = '<UNKNOWN OBJECT>';
-                } else {
-                    $value = $value;
-                }
-                $value = '[' . $i . '] ' . $this->textHelper->truncate($value, 255);
-                $values[] = $value;
-            }
-
-            return implode("\n", $values);
+        $values = $property->getValue();
+        if (false === $property->isMultiple()) {
+            $values = array($values);
         }
+        $return = array();
 
-        if ($value instanceof \DateTime) {
-            return $value->format('c');
-        }
+        foreach ($values as $value) {
+            switch (intval($property->getType())) {
+                case PropertyType::UNDEFINED :
+                    $return[] = '#UNDEFINED#';
+                case PropertyType::BINARY :
+                    if ($showBinary) {
+                        $lines = array();
+                        $pointer = $value;
+                        while (($line = fgets($pointer)) !== false) {
+                            $lines[] = $line;
+                        }
 
-        return $this->textHelper->truncate($value);
-    }
-
-    public function formatValue(PropertyInterface $value, $showBinary = false)
-    {
-        if (is_array($value->getValue())) {
-            return $this->normalizeValue($value->getValue());
-        }
-
-        switch (intval($value->getType())) {
-            case PropertyType::UNDEFINED :
-                return '#UNDEFINED#';
-            case PropertyType::BINARY :
-                if ($showBinary) {
-                    $lines = array();
-                    $pointer = $value->getValue();
-                    while (($line = fgets($pointer)) !== false) {
-                        $lines[] = $line;
+                        $return[] = implode('', $lines);
+                        break;
                     }
 
-                    return implode('', $lines);
-                }
-
-                return '(binary data)';
-            case PropertyType::BOOLEAN :
-                return $value->getValue() ? 'true' : 'false';
-            case PropertyType::DATE :
-                return $value->getValue()->format('c');
-            case PropertyType::REFERENCE :
-            case PropertyType::WEAKREFERENCE :
-                return $value->getValue()->getIdentifier();
-            case PropertyType::URI :
-            case PropertyType::STRING :
-                return $this->textHelper->truncate($value->getValue());
-            case PropertyType::NAME :
-            case PropertyType::LONG :
-            case PropertyType::DOUBLE :
-            case PropertyType::DECIMAL :
-            case PropertyType::PATH :
-                return $value->getValue();
-            default:
-                throw new \RuntimeException('Unknown type ' . $value->getType());
+                    return '(binary data)';
+                case PropertyType::BOOLEAN :
+                    $return[] = $value ? 'true' : 'false';
+                    break;
+                case PropertyType::DATE :
+                    $return[] = $value->format('c');
+                    break;
+                case PropertyType::REFERENCE :
+                case PropertyType::WEAKREFERENCE :
+                    $return[] = sprintf(
+                        '%s (%s)',
+                        $this->textHelper->truncate($value->getPath(), 255),
+                        $value->getIdentifier()
+                    );
+                    break;
+                case PropertyType::URI :
+                case PropertyType::STRING :
+                    $return[] = $truncate ? $this->textHelper->truncate($value) : $value;
+                    break;
+                case PropertyType::NAME :
+                case PropertyType::LONG :
+                case PropertyType::DOUBLE :
+                case PropertyType::DECIMAL :
+                case PropertyType::PATH :
+                    $return[] = $value;
+                    break;
+                default:
+                    throw new \RuntimeException('Unknown type ' . $property->getType());
+            }
         }
+
+        if ($property->isMultiple()) {
+            return implode("\n", array_map(function ($value) {
+                static $index = 0;
+                return sprintf('<comment>[%d]</comment> %s', $index++, $value);
+            }, $return));
+        }
+
+        return implode("\n", $return);
     }
 
     public function formatNodePropertiesInline(NodeInterface $node)

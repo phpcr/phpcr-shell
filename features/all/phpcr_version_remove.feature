@@ -8,7 +8,7 @@ Feature: Remove node version
         And the "versionable.xml" fixtures are loaded
 
     Scenario: Checkout a a given node
-        Given I execute the following commands:
+        When I execute the following commands:
             | cd /tests_version_base/versioned |
             | version:checkout /tests_version_base/versioned |
             | node:property:set foo baz |
@@ -21,7 +21,7 @@ Feature: Remove node version
         And I execute the "version:remove /tests_version_base/versioned 1.0" command
         Then the command should not fail
         And I execute the "version:history /tests_version_base/versioned" command
-        Then I should not see the following:
+        And I should not see the following:
         """
         | 1.0             |
         """
