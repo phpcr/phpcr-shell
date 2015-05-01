@@ -75,7 +75,6 @@ class ResultFormatterHelper extends Helper
         foreach ($result->getRows() as $row) {
             $values = array_merge(array(
                 $row->getPath(),
-                $row->getNode()->getIndex(),
             ), $row->getValues());
 
             foreach ($values as &$value) {
