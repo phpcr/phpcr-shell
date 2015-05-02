@@ -25,7 +25,7 @@ use PHPCR\Shell\Phpcr\PhpcrSession;
 class PhpcrShell
 {
     const APP_NAME = 'PHPCRSH';
-    const APP_VERSION = 'dev-master';
+    const APP_VERSION = '1.0.0-beta3';
 
     const MODE_EMBEDDED_SHELL = 'shell';
     const MODE_EMBEDDED_COMMAND = 'command';
