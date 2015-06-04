@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Query\UpdateParser;
 use PHPCR\Shell\Query\UpdateProcessor;
 
-class QueryUpdateCommand extends BasePhpcrCommand
+class QueryUpdateCommand extends BaseQueryCommand
 {
     /**
      * @var OutputInterface
@@ -69,12 +69,7 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
-        $sql = $input->getRawCommand();
-
-        // trim ";" for people used to MysQL
-        if (substr($sql, -1) == ';') {
-            $sql = substr($sql, 0, -1);
-        }
+        $sql = $this->getQuery($input);
 
         $session = $this->get('phpcr.session');
         $qm = $session->getWorkspace()->getQueryManager();

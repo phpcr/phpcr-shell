@@ -1,9 +1,15 @@
 Changelog
 =========
 
-
 dev-master
 ----------
+
+### Bug fixes
+
+- [query] Enforce termination of queries with ";": fixes #162
+
+beta2
+-----
 
 ### Features
 
