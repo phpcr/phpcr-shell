@@ -8,8 +8,12 @@ Feature: Execute a raw query in JCR_SQL2
         And the "session_data.xml" fixtures are loaded
 
     Scenario: Execute query
-        Given I execute the "SELECT a.[jcr:createdBy], a.[jcr:primaryType] from [nt:folder] AS a WHERE localname() = 'emptyExample'" command
+        Given I execute the "SELECT a.[jcr:createdBy], a.[jcr:primaryType] from [nt:folder] AS a WHERE localname() = 'emptyExample';" command
         Then the command should not fail
         And I should see a table containing the following rows:
             | a.jcr:createdBy | a.jcr:primaryType |
             | admin                   | nt:folder                 |
+
+    Scenario: It should fail if a non terminated query is executed
+        Given I execute the "SELECT * FROM [nt:unstructured] WHERE bar = 'product1'" command
+        Then the command should fail

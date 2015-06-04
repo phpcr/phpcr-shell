@@ -16,7 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
 
-class QueryDeleteCommand extends BasePhpcrCommand
+class QueryDeleteCommand extends BaseQueryCommand
 {
     protected function configure()
     {
@@ -38,21 +38,16 @@ EOT
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $sql = $input->getRawCommand();
-
-        // trim ";" for people used to MysQL
-        if (substr($sql, -1) == ';') {
-            $sql = substr($sql, 0, -1);
-        }
-
-        $session = $this->get('phpcr.session');
-        $qm = $session->getWorkspace()->getQueryManager();
+        $sql = $this->getQuery($input);
 
         if (!preg_match('{^delete from}', strtolower($sql))) {
             throw new \PHPCR\Query\InvalidQueryException(sprintf(
                 '"FROM" not specified in DELETE query: "%s"', $sql
             ));
         }
+
+        $session = $this->get('phpcr.session');
+        $qm = $session->getWorkspace()->getQueryManager();
 
         $sql = 'SELECT * FROM' . substr($sql, 11);
 

@@ -15,7 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class QuerySelectCommand extends BasePhpcrCommand
+class QuerySelectCommand extends BaseQueryCommand
 {
     protected function configure()
     {
@@ -34,12 +34,8 @@ EOT
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $sql = $input->getRawCommand();
-
-        // trim ";" for people used to MysQL
-        if (substr($sql, -1) == ';') {
-            $sql = substr($sql, 0, -1);
-        }
+        $sql = $this->getQuery($input);
+        $input = $this->getQuery($input);
 
         $session = $this->get('phpcr.session');
         $qm = $session->getWorkspace()->getQueryManager();
