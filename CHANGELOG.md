@@ -13,6 +13,8 @@ beta4
 - [version] Versioning commands can use relative paths
 - [node:property:show] Text fields are truncated
 - [profile] Workspace given from CLI does not override profile workspace
+- [command] Removed node:definition command: Jackalope now supports this, and
+  this command would never have worked, see: 
 
 beta2
 -----
