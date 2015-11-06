@@ -1,12 +1,18 @@
 Changelog
 =========
 
-dev-master
-----------
+beta4
+-----
 
 ### Bug fixes
 
 - [query] Enforce termination of queries with ";": fixes #162
+- [node:list] Single references not showing path
+- [node:edit] Multivalue references encoded as arrays when editing
+- [node:edit] Fixed undefined variable
+- [version] Versioning commands can use relative paths
+- [node:property:show] Text fields are truncated
+- [profile] Workspace given from CLI does not override profile workspace
 
 beta2
 -----
@@ -22,12 +28,6 @@ beta2
 - [embedded] No exit code returned
 - [profile] Profile configuration overwritten by session parameters
 - [node:list] Incorrect node count
-- [node:list] Single references not showing path
-- [node:edit] Multivalue references encoded as arrays when editing
-- [node:edit] Fixed undefined variable
-- [version] Versioning commands can use relative paths
-- [node:property:show] Text fields are truncated
-- [profile] Workspace given from CLI does not override profile workspace
 
 beta1
 -----
