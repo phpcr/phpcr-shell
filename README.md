@@ -9,7 +9,7 @@ Shell for PHPCR
 
 The recommended way to use the PHPCR shell is as a phar archive.
 
-Install box: http://box-project.org
+Install box: https://box-project.github.io/box2/
 
 Build the PHAR:
 
