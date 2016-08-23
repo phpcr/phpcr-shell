@@ -30,7 +30,8 @@ class NodeListCommand extends BasePhpcrCommand
     protected $textHelper;
     protected $maxLevel;
     protected $time;
-    protected $nbNodes;
+    protected $nbNodes = 0;
+    protected $nbProperties = 0;
 
     protected function configure()
     {
@@ -133,8 +134,9 @@ HERE
 
         if ($config['show_execution_time_list']) {
             $output->writeln(sprintf(
-                '%s nodes in set (%s sec)',
+                '%s nodes, %s properties in set (%s sec)',
                 $this->nbNodes,
+                $this->nbProperties,
                 number_format($this->time, $config['execution_time_expansion']))
             );
         }
@@ -238,6 +240,7 @@ HERE
 
         $i = 0;
         foreach ($properties as $name => $property) {
+            $this->nbProperties++;
             try {
                 $i++;
                 if (isset($propertyNames[$name])) {

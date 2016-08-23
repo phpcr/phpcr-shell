@@ -141,7 +141,7 @@ Feature: List properites and chidren of current nodeA
         Then the command should not fail
         And I should see the following:
         """
-        5 nodes in set
+        5 nodes, 0 properties in set
         """
 
     Scenario: List with sort order ascending
