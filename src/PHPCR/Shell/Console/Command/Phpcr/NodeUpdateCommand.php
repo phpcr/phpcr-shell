@@ -52,7 +52,7 @@ HERE
         $nodes = $session->findNodes($path);
 
         foreach ($nodes as $node) {
-            $output->writeln('<path>' . $node->getPath() . '</path>');
+            $output->writeln('<pathbold>' . $node->getPath() . '</pathbold>');
             $node->update($srcWorkspace);
         }
     }

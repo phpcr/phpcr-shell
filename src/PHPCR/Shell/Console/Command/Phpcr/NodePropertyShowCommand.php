@@ -58,7 +58,7 @@ HERE
 
             foreach ($properties as $property) {
                 $output->writeln(sprintf(
-                    '<path>%s%s</path><localname>%s</localname>: %s',
+                    '<pathbold>%s%s</pathbold><localname>%s</localname>: %s',
                     $parentPath = $pathHelper->getParentPath($property->getPath()),
                     $parentPath != '/' ? '/' : '',
                     $pathHelper->getNodeName($property->getPath()),

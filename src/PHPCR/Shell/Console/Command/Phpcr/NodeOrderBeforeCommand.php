@@ -27,7 +27,7 @@ class NodeOrderBeforeCommand extends BasePhpcrCommand
         $this->setHelp(<<<HERE
 This command is used to change the order of a child node relative to the current node.
 
-For example, given that the node <path>/foobar</path> has the children <node>child2</node> and
+For example, given that the node <pathbold>/foobar</pathbold> has the children <node>child2</node> and
 <node>child4</node> then:
 
     PHPCRSH> cd foobar

@@ -75,7 +75,7 @@ HERE
                 'Locked?' => $isLocked,
             );
 
-            $output->writeln('<path>' . $node->getPath() . '</path>');
+            $output->writeln('<pathbold>' . $node->getPath() . '</pathbold>');
             $table = new Table($output);
 
             foreach ($info as $label => $value) {
