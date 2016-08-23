@@ -86,6 +86,7 @@ HERE
         $this->showTemplate = $input->getOption('template');
         $this->time = 0;
         $this->nbNodes = 0;
+        $this->nbProperties = 0;
 
         $config = $this->get('config.config.phpcrsh');
 
