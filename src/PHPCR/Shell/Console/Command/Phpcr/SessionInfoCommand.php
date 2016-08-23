@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class SessionInfoCommand extends BasePhpcrCommand
 {
@@ -45,7 +46,7 @@ HERE
             $attribute = $session->getAttribute($attributeName);
         }
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Key', 'Value'));
 
         foreach ($info as $key => $value) {

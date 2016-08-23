@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\Shell\Console\Helper\Table;
 
 class WorkspaceListCommand extends BasePhpcrCommand
 {
@@ -44,7 +45,7 @@ HERE
         $workspace = $session->getWorkspace();
         $availableWorkspaces = $workspace->getAccessibleWorkspaceNames();
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Name'));
         foreach ($availableWorkspaces as $availableWorkspace) {
             if ($availableWorkspace == $workspace->getName()) {

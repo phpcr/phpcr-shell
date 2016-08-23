@@ -268,16 +268,6 @@ class ShellApplication extends Application
     }
 
     /**
-     * Render an exception to the console
-     *
-     * {@inheritDoc}
-     */
-    public function renderException($exception, $output)
-    {
-        $output->writeln(sprintf('<exception>%s</exception>', $exception->getMessage()));
-    }
-
-    /**
      * Wrap the add method and do not register commands which are unsupported by
      * the current transport.
      *

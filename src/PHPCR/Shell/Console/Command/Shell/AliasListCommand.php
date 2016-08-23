@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Shell;
 use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class AliasListCommand extends BaseCommand
 {
@@ -32,7 +33,7 @@ EOT
         $config = $this->get('config.manager');
         $aliases = $config->getConfig('alias');
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Alias', 'Command'));
 
         foreach ($aliases as $alias => $command) {

@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Shell;
 use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class ProfileShowCommand extends BaseCommand
 {
@@ -38,7 +39,7 @@ EOT
         $output->writeln('');
         foreach ($profile->toArray() as $domain => $config) {
             $output->writeln('<comment>' . $domain . '</comment>');
-            $table = $this->get('helper.table')->create();
+            $table = new Table($output);
             $table->setHeaders(array('Key', 'Value'));
 
             foreach ($config as $key => $value) {

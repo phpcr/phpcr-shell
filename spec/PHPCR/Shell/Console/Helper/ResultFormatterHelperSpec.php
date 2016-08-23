@@ -20,11 +20,10 @@ class ResultFormatterHelperSpec extends ObjectBehavior
 {
     public function let(
         TextHelper $textHelper,
-        TableHelper $tableHelper,
         Config $config
     )
     {
-        $this->beConstructedWith($textHelper, $tableHelper, $config);
+        $this->beConstructedWith($textHelper, $config);
     }
 
     public function it_is_initializable()

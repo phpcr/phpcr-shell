@@ -13,6 +13,7 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class SessionNamespaceListCommand extends BasePhpcrCommand
 {
@@ -31,7 +32,7 @@ HERE
         $session = $this->get('phpcr.session');
         $prefixes = $session->getNamespacePrefixes();
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Prefix', 'URI'));
 
         foreach ($prefixes as $prefix) {

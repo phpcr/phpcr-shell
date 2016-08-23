@@ -20,6 +20,7 @@ use PHPCR\PropertyType;
 use PHPCR\ItemNotFoundException;
 use PHPCR\PropertyInterface;
 use PHPCR\NodeInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class NodeListCommand extends BasePhpcrCommand
 {
@@ -116,7 +117,7 @@ HERE
         }
 
         foreach ($nodes as $node) {
-            $table = $this->get('helper.table')->create();
+            $table = new Table($output);
             $this->renderNode($node, $table, array(), $filter);
 
             if ($table->getNumberOfRows() > 0) {

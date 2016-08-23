@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class VersionHistoryCommand extends BasePhpcrCommand
 {
@@ -34,7 +35,7 @@ HERE
     {
         $session = $this->get('phpcr.session');
         $nodeHelper = $this->get('helper.node');
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
 
         $path = $input->getArgument('path');
         $workspace = $session->getWorkspace();

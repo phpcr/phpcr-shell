@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\RepositoryInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class LockTokenListCommand extends BasePhpcrCommand
 {
@@ -41,7 +42,7 @@ HERE
 
         $lockTokens = $lockManager->getLockTokens();
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Token'));
 
         foreach ($lockTokens as $token) {

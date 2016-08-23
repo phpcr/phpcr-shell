@@ -15,6 +15,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\Shell\Console\Helper\Table;
 
 class NodeReferencesCommand extends BasePhpcrCommand
 {
@@ -32,7 +33,7 @@ Session.
 If the <info>name</info> parameter is null then all referring REFERENCES are returned
 regardless of name.
 HERE
-        );
+    );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -52,7 +53,7 @@ HERE
             $references['weak'] = $node->getWeakReferences($name ?: null);
             $references['strong'] = $node->getReferences($name ?: null);
 
-            $table = $this->get('helper.table')->create();
+            $table = new Table($output);
             $table->setHeaders(array(
                 'Path', 'Property', 'Type',
             ));

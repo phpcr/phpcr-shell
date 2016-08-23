@@ -16,6 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class AccessControlPrivilegeListCommand extends BasePhpcrCommand
 {
@@ -65,7 +66,7 @@ HERE
             $privileges = $acm->getPrivileges($absPath);
         }
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Name'));
 
         foreach ($privileges as $privilege) {

@@ -14,6 +14,7 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use PHPCR\Shell\Console\Helper\Table;
 
 class NodeTypeListCommand extends BasePhpcrCommand
 {
@@ -40,7 +41,7 @@ HERE
 
         $nodeTypes = $nodeTypeManager->getAllNodeTypes();
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Name', 'Primary Item Name', 'Abstract?', 'Mixin?', 'Queryable?'));
 
         foreach ($nodeTypes as $nodeType) {
