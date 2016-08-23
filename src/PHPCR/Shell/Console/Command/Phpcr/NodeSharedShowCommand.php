@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class NodeSharedShowCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodeSharedShowCommand extends BasePhpcrCommand
         $this->setName('node:shared:show');
         $this->setDescription('Show all the nodes are in the shared set of this node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Lists all nodes that are in the shared set of this node.
 
 Shareable nodes are analagous to symbolic links in a linux filesystem and can
@@ -43,7 +44,7 @@ HERE
         $nodes = $session->findNodes($path);
 
         foreach ($nodes as $node) {
-            $output->writeln('<pathbold>' . $node->getPath() . '</pathbold>');
+            $output->writeln('<pathbold>'.$node->getPath().'</pathbold>');
             $sharedSet = $node->getSharedSet();
 
             foreach ($sharedSet as $sharedNode) {

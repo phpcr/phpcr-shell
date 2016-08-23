@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\RepositoryInterface;
 use PHPCR\Shell\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class LockTokenListCommand extends BasePhpcrCommand
 {
@@ -22,7 +23,7 @@ class LockTokenListCommand extends BasePhpcrCommand
     {
         $this->setName('lock:token:list');
         $this->setDescription('List a lock token to the current session');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Show a list of previously registered tokens.
 
 Displays all lock tokens currently held by the
@@ -43,10 +44,10 @@ HERE
         $lockTokens = $lockManager->getLockTokens();
 
         $table = new Table($output);
-        $table->setHeaders(array('Token'));
+        $table->setHeaders(['Token']);
 
         foreach ($lockTokens as $token) {
-            $table->addRow(array($token));
+            $table->addRow([$token]);
         }
 
         $table->render($output);

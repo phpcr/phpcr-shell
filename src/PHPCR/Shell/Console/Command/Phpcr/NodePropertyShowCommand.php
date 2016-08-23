@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\PathNotFoundException;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\PathNotFoundException;
 
 class NodePropertyShowCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodePropertyShowCommand extends BasePhpcrCommand
         $this->setName('node:property:show');
         $this->setDescription('Show the property at the given path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to property (can include wildcards)');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Show the full value of a property at the given path
 HERE
         );
@@ -42,18 +43,18 @@ HERE
         $nodes = $session->findNodes($parentPath);
 
         if (0 === count($nodes)) {
-            throw new \Exception('Could not find property(s) at path ' . $path);
+            throw new \Exception('Could not find property(s) at path '.$path);
         }
 
         foreach ($nodes as $node) {
             try {
-                $properties = array($node->getProperty($filter));
+                $properties = [$node->getProperty($filter)];
             } catch (PathNotFoundException $e) {
                 $properties = $node->getProperties($filter);
             }
 
             if (0 === count($properties)) {
-                throw new \Exception('Could not find property(s) at path ' . $path);
+                throw new \Exception('Could not find property(s) at path '.$path);
             }
 
             foreach ($properties as $property) {

@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class NodeOrderBeforeCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class NodeOrderBeforeCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('srcChildRelPath', InputArgument::REQUIRED, 'The relative path to the child node to be moved in the ordering');
         $this->addArgument('destChildRelPath', InputArgument::REQUIRED, 'The relative path to the child before which the node srcChildRelPath will be placed');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 This command is used to change the order of a child node relative to the current node.
 
 For example, given that the node <pathbold>/foobar</pathbold> has the children <node>child2</node> and

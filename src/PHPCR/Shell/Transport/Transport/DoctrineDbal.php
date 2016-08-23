@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Transport\Transport;
 
 use Doctrine\DBAL\DriverManager;
 use Jackalope\RepositoryFactoryDoctrineDBAL;
-use PHPCR\Shell\Transport\TransportInterface;
 use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Transport\TransportInterface;
 
 class DoctrineDbal implements TransportInterface
 {
@@ -25,19 +26,19 @@ class DoctrineDbal implements TransportInterface
 
     public function getRepository(Config $config)
     {
-        $connection = DriverManager::getConnection($ops = array(
-            'user' => $config['db_username'],
+        $connection = DriverManager::getConnection($ops = [
+            'user'     => $config['db_username'],
             'password' => $config['db_password'],
-            'host' => $config['db_host'],
-            'driver' => $config['db_driver'],
-            'dbname' => $config['db_name'],
-            'path' => $config['db_path'],
-        ));
+            'host'     => $config['db_host'],
+            'driver'   => $config['db_driver'],
+            'dbname'   => $config['db_name'],
+            'path'     => $config['db_path'],
+        ]);
 
         $factory = new RepositoryFactoryDoctrineDBAL();
-        $repository = $factory->getRepository(array(
+        $repository = $factory->getRepository([
             'jackalope.doctrine_dbal_connection' => $connection,
-        ));
+        ]);
 
         return $repository;
     }

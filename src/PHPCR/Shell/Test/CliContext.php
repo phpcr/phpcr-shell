@@ -7,30 +7,22 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Test;
 
-use Jackalope\RepositoryFactoryJackrabbit;
-use PHPCR\SimpleCredentials;
-use PHPCR\Util\NodeHelper;
-use Symfony\Component\Filesystem\Filesystem;
-use PHPCR\PathNotFoundException;
-use PHPCR\Util\PathHelper;
-use PHPCR\PropertyInterface;
-use PHPCR\PropertyType;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Context\Context;
-use PHPCR\NodeInterface;
+use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Features context.
  */
 class CliContext implements Context, SnippetAcceptingContext
 {
-    private $output = array();
+    private $output = [];
     private $rootPath;
     private $lastExitCode;
     private $fixturesDir;
@@ -43,18 +35,18 @@ class CliContext implements Context, SnippetAcceptingContext
      */
     public function beforeScenario()
     {
-        $this->output = array();
+        $this->output = [];
 
-        $this->rootPath = realpath(__DIR__ . '/../../../..');
-        $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell' . DIRECTORY_SEPARATOR .
+        $this->rootPath = realpath(__DIR__.'/../../../..');
+        $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell'.DIRECTORY_SEPARATOR.
             md5(microtime() * rand(0, 10000));
         $this->fixturesDir = realpath(__DIR__.'/../../../../features/fixtures/');
 
         $this->workingDir = $dir;
-        putenv('PHPCRSH_HOME=' . $dir);
+        putenv('PHPCRSH_HOME='.$dir);
 
         mkdir($this->workingDir, 0777, true);
-        mkdir($this->workingDir . '/profiles');
+        mkdir($this->workingDir.'/profiles');
         chdir($this->workingDir);
         $this->filesystem = new Filesystem();
     }
@@ -67,7 +59,7 @@ class CliContext implements Context, SnippetAcceptingContext
     public static function cleanTestFolders()
     {
         $fs = new Filesystem();
-        $fs->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell');
+        $fs->remove(sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell');
     }
 
     private function exec($command)
@@ -91,7 +83,7 @@ class CliContext implements Context, SnippetAcceptingContext
     public function printOutput()
     {
         foreach ($this->output as $line) {
-            echo $line . PHP_EOL;
+            echo $line.PHP_EOL;
         }
     }
 
@@ -100,7 +92,7 @@ class CliContext implements Context, SnippetAcceptingContext
      */
     public function iHaveTheFollowingProfile($profileName, PyStringNode $text)
     {
-        file_put_contents($this->workingDir . '/profiles/' . $profileName . '.yml', $text->getRaw());
+        file_put_contents($this->workingDir.'/profiles/'.$profileName.'.yml', $text->getRaw());
     }
 
     /**
@@ -109,10 +101,10 @@ class CliContext implements Context, SnippetAcceptingContext
     public function initializeDoctrineDbal()
     {
         $this->filesystem->copy(
-            $this->fixturesDir . '/jackalope-doctrine-dbal-cli-config.php',
-            $this->workingDir . '/cli-config.php'
+            $this->fixturesDir.'/jackalope-doctrine-dbal-cli-config.php',
+            $this->workingDir.'/cli-config.php'
         );
-        $this->exec($this->rootPath . '/vendor/jackalope/jackalope-doctrine-dbal/bin/jackalope jackalope:init:dbal --force');
+        $this->exec($this->rootPath.'/vendor/jackalope/jackalope-doctrine-dbal/bin/jackalope jackalope:init:dbal --force');
     }
 
     /**

@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Transport;
@@ -14,7 +15,7 @@ namespace PHPCR\Shell\Transport;
 use PHPCR\Shell\Config\Config;
 
 /**
- * All phpcr-shell transports must implement this interface
+ * All phpcr-shell transports must implement this interface.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */

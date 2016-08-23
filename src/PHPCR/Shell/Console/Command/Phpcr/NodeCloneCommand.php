@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeCloneCommand extends BasePhpcrCommand
 {
@@ -26,7 +27,7 @@ class NodeCloneCommand extends BasePhpcrCommand
         $this->addArgument('destPath', InputArgument::REQUIRED, 'Path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');
         $this->addOption('remove-existing', null, InputOption::VALUE_NONE, 'Remove existing nodes');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Clones the subgraph at the node <info>srcAbsPath</info> in
 <info>srcWorkspace</info> to the new location at <info>destAbsPath</info> in
 the current workspace.

@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class SessionLoginCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class SessionLoginCommand extends BasePhpcrCommand
         $this->addArgument('userId', InputArgument::REQUIRED, 'Unique identifier of user');
         $this->addArgument('password', InputArgument::REQUIRED, 'Password');
         $this->addArgument('workspaceName', InputArgument::OPTIONAL, 'Optional workspace name');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Login to a session.
 HERE
         );

@@ -7,18 +7,19 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Phpcr;
 
-use PHPCR\SessionInterface;
-use PHPCR\CredentialsInterface;
-use PHPCR\Util\UUIDHelper;
-use PHPCR\PathNotFoundException;
 use DTL\Glob\Finder\PhpcrTraversalFinder;
+use PHPCR\CredentialsInterface;
+use PHPCR\PathNotFoundException;
+use PHPCR\SessionInterface;
+use PHPCR\Util\UUIDHelper;
 
 /**
- * Custom session wrapper for PHPCR Shell
+ * Custom session wrapper for PHPCR Shell.
  *
  * Supports current-working-directory etc.
  *
@@ -38,7 +39,7 @@ class PhpcrSession implements SessionInterface
 
     /**
      * Allow underlying session to be changed
-     * For example when changing workspaces
+     * For example when changing workspaces.
      *
      * @param SessionInterface $session
      */
@@ -157,7 +158,7 @@ class PhpcrSession implements SessionInterface
 
     public function getAbsPaths($paths)
     {
-        $newPaths = array();
+        $newPaths = [];
         foreach ($paths as $path) {
             $newPaths[] = $this->getAbsPath($path);
         }
@@ -171,12 +172,12 @@ class PhpcrSession implements SessionInterface
      *
      * @param string $pathOrId
      *
-     * @return NodeInterface
-     *
      * @throws PathNotFoundException if no accessible node is found at the specified path.
      * @throws ItemNotFoundException if no node with the specified
      *                               identifier exists or if this Session does not have read access to
      *                               the node with the specified identifier.
+     *
+     * @return NodeInterface
      */
     public function getNodeByPathOrIdentifier($pathOrId)
     {

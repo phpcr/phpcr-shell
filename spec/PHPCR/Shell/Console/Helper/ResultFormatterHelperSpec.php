@@ -7,22 +7,21 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Console\Helper;
 
-use PhpSpec\ObjectBehavior;
-use PHPCR\Shell\Console\Helper\TextHelper;
-use PHPCR\Shell\Console\Helper\TableHelper;
 use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Console\Helper\TextHelper;
+use PhpSpec\ObjectBehavior;
 
 class ResultFormatterHelperSpec extends ObjectBehavior
 {
     public function let(
         TextHelper $textHelper,
         Config $config
-    )
-    {
+    ) {
         $this->beConstructedWith($textHelper, $config);
     }
 

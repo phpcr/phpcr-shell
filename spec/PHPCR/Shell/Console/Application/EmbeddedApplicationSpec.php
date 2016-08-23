@@ -7,22 +7,19 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Console\Application;
 
-use PhpSpec\ObjectBehavior;
-use PHPCR\Shell\Console\Application\EmbeddedApplication;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use PHPCR\Shell\PhpcrShell;
 use PHPCR\Shell\DependencyInjection\Container;
+use PhpSpec\ObjectBehavior;
 
 class EmbeddedApplicationSpec extends ObjectBehavior
 {
     public function let(
         Container $container
-    )
-    {
+    ) {
         $this->beConstructedWith($container);
     }
 

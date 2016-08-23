@@ -7,21 +7,21 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
-use PHPCR\Query\QueryResultInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
+use PHPCR\PropertyType;
+use PHPCR\Query\QueryResultInterface;
 use PHPCR\Shell\Config\Config;
-use PHPCR\Shell\Console\Helper\Table;
+use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Provide methods for formatting PHPCR objects
+ * Provide methods for formatting PHPCR objects.
  *
  * @TODO: Rename this to PhpcrFormatterHelper
  */
@@ -37,7 +37,7 @@ class ResultFormatterHelper extends Helper
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -46,7 +46,7 @@ class ResultFormatterHelper extends Helper
 
     /**
      * Return the name of a property from its enumeration (i.e.
-     * the value of its CONSTANT)
+     * the value of its CONSTANT).
      *
      * @return string
      */
@@ -61,20 +61,20 @@ class ResultFormatterHelper extends Helper
     }
 
     /**
-     * Render a table with the results of the given QueryResultInterface
+     * Render a table with the results of the given QueryResultInterface.
      */
     public function formatQueryResult(QueryResultInterface $result, OutputInterface $output, $elapsed)
     {
         $table = new Table($output);
-        $table->setHeaders(array_merge(array(
+        $table->setHeaders(array_merge([
             'Path',
             'Index',
-        ), $result->getColumnNames()));
+        ], $result->getColumnNames()));
 
         foreach ($result->getRows() as $row) {
-            $values = array_merge(array(
+            $values = array_merge([
                 $row->getPath(),
-            ), $row->getValues());
+            ], $row->getValues());
 
             foreach ($values as &$value) {
                 $value = $this->textHelper->truncate($value, 255);
@@ -98,17 +98,17 @@ class ResultFormatterHelper extends Helper
     {
         $values = $property->getValue();
         if (false === $property->isMultiple()) {
-            $values = array($values);
+            $values = [$values];
         }
-        $return = array();
+        $return = [];
 
         foreach ($values as $value) {
             switch (intval($property->getType())) {
-                case PropertyType::UNDEFINED :
+                case PropertyType::UNDEFINED:
                     $return[] = '#UNDEFINED#';
-                case PropertyType::BINARY :
+                case PropertyType::BINARY:
                     if ($showBinary) {
-                        $lines = array();
+                        $lines = [];
                         $pointer = $value;
                         while (($line = fgets($pointer)) !== false) {
                             $lines[] = $line;
@@ -119,39 +119,40 @@ class ResultFormatterHelper extends Helper
                     }
 
                     return '(binary data)';
-                case PropertyType::BOOLEAN :
+                case PropertyType::BOOLEAN:
                     $return[] = $value ? 'true' : 'false';
                     break;
-                case PropertyType::DATE :
+                case PropertyType::DATE:
                     $return[] = $value->format('c');
                     break;
-                case PropertyType::REFERENCE :
-                case PropertyType::WEAKREFERENCE :
+                case PropertyType::REFERENCE:
+                case PropertyType::WEAKREFERENCE:
                     $return[] = sprintf(
                         '%s (%s)',
                         $this->textHelper->truncate($value->getPath(), 255),
                         $value->getIdentifier()
                     );
                     break;
-                case PropertyType::URI :
-                case PropertyType::STRING :
+                case PropertyType::URI:
+                case PropertyType::STRING:
                     $return[] = $truncate ? $this->textHelper->truncate($value) : $value;
                     break;
-                case PropertyType::NAME :
-                case PropertyType::LONG :
-                case PropertyType::DOUBLE :
-                case PropertyType::DECIMAL :
-                case PropertyType::PATH :
+                case PropertyType::NAME:
+                case PropertyType::LONG:
+                case PropertyType::DOUBLE:
+                case PropertyType::DECIMAL:
+                case PropertyType::PATH:
                     $return[] = $value;
                     break;
                 default:
-                    throw new \RuntimeException('Unknown type ' . $property->getType());
+                    throw new \RuntimeException('Unknown type '.$property->getType());
             }
         }
 
         if ($property->isMultiple()) {
             return implode("\n", array_map(function ($value) {
                 static $index = 0;
+
                 return sprintf('<comment>[%d]</comment> %s', $index++, $value);
             }, $return));
         }
@@ -161,7 +162,7 @@ class ResultFormatterHelper extends Helper
 
     public function formatNodePropertiesInline(NodeInterface $node)
     {
-        $out = array();
+        $out = [];
 
         foreach ($node->getProperties() as $property) {
             $out[] = sprintf('%s: %s',

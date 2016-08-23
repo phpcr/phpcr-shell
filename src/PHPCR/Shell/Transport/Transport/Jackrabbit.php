@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Transport\Transport;
 
 use Jackalope\RepositoryFactoryJackrabbit;
-use PHPCR\Shell\Transport\TransportInterface;
 use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Transport\TransportInterface;
 
 class Jackrabbit implements TransportInterface
 {
@@ -24,9 +25,9 @@ class Jackrabbit implements TransportInterface
 
     public function getRepository(Config $config)
     {
-        $params = array(
+        $params = [
             'jackalope.jackrabbit_uri'  => $config['repo_url'],
-        );
+        ];
         $factory = new RepositoryFactoryJackrabbit();
         $repository = $factory->getRepository($params);
 

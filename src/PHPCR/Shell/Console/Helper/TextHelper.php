@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
@@ -14,7 +15,7 @@ namespace PHPCR\Shell\Console\Helper;
 use Symfony\Component\Console\Helper\Helper;
 
 /**
- * Helper for text plain text formatting
+ * Helper for text plain text formatting.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -22,12 +23,13 @@ class TextHelper extends Helper
 {
     /**
      * @todo: Make this configurable
-     * @var integer
+     *
+     * @var int
      */
     protected $truncateLength = 75;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -35,12 +37,12 @@ class TextHelper extends Helper
     }
 
     /**
-     * Truncate the given string
+     * Truncate the given string.
      *
-     * @param string  $string      String to truncate
-     * @param integer $length      Truncate to this length
-     * @param string  $alignment   Align to the "left" or the "right"
-     * @param string  $delimString String to use to use to indicate the truncation
+     * @param string $string      String to truncate
+     * @param int    $length      Truncate to this length
+     * @param string $alignment   Align to the "left" or the "right"
+     * @param string $delimString String to use to use to indicate the truncation
      *
      * @return string
      */
@@ -54,7 +56,7 @@ class TextHelper extends Helper
         $delimString = $delimString === null ? '...' : $delimString;
         $delimLen = strlen($delimString);
 
-        if (!in_array($alignment, array('left', 'right'))) {
+        if (!in_array($alignment, ['left', 'right'])) {
             throw new \InvalidArgumentException(
                 'Alignment must either be "left" or "right"'
             );
@@ -70,9 +72,9 @@ class TextHelper extends Helper
         if (strlen($string) > $length) {
             $offset = $length - $delimLen;
             if ('left' === $alignment) {
-                $string = substr($string, 0, $offset) . $delimString;
+                $string = substr($string, 0, $offset).$delimString;
             } else {
-                $string = $delimString . substr($string,
+                $string = $delimString.substr($string,
                     strlen($string) - $offset
                 );
             }

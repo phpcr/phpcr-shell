@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Shell;
@@ -21,7 +22,7 @@ class ClearCommand extends BaseCommand
     {
         $this->setName('shell:clear');
         $this->setDescription('Clear the screen');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Clear the screen
 EOT
         );

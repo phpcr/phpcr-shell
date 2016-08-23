@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class LockTokenRemoveCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class LockTokenRemoveCommand extends BasePhpcrCommand
         $this->setName('lock:token:remove');
         $this->setDescription('Remove a lock token to the current session');
         $this->addArgument('lockToken', InputArgument::REQUIRED, 'Lock token');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Removes the specified lock token from the current Session.
 HERE
         );

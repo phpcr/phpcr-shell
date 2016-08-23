@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Serializer;
@@ -22,8 +23,8 @@ class YamlEncoderSpec extends ObjectBehavior
 
     public function it_should_encode_to_yaml()
     {
-        $data = array('foobar' => 'barfoo', 'barfoo' => 'foobar');
-        $this->encode($data, 'yaml')->shouldReturn(<<<EOT
+        $data = ['foobar' => 'barfoo', 'barfoo' => 'foobar'];
+        $this->encode($data, 'yaml')->shouldReturn(<<<'EOT'
 foobar: barfoo
 barfoo: foobar
 
@@ -33,16 +34,14 @@ EOT
 
     public function is_should_decode_yaml()
     {
-        $yaml = <<<EOT
+        $yaml = <<<'EOT'
 foobar: barfoo
 barfoo: foobar
-EOT
-        ;
+EOT;
 
-        $this->decode($yaml, 'yaml')->shouldReturn(array(
+        $this->decode($yaml, 'yaml')->shouldReturn([
             'foobar' => 'barfoo',
-            'barfoo' => 'foobar'
-        ));
-
+            'barfoo' => 'foobar',
+        ]);
     }
 }

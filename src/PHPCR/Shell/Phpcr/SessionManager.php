@@ -7,31 +7,32 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Phpcr;
 
-use PHPCR\Shell\Config\Profile;
-use PHPCR\SimpleCredentials;
-use PHPCR\Shell\Transport\TransportRegistryInterface;
 use PHPCR\SessionInterface;
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Transport\TransportRegistryInterface;
+use PHPCR\SimpleCredentials;
 
 /**
- * PHPCR Session Manager
+ * PHPCR Session Manager.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
 class SessionManager
 {
     /**
-     * Active PHPCR session
+     * Active PHPCR session.
      *
      * @var \PHPCR\SessionInterface
      */
     protected $session;
 
     /**
-     * The transport registry
+     * The transport registry.
      *
      * @var TransportRegistryInterface
      */
@@ -60,9 +61,7 @@ class SessionManager
     }
 
     /**
-     * Initialize the PHPCR session
-     *
-     * @access private
+     * Initialize the PHPCR session.
      */
     private function initSession()
     {
@@ -85,7 +84,7 @@ class SessionManager
     }
 
     /**
-     * Change the current workspace
+     * Change the current workspace.
      *
      * @param string $workspaceName
      */
@@ -98,7 +97,7 @@ class SessionManager
     }
 
     /**
-     * Login (again)
+     * Login (again).
      *
      * @param string $username
      * @param string $password
@@ -134,7 +133,7 @@ class SessionManager
     }
 
     /**
-     * Proxy for getting the repository (make mocking easier)
+     * Proxy for getting the repository (make mocking easier).
      *
      * @return \PHPCR\RepositoryInterface
      */

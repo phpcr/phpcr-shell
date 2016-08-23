@@ -7,16 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Config;
 
-use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * Configuration manager
+ * Configuration manager.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -28,20 +29,20 @@ class ConfigManager
      *
      * @var array
      */
-    protected $configKeys = array(
+    protected $configKeys = [
         'alias',
         'phpcrsh',
-    );
+    ];
 
     /**
-     * Cached configuration
+     * Cached configuration.
      *
      * @var array
      */
     protected $cachedConfig = null;
 
     /**
-     * Filesystem
+     * Filesystem.
      *
      * @var Filesystem
      */
@@ -70,7 +71,7 @@ class ConfigManager
     }
 
     /**
-     * Return the configuration directory
+     * Return the configuration directory.
      *
      * @return string
      */
@@ -106,25 +107,25 @@ class ConfigManager
 
     private function getDistConfigDir()
     {
-        return __DIR__ . '/../Resources/config.dist';
+        return __DIR__.'/../Resources/config.dist';
     }
 
     /**
-     * Load the configuration
+     * Load the configuration.
      */
     public function loadConfig()
     {
-        $config = array();
+        $config = [];
 
         $configDir = $this->getConfigDir();
         $distConfigDir = $this->getDistConfigDir();
 
         foreach ($this->configKeys as $configKey) {
-            $fullPath = $configDir . '/' . $configKey . '.yml';
-            $fullDistPath = $distConfigDir . '/' . $configKey . '.yml';
-            $config[$configKey] = array();
+            $fullPath = $configDir.'/'.$configKey.'.yml';
+            $fullDistPath = $distConfigDir.'/'.$configKey.'.yml';
+            $config[$configKey] = [];
 
-            $userConfig = array();
+            $userConfig = [];
             if ($this->filesystem->exists($fullPath)) {
                 $userConfig = Yaml::parse(file_get_contents($fullPath));
             }
@@ -150,7 +151,7 @@ class ConfigManager
     }
 
     /**
-     * Return the configuration
+     * Return the configuration.
      *
      * @return array
      */
@@ -171,7 +172,7 @@ class ConfigManager
     }
 
     /**
-     * Initialize a configuration files
+     * Initialize a configuration files.
      */
     public function initConfig(OutputInterface $output = null, $noInteraction = false)
     {
@@ -189,28 +190,28 @@ class ConfigManager
         $distDir = $this->getDistConfigDir();
 
         if (!$this->filesystem->exists($configDir)) {
-            $log('<info>[+] Creating directory:</info> ' . $configDir);
+            $log('<info>[+] Creating directory:</info> '.$configDir);
             $this->filesystem->mkdir($configDir);
         }
 
-        $configFilenames = array(
+        $configFilenames = [
             'alias.yml',
             'phpcrsh.yml',
-        );
+        ];
 
         foreach ($configFilenames as $configFilename) {
-            $srcFile = $distDir . '/' . $configFilename;
-            $destFile = $configDir . '/' . $configFilename;
+            $srcFile = $distDir.'/'.$configFilename;
+            $destFile = $configDir.'/'.$configFilename;
 
             if (!$this->filesystem->exists($srcFile)) {
-                throw new \Exception('Dist (source) file "' . $srcFile . '" does not exist.');
+                throw new \Exception('Dist (source) file "'.$srcFile.'" does not exist.');
             }
 
             if ($this->filesystem->exists($destFile)) {
                 if (false === $noInteraction) {
                     $confirmed = $this->questionHelper->askConfirmation(
                         $output,
-                        '"' . $configFilename . '" already exists, do you want to overwrite it?'
+                        '"'.$configFilename.'" already exists, do you want to overwrite it?'
                     );
 
                     if (!$confirmed) {
@@ -222,7 +223,7 @@ class ConfigManager
             }
 
             $this->filesystem->copy($srcFile, $destFile);
-            $log('<info>[+] Creating file:</info> ' . $destFile);
+            $log('<info>[+] Creating file:</info> '.$destFile);
         }
     }
 }

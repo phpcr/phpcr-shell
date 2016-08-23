@@ -7,16 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Application;
 
-use Symfony\Component\Console\Application as BaseApplication;
-use Symfony\Component\Console\Input\InputDefinition;
-use Symfony\Component\Console\Input\InputInterface;
 use PHPCR\Shell\Console\Command\ShellCommand;
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\PhpcrShell;
+use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * This application wraps a single command which accepts
@@ -46,14 +47,14 @@ class SessionApplication extends BaseApplication
 
     public function getDefaultInputDefinition()
     {
-        return new InputDefinition(array());
+        return new InputDefinition([]);
     }
 
     /**
      * This application always runs the phpcr_shell command to connect
      * to the shell.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getCommandName(InputInterface $input)
     {
@@ -61,7 +62,7 @@ class SessionApplication extends BaseApplication
     }
 
     /**
-     * Return the shell application
+     * Return the shell application.
      *
      * @return ShellApplication
      */

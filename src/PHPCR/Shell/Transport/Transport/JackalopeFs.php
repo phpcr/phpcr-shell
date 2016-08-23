@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Transport\Transport;
 
-use PHPCR\Shell\Transport\TransportInterface;
 use Jackalope\RepositoryFactoryFilesystem;
 use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Transport\TransportInterface;
 
 class JackalopeFs implements TransportInterface
 {
@@ -24,9 +25,9 @@ class JackalopeFs implements TransportInterface
 
     public function getRepository(Config $config)
     {
-        $params = array(
+        $params = [
             'path'  => $config['repo_path'],
-        );
+        ];
         $factory = new RepositoryFactoryFilesystem();
         $repository = $factory->getRepository($params);
 

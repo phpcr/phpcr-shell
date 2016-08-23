@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class LockLockCommand extends BasePhpcrCommand
 {
@@ -28,7 +29,7 @@ class LockLockCommand extends BasePhpcrCommand
         $this->addOption('session-scoped', null, InputOption::VALUE_NONE, 'If given, this lock expires with the current session; if not it expires when explicitly or automatically unlocked for some other reason');
         $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Desired lock timeout in seconds (servers are free to ignore this value). If not used lock will not timeout');
         $this->addOption('owner-info', null, InputOption::VALUE_REQUIRED, ' string containing owner information supplied by the client; servers are free to ignore this value. If none is specified, the implementation chooses one (i.e. user name of current backend authentication credentials');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Places a lock on the node at <info>path</info>.
 
 If successful, the node is said to hold the lock.

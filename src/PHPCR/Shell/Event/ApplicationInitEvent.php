@@ -7,12 +7,13 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Console\Application;
+use Symfony\Component\EventDispatcher\Event;
 
 /**
  * This event is fired when the main shell application

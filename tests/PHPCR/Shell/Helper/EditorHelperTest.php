@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
@@ -23,14 +24,14 @@ class EditorHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testFromValue()
     {
-        $res = $this->helper->fromString(<<<EOT
+        $res = $this->helper->fromString(<<<'EOT'
 One
 Two
 Three
 EOT
         );
 
-        $this->assertEquals(<<<EOT
+        $this->assertEquals(<<<'EOT'
 One
 Two
 Three
@@ -50,19 +51,19 @@ EOT
 
     public function provideFromStringWithMessage()
     {
-        return array(
-            array(
-                <<<EOT
+        return [
+            [
+                <<<'EOT'
 This is some text that I want to edit
 EOT
             ,
-                <<<EOT
+                <<<'EOT'
 This is some text that I want the user to see in a commend
 
 OK
 EOT
-            ),
-        );
+            ],
+        ];
     }
 
     /**

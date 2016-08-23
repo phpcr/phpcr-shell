@@ -7,19 +7,20 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\Shell\Serializer\NodeNormalizer;
-use Symfony\Component\Serializer\Serializer;
-use PHPCR\Shell\Serializer\YamlEncoder;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PathNotFoundException;
+use PHPCR\Shell\Serializer\NodeNormalizer;
+use PHPCR\Shell\Serializer\YamlEncoder;
 use PHPCR\Util\UUIDHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Serializer\Serializer;
 
 class NodeEditCommand extends BasePhpcrCommand
 {
@@ -29,7 +30,7 @@ class NodeEditCommand extends BasePhpcrCommand
         $this->setDescription('Edit the given node in the EDITOR configured by the system');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Optional type to use when creating new nodes', 'nt:unstructured');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Edit or create a node at the given path using the default editor as defined by the EDITOR environment variable.
 
 When you invoke the command a temporary file in YAML format will be created on the filesystem. This file will
@@ -74,9 +75,9 @@ HERE
         $noRecurse = true;
 
         // for now we only support YAML
-        $encoders = array(new YamlEncoder());
+        $encoders = [new YamlEncoder()];
         $nodeNormalizer = new NodeNormalizer();
-        $serializer = new Serializer(array($nodeNormalizer), $encoders);
+        $serializer = new Serializer([$nodeNormalizer], $encoders);
         $outStr = $serializer->serialize($node, 'yaml');
 
         $tryAgain = false;
@@ -87,22 +88,20 @@ HERE
         do {
             $message = '';
             if ($error) {
-                $template = <<<EOT
+                $template = <<<'EOT'
 Error encounred:
 %s
 
-EOT
-                ;
+EOT;
                 $message .= sprintf($template, $error);
             }
 
             if ($notes) {
-                $template = <<<EOT
+                $template = <<<'EOT'
 NOTE:
 %s
 
-EOT
-                ;
+EOT;
                 $message .= sprintf($template, $notes);
             }
 
@@ -114,13 +113,13 @@ EOT
             }
 
             try {
-                $norm = $serializer->deserialize($inStr, 'PHPCR\NodeInterface', 'yaml', array(
+                $norm = $serializer->deserialize($inStr, 'PHPCR\NodeInterface', 'yaml', [
                     'node' => $node,
-                ));
+                ]);
                 $tryAgain = false;
             } catch (\Exception $e) {
                 $error = $e->getMessage();
-                $output->writeln('<error>' . $error . '</error>');
+                $output->writeln('<error>'.$error.'</error>');
                 if (false === $input->getOption('no-interaction')) {
                     $tryAgain = $dialog->askConfirmation($output, 'Do you want to try again? (y/n)');
                 }

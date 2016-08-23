@@ -7,17 +7,18 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\Util\CND\Writer\CndWriter;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
+use PHPCR\Util\CND\Writer\CndWriter;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeTypeEditCommand extends BasePhpcrCommand
 {
@@ -26,7 +27,7 @@ class NodeTypeEditCommand extends BasePhpcrCommand
         $this->setName('node-type:edit');
         $this->setDescription('Edit or create a node type');
         $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'The name of the node type to edit or create');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Edit the given node type name with the editor defined in the EDITOR environment variable.
 
 If the node type does not exist, it will be created. All node types must be prefixed with
@@ -52,7 +53,7 @@ HERE
         try {
             $nodeType = $nodeTypeManager->getNodeType($nodeTypeName);
             $cndWriter = new CndWriter($namespaceRegistry);
-            $out = $cndWriter->writeString(array($nodeType));
+            $out = $cndWriter->writeString([$nodeType]);
             $message = null;
         } catch (NoSuchNodeTypeException $e) {
             $parts = explode(':', $nodeTypeName);
@@ -62,7 +63,7 @@ HERE
                     'Node type names must be prefixed with a namespace, e.g. ns:foobar'
                 );
             }
-            list($namespace, $name)  = $parts;
+            list($namespace, $name) = $parts;
             $uri = $session->getNamespaceURI($namespace);
 
             // so we will create one ..
@@ -70,12 +71,10 @@ HERE
 <$namespace ='$uri'>
 [$namespace:$name] > nt:unstructured
 
-EOT
-            ;
+EOT;
             $message = <<<EOT
 Creating a new node type: $nodeTypeName
-EOT
-            ;
+EOT;
         }
 
         $valid = false;
@@ -109,7 +108,7 @@ EOT
                     return 1;
                 }
 
-                $message = 'The following errors were encountered (all lines starting with ' . $prefix . ' will be ignored):';
+                $message = 'The following errors were encountered (all lines starting with '.$prefix.' will be ignored):';
                 $message .= PHP_EOL;
                 $message .= PHP_EOL;
                 $message .= $e->getMessage();

@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
 use PHPCR\Shell\Console\Command\BaseCommand;
+use PHPCR\Shell\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Console\Helper\Table;
 
 class AliasListCommand extends BaseCommand
 {
@@ -22,7 +23,7 @@ class AliasListCommand extends BaseCommand
     {
         $this->setName('shell:alias:list');
         $this->setDescription('List all the registered aliases');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 List the aliases as defined in <info>~/.phpcrsh/aliases.yml</info>.
 EOT
         );
@@ -34,10 +35,10 @@ EOT
         $aliases = $config->getConfig('alias');
 
         $table = new Table($output);
-        $table->setHeaders(array('Alias', 'Command'));
+        $table->setHeaders(['Alias', 'Command']);
 
         foreach ($aliases as $alias => $command) {
-            $table->addRow(array($alias, $command));
+            $table->addRow([$alias, $command]);
         }
 
         $table->render($output);

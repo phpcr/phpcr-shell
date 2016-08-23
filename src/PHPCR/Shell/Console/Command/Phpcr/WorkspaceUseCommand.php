@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class WorkspaceUseCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class WorkspaceUseCommand extends BasePhpcrCommand
         $this->setDescription('Change the current workspace');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of workspace to use');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, clone from this workspace');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Change the workspace.
 HERE
         );

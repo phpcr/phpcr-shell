@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Shell;
@@ -31,9 +32,9 @@ class PathChangeCommand extends BaseCommand
         $path = $input->getArgument('path');
         try {
             $session->chdir($path);
-            $output->writeln('<comment>' . $session->getCwd() . '</comment>');
+            $output->writeln('<comment>'.$session->getCwd().'</comment>');
         } catch (PathNotFoundException $e) {
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            $output->writeln('<error>'.$e->getMessage().'</error>');
         }
     }
 }

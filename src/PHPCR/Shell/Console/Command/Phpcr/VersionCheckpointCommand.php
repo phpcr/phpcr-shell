@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class VersionCheckpointCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class VersionCheckpointCommand extends BasePhpcrCommand
         $this->setName('version:checkpoint');
         $this->setDescription('Checkin and then checkout a node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to node');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Performs a <info>version:checkin</info> followed by a <info>version:checkout</info> on the versionable node at
 <info>path</info>
 
@@ -45,6 +46,6 @@ HERE
         $versionManager = $workspace->getVersionManager();
         $version = $versionManager->checkpoint($node->getPath());
 
-        $output->writeln('Version: ' . $version->getName());
+        $output->writeln('Version: '.$version->getName());
     }
 }

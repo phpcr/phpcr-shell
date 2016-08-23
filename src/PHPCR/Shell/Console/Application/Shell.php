@@ -7,16 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Application;
 
+use PHPCR\Shell\Console\Input\StringInput;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use PHPCR\Shell\Console\Input\StringInput;
 
 /**
- * This is more or less a copy of the Symfony\Component\Shell
+ * This is more or less a copy of the Symfony\Component\Shell.
  *
  * @author Daniel Leech
  */
@@ -55,7 +56,7 @@ class Shell
 
         if ($this->hasReadline) {
             readline_read_history($this->history);
-            readline_completion_function(array($this, 'autocompleter'));
+            readline_completion_function([$this, 'autocompleter']);
         }
 
         $this->output->writeln($this->getHeader());
@@ -106,7 +107,7 @@ EOF;
      *
      * @param string $text The last segment of the entered text
      *
-     * @return Boolean|array A list of guessed strings or true
+     * @return bool|array A list of guessed strings or true
      */
     private function autocompleter($text)
     {

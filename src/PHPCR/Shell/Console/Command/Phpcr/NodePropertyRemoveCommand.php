@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\PathNotFoundException;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\PathNotFoundException;
 
 class NodePropertyRemoveCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodePropertyRemoveCommand extends BasePhpcrCommand
         $this->setName('node:property:remove');
         $this->setDescription('Remove the property at the given absolute path');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to property');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Remove the property from the current session at the given path
 HERE
         );

@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionHoldAddCommand extends BasePhpcrCommand
 {
@@ -26,7 +27,7 @@ class RetentionHoldAddCommand extends BasePhpcrCommand
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node to which we want to add a hold');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of hold to add');
         $this->addOption('deep', null, InputOption::VALUE_NONE, 'Apply hold also to the children of specified node.');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Places a hold on the existing node at <info>absPath</info>.
 
 If the <info>is-deep</info> is true the hold applies to this node and its

@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Test;
@@ -23,13 +24,13 @@ class StandaloneContext extends ContextBase
         $sessionApplication = new SessionApplication();
         $shellApplication = $sessionApplication->getShellApplication();
         $tester = new ApplicationTester($sessionApplication, $shellApplication);
-        $tester->run(array(
-            '--transport' => 'jackrabbit',
+        $tester->run([
+            '--transport'      => 'jackrabbit',
             '--no-interaction' => true,
-            '--unsupported' => true, // test all the commands, even if they are unsupported (we test for the fail)
-        ), array(
+            '--unsupported'    => true, // test all the commands, even if they are unsupported (we test for the fail)
+        ], [
             'interactive' => true,
-        ));
+        ]);
 
         return $tester;
     }

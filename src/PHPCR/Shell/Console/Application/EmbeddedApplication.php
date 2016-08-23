@@ -7,18 +7,19 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Application;
 
+use PHPCR\Shell\Console\Input\StringInput;
 use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\PhpcrShell;
-use PHPCR\Shell\Console\Input\StringInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Subclass of the full ShellApplication for running as an EmbeddedApplication
- * (e.g. from with the DoctrinePhpcrBundle)
+ * (e.g. from with the DoctrinePhpcrBundle).
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -34,7 +35,7 @@ class EmbeddedApplication extends ShellApplication
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function init()
     {
@@ -46,7 +47,7 @@ class EmbeddedApplication extends ShellApplication
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function getDefaultCommand()
     {
@@ -56,6 +57,7 @@ class EmbeddedApplication extends ShellApplication
     public function runWithStringInput($stringInput, OutputInterface $output)
     {
         $input = new StringInput($stringInput);
+
         return $this->run($input, $output);
     }
 }

@@ -7,16 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
 use Symfony\Component\Console\ConsoleEvents;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Automatically save on console terminate event
+ * Automatically save on console terminate event.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -24,9 +25,9 @@ class AutoSaveSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             ConsoleEvents::TERMINATE => 'handleTerminate',
-        );
+        ];
     }
 
     public function handleTerminate(ConsoleTerminateEvent $event)

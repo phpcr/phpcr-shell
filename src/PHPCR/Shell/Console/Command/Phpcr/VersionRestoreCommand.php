@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionRestoreCommand extends BasePhpcrCommand
 {
@@ -26,7 +27,7 @@ class VersionRestoreCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to node');
         $this->addArgument('versionName', InputArgument::REQUIRED, 'Name of version to retore');
         $this->addOption('remove-existing', null, InputOption::VALUE_NONE, 'Flag that governs what happens in case of identifier collision');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Attempt to restore an old version of a node.
 
 The <comment>versionName</comment> should correspond to a version name as revealed by

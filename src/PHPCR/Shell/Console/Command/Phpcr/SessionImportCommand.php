@@ -7,25 +7,25 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\Util\PathHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionImportCommand extends BasePhpcrCommand
 {
-    protected $uuidBehaviors = array(
+    protected $uuidBehaviors = [
         'create-new',
         'collision-remove-existing',
         'collision-replace-existing',
         'collision-throw',
-    );
+    ];
 
     protected function configure()
     {
@@ -34,7 +34,7 @@ class SessionImportCommand extends BasePhpcrCommand
         $this->addArgument('parentAbsPath', InputArgument::REQUIRED, 'Path of node to export');
         $this->addArgument('file', InputArgument::REQUIRED, 'File to import from');
         $this->addOption('uuid-behavior', null, InputOption::VALUE_REQUIRED, 'UUID behavior', 'create-new');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Import the specified XML document into the current session as a child of the node specified
 by the <info>parentAbsPath</info> argument.
 
@@ -89,7 +89,7 @@ HERE
             throw new \Exception(sprintf(
                 "The specified uuid behavior \"%s\" is invalid, you should use one of:\n%s",
                 $uuidBehavior,
-                '    - ' . implode("\n    - ", $this->uuidBehaviors)
+                '    - '.implode("\n    - ", $this->uuidBehaviors)
             ));
         }
 
@@ -101,7 +101,7 @@ HERE
 
         PathHelper::assertValidAbsolutePath($parentAbsPath);
 
-        $uuidBehavior = constant('\PHPCR\ImportUUIDBehaviorInterface::IMPORT_UUID_' . strtoupper(str_replace('-', '_', $uuidBehavior)));
+        $uuidBehavior = constant('\PHPCR\ImportUUIDBehaviorInterface::IMPORT_UUID_'.strtoupper(str_replace('-', '_', $uuidBehavior)));
 
         $session->importXml($parentAbsPath, $file, $uuidBehavior);
     }

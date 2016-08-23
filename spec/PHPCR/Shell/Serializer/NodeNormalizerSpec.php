@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Serializer;
 
-use PhpSpec\ObjectBehavior;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
 use PHPCR\PropertyType;
+use PhpSpec\ObjectBehavior;
 
 class NodeNormalizerSpec extends ObjectBehavior
 {
@@ -28,11 +29,10 @@ class NodeNormalizerSpec extends ObjectBehavior
         PropertyInterface $p1,
         PropertyInterface $p2,
         PropertyInterface $p3
-    )
-    {
-        $node->getProperties()->willReturn(array(
-            $p1, $p2, $p3
-        ));
+    ) {
+        $node->getProperties()->willReturn([
+            $p1, $p2, $p3,
+        ]);
 
         $p1->getName()->willReturn('my:property.1');
         $p1->getType()->willReturn(PropertyType::STRING);
@@ -44,19 +44,19 @@ class NodeNormalizerSpec extends ObjectBehavior
         $p3->getType()->willReturn(PropertyType::STRING);
         $p3->getValue()->willReturn('P3 Val');
 
-        $this->normalize($node)->shouldReturn(array(
-            'my:property.1' => array(
-                'type' => 'String',
+        $this->normalize($node)->shouldReturn([
+            'my:property.1' => [
+                'type'  => 'String',
                 'value' => 'P1 Val',
-            ),
-            'my:property.2' => array(
-                'type' => 'Double',
+            ],
+            'my:property.2' => [
+                'type'  => 'Double',
                 'value' => 'P2 Val',
-            ),
-            'my:property.3' => array(
-                'type' => 'String',
+            ],
+            'my:property.3' => [
+                'type'  => 'String',
                 'value' => 'P3 Val',
-            ),
-        ));
+            ],
+        ]);
     }
 }

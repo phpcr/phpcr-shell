@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\InvalidQueryException;
 use PHPCR\Query\QOM\SourceInterface;
-use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
 use PHPCR\Util\QOM\Sql2Scanner;
+use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
 
 /**
  * Parse "UPDATE" queries.
@@ -49,8 +50,8 @@ class UpdateParser extends Sql2ToQomQueryConverter
         $this->sql2 = $sql2;
         $source = null;
         $constraint = null;
-        $updates = array();
-        $applies = array();
+        $updates = [];
+        $applies = [];
 
         while ($this->scanner->lookupNextToken() !== '') {
             switch (strtoupper($this->scanner->lookupNextToken())) {
@@ -71,7 +72,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
                     $constraint = $this->parseConstraint();
                     break;
                 default:
-                    throw new InvalidQueryException('Expected end of query, got "' . $this->scanner->lookupNextToken() . '" in ' . $this->sql2);
+                    throw new InvalidQueryException('Expected end of query, got "'.$this->scanner->lookupNextToken().'" in '.$this->sql2);
             }
         }
 
@@ -81,7 +82,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         $query = $this->factory->createQuery($source, $constraint);
 
-        $res = new \ArrayObject(array($query, $updates, $constraint, $applies));
+        $res = new \ArrayObject([$query, $updates, $constraint, $applies]);
 
         return $res;
     }
@@ -89,7 +90,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
     /**
      * Parse the SET section of the query, returning
      * an array containing the property names (<selectorName.propertyName)
-     * as keys and an array
+     * as keys and an array.
      *
      * array(
      *     'selector' => <selector>,
@@ -101,14 +102,14 @@ class UpdateParser extends Sql2ToQomQueryConverter
      */
     private function parseUpdates()
     {
-        $updates = array();
+        $updates = [];
 
         while (true) {
-            $property = array(
+            $property = [
                 'selector' => null,
-                'name' => null,
-                'value' => null,
-            );
+                'name'     => null,
+                'value'    => null,
+            ];
 
             // parse left side
             $selectorName = $this->scanner->fetchNextToken();
@@ -181,7 +182,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
     private function parseApply()
     {
-        $functions = array();
+        $functions = [];
 
         while (true) {
             $token = strtoupper($this->scanner->lookupNextToken());
@@ -209,17 +210,17 @@ class UpdateParser extends Sql2ToQomQueryConverter
         $functionName = $this->scanner->fetchNextToken();
         $this->scanner->expectToken('(');
 
-        $args = array();
+        $args = [];
         $next = true;
         while ($next && $next !== ')') {
             $args[] = $this->parseOperand();
 
             $next = $this->scanner->fetchNextToken();
-            if (!in_array($next, array(',', ')', ''))) {
+            if (!in_array($next, [',', ')', ''])) {
                 throw new InvalidQueryException(sprintf('Invalid function argument delimiter "%s" in "%s"', $next, $this->sql2));
             }
         }
 
-        return array($functionName, $args);
+        return [$functionName, $args];
     }
 }

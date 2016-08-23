@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
@@ -22,7 +23,7 @@ class QuerySelectCommand extends BaseQueryCommand
         $this->setName('select');
         $this->setDescription('Execute a SELECT query (JCR-SQL2)');
         $this->addArgument('query');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Execute a JCR-SQL2 query. Unlike other commands you can enter a query literally:
 
      SELECT * FROM [nt:unstructured];

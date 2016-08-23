@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Shell;
 
+use PHPCR\Shell\Console\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Console\Command\BaseCommand;
 
 class PathShowCommand extends BaseCommand
 {
@@ -26,7 +27,7 @@ class PathShowCommand extends BaseCommand
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(
-            '<comment>' . $this->get('phpcr.session')->getCwd() . '</comment>'
+            '<comment>'.$this->get('phpcr.session')->getCwd().'</comment>'
         );
     }
 }

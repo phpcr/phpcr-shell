@@ -7,18 +7,19 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell;
 
-use PHPCR\Shell\Console\Application\SessionApplication;
 use PHPCR\SessionInterface;
-use PHPCR\Shell\DependencyInjection\Container;
+use PHPCR\Shell\Console\Application\SessionApplication;
 use PHPCR\Shell\Console\Application\Shell;
+use PHPCR\Shell\DependencyInjection\Container;
 use PHPCR\Shell\Phpcr\PhpcrSession;
 
 /**
- * PHPCRShell entry point
+ * PHPCRShell entry point.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -32,9 +33,10 @@ class PhpcrShell
     const MODE_STANDALONE = 'standalon';
 
     /**
-     * Create a new embedded shell
+     * Create a new embedded shell.
      *
-     * @param  SessionInterface $session
+     * @param SessionInterface $session
+     *
      * @return Shell
      */
     public static function createEmbeddedShell(SessionInterface $session)
@@ -48,9 +50,10 @@ class PhpcrShell
 
     /**
      * Create a new (non-interactive) embedded application (e.g. for running
-     * single commands)
+     * single commands).
      *
-     * @param  SessionInterface    $session
+     * @param SessionInterface $session
+     *
      * @return EmbeddedApplication
      */
     public static function createEmbeddedApplication(SessionInterface $session)
@@ -63,7 +66,7 @@ class PhpcrShell
     }
 
     /**
-     * Create a new standalone shell application
+     * Create a new standalone shell application.
      *
      * @return SessionApplication
      */

@@ -7,12 +7,12 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Config;
 
 use PhpSpec\ObjectBehavior;
-use PHPCR\Shell\Config\Config;
 
 class ProfileSpec extends ObjectBehavior
 {
@@ -29,16 +29,15 @@ class ProfileSpec extends ObjectBehavior
     }
 
     public function it_has_a_method_to_set_config(
-    )
-    {
-        $this->set('transport', array());
+    ) {
+        $this->set('transport', []);
     }
 
     public function it_has_a_method_to_get_config()
     {
-        $this->set('transport', array(
-            'foo' => 'bar'
-        ));
+        $this->set('transport', [
+            'foo' => 'bar',
+        ]);
 
         $this->get('transport')->shouldHaveType('PHPCR\Shell\Config\Config');
 

@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeRemoveCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class NodeRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove the node at path (can include wildcards)');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addOption('shared', null, InputOption::VALUE_NONE, 'Remove nodes in shared set');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Remove the node at the given path.
 
 If the `--shared` option is specified then any nodes within this nodes
@@ -39,7 +40,7 @@ HERE
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
         $currentPath = $session->getCwd();
-        $nodePaths = array();
+        $nodePaths = [];
 
         // verify that node exists by trying to get it..
         $nodes = $session->findNodes($path);
@@ -54,7 +55,7 @@ HERE
             $references = $node->getReferences();
 
             if (count($references) > 0) {
-                $paths = array();
+                $paths = [];
                 foreach ($references as $reference) {
                     $paths[] = $reference->getPath();
                 }

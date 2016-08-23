@@ -7,15 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\Shell\Query\UpdateParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Query\UpdateParser;
-use PHPCR\Shell\Query\UpdateProcessor;
 
 class QueryUpdateCommand extends BaseQueryCommand
 {
@@ -29,7 +29,7 @@ class QueryUpdateCommand extends BaseQueryCommand
         $this->setName('update');
         $this->setDescription('Execute an UPDATE query (non-standard)');
         $this->addArgument('query');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Execute a PHPCR-Shell JCR-SQL2 update query. You can enter a query literally:
 
      UPDATE [nt:unstructured] AS a SET title = 'foobar' WHERE a.title = 'barfoo';

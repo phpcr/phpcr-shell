@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use PHPCR\Shell\Event\PhpcrShellEvents;
-use PHPCR\Shell\Event\CommandPreRunEvent;
-use PHPCR\Shell\Console\Input\StringInput;
 use PHPCR\Shell\Config\ConfigManager;
+use PHPCR\Shell\Console\Input\StringInput;
+use PHPCR\Shell\Event\CommandPreRunEvent;
+use PHPCR\Shell\Event\PhpcrShellEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Check to see if the input references a command alias and
@@ -37,9 +38,9 @@ class AliasSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             PhpcrShellEvents::COMMAND_PRE_RUN => 'handleAlias',
-        );
+        ];
     }
 
     /**

@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class NodeSetPrimaryTypeCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodeSetPrimaryTypeCommand extends BasePhpcrCommand
         $this->setDescription('Set the primary type of the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
         $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'New primary node type name');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Changes the primary node type of this node to nodeTypeName.
 
 Also immediately changes this node's jcr:primaryType property

@@ -7,24 +7,25 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
 use PHPCR\NodeInterface;
+use Symfony\Component\Console\Helper\Helper;
 
 /**
- * Helper for nodes
+ * Helper for nodes.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
 class NodeHelper extends Helper
 {
     /**
-     * Return true if the given node has the given mixinType
+     * Return true if the given node has the given mixinType.
      *
-     * @return boolean
+     * @return bool
      */
     public function nodeHasMixinType($node, $mixinTypeName)
     {
@@ -40,7 +41,7 @@ class NodeHelper extends Helper
     }
 
     /**
-     * Return true if the given node is versionable
+     * Return true if the given node is versionable.
      */
     public function assertNodeIsVersionable(NodeInterface $node)
     {

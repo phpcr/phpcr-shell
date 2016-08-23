@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
 use PHPCR\Shell\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionHoldListCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class RetentionHoldListCommand extends BasePhpcrCommand
         $this->setName('retention:hold:list');
         $this->setDescription('List retention holds at given absolute path UNSUPPORTED');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node to which we want to add a hold');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Lists all hold object names that have been added to the
 existing node at <info>absPath</info>.
 HERE
@@ -41,10 +42,10 @@ HERE
 
         $holds = $retentionManager->getHolds($absPath);
         $table = new Table($output);
-        $table->setHeaders(array('Name'));
+        $table->setHeaders(['Name']);
 
         foreach ($holds as $hold) {
-            $table->addRow(array($hold->getName()));
+            $table->addRow([$hold->getName()]);
         }
 
         $table->render($output);

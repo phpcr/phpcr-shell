@@ -7,12 +7,13 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Query;
 
-use PHPCR\Query\RowInterface;
 use PHPCR\Query\InvalidQueryException;
+use PHPCR\Query\RowInterface;
 
 /**
  * Simple class to represent function operands in query
@@ -32,7 +33,7 @@ class FunctionOperand
     }
 
     /**
-     * Replace the Operand objects with their evaluations
+     * Replace the Operand objects with their evaluations.
      *
      * @param array Array of function closures
      * @param RowInterface $row
@@ -44,14 +45,14 @@ class FunctionOperand
                 $this->arguments[$key] = $row->getNode($value->getSelectorName())->getPropertyValue($value->getPropertyName());
             }
 
-            if ($value instanceof FunctionOperand) {
+            if ($value instanceof self) {
                 $this->arguments[$key] = $value->execute($functionMap, $row, $value);
             }
         }
     }
 
     /**
-     * Evaluate the result of the function
+     * Evaluate the result of the function.
      *
      * @param array Array of function closures
      * @param RowInterface $row
@@ -78,9 +79,10 @@ class FunctionOperand
     }
 
     /**
-     * Used as callback for closure functions
+     * Used as callback for closure functions.
      *
      * @param array Array of values which must be scalars
+     *
      * @throws InvalidArgumentException
      */
     public function validateScalarArray($array)
@@ -103,7 +105,7 @@ class FunctionOperand
     }
 
     /**
-     * Return the name of the function to execute
+     * Return the name of the function to execute.
      *
      * @return string
      */
@@ -113,7 +115,7 @@ class FunctionOperand
     }
 
     /**
-     * Return the functions arguments
+     * Return the functions arguments.
      *
      * @return mixed
      */

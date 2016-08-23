@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class VersionCheckinCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class VersionCheckinCommand extends BasePhpcrCommand
         $this->setName('version:checkin');
         $this->setDescription('Checkin (commit) a node version');
         $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Creates for the versionable node at <info>path</info> a new version with a system
 generated version name and returns that version (which will be the new
 base version of this node). Sets the <property>jcr:checkedOut</property> property to false
@@ -70,6 +71,6 @@ HERE
 
         $version = $versionManager->checkin($node->getPath());
 
-        $output->writeln('Version: ' . $version->getName());
+        $output->writeln('Version: '.$version->getName());
     }
 }

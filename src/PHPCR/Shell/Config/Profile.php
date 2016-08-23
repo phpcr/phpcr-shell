@@ -7,19 +7,20 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Config;
 
 /**
- * Configuration profile object
+ * Configuration profile object.
  */
 class Profile
 {
-    protected $profile = array(
-        'transport' => array(),
-        'phpcr' => array(),
-    );
+    protected $profile = [
+        'transport' => [],
+        'phpcr'     => [],
+    ];
 
     protected $name;
 
@@ -29,7 +30,7 @@ class Profile
     }
 
     /**
-     * Return the array data for this profile
+     * Return the array data for this profile.
      *
      * @return array
      */
@@ -49,12 +50,11 @@ class Profile
     }
 
     /**
-     * Set a domain configuration
+     * Set a domain configuration.
      *
-     * @param string     $domain
+     * @param string $domain
      * @param $key
      * @param array|null $value
-     *
      */
     public function set($domain, $key, $value = null)
     {
@@ -67,12 +67,13 @@ class Profile
     }
 
     /**
-     * Get a domain configuration
+     * Get a domain configuration.
      *
      * @param string $domain
      * @param string $key
      *
      * @throws \InvalidArgumentException
+     *
      * @return array
      */
     public function get($domain, $key = null)
@@ -94,7 +95,7 @@ class Profile
     }
 
     /**
-     * Return the name of this profile
+     * Return the name of this profile.
      *
      * @return string $name
      */

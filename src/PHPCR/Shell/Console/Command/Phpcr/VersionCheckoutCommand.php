@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class VersionCheckoutCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class VersionCheckoutCommand extends BasePhpcrCommand
         $this->setName('version:checkout');
         $this->setDescription('Checkout a node version and enable changes to be made');
         $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Sets the versionable node at <info>path</info> to checked-out status by setting
 its jcr:isCheckedOut property to true. Under full versioning it also sets
 the jcr:predecessors property to be a reference to the current base

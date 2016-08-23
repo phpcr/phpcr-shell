@@ -7,12 +7,13 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
 
-use Symfony\Component\Console\Helper\Helper;
 use PHPCR\Shell\Phpcr\SessionManager;
+use Symfony\Component\Console\Helper\Helper;
 
 class RepositoryHelper extends Helper
 {
@@ -33,7 +34,7 @@ class RepositoryHelper extends Helper
 
     /**
      * Return true if the sessionManager supports the given descriptor
-     * which relates to a descriptor key
+     * which relates to a descriptor key.
      *
      * @param string $descriptor
      */

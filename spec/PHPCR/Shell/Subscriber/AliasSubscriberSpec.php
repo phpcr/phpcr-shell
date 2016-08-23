@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Subscriber;
 
-use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use PHPCR\Shell\Config\ConfigManager;
 use PHPCR\Shell\Console\Input\StringInput;
 use PHPCR\Shell\Event\CommandPreRunEvent;
+use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 class AliasSubscriberSpec extends ObjectBehavior
 {
@@ -31,10 +32,10 @@ class AliasSubscriberSpec extends ObjectBehavior
             $config
         );
 
-        $config->getConfig('alias')->willReturn(array(
+        $config->getConfig('alias')->willReturn([
             'ls' => 'list:command',
             'mv' => 'move',
-        ));
+        ]);
     }
 
     public function it_should_convert_an_aliased_input_into_a_real_command_input(
