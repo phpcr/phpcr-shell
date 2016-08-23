@@ -18,8 +18,8 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->phpcr = $this->getMock('PHPCR\SessionInterface');
-        $this->session = new PhpcrSession($this->phpcr);
+        $this->phpcr = $this->prophesize('PHPCR\SessionInterface');
+        $this->session = new PhpcrSession($this->phpcr->reveal());
     }
 
     public function provideChdir()
@@ -80,12 +80,9 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
      */
     public function testMv($cwd, $relSrc, $relTar, $expSrc, $expTar)
     {
-        $this->phpcr->expects($this->once())
-            ->method('move')
-            ->with($expSrc, $expTar);
-        $this->phpcr->expects($this->once())
-            ->method('getNode')
-            ->will($this->throwException(new PathNotFoundException()));
+        $this->phpcr->move($expSrc, $expTar)->shouldBeCalled();
+
+        $this->phpcr->getNode('/bar', -1)->willThrow(new PathNotFoundException());
         $this->session->setCwd($cwd);
         $this->session->move($relSrc, $relTar);
     }

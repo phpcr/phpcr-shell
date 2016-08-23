@@ -11,18 +11,19 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
+use PHPCR\NodeInterface;
+
 class NodeHelperTest extends \PHPUnit_Framework_TestCase
 {
     protected $nodeHelper;
 
     public function setUp()
     {
-        $this->session = $this->getMock('PHPCR\SessionInterface');
-        $this->helper = new NodeHelper($this->session);
-        $this->node = $this->getMockBuilder('Jackalope\Node')
-            ->disableOriginalConstructor()->getMock();
+        $this->session = $this->prophesize('PHPCR\SessionInterface');
+        $this->helper = new NodeHelper($this->session->reveal());
+        $this->node = $this->prophesize(NodeInterface::class);
 
-        $this->nodeType1 = $this->getMock('PHPCR\NodeType\NodeTypeInterface');
+        $this->nodeType1 = $this->prophesize('PHPCR\NodeType\NodeTypeInterface');
     }
 
     public function provideAssertNodeIsVersionable()
@@ -38,21 +39,18 @@ class NodeHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertNodeIsVersionable($isVersionable)
     {
-        $this->node->expects($this->once())
-            ->method('getMixinNodeTypes')
-            ->will($this->returnValue(array(
-                $this->nodeType1,
-            )));
+        $this->node->getMixinNodeTypes()->willReturn([
+            $this->nodeType1->reveal()
+        ]);
+        $this->node->getPath()->willReturn('/');
 
         $nodeTypeName = $isVersionable ? 'mix:versionable' : 'nt:foobar';
 
-        $this->nodeType1->expects($this->once())
-            ->method('getName')
-            ->will($this->returnValue($nodeTypeName));
+        $this->nodeType1->getName()->willReturn($nodeTypeName);
 
         if (false == $isVersionable) {
             $this->setExpectedException('\OutOfBoundsException', 'is not versionable');
         }
-        $this->helper->assertNodeIsVersionable($this->node);
+        $this->helper->assertNodeIsVersionable($this->node->reveal());
     }
 }
