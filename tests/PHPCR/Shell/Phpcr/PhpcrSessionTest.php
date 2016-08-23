@@ -7,11 +7,11 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Phpcr;
 
-use PHPCR\SessionInterface;
 use PHPCR\PathNotFoundException;
 
 class PhpcrSessionTest extends \Phpunit_Framework_TestCase
@@ -24,15 +24,15 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
 
     public function provideChdir()
     {
-        return array(
-            array('/', '/', '/'),
-            array('/', 'cms', '/cms'),
-            array('/', '/cms', '/cms'),
-            array('/cms', 'foo', '/cms/foo'),
-            array('/cms', '..', '/'),
-            array('/', '..', '/'),
-            array('/cms/foobar/foo', '..', '/cms/foobar'),
-        );
+        return [
+            ['/', '/', '/'],
+            ['/', 'cms', '/cms'],
+            ['/', '/cms', '/cms'],
+            ['/cms', 'foo', '/cms/foo'],
+            ['/cms', '..', '/'],
+            ['/', '..', '/'],
+            ['/cms/foobar/foo', '..', '/cms/foobar'],
+        ];
     }
 
     /**
@@ -47,15 +47,15 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
 
     public function provideAbsPath()
     {
-        return array(
-            array('/', '/', '/'),
-            array('/', 'cms', '/cms'),
-            array('/', '/cms', '/cms'),
-            array('/cms', 'foo', '/cms/foo'),
-            array('/cms', '', '/cms'),
-            array('/cms', null, '/cms'),
-            array('/cms', '.', '/cms'),
-        );
+        return [
+            ['/', '/', '/'],
+            ['/', 'cms', '/cms'],
+            ['/', '/cms', '/cms'],
+            ['/cms', 'foo', '/cms/foo'],
+            ['/cms', '', '/cms'],
+            ['/cms', null, '/cms'],
+            ['/cms', '.', '/cms'],
+        ];
     }
 
     /**
@@ -70,9 +70,9 @@ class PhpcrSessionTest extends \Phpunit_Framework_TestCase
 
     public function provideMv()
     {
-        return array(
-            array('/', 'foo', 'bar', '/foo', '/bar')
-        );
+        return [
+            ['/', 'foo', 'bar', '/foo', '/bar'],
+        ];
     }
 
     /**

@@ -7,23 +7,24 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Test;
 
-use Jackalope\RepositoryFactoryJackrabbit;
-use PHPCR\SimpleCredentials;
-use PHPCR\Util\NodeHelper;
-use Symfony\Component\Filesystem\Filesystem;
-use PHPCR\PathNotFoundException;
-use PHPCR\Util\PathHelper;
-use PHPCR\PropertyInterface;
-use PHPCR\PropertyType;
-use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Context\Context;
-use PHPCR\NodeInterface;
+use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Jackalope\RepositoryFactoryJackrabbit;
+use PHPCR\NodeInterface;
+use PHPCR\PathNotFoundException;
+use PHPCR\PropertyInterface;
+use PHPCR\PropertyType;
+use PHPCR\SimpleCredentials;
+use PHPCR\Util\NodeHelper;
+use PHPCR\Util\PathHelper;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Features context.
@@ -36,7 +37,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     protected $currentWorkspaceName = 'default';
 
     /**
-     * Return the application tester
+     * Return the application tester.
      */
     abstract protected function createTester();
 
@@ -48,7 +49,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
      */
     public function beforeScenario()
     {
-        $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell' . DIRECTORY_SEPARATOR .
+        $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell'.DIRECTORY_SEPARATOR.
             md5(microtime() * rand(0, 10000));
 
         $this->workingDir = $dir;
@@ -67,7 +68,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public static function cleanTestFolders()
     {
         $fs = new Filesystem();
-        $fs->remove(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell');
+        $fs->remove(sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell');
     }
 
     protected function getSession($workspaceName = null, $force = false)
@@ -76,7 +77,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             $workspaceName = $this->currentWorkspaceName;
         }
 
-        static $sessions = array();
+        static $sessions = [];
 
         if (false === $force && isset($sessions[$workspaceName])) {
             $session = $sessions[$workspaceName];
@@ -84,9 +85,9 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             return $session;
         }
 
-        $params = array(
+        $params = [
             'jackalope.jackrabbit_uri'  => 'http://localhost:8080/server/',
-        );
+        ];
         $factory = new RepositoryFactoryJackrabbit();
 
         $repository = $factory->getRepository($params);
@@ -120,7 +121,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $fixtureFile = realpath(__DIR__).'/../../../../features/fixtures/'.$filename;
         if (!file_exists($fixtureFile)) {
-            throw new \Exception('Fixtures do not exist at ' . $fixtureFile);
+            throw new \Exception('Fixtures do not exist at '.$fixtureFile);
         }
 
         return $fixtureFile;
@@ -128,7 +129,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
     private function getWorkingFilePath($filename)
     {
-        return $this->workingDir . DIRECTORY_SEPARATOR . $filename;
+        return $this->workingDir.DIRECTORY_SEPARATOR.$filename;
     }
 
     private function executeCommand($command)
@@ -244,10 +245,10 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $exitCode = $this->applicationTester->getLastExitCode();
 
         if ($exitCode != 0) {
-            throw new \Exception('Command failed: (' . $exitCode . ') ' . $this->getOutput());
+            throw new \Exception('Command failed: ('.$exitCode.') '.$this->getOutput());
         }
 
-        \PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code: ' . $exitCode);
+        \PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code: '.$exitCode);
     }
 
     /**
@@ -257,7 +258,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $exitCode = $this->applicationTester->getLastExitCode();
 
-        \PHPUnit_Framework_Assert::assertNotEquals(0, $exitCode, 'Command exited with code ' . $exitCode);
+        \PHPUnit_Framework_Assert::assertNotEquals(0, $exitCode, 'Command exited with code '.$exitCode);
     }
 
     /**
@@ -270,6 +271,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         \PHPUnit_Framework_Assert::assertEquals($arg1, $output);
     }
+
     /**
      * @Given /^the file "([^"]*)" should exist$/
      */
@@ -347,13 +349,13 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             try {
                 $node = $session->getNode($row[0]);
             } catch (PathNotFoundException $e) {
-                throw new PathNotFoundException('Node ' . $row[0] . ' not found');
+                throw new PathNotFoundException('Node '.$row[0].' not found');
             }
         }
     }
 
     /**
-     * Depends on session:info command
+     * Depends on session:info command.
      *
      * @Then /^I should not be logged into the session$/
      */
@@ -391,7 +393,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         try {
             $session->getNode($arg1);
         } catch (PathNotFoundException $e) {
-            throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
+            throw new \Exception('Node does at path '.$arg1.' does not exist.');
         }
     }
 
@@ -405,7 +407,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         try {
             $node = $session->getNode($arg2);
         } catch (PathNotFoundException $e) {
-            throw new \Exception('Node does at path ' . $arg1 . ' does not exist.');
+            throw new \Exception('Node does at path '.$arg1.' does not exist.');
         }
 
         $parent = $session->getNode(PathHelper::getParentPath($arg2));
@@ -421,7 +423,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         }
 
         if (null === $targetNode) {
-            throw new \Exception('Could not find child node ' . $arg1);
+            throw new \Exception('Could not find child node '.$arg1);
         }
 
         \PHPUnit_Framework_Assert::assertEquals($arg2, $afterNode->getPath());
@@ -442,7 +444,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             }
         }
 
-        throw new \Exception('Node "' . $arg1 . '" does not have node type "' . $arg2 . '"');
+        throw new \Exception('Node "'.$arg1.'" does not have node type "'.$arg2.'"');
     }
 
     /**
@@ -456,7 +458,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         foreach ($mixinNodeTypes as $mixinNodeType) {
             if ($mixinNodeType->getName() == $arg2) {
-                throw new \Exception('Node "' . $arg1 . '" has the node type "' . $arg2 . '"');
+                throw new \Exception('Node "'.$arg1.'" has the node type "'.$arg2.'"');
             }
         }
     }
@@ -470,7 +472,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         try {
             $session->getNode($arg1);
-            throw new \Exception('Node at path ' . $arg1 . ' exists.');
+            throw new \Exception('Node at path '.$arg1.' exists.');
         } catch (PathNotFoundException $e) {
             // good.. not does not exist
         }
@@ -503,7 +505,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         try {
             $session->getProperty($arg1);
-            throw new \Exception('Property exists at "' . $arg1 . '"');
+            throw new \Exception('Property exists at "'.$arg1.'"');
         } catch (PathNotFoundException $e) {
             // good
         }
@@ -514,7 +516,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
      */
     public function theEnvironmentVariableIsSetTo($arg1, $arg2)
     {
-        putenv($arg1 . '=' . $arg2);
+        putenv($arg1.'='.$arg2);
     }
 
     /**
@@ -545,6 +547,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         NodeHelper::createPath($session, $arg1);
         $session->save();
     }
+
     /**
      * @Given /^there should exist a workspace called "([^"]*)"$/
      */
@@ -644,7 +647,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         } catch (\Exception $e) {
         }
 
-        throw new \Exception('Node type ' . $arg1 . ' exists');
+        throw new \Exception('Node type '.$arg1.' exists');
     }
 
     /**
@@ -652,18 +655,18 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
      */
     public function iHaveAnEditorWhichProducesTheFollowing(PyStringNode $string)
     {
-        $tmpFile = $this->workingDir . DIRECTORY_SEPARATOR . 'fake-editor-file';
-        $editorFile = $this->workingDir . DIRECTORY_SEPARATOR . 'fakeed';
+        $tmpFile = $this->workingDir.DIRECTORY_SEPARATOR.'fake-editor-file';
+        $editorFile = $this->workingDir.DIRECTORY_SEPARATOR.'fakeed';
         file_put_contents($tmpFile, $string->getRaw());
         chmod($tmpFile, 0777);
-        $script = array();
+        $script = [];
         $script[] = '#!/bin/bash';
         $script[] = 'FILE=$1';
-        $script[] = 'cat ' . $tmpFile . ' > $FILE';
+        $script[] = 'cat '.$tmpFile.' > $FILE';
 
         file_put_contents($editorFile, implode("\n", $script));
         chmod($editorFile, 0777);
-        putenv('EDITOR=' . $editorFile);
+        putenv('EDITOR='.$editorFile);
     }
 
     /**
@@ -681,7 +684,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $this->executeCommand('shell:path:show');
         $cnp = $this->applicationTester->getLastLine();
-        \PHPUnit_Framework_Assert::assertEquals($arg1, $cnp, 'Current path is ' . $arg1);
+        \PHPUnit_Framework_Assert::assertEquals($arg1, $cnp, 'Current path is '.$arg1);
     }
 
     /**
@@ -719,7 +722,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $session = $this->getSession();
         $node = $session->getNode($arg1);
         $primaryTypeName = $node->getPrimaryNodeType()->getName();
-        \PHPUnit_Framework_Assert::assertEquals($arg2, $primaryTypeName, 'Node type of ' . $arg1 . ' is ' . $arg2);
+        \PHPUnit_Framework_Assert::assertEquals($arg2, $primaryTypeName, 'Node type of '.$arg1.' is '.$arg2);
     }
 
     /**

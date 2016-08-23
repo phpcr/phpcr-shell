@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class NodeMixinRemoveCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodeMixinRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove the named mixin to the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcards)');
         $this->addArgument('mixinName', InputArgument::REQUIRED, 'The name of the mixin node type to be removeed');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Removes the specified mixin node type from this node and removes
 mixinName from this node's jcr:mixinTypes property.
 

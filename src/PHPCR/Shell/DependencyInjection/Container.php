@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use PHPCR\Shell\PhpcrShell;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 
 class Container extends ContainerBuilder
 {
@@ -22,11 +23,11 @@ class Container extends ContainerBuilder
     /**
      * @var array Transports
      */
-    protected $transports = array(
+    protected $transports = [
         'transport.transport.doctrinedbal' => 'PHPCR\Shell\Transport\Transport\DoctrineDbal',
-        'transport.transport.jackrabbit' => 'PHPCR\Shell\Transport\Transport\Jackrabbit',
-        'transport.transport.fs' => 'PHPCR\Shell\Transport\Transport\JackalopeFs',
-    );
+        'transport.transport.jackrabbit'   => 'PHPCR\Shell\Transport\Transport\Jackrabbit',
+        'transport.transport.fs'           => 'PHPCR\Shell\Transport\Transport\JackalopeFs',
+    ];
 
     public function __construct($mode = PhpcrShell::MODE_STANDALONE)
     {
@@ -66,7 +67,7 @@ class Container extends ContainerBuilder
         $this->register('config.profile_loader', 'PHPCR\Shell\Config\ProfileLoader')
             ->addArgument(new Reference('config.manager'));
         $this->register('config.config.phpcrsh', 'PHPCR\Shell\Config\Config')
-            ->setFactory([ new Reference('config.manager'), 'getPhpcrshConfig' ]);
+            ->setFactory([new Reference('config.manager'), 'getPhpcrshConfig']);
     }
 
     public function registerPhpcr()
@@ -79,7 +80,7 @@ class Container extends ContainerBuilder
         $registry = $this->register('phpcr.transport_registry', 'PHPCR\Shell\Transport\TransportRegistry');
 
         foreach (array_keys($this->transports) as $transportId) {
-            $registry->addMethodCall('register', array(new Reference($transportId)));
+            $registry->addMethodCall('register', [new Reference($transportId)]);
         }
 
         $this->register('phpcr.session_manager.active', 'PHPCR\Shell\Phpcr\SessionManager')
@@ -95,8 +96,8 @@ class Container extends ContainerBuilder
         $repositoryDefinition = $this->register('phpcr.repository');
         $sessionDefinition = $this->register('phpcr.session');
 
-        $repositoryDefinition->setFactory([ new Reference('phpcr.session_manager'), 'getRepository' ]);
-        $sessionDefinition->setFactory([ new Reference('phpcr.session_manager'), 'getSession' ]);
+        $repositoryDefinition->setFactory([new Reference('phpcr.session_manager'), 'getRepository']);
+        $sessionDefinition->setFactory([new Reference('phpcr.session_manager'), 'getSession']);
 
         $this->register('dtl.glob.helper', 'DTL\Glob\GlobHelper');
     }
@@ -148,7 +149,7 @@ class Container extends ContainerBuilder
         $dispatcher = $this->register('event.dispatcher', 'Symfony\Component\EventDispatcher\EventDispatcher');
 
         foreach (array_keys($this->findTaggedServiceIds('event.subscriber')) as $id) {
-            $dispatcher->addMethodCall('addSubscriber', array(new Reference($id)));
+            $dispatcher->addMethodCall('addSubscriber', [new Reference($id)]);
         }
     }
 

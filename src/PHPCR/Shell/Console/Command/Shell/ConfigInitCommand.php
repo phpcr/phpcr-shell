@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Shell;
@@ -23,7 +24,7 @@ class ConfigInitCommand extends BaseCommand
     {
         $this->setName('shell:config:init');
         $this->setDescription('Initialize a local configuration with default values');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Initialize a new configuration folder, <info>.phpcrsh</info> in the users HOME directory.
 EOT
         );

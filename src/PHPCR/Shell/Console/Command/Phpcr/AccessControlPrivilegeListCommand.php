@@ -7,16 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\RepositoryInterface;
 use PHPCR\Shell\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class AccessControlPrivilegeListCommand extends BasePhpcrCommand
 {
@@ -26,7 +27,7 @@ class AccessControlPrivilegeListCommand extends BasePhpcrCommand
         $this->setDescription('List the privileges of the repository or a specific node');
         $this->addArgument('absPath', InputArgument::OPTIONAL, 'Absolute path for node, optional.');
         $this->addOption('supported', null, InputOption::VALUE_NONE, 'List privileges supported by repository rather than current session.');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 NOTE: This command is not supported by Jackrabbit.
 
 List the privileges of the current session or the node at the given path.
@@ -67,10 +68,10 @@ HERE
         }
 
         $table = new Table($output);
-        $table->setHeaders(array('Name'));
+        $table->setHeaders(['Name']);
 
         foreach ($privileges as $privilege) {
-            $table->addRow(array($privilege->getName()));
+            $table->addRow([$privilege->getName()]);
         }
     }
 }

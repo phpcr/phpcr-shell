@@ -7,16 +7,17 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\PropertyType;
-use Symfony\Component\Console\Input\InputOption;
 use PHPCR\PathNotFoundException;
+use PHPCR\PropertyType;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeFileImportCommand extends BasePhpcrCommand
 {
@@ -34,7 +35,7 @@ class NodeFileImportCommand extends BasePhpcrCommand
         $this->addOption('mime-type', null, InputOption::VALUE_REQUIRED, 'Mime type (optional, auto-detected)');
         $this->addOption('force', null, InputOption::VALUE_NONE, 'Force overwriting any existing node');
         $this->addOption('no-container', null, InputOption::VALUE_NONE, 'Do not wrap in a JCR nt:file, but write directly to the specified property');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Import an external file into the repository.
 
 The file will be imported as a node of built-in type <comment>nt:file</comment>.

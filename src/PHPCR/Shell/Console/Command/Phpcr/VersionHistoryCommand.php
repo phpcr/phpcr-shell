@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
 use PHPCR\Shell\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionHistoryCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class VersionHistoryCommand extends BasePhpcrCommand
         $this->setName('version:history');
         $this->setDescription('Show version history of node at given absolute path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Lists the version history of the node given at <info>path</info>.
 HERE
         );
@@ -48,13 +49,13 @@ HERE
 
         $versions = $history->getAllVersions();
 
-        $table->setHeaders(array('Name', 'Created'));
+        $table->setHeaders(['Name', 'Created']);
 
         foreach ($versions as $name => $version) {
-            $table->addRow(array(
+            $table->addRow([
                 $name,
                 $version->getCreated()->format('Y-m-d H:i:s'),
-            ));
+            ]);
         }
 
         $table->render($output);

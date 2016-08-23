@@ -7,17 +7,18 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Test;
 
+use PHPCR\Shell\Console\Application\ShellApplication;
+use PHPCR\Shell\Console\Input\StringInput;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
-use PHPCR\Shell\Console\Input\StringInput;
-use PHPCR\Shell\Console\Application\ShellApplication;
 
 /**
  * Eases the testing of console applications.
@@ -62,9 +63,9 @@ class ApplicationTester
      * @param array $input   An array of arguments and options
      * @param array $options An array of options
      *
-     * @return integer The command exit code
+     * @return int The command exit code
      */
-    public function run(array $input, $options = array())
+    public function run(array $input, $options = [])
     {
         $this->input = new ArrayInput($input);
 
@@ -88,7 +89,7 @@ class ApplicationTester
     /**
      * Gets the display returned by the last execution of the application.
      *
-     * @param Boolean $normalize Whether to normalize end of lines to \n or not
+     * @param bool $normalize Whether to normalize end of lines to \n or not
      *
      * @return string The display
      */

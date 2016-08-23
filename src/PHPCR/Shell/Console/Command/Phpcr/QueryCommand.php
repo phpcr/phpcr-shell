@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class QueryCommand extends BasePhpcrCommand
 {
@@ -27,7 +28,7 @@ class QueryCommand extends BasePhpcrCommand
         $this->addOption('language', 'l', InputOption::VALUE_OPTIONAL, 'The query language (e.g. jcr-sql2', 'JCR-SQL2');
         $this->addOption('limit', null, InputOption::VALUE_OPTIONAL, 'The query limit', 0);
         $this->addOption('offset', null, InputOption::VALUE_OPTIONAL, 'The query offset', 0);
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Execute an SQL query. This command differs from <info>select</info> in that it
 is executed conventionally and not literally. The advantage is that you can
 specify a specific query language and additional options:
@@ -52,7 +53,7 @@ EOT
             throw new \InvalidArgumentException(sprintf(
                 '"%s" is an invalid query language, valid query languages are:%s',
                 $language,
-                PHP_EOL . '    -' . implode(PHP_EOL . '   - ', $supportedQueryLanguages)
+                PHP_EOL.'    -'.implode(PHP_EOL.'   - ', $supportedQueryLanguages)
             ));
         }
 

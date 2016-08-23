@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Console\Helper;
 
-use PhpSpec\ObjectBehavior;
 use PHPCR\RepositoryInterface;
 use PHPCR\Shell\Phpcr\SessionManager;
+use PhpSpec\ObjectBehavior;
 
 class RepositoryHelperSpec extends ObjectBehavior
 {
@@ -33,9 +34,9 @@ class RepositoryHelperSpec extends ObjectBehavior
         RepositoryInterface $repository
     ) {
         $sessionManager->getRepository()->willReturn($repository);
-        $repository->getDescriptorKeys()->willReturn(array(
-            'foo', 'bar'
-        ));
+        $repository->getDescriptorKeys()->willReturn([
+            'foo', 'bar',
+        ]);
         $repository->getDescriptor('foo')->willReturn('foo');
         $repository->getDescriptor('bar')->willReturn('foo');
 

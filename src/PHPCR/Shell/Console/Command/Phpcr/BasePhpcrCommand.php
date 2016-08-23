@@ -7,22 +7,22 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use PHPCR\Shell\Console\Helper\RepositoryHelper;
 use PHPCR\Shell\Console\Command\BaseCommand;
 
 /**
- * Base command for all PHPCR action commands
+ * Base command for all PHPCR action commands.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
 class BasePhpcrCommand extends BaseCommand
 {
-    protected $descriptorRequires = array();
-    protected $descriptorDequires = array();
+    protected $descriptorRequires = [];
+    protected $descriptorDequires = [];
 
     public function requiresDescriptor($descriptorKey, $value = null)
     {

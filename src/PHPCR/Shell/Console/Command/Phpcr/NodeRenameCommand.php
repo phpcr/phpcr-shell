@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class NodeRenameCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodeRenameCommand extends BasePhpcrCommand
         $this->setDescription('Rename the node at the current path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('newName', InputArgument::REQUIRED, 'The name of the node to create');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Renames this node to the specified <info>newName</info>. The ordering (if any) of
 this node among it siblings remains unchanged.
 

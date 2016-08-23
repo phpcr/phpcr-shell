@@ -7,10 +7,19 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Application;
 
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
+use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
+use PHPCR\Shell\Console\Command\Shell as CommandShell;
+use PHPCR\Shell\Event;
+use PHPCR\Shell\Event\ApplicationInitEvent;
+use PHPCR\Shell\Event\PhpcrShellEvents;
+use PHPCR\Shell\PhpcrShell;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatter;
@@ -20,24 +29,16 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
-use PHPCR\Shell\Console\Command\Shell as CommandShell;
-use PHPCR\Shell\Event;
-use PHPCR\Shell\Event\ApplicationInitEvent;
-use PHPCR\Shell\Event\PhpcrShellEvents;
-use PHPCR\Shell\Config\Profile;
-use PHPCR\Shell\PhpcrShell;
-use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
 
 /**
- * Main application for PHPCRSH
+ * Main application for PHPCRSH.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
 class ShellApplication extends Application
 {
     /**
-     * @var boolean
+     * @var bool
      */
     protected $showUnsupported = false;
 
@@ -47,19 +48,19 @@ class ShellApplication extends Application
     protected $container;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $debug = false;
 
     /**
-     * @var boolean
+     * @var bool
      */
     protected $initialized = false;
 
     /**
-     * Constructor - name and version inherited from SessionApplication
+     * Constructor - name and version inherited from SessionApplication.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __construct($container)
     {
@@ -73,7 +74,7 @@ class ShellApplication extends Application
      * If true, show all commands, even if they are unsupported by the
      * transport.
      *
-     * @param boolean $boolean
+     * @param bool $boolean
      */
     public function setShowUnsupported($boolean)
     {
@@ -81,7 +82,7 @@ class ShellApplication extends Application
     }
 
     /**
-     * Initialize the application
+     * Initialize the application.
      */
     public function init()
     {
@@ -99,7 +100,7 @@ class ShellApplication extends Application
     }
 
     /**
-     * Register the commands used in the shell
+     * Register the commands used in the shell.
      */
     protected function registerPhpcrCommands()
     {
@@ -193,43 +194,43 @@ class ShellApplication extends Application
     }
 
     /**
-     * Configure the output formatter
+     * Configure the output formatter.
      */
     private function configureFormatter(OutputFormatter $formatter)
     {
-        $style = new OutputFormatterStyle('yellow', null, array('bold'));
+        $style = new OutputFormatterStyle('yellow', null, ['bold']);
         $formatter->setStyle('pathbold', $style);
 
         $style = new OutputFormatterStyle('green');
         $formatter->setStyle('localname', $style);
 
-        $style = new OutputFormatterStyle(null, null, array('bold'));
+        $style = new OutputFormatterStyle(null, null, ['bold']);
         $formatter->setStyle('node', $style);
 
-        $style = new OutputFormatterStyle('blue', null, array('bold'));
+        $style = new OutputFormatterStyle('blue', null, ['bold']);
         $formatter->setStyle('templatenode', $style);
 
-        $style = new OutputFormatterStyle('blue', null, array());
+        $style = new OutputFormatterStyle('blue', null, []);
         $formatter->setStyle('templateproperty', $style);
 
-        $style = new OutputFormatterStyle(null, null, array());
+        $style = new OutputFormatterStyle(null, null, []);
         $formatter->setStyle('property', $style);
 
-        $style = new OutputFormatterStyle('magenta', null, array('bold'));
+        $style = new OutputFormatterStyle('magenta', null, ['bold']);
         $formatter->setStyle('node-type', $style);
 
-        $style = new OutputFormatterStyle('magenta', null, array());
+        $style = new OutputFormatterStyle('magenta', null, []);
         $formatter->setStyle('property-type', $style);
 
-        $style = new OutputFormatterStyle(null, null, array());
+        $style = new OutputFormatterStyle(null, null, []);
         $formatter->setStyle('property-value', $style);
 
-        $style = new OutputFormatterStyle(null, 'red', array());
+        $style = new OutputFormatterStyle(null, 'red', []);
         $formatter->setStyle('exception', $style);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function doRun(InputInterface $input, OutputInterface $output)
     {
@@ -245,7 +246,7 @@ class ShellApplication extends Application
         $input = $event->getInput();
 
         if (!$name) {
-            $input = new ArrayInput(array('command' => $this->getDefaultCommand()));
+            $input = new ArrayInput(['command' => $this->getDefaultCommand()]);
         }
 
         try {
@@ -260,7 +261,7 @@ class ShellApplication extends Application
     }
 
     /**
-     * Return the default command
+     * Return the default command.
      */
     protected function getDefaultCommand()
     {
@@ -271,7 +272,7 @@ class ShellApplication extends Application
      * Wrap the add method and do not register commands which are unsupported by
      * the current transport.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function add(Command $command)
     {
@@ -299,11 +300,12 @@ class ShellApplication extends Application
      * If autocomplete is invoked before a command has been run, then
      * we need to initialize the application (and register the commands).
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function all($namespace = null)
     {
         $this->init();
+
         return parent::all($namespace);
     }
 
@@ -313,7 +315,7 @@ class ShellApplication extends Application
     }
 
     /**
-     * Return if the shell is in debug mode
+     * Return if the shell is in debug mode.
      */
     public function isDebug()
     {
@@ -321,7 +323,7 @@ class ShellApplication extends Application
     }
 
     /**
-     * Debug mode -- more verbose exceptions
+     * Debug mode -- more verbose exceptions.
      */
     public function setDebug($debug)
     {

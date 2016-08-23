@@ -7,18 +7,19 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Subscriber;
 
-use PHPCR\Shell\Event\PhpcrShellEvents;
-use PHPCR\Shell\Event\ApplicationInitEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPCR\Shell\Config\ConfigManager;
+use PHPCR\Shell\Event\ApplicationInitEvent;
+use PHPCR\Shell\Event\PhpcrShellEvents;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Subscriber to initialize the configuration if it does not
- * already exist upon application initialization
+ * already exist upon application initialization.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -33,9 +34,9 @@ class ConfigInitSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             PhpcrShellEvents::APPLICATION_INIT => 'handleApplicationInit',
-        );
+        ];
     }
 
     public function handleApplicationInit(ApplicationInitEvent $event)

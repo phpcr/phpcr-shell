@@ -7,26 +7,27 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Serializer;
 
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use PHPCR\NodeInterface;
-use PHPCR\PropertyType;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Exception\InvalidArgumentException;
 use PHPCR\PropertyInterface;
+use PHPCR\PropertyType;
+use Symfony\Component\Serializer\Exception\InvalidArgumentException;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * Normalizer for PHPCR Nodes
+ * Normalizer for PHPCR Nodes.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
 class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     protected $allowBinary;
-    protected $notes = array();
+    protected $notes = [];
 
     public function __construct($allowBinary = false)
     {
@@ -39,11 +40,11 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function normalize($node, $format = null, array $context = array())
+    public function normalize($node, $format = null, array $context = [])
     {
-        $res = array();
+        $res = [];
 
         foreach ($node->getProperties() as $property) {
             if (false === $this->isPropertyEditable($property)) {
@@ -55,11 +56,11 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
             $propertyValue = $property->getValue();
             $propertyName = $property->getName();
 
-            if (in_array($property->getType(), array(PropertyType::REFERENCE, PropertyType::WEAKREFERENCE))) {
-                $nodeUuids = array();
+            if (in_array($property->getType(), [PropertyType::REFERENCE, PropertyType::WEAKREFERENCE])) {
+                $nodeUuids = [];
 
                 if (false === is_array($propertyValue)) {
-                    $propertyValue = array($propertyValue);
+                    $propertyValue = [$propertyValue];
                 }
 
                 foreach ($propertyValue as $node) {
@@ -72,17 +73,17 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
                 }
             }
 
-            $res[$propertyName] = array(
-                'type' => PropertyType::nameFromValue($propertyType),
+            $res[$propertyName] = [
+                'type'  => PropertyType::nameFromValue($propertyType),
                 'value' => $propertyValue,
-            );
+            ];
         }
 
         return $res;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supportsNormalization($data, $format = null)
     {
@@ -90,9 +91,9 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function denormalize($data, $class, $format = null, array $context = array())
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
         if (!$data) {
             throw new \InvalidArgumentException(
@@ -108,7 +109,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 
         $node = $context['node'];
 
-        $errors = array();
+        $errors = [];
 
         // Update / remove existing properties
         foreach ($node->getProperties() as $property) {
@@ -163,7 +164,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function supportsDenormalization($data, $type, $format = null)
     {
@@ -172,7 +173,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
 
     /**
      * If the value is a scalar value convert it into
-     * an array with default values
+     * an array with default values.
      *
      * @param mixed
      *
@@ -181,21 +182,21 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     private function normalizeDatum($value)
     {
         if (is_scalar($value)) {
-            return array(
+            return [
                 'value' => $value,
-                'type' => null,
-            );
+                'type'  => null,
+            ];
         }
 
         return $value;
     }
 
     /**
-     * Return false if property type is not editable
+     * Return false if property type is not editable.
      *
      * (e.g. property type is binary)
      *
-     * @return boolean
+     * @return bool
      */
     private function isPropertyEditable(PropertyInterface $property)
     {

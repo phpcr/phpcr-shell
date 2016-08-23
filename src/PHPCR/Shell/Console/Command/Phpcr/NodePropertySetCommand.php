@@ -7,17 +7,18 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use PHPCR\PropertyType;
 use PHPCR\PathNotFoundException;
+use PHPCR\PropertyType;
 use PHPCR\Util\UUIDHelper;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodePropertySetCommand extends BasePhpcrCommand
 {
@@ -28,7 +29,7 @@ class NodePropertySetCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - parent path can include wildcards');
         $this->addArgument('value', InputArgument::OPTIONAL, 'Value for named property');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of named property');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Defines or set a value for a property identified by its name.
 
     PHPCRSH> node:property:set . propname "some value" --type="String"

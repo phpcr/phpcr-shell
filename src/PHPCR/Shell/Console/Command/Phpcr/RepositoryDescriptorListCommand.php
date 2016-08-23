@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\Shell\Console\Helper\Table;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Console\Helper\Table;
 
 class RepositoryDescriptorListCommand extends BasePhpcrCommand
 {
@@ -22,7 +23,7 @@ class RepositoryDescriptorListCommand extends BasePhpcrCommand
     {
         $this->setName('repository:descriptor:list');
         $this->setDescription('List the descriptors for the current repository');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Repositories indicate support for the JCR specification via. descriptors. This
 command lists all of the descriptor keys and values for the current repository.
 HERE
@@ -36,7 +37,7 @@ HERE
         $keys = $repository->getDescriptorKeys();
 
         $table = new Table($output);
-        $table->setHeaders(array('Key', 'Value', 'Standard?'));
+        $table->setHeaders(['Key', 'Value', 'Standard?']);
 
         foreach ($keys as $key) {
             $descriptor = $repository->getDescriptor($key);
@@ -44,11 +45,11 @@ HERE
             if (is_array($descriptor)) {
                 $descriptor = implode(', ', $this->getDescriptorValue($descriptor));
             }
-            $table->addRow(array(
+            $table->addRow([
                 $key,
                 $this->getDescriptorValue($descriptor),
                 $isStandard ? 'yes' : 'no',
-            ));
+            ]);
         }
 
         $table->render($output);

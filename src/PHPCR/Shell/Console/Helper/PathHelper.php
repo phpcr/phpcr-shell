@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
@@ -15,7 +16,7 @@ use PHPCR\Util\PathHelper as StaticPathHelper;
 use Symfony\Component\Console\Helper\Helper;
 
 /**
- * Phpcr path helper
+ * Phpcr path helper.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -38,7 +39,7 @@ class PathHelper extends Helper
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

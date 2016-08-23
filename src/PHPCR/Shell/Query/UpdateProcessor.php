@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Query;
@@ -15,20 +16,20 @@ use PHPCR\Query\RowInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 /**
- * Processor for node updates
+ * Processor for node updates.
  */
 class UpdateProcessor
 {
     /**
-     * Functions available when calling SET
+     * Functions available when calling SET.
      *
      * @var \Closure[]
      */
-    private $functionMap = array();
+    private $functionMap = [];
 
     public function __construct(ExpressionLanguage $expressionLanguage)
     {
-        $this->functionMapApply = array(
+        $this->functionMapApply = [
             'mixin_add' => function ($operand, $row, $mixinName) {
                 $node = $row->getNode();
                 $node->addMixin($mixinName);
@@ -40,15 +41,15 @@ class UpdateProcessor
                     $node->removeMixin($mixinName);
                 }
             },
-        );
+        ];
 
-        $this->functionMapSet = array(
+        $this->functionMapSet = [
             'expr' => function ($operand, $row, $expression) use ($expressionLanguage) {
                 return $expressionLanguage->evaluate(
                     $expression,
-                    array(
+                    [
                         'row' => $row,
-                    )
+                    ]
                 );
             },
             'array_replace' => function ($operand, $row, $v, $x, $y) {
@@ -61,7 +62,7 @@ class UpdateProcessor
 
                 return $v;
             },
-            'array_remove' => function ($operand, $row, $v, $x) {
+            'array_remove'          => function ($operand, $row, $v, $x) {
                 foreach ($v as $key => $value) {
                     if ($value === $x) {
                         unset($v[$key]);
@@ -106,11 +107,11 @@ class UpdateProcessor
 
                 return array_values($current);
             },
-        );
+        ];
     }
 
     /**
-     * Update a node indicated in $propertyData in $row
+     * Update a node indicated in $propertyData in $row.
      *
      * @param PHPCR\Query\RowInterface
      * @param array

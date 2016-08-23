@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
@@ -28,10 +29,10 @@ class NodeHelperTest extends \PHPUnit_Framework_TestCase
 
     public function provideAssertNodeIsVersionable()
     {
-        return array(
-            array(true),
-            array(false),
-        );
+        return [
+            [true],
+            [false],
+        ];
     }
 
     /**
@@ -40,7 +41,7 @@ class NodeHelperTest extends \PHPUnit_Framework_TestCase
     public function testAssertNodeIsVersionable($isVersionable)
     {
         $this->node->getMixinNodeTypes()->willReturn([
-            $this->nodeType1->reveal()
+            $this->nodeType1->reveal(),
         ]);
         $this->node->getPath()->willReturn('/');
 

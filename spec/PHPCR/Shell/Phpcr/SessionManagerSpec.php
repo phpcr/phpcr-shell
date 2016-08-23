@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Phpcr;
 
-use PhpSpec\ObjectBehavior;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Transport\TransportRegistryInterface;
+use PhpSpec\ObjectBehavior;
 
 class SessionManagerSpec extends ObjectBehavior
 {

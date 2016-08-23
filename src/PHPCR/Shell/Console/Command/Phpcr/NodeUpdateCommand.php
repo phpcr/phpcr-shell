@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class NodeUpdateCommand extends BasePhpcrCommand
 {
@@ -23,7 +24,7 @@ class NodeUpdateCommand extends BasePhpcrCommand
         $this->setDescription('Updates a node corresponding to the given path in the given workspace');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcards)');
         $this->addArgument('srcWorkspace', InputArgument::REQUIRED, 'The name of the source workspace');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Updates a node corresponding to the current one in the given workspace.
 
 If this node does have a corresponding node in the workspace
@@ -52,7 +53,7 @@ HERE
         $nodes = $session->findNodes($path);
 
         foreach ($nodes as $node) {
-            $output->writeln('<pathbold>' . $node->getPath() . '</pathbold>');
+            $output->writeln('<pathbold>'.$node->getPath().'</pathbold>');
             $node->update($srcWorkspace);
         }
     }

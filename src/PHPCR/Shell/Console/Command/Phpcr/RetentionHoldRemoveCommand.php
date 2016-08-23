@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class RetentionHoldRemoveCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class RetentionHoldRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Removes a retention hold UNSUPPORTED');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node to which we want to remove a hold');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of hold to remove');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Removes the specified hold from the node at <info>absPath</info>.
 
 The removal does not take effect until a save is performed.
@@ -42,7 +43,7 @@ HERE
         $name = $input->getArgument('name');
 
         $holds = $retentionManager->getHolds($absPath);
-        $indexed = array();
+        $indexed = [];
         foreach ($holds as $hold) {
             $indexed[$hold->getName()] = $hold;
         }

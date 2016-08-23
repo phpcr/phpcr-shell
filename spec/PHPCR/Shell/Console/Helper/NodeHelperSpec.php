@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Console\Helper;
 
-use PhpSpec\ObjectBehavior;
 use PHPCR\NodeInterface;
 use PHPCR\NodeType\NodeTypeInterface;
+use PhpSpec\ObjectBehavior;
 
 class NodeHelperSpec extends ObjectBehavior
 {
@@ -27,11 +28,10 @@ class NodeHelperSpec extends ObjectBehavior
         NodeTypeInterface $mixin1,
         NodeTypeInterface $mixin2,
         NodeTypeInterface $mixin3
-    )
-    {
-        $node->getMixinNodeTypes()->willReturn(array(
-            $mixin1, $mixin2, $mixin3
-        ));
+    ) {
+        $node->getMixinNodeTypes()->willReturn([
+            $mixin1, $mixin2, $mixin3,
+        ]);
 
         $mixin1->getName()->willReturn('mixin1');
         $mixin2->getName()->willReturn('mixin1');
@@ -46,17 +46,16 @@ class NodeHelperSpec extends ObjectBehavior
         NodeInterface $nodeNotVersionable,
         NodeTypeInterface $mixin1,
         NodeTypeInterface $mixin2
-    )
-    {
-        $nodeVersionable->getMixinNodeTypes()->willReturn(array(
-            $mixin1, $mixin2
-        ));
-        $nodeNotVersionable->getMixinNodeTypes()->willReturn(array(
-            $mixin2
-        ));
+    ) {
+        $nodeVersionable->getMixinNodeTypes()->willReturn([
+            $mixin1, $mixin2,
+        ]);
+        $nodeNotVersionable->getMixinNodeTypes()->willReturn([
+            $mixin2,
+        ]);
         $nodeNotVersionable->getPath()->willReturn('foobar');
         $mixin1->getName()->willReturn('mix:versionable');
-        $this->assertNodeIsVersionable($nodeVersionable)->shouldReturn(null);;
+        $this->assertNodeIsVersionable($nodeVersionable)->shouldReturn(null);
 
         try {
             $this->assertNodeIsVersionable($nodeNotVersionable);

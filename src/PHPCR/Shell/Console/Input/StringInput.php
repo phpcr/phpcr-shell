@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Input;
@@ -15,7 +16,7 @@ use Symfony\Component\Console\Input\StringInput as BaseInput;
 
 /**
  * Extend the Symfony StringInput class to provide additional accessors
- * and methods
+ * and methods.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -26,24 +27,24 @@ class StringInput extends BaseInput
     protected $isQuery = false;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function __construct($command)
     {
         $this->rawCommand = trim($command);
 
         if (strpos(strtolower($this->rawCommand), 'select') === 0) {
-            $command = 'select' . substr($command, 6);
+            $command = 'select'.substr($command, 6);
             $this->isQuery = true;
         }
 
         if (strpos(strtolower($this->rawCommand), 'update') === 0) {
-            $command = 'update' . substr($command, 6);
+            $command = 'update'.substr($command, 6);
             $this->isQuery = true;
         }
 
         if (strpos(strtolower($this->rawCommand), 'delete') === 0) {
-            $command = 'delete' . substr($command, 6);
+            $command = 'delete'.substr($command, 6);
             $this->isQuery = true;
         }
 
@@ -51,7 +52,7 @@ class StringInput extends BaseInput
     }
 
     /**
-     * Return the raw command string without any parsing
+     * Return the raw command string without any parsing.
      *
      * (useful for returning the full SQL query for example)
      *
@@ -70,9 +71,9 @@ class StringInput extends BaseInput
     }
 
     /**
-     * Do not validate if the command is a query
+     * Do not validate if the command is a query.
      *
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function parse()
     {
@@ -105,9 +106,9 @@ class StringInput extends BaseInput
 
     /**
      * Return true if this command sounds like a query, i.e.
-     * if it begins with "select "
+     * if it begins with "select ".
      *
-     * @return boolean
+     * @return bool
      */
     protected function isQuery()
     {

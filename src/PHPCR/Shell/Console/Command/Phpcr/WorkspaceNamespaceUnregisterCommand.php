@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 
 class WorkspaceNamespaceUnregisterCommand extends BasePhpcrCommand
 {
@@ -22,7 +23,7 @@ class WorkspaceNamespaceUnregisterCommand extends BasePhpcrCommand
         $this->setName('workspace:namespace:unregister');
         $this->setDescription('Unregister a namespace');
         $this->addArgument('uri', InputArgument::REQUIRED, 'The URI to be removed');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Removes the specified namespace URI from namespace registry.
 
 The following restrictions apply:

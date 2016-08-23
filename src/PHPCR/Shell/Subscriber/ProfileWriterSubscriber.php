@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use PHPCR\Shell\Config\ProfileLoader;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProfileWriterSubscriber implements EventSubscriberInterface
 {
@@ -24,9 +25,9 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
-        );
+        ];
     }
 
     public function __construct(ProfileLoader $profileLoader, $questionHelper)

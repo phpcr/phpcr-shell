@@ -7,12 +7,13 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Event;
 
-use PhpSpec\ObjectBehavior;
 use PHPCR\Shell\Config\Profile;
+use PhpSpec\ObjectBehavior;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -27,8 +28,7 @@ class ProfileInitEventSpec extends ObjectBehavior
         Profile $profile,
         InputInterface $input,
         OutputInterface $output
-    )
-    {
+    ) {
         $this->beConstructedWith(
             $profile, $input, $output
         );
@@ -38,8 +38,7 @@ class ProfileInitEventSpec extends ObjectBehavior
         Profile $profile,
         InputInterface $input,
         OutputInterface $output
-    )
-    {
+    ) {
         $this->getProfile()->shouldReturn($profile);
         $this->getInput()->shouldReturn($input);
         $this->getOutput()->shouldReturn($output);

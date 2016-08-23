@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\RepositoryInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use PHPCR\RepositoryInterface;
 
 class VersionRemoveCommand extends BasePhpcrCommand
 {
@@ -24,7 +25,7 @@ class VersionRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove a node version');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to node');
         $this->addArgument('versionName', InputArgument::REQUIRED, 'Name of version to remove');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Removes the named version from this version history and automatically
 repairs the version graph.
 

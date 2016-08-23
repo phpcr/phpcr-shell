@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Helper;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Helper for launching external editor
+ * Helper for launching external editor.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */
@@ -46,7 +47,7 @@ class EditorHelper extends Helper
         $tmpName = tempnam($dir, '');
 
         if ($extension) {
-            $tmpName .= '.' . $extension;
+            $tmpName .= '.'.$extension;
         }
 
         file_put_contents($tmpName, $string);
@@ -56,7 +57,7 @@ class EditorHelper extends Helper
             throw new \RuntimeException('No EDITOR environment variable set.');
         }
 
-        system($editor . ' ' . $tmpName . ' > `tty`');
+        system($editor.' '.$tmpName.' > `tty`');
 
         $contents = file_get_contents($tmpName);
         $fs->remove($tmpName);
@@ -88,7 +89,7 @@ class EditorHelper extends Helper
             $line = next($res);
         }
 
-        $out = array();
+        $out = [];
 
         while ($line) {
             $out[] = $line;

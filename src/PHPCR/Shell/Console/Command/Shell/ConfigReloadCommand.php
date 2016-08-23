@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Shell;
@@ -23,7 +24,7 @@ class ConfigReloadCommand extends BaseCommand
     {
         $this->setName('shell:config:reload');
         $this->setDescription('Reload the configuration');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Reload the configuration
 EOT
         );

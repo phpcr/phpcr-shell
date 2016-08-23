@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Input;
@@ -15,7 +16,7 @@ use PHPCR\Shell\Console\Application\ShellApplication;
 use PHPCR\Shell\Phpcr\PhpcrSession;
 
 /**
- * Class for autocompleting commands
+ * Class for autocompleting commands.
  *
  * @author Daniel Leech <daniel@dantleech.com>
  */

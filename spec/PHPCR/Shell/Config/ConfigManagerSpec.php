@@ -7,6 +7,7 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Config;
@@ -19,8 +20,7 @@ class ConfigManagerSpec extends ObjectBehavior
 {
     public function let(
         Filesystem $filesystem
-    )
-    {
+    ) {
         $this->beConstructedWith($filesystem);
     }
 
@@ -37,10 +37,9 @@ class ConfigManagerSpec extends ObjectBehavior
 
     public function it_should_be_able_to_parse_a_config_file_and_return_the_config_as_an_array(
         Filesystem $filesystem
-    )
-    {
-        $dir = __DIR__ . '/fixtures/config';
-        putenv('PHPCRSH_HOME=' . $dir);
+    ) {
+        $dir = __DIR__.'/fixtures/config';
+        putenv('PHPCRSH_HOME='.$dir);
         $filesystem->exists(Argument::any())->willReturn(true);
 
         $this->getConfig('alias')->offsetGet('foobar')->shouldReturn('barfoo');

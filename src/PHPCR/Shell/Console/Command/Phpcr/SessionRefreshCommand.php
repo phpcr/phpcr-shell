@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionRefreshCommand extends BasePhpcrCommand
 {
@@ -22,7 +23,7 @@ class SessionRefreshCommand extends BasePhpcrCommand
         $this->setName('session:refresh');
         $this->setDescription('Refresh the current session');
         $this->addOption('keep-changes', null, InputOption::VALUE_NONE, 'Keep any changes that have been made in this session');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 Reloads the current session.
 
 If the <info>--keep-changes</info> option is not given then this command discards

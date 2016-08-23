@@ -1,15 +1,25 @@
 <?php
 
+/*
+ * This file is part of the PHPCR Shell package
+ *
+ * (c) Daniel Leech <daniel@dantleech.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
 namespace PHPCR\Shell\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
 use Symfony\Component\Console\Helper\QuestionHelper;
-use PHPCR\Shell\Config\ProfileLoader;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Config\Profile;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProfileLoaderSubscriber implements EventSubscriberInterface
 {
@@ -18,9 +28,9 @@ class ProfileLoaderSubscriber implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
-        );
+        ];
     }
 
     public function __construct(ProfileLoader $profileLoader, $questionHelper)
@@ -48,7 +58,7 @@ class ProfileLoaderSubscriber implements EventSubscriberInterface
 
             if (count($profileNames) === 0) {
                 $output->writeln('<info>No transport specified, and no profiles available.</info>');
-                $output->writeln(<<<EOT
+                $output->writeln(<<<'EOT'
 
 You must specify the connection parameters, for example:
 

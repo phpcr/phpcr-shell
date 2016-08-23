@@ -2,6 +2,7 @@ Shell for PHPCR
 ---------------
 
 [![Build Status](https://travis-ci.org/phpcr/phpcr-shell.png?branch=master)](https://travis-ci.org/phpcr/phpcr-shell)
+[![StyleCI](https://styleci.io/repos/14844492/shield)](https://styleci.io/repos/14844492)
 
 Shell for PHPCR
 

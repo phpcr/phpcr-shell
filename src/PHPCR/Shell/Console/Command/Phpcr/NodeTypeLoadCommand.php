@@ -7,15 +7,16 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeTypeLoadCommand extends BasePhpcrCommand
 {
@@ -25,7 +26,7 @@ class NodeTypeLoadCommand extends BasePhpcrCommand
         $this->setDescription('Load or create a node type');
         $this->addOption('update', null, InputOption::VALUE_NONE, 'Update existing node type');
         $this->addArgument('cndFile', InputArgument::REQUIRED, 'The name file containing the CND data');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 This command allows to register node types in the repository that are defined
 in a CND (Compact Namespace and Node Type Definition) file as used by jackrabbit.
 

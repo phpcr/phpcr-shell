@@ -7,14 +7,15 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
+use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
 
 class QueryDeleteCommand extends BaseQueryCommand
 {
@@ -23,7 +24,7 @@ class QueryDeleteCommand extends BaseQueryCommand
         $this->setName('delete');
         $this->setDescription('Execute a DELETE query (non standard)');
         $this->addArgument('query');
-        $this->setHelp(<<<EOT
+        $this->setHelp(<<<'EOT'
 Execute a DELETE query. Unlike other commands you can enter a query literally:
 
      DELETE FROM [nt:unstructured] WHERE title = 'foo';
@@ -49,7 +50,7 @@ EOT
         $session = $this->get('phpcr.session');
         $qm = $session->getWorkspace()->getQueryManager();
 
-        $sql = 'SELECT * FROM' . substr($sql, 11);
+        $sql = 'SELECT * FROM'.substr($sql, 11);
 
         $selectParser = new Sql2ToQomQueryConverter($qm->getQOMFactory());
         $query = $selectParser->parse($sql);

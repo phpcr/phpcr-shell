@@ -7,21 +7,22 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Subscriber;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {
-        return array(
+        return [
             PhpcrShellEvents::PROFILE_INIT => 'handleProfileInit',
-        );
+        ];
     }
 
     public function handleProfileInit(ProfileInitEvent $e)
@@ -29,22 +30,22 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
         $profile = $e->getProfile();
         $input = $e->getInput();
 
-        $transportOptions = array(
-            'transport' => 'name',
+        $transportOptions = [
+            'transport'   => 'name',
             'db-username' => 'db_username',
-            'db-name' => 'db_name',
+            'db-name'     => 'db_name',
             'db-password' => 'db_password',
-            'db-host' => 'db_host',
-            'db-path' => 'db_path',
-            'db-driver' => 'db_driver',
-            'repo-url' => 'repo_url',
-            'repo-path' => 'repo_path',
-        );
+            'db-host'     => 'db_host',
+            'db-path'     => 'db_path',
+            'db-driver'   => 'db_driver',
+            'repo-url'    => 'repo_url',
+            'repo-path'   => 'repo_path',
+        ];
 
-        $phpcrOptions = array(
+        $phpcrOptions = [
             'phpcr-username' => 'username',
             'phpcr-password' => 'password',
-        );
+        ];
 
         foreach ($transportOptions as $optionName => $configName) {
             $value = $input->getOption($optionName);
@@ -62,7 +63,7 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
                                 'DB file "%s" does not exist.', $value));
                         }
 
-                        $value = realpath(dirname($value)) . DIRECTORY_SEPARATOR . basename($value);
+                        $value = realpath(dirname($value)).DIRECTORY_SEPARATOR.basename($value);
                         break;
                     default:
                         // all good

@@ -7,24 +7,25 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
-use PHPCR\PropertyType;
 use PHPCR\ItemNotFoundException;
-use PHPCR\PropertyInterface;
 use PHPCR\NodeInterface;
+use PHPCR\PropertyInterface;
+use PHPCR\PropertyType;
 use PHPCR\Shell\Console\Helper\Table;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeListCommand extends BasePhpcrCommand
 {
-    protected $sortOptions = array('none', 'asc', 'desc');
+    protected $sortOptions = ['none', 'asc', 'desc'];
 
     protected $formatter;
     protected $textHelper;
@@ -46,7 +47,7 @@ class NodeListCommand extends BasePhpcrCommand
             'Sort properties, one of: <comment>%s</comment>',
             implode('</comment>, <comment>', $this->sortOptions)
         ), 'asc');
-        $this->setHelp(<<<HERE
+        $this->setHelp(<<<'HERE'
 List both or one of the children and properties of this node.
 
 Multiple levels can be shown by using the <info>--level</info> option.
@@ -92,7 +93,7 @@ HERE
         $path = $input->getArgument('path');
 
         try {
-            $nodes = array($session->getNodeByPathOrIdentifier($path));
+            $nodes = [$session->getNodeByPathOrIdentifier($path)];
             $filter = null;
         } catch (\Exception $e) {
             if (!$globHelper->isGlobbed($session->getAbsPath($path))) {
@@ -119,7 +120,7 @@ HERE
 
         foreach ($nodes as $node) {
             $table = new Table($output);
-            $this->renderNode($node, $table, array(), $filter);
+            $this->renderNode($node, $table, [], $filter);
 
             if ($table->getNumberOfRows() > 0) {
                 $this->nbNodes++;
@@ -142,7 +143,7 @@ HERE
         }
     }
 
-    private function renderNode($currentNode, $table, $spacers = array(), $filter = null)
+    private function renderNode($currentNode, $table, $spacers = [], $filter = null)
     {
         if ($this->showChildren) {
             $this->renderChildren($currentNode, $table, $spacers, $filter);
@@ -161,7 +162,7 @@ HERE
 
         $nodeType = $currentNode->getPrimaryNodeType();
         $childNodeDefinitions = $nodeType->getDeclaredChildNodeDefinitions();
-        $childNodeNames = array();
+        $childNodeNames = [];
         foreach ($childNodeDefinitions as $childNodeDefinition) {
             $childNodeNames[$childNodeDefinition->getName()] = $childNodeDefinition;
         }
@@ -187,11 +188,11 @@ HERE
 
             $isLast = count($children) === $i;
 
-            $table->addRow(array(
-                '<node>' . implode('', $spacers) . $this->formatter->formatNodeName($child) . '</node>',
+            $table->addRow([
+                '<node>'.implode('', $spacers).$this->formatter->formatNodeName($child).'</node>',
                 $child->getPrimaryNodeType()->getName(),
                 $primaryItemValue,
-            ));
+            ]);
 
             if (count($spacers) < $this->maxLevel) {
                 $newSpacers = $spacers;
@@ -210,11 +211,11 @@ HERE
             // render empty schematic children
             foreach ($childNodeNames as $childNodeName => $childNodeDefinition) {
                 // @todo: Determine and show cardinality, 1..*, *..*, 0..1, etc.
-                $table->addRow(array(
-                    '<templatenode>' . implode('', $spacers) . '@' . $childNodeName . '</templatenode>',
+                $table->addRow([
+                    '<templatenode>'.implode('', $spacers).'@'.$childNodeName.'</templatenode>',
                     implode('|', $childNodeDefinition->getRequiredPrimaryTypeNames()),
                     '',
-                ));
+                ]);
             }
         }
     }
@@ -233,7 +234,7 @@ HERE
         $nodeType = $currentNode->getPrimaryNodeType();
         $propertyDefinitions = $nodeType->getDeclaredPropertyDefinitions();
 
-        $propertyNames = array();
+        $propertyNames = [];
         foreach ($propertyDefinitions as $name => $propertyDefinition) {
             $propertyNames[$propertyDefinition->getName()] = $propertyDefinition;
         }
@@ -249,27 +250,27 @@ HERE
 
                 $valueCell = $this->formatter->formatValue($property);
             } catch (\Exception $e) {
-                $valueCell = '<error>' . $e->getMessage() . '</error>';
+                $valueCell = '<error>'.$e->getMessage().'</error>';
             }
 
-            $table->addRow(array(
-                '<property>' . implode('', $spacers). $name . '</property>',
+            $table->addRow([
+                '<property>'.implode('', $spacers).$name.'</property>',
                 sprintf(
                     '<property-type>%s (%s)</property-type>',
                     $this->formatter->getPropertyTypeName($property->getType()),
-                    implode(',', (array) $property->getLength()) ? : '0'
+                    implode(',', (array) $property->getLength()) ?: '0'
                 ),
                 $valueCell,
-            ));
+            ]);
         }
 
         if ($this->showTemplate) {
             foreach ($propertyNames as $propertyName => $property) {
-                $table->addRow(array(
-                    '<templateproperty>' . implode('', $spacers). '@' . $propertyName . '</templateproperty>',
-                    '<property-type>' . strtoupper(PropertyType::nameFromValue($property->getRequiredType())) . '</property-type>',
+                $table->addRow([
+                    '<templateproperty>'.implode('', $spacers).'@'.$propertyName.'</templateproperty>',
+                    '<property-type>'.strtoupper(PropertyType::nameFromValue($property->getRequiredType())).'</property-type>',
                     '',
-                ));
+                ]);
             }
         }
     }
@@ -279,10 +280,12 @@ HERE
         switch ($this->sort) {
             case 'asc':
                 ksort($array);
+
                 return $array;
             case 'desc':
                 ksort($array);
                 $array = array_reverse($array);
+
                 return $array;
         }
 

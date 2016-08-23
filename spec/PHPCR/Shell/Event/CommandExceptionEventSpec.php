@@ -7,13 +7,14 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
+ *
  */
 
 namespace spec\PHPCR\Shell\Event;
 
+use PHPCR\Shell\Console\Application\ShellApplication;
 use PhpSpec\ObjectBehavior;
 use Symfony\Component\Console\Output\OutputInterface;
-use PHPCR\Shell\Console\Application\ShellApplication;
 
 class CommandExceptionEventSpec extends ObjectBehavior
 {
