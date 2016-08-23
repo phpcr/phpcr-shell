@@ -33,5 +33,5 @@ Feature: Command aliases
         Then the command should not fail
         And I should see a table containing the following rows:
             | Alias | Command |
-            | cd    | shell:path:change {arg1} |
-            | ls    | node:list {arg1} |
+            | cd    | shell:path:change |
+            | ls    | node:list |
