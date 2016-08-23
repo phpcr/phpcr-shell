@@ -122,7 +122,7 @@ HERE
 
             if ($table->getNumberOfRows() > 0) {
                 $this->nbNodes++;
-                $output->writeln(sprintf('<path>%s</path> [%s] > %s',
+                $output->writeln(sprintf('<pathbold>%s</pathbold> [%s] > %s',
                     $node->getPath(),
                     $node->getPrimaryNodeType()->getName(),
                     implode(', ', $node->getPrimaryNodeType()->getDeclaredSupertypeNames())

@@ -71,7 +71,7 @@ HERE
             }
 
             if (0 !== count($references['weak']) || 0 !== count($references['strong'])) {
-                $output->writeln('<path>' . $node->getPath() . '</path>');
+                $output->writeln('<pathbold>' . $node->getPath() . '</pathbold>');
                 $table->render($output);
             }
         }
