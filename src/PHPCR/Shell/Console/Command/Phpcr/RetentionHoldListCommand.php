@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class RetentionHoldListCommand extends BasePhpcrCommand
 {
@@ -39,7 +40,7 @@ HERE
         $absPath = $input->getArgument('absPath');
 
         $holds = $retentionManager->getHolds($absPath);
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
         $table->setHeaders(array('Name'));
 
         foreach ($holds as $hold) {

@@ -15,8 +15,8 @@
     },
     "minimum-stability": "stable",
     "require-dev": {
-        "symfony/symfony": "~2.6|~3.0",
-        "phpunit/phpunit": "~3.7.28",
+        "symfony/symfony": "~3.0",
+        "phpunit/phpunit": "~4.0",
         "behat/behat": "~3.0",
         "phpspec/phpspec": "3.0",
         "jackalope/jackalope-doctrine-dbal": "~1.1",

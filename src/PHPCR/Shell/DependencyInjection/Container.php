@@ -45,7 +45,7 @@ class Container extends ContainerBuilder
 
     public function registerHelpers()
     {
-        $this->register('helper.question', 'Symfony\Component\Console\Helper\DialogHelper');
+        $this->register('helper.question', 'Symfony\Component\Console\Helper\QuestionHelper');
         $this->register('helper.editor', 'PHPCR\Shell\Console\Helper\EditorHelper');
         $this->register('helper.path', 'PHPCR\Shell\Console\Helper\PathHelper');
         $this->register('helper.repository', 'PHPCR\Shell\Console\Helper\RepositoryHelper')
@@ -54,9 +54,7 @@ class Container extends ContainerBuilder
         $this->register('helper.node', 'PHPCR\Shell\Console\Helper\NodeHelper');
         $this->register('helper.result_formatter', 'PHPCR\Shell\Console\Helper\ResultFormatterHelper')
             ->addArgument(new Reference('helper.text'))
-            ->addArgument(new Reference('helper.table'))
             ->addArgument(new Reference('config.config.phpcrsh'));
-        $this->register('helper.table', 'PHPCR\Shell\Console\Helper\TableHelper');
     }
 
     public function registerConfig()
@@ -68,8 +66,7 @@ class Container extends ContainerBuilder
         $this->register('config.profile_loader', 'PHPCR\Shell\Config\ProfileLoader')
             ->addArgument(new Reference('config.manager'));
         $this->register('config.config.phpcrsh', 'PHPCR\Shell\Config\Config')
-            ->setFactoryService('config.manager')
-            ->setFactoryMethod('getPhpcrshConfig');
+            ->setFactory([ new Reference('config.manager'), 'getPhpcrshConfig' ]);
     }
 
     public function registerPhpcr()
@@ -98,8 +95,8 @@ class Container extends ContainerBuilder
         $repositoryDefinition = $this->register('phpcr.repository');
         $sessionDefinition = $this->register('phpcr.session');
 
-        $repositoryDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getRepository');
-        $sessionDefinition->setFactoryService('phpcr.session_manager')->setFactoryMethod('getSession');
+        $repositoryDefinition->setFactory([ new Reference('phpcr.session_manager'), 'getRepository' ]);
+        $sessionDefinition->setFactory([ new Reference('phpcr.session_manager'), 'getSession' ]);
 
         $this->register('dtl.glob.helper', 'DTL\Glob\GlobHelper');
     }

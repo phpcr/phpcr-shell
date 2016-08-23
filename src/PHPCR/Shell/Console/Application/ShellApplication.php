@@ -272,7 +272,7 @@ class ShellApplication extends Application
      *
      * {@inheritDoc}
      */
-    public function renderException($exception, $output)
+    public function renderException(\Exception $exception, OutputInterface $output)
     {
         $output->writeln(sprintf('<exception>%s</exception>', $exception->getMessage()));
     }

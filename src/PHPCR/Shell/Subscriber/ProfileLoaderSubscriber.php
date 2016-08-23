@@ -5,15 +5,16 @@ namespace PHPCR\Shell\Subscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
-use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use PHPCR\Shell\Config\ProfileLoader;
 use Symfony\Component\Console\Output\OutputInterface;
 use PHPCR\Shell\Config\Profile;
+use Symfony\Component\Console\Question\Question;
 
 class ProfileLoaderSubscriber implements EventSubscriberInterface
 {
     protected $profileLoader;
-    protected $dialogHelper;
+    protected $questionHelper;
 
     public static function getSubscribedEvents()
     {
@@ -22,10 +23,10 @@ class ProfileLoaderSubscriber implements EventSubscriberInterface
         );
     }
 
-    public function __construct(ProfileLoader $profileLoader, $dialogHelper)
+    public function __construct(ProfileLoader $profileLoader, $questionHelper)
     {
         $this->profileLoader = $profileLoader;
-        $this->dialogHelper = $dialogHelper;
+        $this->questionHelper = $questionHelper;
     }
 
     public function handleProfileInit(ProfileInitEvent $e)
@@ -81,7 +82,7 @@ EOT
 
             $selectedName = null;
             while (null === $selectedName) {
-                $number = $this->dialogHelper->ask($output, '<info>Enter profile number</info>: ');
+                $number = $this->questionHelper->ask($input, $output, new Question('<info>Enter profile number</info>: '));
 
                 if (!isset($profileNames[$number])) {
                     $output->writeln('<error>Invalid selection!</error>');

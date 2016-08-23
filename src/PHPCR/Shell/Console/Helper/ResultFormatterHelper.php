@@ -18,6 +18,7 @@ use PHPCR\PropertyType;
 use PHPCR\NodeInterface;
 use PHPCR\PropertyInterface;
 use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Console\Helper\Table;
 
 /**
  * Provide methods for formatting PHPCR objects
@@ -27,13 +28,11 @@ use PHPCR\Shell\Config\Config;
 class ResultFormatterHelper extends Helper
 {
     protected $textHelper;
-    protected $tableHelper;
     protected $config;
 
-    public function __construct(TextHelper $textHelper, TableHelper $tableHelper, Config $config)
+    public function __construct(TextHelper $textHelper, Config $config)
     {
         $this->textHelper = $textHelper;
-        $this->tableHelper = $tableHelper;
         $this->config = $config;
     }
 
@@ -66,7 +65,7 @@ class ResultFormatterHelper extends Helper
      */
     public function formatQueryResult(QueryResultInterface $result, OutputInterface $output, $elapsed)
     {
-        $table = $this->tableHelper->create();
+        $table = new Table($output);
         $table->setHeaders(array_merge(array(
             'Path',
             'Index',

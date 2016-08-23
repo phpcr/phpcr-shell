@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use PHPCR\RepositoryInterface;
+use PHPCR\Shell\Console\Helper\Table;
 
 class LockInfoCommand extends BasePhpcrCommand
 {
@@ -55,7 +56,7 @@ HERE
             'Session scoped?' => $lock->isSessionScoped() ? 'yes' : 'no',
         );
 
-        $table = $this->get('helper.table')->create();
+        $table = new Table($output);
 
         foreach ($info as $label => $value) {
             $table->addRow(array($label, $value));
