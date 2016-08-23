@@ -32,8 +32,8 @@ class AliasSubscriberSpec extends ObjectBehavior
         );
 
         $config->getConfig('alias')->willReturn(array(
-            'ls' => 'list:command {arg1}',
-            'mv' => 'move {arg1} {arg2}',
+            'ls' => 'list:command',
+            'mv' => 'move',
         ));
     }
 
@@ -42,26 +42,10 @@ class AliasSubscriberSpec extends ObjectBehavior
         StringInput $input
     ) {
         $event->getInput()->willReturn($input);
+        $input->getRawCommand()->willReturn('ls -L5 --children');
         $input->getFirstArgument()->willReturn('ls');
-        $input->getTokens()->willReturn(array(
-            'ls', 'me'
-        ));
         $event->setInput(Argument::type('PHPCR\Shell\Console\Input\StringInput'))->shouldBeCalled();
 
-        $this->handleAlias($event)->shouldReturn('list:command me');
-    }
-
-    public function it_should_ommit_missing_arguments(
-        CommandPreRunEvent $event,
-        StringInput $input
-    ) {
-        $event->getInput()->willReturn($input);
-        $input->getFirstArgument()->willReturn('ls');
-        $input->getTokens()->willReturn(array(
-            'ls'
-        ));
-        $event->setInput(Argument::type('PHPCR\Shell\Console\Input\StringInput'))->shouldBeCalled();
-
-        $this->handleAlias($event)->shouldReturn('list:command');
+        $this->handleAlias($event)->shouldReturn('list:command -L5 --children');
     }
 }

@@ -5,54 +5,54 @@ cinit: shell:config:init
 clear: shell:clear
 
 # MySQL commands
-use: workspace:use {arg1}
-explain: node-type:show {arg1}
+use: workspace:use
+explain: node-type:show
 
 # Filesystem commands
-cd: shell:path:change {arg1}
-rm: node:remove {arg1}
-mv: node:move {arg1} {arg2}
+cd: shell:path:change
+rm: node:remove
+mv: node:move
 pwd: shell:path:show
 exit: shell:exit
 
 # Node commands
-ls: node:list {arg1}
-ln: node:clone {arg1} {arg2} # symlink, as in ln -s
-cp: node:copy {arg1} {arg2}
-cat: node:property:show {arg1}
-touch: node:property:set {arg1} {arg2} {arg3}
-mkdir: node:create {arg1} {arg2}
+ls: node:list
+ln: node:clone # symlink, as in ln -s
+cp: node:copy
+cat: node:property:show
+touch: node:property:set
+mkdir: node:create
 
 # Node type commands
 mixins: node-type:list "^mix:"
-nodetypes: node-type:list {arg1}
-ntedit: node-type:edit {arg1}
-ntshow: node-type:show {arg1}
+nodetypes: node-type:list
+ntedit: node-type:edit
+ntshow: node-type:show
 
 # Workspace commands
 workspaces: workspace:list
 
 # Namespsce commands
-namespaces: workspace:namespace:list {arg1}
+namespaces: workspace:namespace:list
 nsset: workspace:namespace:register
 
 # Editor commands
-vi: node:edit {arg1} {arg2}
-vim: node:edit {arg1} {arg2}
-nano: node:edit {arg1} {arg2}
+vi: node:edit
+vim: node:edit
+nano: node:edit
 
 # GNU commands
-man: help {arg1}
+man: help
 
 # Version commands
-checkin: version:checkin {arg1}
-ci: version:checkin {arg1}
-co: version:checkout {arg1}
-checkout: version:checkout {arg1}
-cp: version:checkpoint {arg1}
-checkpoint: version:checkpoint {arg1}
-vhist: version:history {arg1}
-versions: version:history {arg1}
+checkin: version:checkin
+ci: version:checkin
+co: version:checkout
+checkout: version:checkout
+cp: version:checkpoint
+checkpoint: version:checkpoint
+vhist: version:history
+versions: version:history
 
 # Session commands
 save: session:save

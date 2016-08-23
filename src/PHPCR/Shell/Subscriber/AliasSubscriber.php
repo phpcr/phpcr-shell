@@ -60,32 +60,8 @@ class AliasSubscriber implements EventSubscriberInterface
             return;
         }
 
-        $commandTemplate = $aliasConfig[$commandName];
-        $replaces = array();
-
-        preg_match_all('{\{arg[0-9]+\}}', $commandTemplate, $matches);
-
-        $args = array();
-        if (isset($matches[0])) {
-            $args = $matches[0];
-        }
-
-        $tokens = $input->getTokens();
-
-        foreach ($tokens as $i => $token) {
-            if (strstr($token, ' ')) {
-                $token = escapeshellarg($token);
-            }
-            $replaces['{arg' . $i . '}'] = $token;
-        }
-
-        $command = strtr($commandTemplate, $replaces);
-
-        foreach ($args as $arg) {
-            $command = str_replace($arg, '', $command);
-        }
-
-        $command = trim($command);
+        $command = $aliasConfig[$commandName];
+        $command = $command .= substr($input->getRawCommand(), strlen($commandName));
 
         $newInput = new StringInput($command);
         $event->setInput($newInput);
