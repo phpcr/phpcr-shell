@@ -174,7 +174,7 @@ class ConfigManager
     /**
      * Initialize a configuration files.
      */
-    public function initConfig(OutputInterface $output = null, $noInteraction = false)
+    public function initConfig(OutputInterface $output = null)
     {
         $log = function ($message) use ($output) {
             if ($output) {
@@ -208,18 +208,9 @@ class ConfigManager
             }
 
             if ($this->filesystem->exists($destFile)) {
-                if (false === $noInteraction) {
-                    $confirmed = $this->questionHelper->askConfirmation(
-                        $output,
-                        '"'.$configFilename.'" already exists, do you want to overwrite it?'
-                    );
+                $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
 
-                    if (!$confirmed) {
-                        continue;
-                    }
-                } else {
-                    $log(sprintf('<info>File</info> %s <info> already exists, not overwriting.', $destFile));
-                }
+                return;
             }
 
             $this->filesystem->copy($srcFile, $destFile);

@@ -16,6 +16,7 @@ use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ProfileWriterSubscriber implements EventSubscriberInterface
@@ -54,14 +55,14 @@ class ProfileWriterSubscriber implements EventSubscriberInterface
             if (file_exists($this->profileLoader->getProfilePath($profileName))) {
                 $res = true;
                 if (false === $noInteraction) {
-                    $res = $this->questionHelper->askConfirmation($output, sprintf('Update existing profile "%s"?', $profileName));
+                    $res = $this->questionHelper->ask($input, $output, new ConfirmationQuestion(sprintf('Update existing profile "%s"?', $profileName)));
                 }
                 $overwrite = true;
             } else {
                 $res = true;
 
                 if (false === $noInteraction) {
-                    $res = $this->questionHelper->askConfirmation($output, sprintf('Create new profile "%s"?', $profileName));
+                    $res = $this->questionHelper->ask($input, $output, new ConfirmationQuestion(sprintf('Create new profile "%s"?', $profileName)));
                 }
             }
 
