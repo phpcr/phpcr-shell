@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class SessionExportCommand extends BasePhpcrCommand
 {
@@ -64,7 +65,7 @@ HERE
             $confirmed = true;
 
             if (false === $input->getOption('no-interaction')) {
-                $confirmed = $dialog->askConfirmation($output, 'File already exists, overwrite?');
+                $confirmed = $dialog->ask($input, $output, new ConfirmationQuestion('File already exists, overwrite?'));
             }
 
             if (false === $confirmed) {

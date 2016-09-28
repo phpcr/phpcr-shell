@@ -34,6 +34,6 @@ EOT
     {
         $this->output = $output;
         $configHelper = $this->get('config.manager');
-        $configHelper->initConfig($output, $input->getOption('no-interaction'));
+        $configHelper->initConfig($output);
     }
 }

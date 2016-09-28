@@ -65,7 +65,7 @@ HERE
             if ($type) {
                 $intType = PropertyType::valueFromName($type);
 
-                if ($intType === PropertyType::REFERENCE  || $intType === PropertyType::WEAKREFERENCE) {
+                if ($intType === PropertyType::REFERENCE || $intType === PropertyType::WEAKREFERENCE) {
                     // convert path to UUID
                     if (false === UUIDHelper::isUuid($value)) {
                         $path = $value;

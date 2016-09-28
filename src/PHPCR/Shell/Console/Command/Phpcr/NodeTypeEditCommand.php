@@ -19,6 +19,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class NodeTypeEditCommand extends BasePhpcrCommand
 {
@@ -101,7 +102,7 @@ EOT;
 
                 $tryAgain = false;
                 if (false === $input->getOption('no-interaction')) {
-                    $tryAgain = $dialog->askConfirmation($output, 'Do you want to try again? (y/n)');
+                    $tryAgain = $dialog->ask($input, $output, new ConfirmationQuestion('Do you want to try again? (y/n)'));
                 }
 
                 if (false === $tryAgain) {
