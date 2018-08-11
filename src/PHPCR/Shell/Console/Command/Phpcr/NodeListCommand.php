@@ -124,7 +124,6 @@ HERE
             $this->renderNode($node, $table, [], $filter);
 
             if ($table->getNumberOfRows() > 0) {
-                $this->nbNodes++;
                 $output->writeln(sprintf('<pathbold>%s</pathbold> [%s] > %s',
                     $node->getPath(),
                     $node->getPrimaryNodeType()->getName(),
@@ -170,6 +169,7 @@ HERE
 
         $i = 0;
         foreach ($children as $child) {
+            $this->nbNodes++;
             $i++;
             if (isset($childNodeNames[$child->getName()])) {
                 unset($childNodeNames[$child->getName()]);
@@ -204,7 +204,6 @@ HERE
                     $newSpacers[] = '| ';
                 }
 
-                $this->nbNodes++;
                 $this->renderNode($child, $table, $newSpacers);
             }
         }

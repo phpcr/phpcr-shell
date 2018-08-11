@@ -1,4 +1,4 @@
-Feature: List properites and chidren of current nodeA
+Feature: List properties and children of current nodeA
     In order to list the properties and children of the current node
     As a user that is logged into the shell
     I should be able to run a command which does that
@@ -136,7 +136,23 @@ Feature: List properites and chidren of current nodeA
         +---------------------+---------+--------------+
         """
 
-    Scenario: Correct node count
+    Scenario: Correct node count (simple)
+        Given I execute the "node:list /tests_general_base" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        9 nodes, 1 properties in set
+        """
+
+    Scenario: Correct node count (recursive without properties)
+        Given I execute the "node:list --children --level=1 /tests_general_base" command
+        Then the command should not fail
+        And I should see the following:
+        """
+        16 nodes, 0 properties in set
+        """
+
+    Scenario: Correct node count (wildcard)
         Given I execute the "node:list /tests_general_base/*/jcr:content" command
         Then the command should not fail
         And I should see the following:
