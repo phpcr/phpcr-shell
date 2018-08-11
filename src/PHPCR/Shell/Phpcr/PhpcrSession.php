@@ -104,6 +104,10 @@ class PhpcrSession implements SessionInterface
                 }
             }
 
+            if ($newPath !== '/') {
+                $newPath = rtrim($newPath, '/');
+            }
+
             // check that path is valid
             $this->getNode($newPath);
         }
