@@ -13,7 +13,6 @@
 namespace spec\PHPCR\Shell\Console\Helper;
 
 use PHPCR\NodeInterface;
-use PHPCR\NodeType\NodeTypeInterface;
 use PhpSpec\ObjectBehavior;
 
 class NodeHelperSpec extends ObjectBehavior
@@ -24,37 +23,19 @@ class NodeHelperSpec extends ObjectBehavior
     }
 
     public function it_should_provide_a_method_to_determine_if_a_node_has_a_given_mixin(
-        NodeInterface $node,
-        NodeTypeInterface $mixin1,
-        NodeTypeInterface $mixin2,
-        NodeTypeInterface $mixin3
+        NodeInterface $node
     ) {
-        $node->getMixinNodeTypes()->willReturn([
-            $mixin1, $mixin2, $mixin3,
-        ]);
-
-        $mixin1->getName()->willReturn('mixin1');
-        $mixin2->getName()->willReturn('mixin1');
-        $mixin3->getName()->willReturn('mixin3');
-
-        $this->nodeHasMixinType($node, 'mixin1')->shouldReturn(true);
-        $this->nodeHasMixinType($node, 'mixin5')->shouldReturn(false);
+        $node->isNodeType('mixin1')->willReturn(true);
+        $node->isNodeType('mixin2')->willReturn(false);
     }
 
     public function it_should_provide_a_method_to_determine_if_a_node_is_versionable(
         NodeInterface $nodeVersionable,
-        NodeInterface $nodeNotVersionable,
-        NodeTypeInterface $mixin1,
-        NodeTypeInterface $mixin2
+        NodeInterface $nodeNotVersionable
     ) {
-        $nodeVersionable->getMixinNodeTypes()->willReturn([
-            $mixin1, $mixin2,
-        ]);
-        $nodeNotVersionable->getMixinNodeTypes()->willReturn([
-            $mixin2,
-        ]);
         $nodeNotVersionable->getPath()->willReturn('foobar');
-        $mixin1->getName()->willReturn('mix:versionable');
+        $nodeVersionable->isNodeType('mix:versionable')->willReturn(true);
+        $nodeNotVersionable->isNodeType('mix:versionable')->willReturn(false);
         $this->assertNodeIsVersionable($nodeVersionable)->shouldReturn(null);
 
         try {

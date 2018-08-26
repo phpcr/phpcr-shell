@@ -40,14 +40,8 @@ class NodeHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertNodeIsVersionable($isVersionable)
     {
-        $this->node->getMixinNodeTypes()->willReturn([
-            $this->nodeType1->reveal(),
-        ]);
         $this->node->getPath()->willReturn('/');
-
-        $nodeTypeName = $isVersionable ? 'mix:versionable' : 'nt:foobar';
-
-        $this->nodeType1->getName()->willReturn($nodeTypeName);
+        $this->node->isNodeType('mix:versionable')->willReturn($isVersionable);
 
         if (false == $isVersionable) {
             $this->setExpectedException('\OutOfBoundsException', 'is not versionable');
