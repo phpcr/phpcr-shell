@@ -29,15 +29,7 @@ class NodeHelper extends Helper
      */
     public function nodeHasMixinType($node, $mixinTypeName)
     {
-        $mixinTypes = $node->getMixinNodeTypes();
-
-        foreach ($mixinTypes as $mixinType) {
-            if ($mixinTypeName == $mixinType->getName()) {
-                return true;
-            }
-        }
-
-        return false;
+        return $node->isNodeType($mixinTypeName);
     }
 
     /**
