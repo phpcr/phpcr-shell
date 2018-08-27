@@ -50,7 +50,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function beforeScenario()
     {
         $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell'.DIRECTORY_SEPARATOR.
-            md5(microtime() * rand(0, 10000));
+            md5(microtime(true) * rand(0, 10000));
 
         $this->workingDir = $dir;
 
