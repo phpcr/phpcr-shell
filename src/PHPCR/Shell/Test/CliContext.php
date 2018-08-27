@@ -38,8 +38,10 @@ class CliContext implements Context, SnippetAcceptingContext
         $this->output = [];
 
         $this->rootPath = realpath(__DIR__.'/../../../..');
-        $dir = sys_get_temp_dir().DIRECTORY_SEPARATOR.'phpcr-shell'.DIRECTORY_SEPARATOR.
-            md5(microtime() * rand(0, 10000));
+
+        $dir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'phpcr-shell' . DIRECTORY_SEPARATOR .
+            md5(microtime(true) * rand(0, 10000));
+
         $this->fixturesDir = realpath(__DIR__.'/../../../../features/fixtures/');
 
         $this->workingDir = $dir;
