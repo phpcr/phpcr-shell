@@ -176,6 +176,7 @@ HERE
             }
 
             $primaryItemValue = '';
+
             try {
                 $primaryItem = $child->getPrimaryItem();
 
@@ -243,6 +244,7 @@ HERE
         $i = 0;
         foreach ($properties as $name => $property) {
             $this->nbProperties++;
+
             try {
                 $i++;
                 if (isset($propertyNames[$name])) {

@@ -16,7 +16,6 @@ use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

@@ -15,7 +15,6 @@ namespace PHPCR\Shell\Subscriber;
 use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\Event\ProfileInitEvent;
-use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 

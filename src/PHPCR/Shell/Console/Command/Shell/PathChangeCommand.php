@@ -30,6 +30,7 @@ class PathChangeCommand extends BaseCommand
     {
         $session = $this->get('phpcr.session');
         $path = $input->getArgument('path');
+
         try {
             $session->chdir($path);
             $output->writeln('<comment>'.$session->getCwd().'</comment>');
