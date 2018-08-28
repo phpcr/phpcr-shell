@@ -69,6 +69,7 @@ HERE
                     // convert path to UUID
                     if (false === UUIDHelper::isUuid($value)) {
                         $path = $value;
+
                         try {
                             $targetNode = $session->getNode($path);
                             $value = $targetNode->getIdentifier();

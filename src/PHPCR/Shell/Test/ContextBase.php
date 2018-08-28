@@ -390,6 +390,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function thereShouldExistANodeAt($arg1)
     {
         $session = $this->getSession();
+
         try {
             $session->getNode($arg1);
         } catch (PathNotFoundException $e) {
@@ -472,6 +473,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         try {
             $session->getNode($arg1);
+
             throw new \Exception('Node at path '.$arg1.' exists.');
         } catch (PathNotFoundException $e) {
             // good.. not does not exist
@@ -505,6 +507,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
 
         try {
             $session->getProperty($arg1);
+
             throw new \Exception('Property exists at "'.$arg1.'"');
         } catch (PathNotFoundException $e) {
             // good
@@ -577,6 +580,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $session = $this->getSession();
         $workspace = $session->getWorkspace();
+
         try {
             $workspace->createWorkspace($arg1);
         } catch (\Exception $e) {
@@ -591,6 +595,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         try {
             $this->thereShouldExistAWorkspaceCalled($arg1);
+
             throw new \Exception(sprintf('Workspace "%s" exists.', $arg1));
         } catch (\Exception $e) {
         }
@@ -642,6 +647,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $session = $this->getSession();
         $workspace = $session->getWorkspace();
         $nodeTypeManager = $workspace->getNodeTypeManager();
+
         try {
             $nodeTypeManager->getNodeType($arg1);
         } catch (\Exception $e) {

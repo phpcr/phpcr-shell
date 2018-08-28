@@ -70,6 +70,7 @@ class PhpcrSession implements SessionInterface
     {
         // return autocompletions for current path
         $cwd = $this->getCwd();
+
         try {
             $node = $this->getNode($cwd);
             $list = (array) $node->getNodeNames();

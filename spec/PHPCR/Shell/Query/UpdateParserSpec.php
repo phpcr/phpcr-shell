@@ -93,7 +93,6 @@ EOT;
         $qomf->selector('a', 'dtl:article')->willReturn($source);
         $qomf->createQuery($source, null)->willReturn($query);
 
-
         $sql = <<<'EOT'
 UPDATE [dtl:article] AS a SET a.tags = array_replace(a.tags, 'asd', 'dsa')
 EOT;
@@ -109,7 +108,6 @@ EOT;
     ) {
         $qomf->selector('a', 'dtl:article')->willReturn($source);
         $qomf->createQuery($source, null)->willReturn($query);
-
 
         $sql = <<<'EOT'
 UPDATE [dtl:article] AS a APPLY nodetype_add('nt:barbar')
