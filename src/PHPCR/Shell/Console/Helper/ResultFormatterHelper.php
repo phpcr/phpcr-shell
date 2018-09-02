@@ -68,7 +68,6 @@ class ResultFormatterHelper extends Helper
         $table = new Table($output);
         $table->setHeaders(array_merge([
             'Path',
-            'Index',
         ], $result->getColumnNames()));
 
         foreach ($result->getRows() as $row) {
