@@ -12,7 +12,7 @@ Feature: Execute a query
         Then the command should not fail
         And I should see a table containing the following rows:
             | a.jcr:createdBy |
-            | admin           |       
+            | admin           |
 
     Scenario: Execute query invalid language
         Given I execute the "query 'SELECT * FROM [nt:unstructured]' --language=FRENCH" command
@@ -33,3 +33,7 @@ Feature: Execute a query
     Scenario: Execute query with no query
         Given I execute the "query --language=xpath" command
         Then the command should fail
+
+    Scenario: Execute query by selecting date property
+        Given I execute the "query --limit=1 'SELECT [jcr:created] FROM [nt:file]'" command
+        Then the command should not fail

@@ -76,6 +76,11 @@ class ResultFormatterHelper extends Helper
             ], $row->getValues());
 
             foreach ($values as &$value) {
+                if ($value instanceof \DateTime) {
+                    $value = $value->format('c');
+                    continue;
+                }
+
                 $value = $this->textHelper->truncate($value, 255);
             }
 
