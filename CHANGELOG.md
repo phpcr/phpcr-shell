@@ -1,6 +1,21 @@
 Changelog
 =========
 
+1.1.0
+-----
+
+- [cd] Allow trailing slash on path. #189
+- [versioning] Fix node type check to use the PHPCR method for it. #190
+- [node:list] Fix node counting. #188
+- [query] Fix date formatting. #198
+- [query] Remove header "Index" from the result table as there is never any data output. #197
+- Fixed tests and styling, test with PHP 7. #194, #196
+
+1.0.0
+-----
+
+Stable release
+
 beta4
 -----
 
