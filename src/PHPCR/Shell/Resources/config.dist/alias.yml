@@ -49,7 +49,6 @@ checkin: version:checkin
 ci: version:checkin
 co: version:checkout
 checkout: version:checkout
-cp: version:checkpoint
 checkpoint: version:checkpoint
 vhist: version:history
 versions: version:history
