@@ -56,7 +56,7 @@ EOT
                 <<<'EOT'
 This is some text that I want to edit
 EOT
-            ,
+                ,
                 <<<'EOT'
 This is some text that I want the user to see in a commend
 

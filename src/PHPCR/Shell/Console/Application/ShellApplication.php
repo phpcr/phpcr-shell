@@ -12,7 +12,6 @@
 
 namespace PHPCR\Shell\Console\Application;
 
-use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
 use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
 use PHPCR\Shell\Console\Command\Shell as CommandShell;
