@@ -62,9 +62,31 @@ matrix:
         - PREFER=""
         - BEHAT_SUITE=cli
         - SYMFONY_VERSION=^4.0
+    - php: 7.3
+      env:
+        - PREFER=""
+        - BEHAT_SUITE=standalone
+        - SYMFONY_VERSION=^2.8
+    - php: 7.3
+      env:
+        - PREFER=""
+        - BEHAT_SUITE=embedded
+        - SYMFONY_VERSION=^3.0
+    - php: 7.3
+      env:
+        - PREFER=""
+        - BEHAT_SUITE=embedded
+        - SYMFONY_VERSION=^4.0
+    - php: 7.3
+      env:
+        - PREFER=""
+        - BEHAT_SUITE=cli
+        - SYMFONY_VERSION=^5.0
+        - MINIMUM_STABILITY=dev
 
 before_script:
     - composer self-update
+    - if [[ "$MINIMUM_STABILITY" ]]; then composer config minimum-stability $MINIMUM_STABILITY ; fi
     - composer require "symfony/symfony" "$SYMFONY_VERSION" --no-update
     - composer update $PREFER
     - bash tests/bin/travis_jackrabbit.sh
