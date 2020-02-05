@@ -20,7 +20,8 @@
         "behat/behat": "~3.1",
         "phpspec/phpspec": "~3.2|~4.0|~5.0|~6.0",
         "jackalope/jackalope-doctrine-dbal": "~1.2",
-        "jackalope/jackalope-jackrabbit": "~1.2"
+        "jackalope/jackalope-jackrabbit": "~1.2",
+        "webmozart/assert": "^1.6"
     },
     "suggest": {
         "jackalope/jackalope-doctrine-dbal": "To connect to jackalope doctrine-dbal",

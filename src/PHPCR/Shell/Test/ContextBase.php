@@ -25,6 +25,7 @@ use PHPCR\SimpleCredentials;
 use PHPCR\Util\NodeHelper;
 use PHPCR\Util\PathHelper;
 use Symfony\Component\Filesystem\Filesystem;
+use Webmozart\Assert\Assert;
 
 /**
  * Features context.
@@ -199,7 +200,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             }
         }
 
-        \PHPUnit_Framework_Assert::assertGreaterThanOrEqual(count($expectedRows), $foundRows, $this->getOutput());
+        Assert::greaterThanEq(count($expectedRows), $foundRows, $this->getOutput());
     }
 
     /**
@@ -208,7 +209,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function iShouldSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        \PHPUnit_Framework_Assert::assertContains($string->getRaw(), $output);
+        Assert::contains($string->getRaw(), $output);
     }
 
     /**
@@ -217,7 +218,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function iShouldNotSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        \PHPUnit_Framework_Assert::assertNotContains($string->getRaw(), $output);
+        Assert::notContains($string->getRaw(), $output);
     }
 
     /**
@@ -248,7 +249,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             throw new \Exception('Command failed: ('.$exitCode.') '.$this->getOutput());
         }
 
-        \PHPUnit_Framework_Assert::assertEquals(0, $exitCode, 'Command exited with code: '.$exitCode);
+        Assert::eq(0, $exitCode, 'Command exited with code: '.$exitCode);
     }
 
     /**
@@ -258,7 +259,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $exitCode = $this->applicationTester->getLastExitCode();
 
-        \PHPUnit_Framework_Assert::assertNotEquals(0, $exitCode, 'Command exited with code '.$exitCode);
+        Assert::notEq(0, $exitCode, 'Command exited with code '.$exitCode);
     }
 
     /**
@@ -269,7 +270,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $exitCode = $this->applicationTester->getLastExitCode();
         $output = $this->getOutput();
 
-        \PHPUnit_Framework_Assert::assertEquals($arg1, $output);
+        Assert::eq($arg1, $output);
     }
 
     /**
@@ -277,7 +278,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
      */
     public function theFileShouldExist($arg1)
     {
-        \PHPUnit_Framework_Assert::assertTrue(file_exists($this->getWorkingFilePath($arg1)));
+        Assert::true(file_exists($this->getWorkingFilePath($arg1)));
     }
 
     /**
@@ -304,7 +305,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function theOutputShouldContain(PyStringNode $string)
     {
         foreach ($string->getStrings() as $line) {
-            \PHPUnit_Framework_Assert::assertContains($line, $this->getOutput());
+            Assert::contains($line, $this->getOutput());
         }
     }
 
@@ -315,7 +316,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $session = $this->getSession();
         $node = $session->getNode($arg1);
-        \PHPUnit_Framework_Assert::assertNull($node);
+        Assert::null($node);
     }
 
     /**
@@ -326,7 +327,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $xpath = $this->getXPathForFile($arg3);
         $res = $xpath->query($arg1);
 
-        \PHPUnit_Framework_Assert::assertEquals($arg2, $res->length);
+        Assert::eq($arg2, $res->length);
     }
 
     /**
@@ -363,7 +364,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $this->executeCommand('session:info');
         $output = $this->getOutput();
-        \PHPUnit_Framework_Assert::assertRegExp('/live .*no/', $output);
+        Assert::regex('/live .*no/', $output);
     }
 
     /**
@@ -427,7 +428,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             throw new \Exception('Could not find child node '.$arg1);
         }
 
-        \PHPUnit_Framework_Assert::assertEquals($arg2, $afterNode->getPath());
+        Assert::eq($arg2, $afterNode->getPath());
     }
 
     /**
@@ -530,7 +531,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $session = $this->getSession();
         $userId = $session->getUserID();
 
-        \PHPUnit_Framework_Assert::assertEquals($userId, $arg1);
+        Assert::eq($userId, $arg1);
     }
 
     /**
@@ -690,7 +691,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $this->executeCommand('shell:path:show');
         $cnp = $this->applicationTester->getLastLine();
-        \PHPUnit_Framework_Assert::assertEquals($arg1, $cnp, 'Current path is '.$arg1);
+        Assert::eq($arg1, $cnp, 'Current path is '.$arg1);
     }
 
     /**
@@ -728,7 +729,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $session = $this->getSession();
         $node = $session->getNode($arg1);
         $primaryTypeName = $node->getPrimaryNodeType()->getName();
-        \PHPUnit_Framework_Assert::assertEquals($arg2, $primaryTypeName, 'Node type of '.$arg1.' is '.$arg2);
+        Assert::eq($arg2, $primaryTypeName, 'Node type of '.$arg1.' is '.$arg2);
     }
 
     /**
@@ -745,7 +746,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             $propertyValue = $propertyValue->getIdentifier();
         }
 
-        \PHPUnit_Framework_Assert::assertEquals($arg3, $propertyValue);
+        Assert::eq($arg3, $propertyValue);
     }
 
     /**
@@ -761,7 +762,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         }
 
         $propertyType = $property->getValue();
-        \PHPUnit_Framework_Assert::assertEquals($arg3, $propertyType[$index]);
+        Assert::eq($arg3, $propertyType[$index]);
     }
 
     /**
@@ -777,7 +778,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             ));
         }
 
-        \PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
+        Assert::eq($arg2, PropertyType::nameFromValue($property->getType()));
     }
 
     /**
@@ -793,8 +794,8 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
             ));
         }
 
-        \PHPUnit_Framework_Assert::assertEquals($arg2, PropertyType::nameFromValue($property->getType()));
-        \PHPUnit_Framework_Assert::assertEquals($arg3, $property->getValue());
+        Assert::eq($arg2, PropertyType::nameFromValue($property->getType()));
+        Assert::eq($arg3, $property->getValue());
     }
 
     /**
@@ -864,7 +865,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $lockManager = $workspace->getLockManager();
         $isLocked = $lockManager->isLocked($arg1);
 
-        \PHPUnit_Framework_Assert::assertTrue($isLocked);
+        Assert::true($isLocked);
     }
 
     /**
@@ -877,7 +878,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $lockManager = $workspace->getLockManager();
         $isLocked = $lockManager->isLocked($arg1);
 
-        \PHPUnit_Framework_Assert::assertFalse($isLocked);
+        Assert::false($isLocked);
     }
 
     /**
