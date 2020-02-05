@@ -13,7 +13,6 @@
 namespace PHPCR\Shell\Event;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 class CommandPreRunEvent extends Event
 {

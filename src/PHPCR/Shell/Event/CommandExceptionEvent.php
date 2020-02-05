@@ -14,7 +14,6 @@ namespace PHPCR\Shell\Event;
 
 use PHPCR\Shell\Console\Application\ShellApplication;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 class CommandExceptionEvent extends Event
 {

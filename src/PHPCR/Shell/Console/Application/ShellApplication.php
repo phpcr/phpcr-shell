@@ -28,6 +28,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 /**
  * Main application for PHPCRSH.
@@ -55,6 +56,11 @@ class ShellApplication extends Application
      * @var bool
      */
     protected $initialized = false;
+
+    /**
+     * @var EventDispatcher
+     */
+    private $dispatcher;
 
     /**
      * Constructor - name and version inherited from SessionApplication.
@@ -94,7 +100,7 @@ class ShellApplication extends Application
         $this->registerShellCommands();
 
         $event = new ApplicationInitEvent($this);
-        $this->dispatcher->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
+        $this->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
         $this->initialized = true;
     }
 
@@ -241,7 +247,7 @@ class ShellApplication extends Application
         $name = $this->getCommandName($input);
 
         $event = new Event\CommandPreRunEvent($name, $input);
-        $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_PRE_RUN, $event);
+        $this->dispatch(PhpcrShellEvents::COMMAND_PRE_RUN, $event);
         $input = $event->getInput();
 
         if (!$name) {
@@ -251,7 +257,7 @@ class ShellApplication extends Application
         try {
             $exitCode = parent::doRun($input, $output);
         } catch (\Exception $e) {
-            $this->dispatcher->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $this, $output));
+            $this->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $this, $output));
 
             return 1;
         }
@@ -291,7 +297,7 @@ class ShellApplication extends Application
     public function dispatchProfileInitEvent(InputInterface $sessionInput, OutputInterface $output)
     {
         $event = new Event\ProfileInitEvent($this->container->get('config.profile'), $sessionInput, $output);
-        $this->dispatcher->dispatch(PhpcrShellEvents::PROFILE_INIT, $event);
+        $this->dispatch(PhpcrShellEvents::PROFILE_INIT, $event);
     }
 
     /**
@@ -327,5 +333,15 @@ class ShellApplication extends Application
     public function setDebug($debug)
     {
         $this->debug = $debug;
+    }
+
+    private function dispatch(string $eventName, $event)
+    {
+        // LegacyEventDispatcherProxy exists in Symfony >= 4.3
+        if (class_exists(LegacyEventDispatcherProxy::class)) {
+            return $this->dispatcher->dispatch($event, $eventName);
+        }
+
+        return $this->dispatcher->dispatch($eventName, $event);
     }
 }
