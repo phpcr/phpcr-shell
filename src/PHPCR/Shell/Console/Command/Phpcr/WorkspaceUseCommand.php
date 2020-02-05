@@ -34,5 +34,7 @@ HERE
     {
         $workspaceName = $input->getArgument('name');
         $this->get('phpcr.session_manager')->changeWorkspace($workspaceName);
+
+        return 0;
     }
 }

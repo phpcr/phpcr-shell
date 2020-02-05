@@ -48,5 +48,7 @@ HERE
         $path = $session->getAbsPath($input->getArgument('path'));
 
         $lockManager->unlock($path);
+
+        return 0;
     }
 }

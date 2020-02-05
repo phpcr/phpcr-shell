@@ -61,5 +61,7 @@ HERE
 
         $history = $versionManager->getVersionHistory($node->getPath());
         $history->removeVersion($versionName);
+
+        return 0;
     }
 }

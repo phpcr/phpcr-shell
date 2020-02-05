@@ -37,5 +37,7 @@ class PathChangeCommand extends BaseCommand
         } catch (PathNotFoundException $e) {
             $output->writeln('<error>'.$e->getMessage().'</error>');
         }
+
+        return 0;
     }
 }

@@ -56,5 +56,7 @@ HERE
         }
 
         $retentionManager->removeHold($absPath, $indexed[$name]);
+
+        return 0;
     }
 }

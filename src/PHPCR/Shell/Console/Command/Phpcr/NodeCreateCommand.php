@@ -56,5 +56,7 @@ HERE
         $nodeName = $pathHelper->getNodeName($path);
         $parentNode = $session->getNode($parentPath);
         $parentNode->addNode($nodeName, $primaryNodeTypeName);
+
+        return 0;
     }
 }

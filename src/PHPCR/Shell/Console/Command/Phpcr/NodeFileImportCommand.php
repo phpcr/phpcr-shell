@@ -105,6 +105,8 @@ HERE
         } else {
             $this->importToContainer($fhandle, $mimeType, $filePath, $filename, $parentNode, $force);
         }
+
+        return 0;
     }
 
     private function importToProperty($fhandle, $filePath, $filename, $parentNode, $force)

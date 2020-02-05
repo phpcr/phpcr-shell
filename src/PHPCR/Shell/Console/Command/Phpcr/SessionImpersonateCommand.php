@@ -42,5 +42,7 @@ HERE
 
         $credentials = new SimpleCredentials($username, '');
         $session->impersonate($credentials);
+
+        return 0;
     }
 }

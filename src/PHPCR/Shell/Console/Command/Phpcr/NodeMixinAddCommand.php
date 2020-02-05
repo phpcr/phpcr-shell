@@ -46,5 +46,7 @@ HERE
         foreach ($nodes as $node) {
             $node->addMixin($mixinName);
         }
+
+        return 0;
     }
 }

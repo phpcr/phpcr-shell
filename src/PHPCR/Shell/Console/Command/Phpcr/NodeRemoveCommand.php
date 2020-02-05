@@ -80,5 +80,7 @@ HERE
         if (in_array($currentPath, $nodePaths)) {
             $session->chdir('..');
         }
+
+        return 0;
     }
 }

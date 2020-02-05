@@ -31,5 +31,7 @@ EOT
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $output->write("\033[2J\033[;H");
+
+        return 0;
     }
 }

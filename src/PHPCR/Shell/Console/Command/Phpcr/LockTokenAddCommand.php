@@ -43,5 +43,7 @@ HERE
         $lockToken = $input->getArgument('lockToken');
 
         $lockManager->addLockToken($lockToken);
+
+        return 0;
     }
 }

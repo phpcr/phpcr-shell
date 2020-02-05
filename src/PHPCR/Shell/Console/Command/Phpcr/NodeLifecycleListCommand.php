@@ -42,5 +42,7 @@ HERE
         foreach ($transitions as $transition) {
             $output->writeln('<info>'.$transition.'</info>');
         }
+
+        return 0;
     }
 }

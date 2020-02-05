@@ -44,5 +44,7 @@ HERE
         foreach ($nodes as $node) {
             $node->setPrimaryType($nodeTypeName);
         }
+
+        return 0;
     }
 }

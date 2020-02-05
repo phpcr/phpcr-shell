@@ -52,6 +52,8 @@ HERE
         }
 
         $table->render($output);
+
+        return 0;
     }
 
     private function getDescriptorValue($value)

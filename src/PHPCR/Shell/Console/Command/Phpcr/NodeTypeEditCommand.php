@@ -115,5 +115,7 @@ EOT;
                 $out = $res;
             }
         } while (false === $valid);
+
+        return 0;
     }
 }

@@ -45,5 +45,7 @@ HERE
 
         $workspace = $session->getWorkspace();
         $workspace->createWorkspace($name, $srcWorkspace);
+
+        return 0;
     }
 }

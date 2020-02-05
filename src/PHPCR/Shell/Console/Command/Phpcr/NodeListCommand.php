@@ -140,6 +140,8 @@ HERE
                 number_format($this->time, $config['execution_time_expansion']))
             );
         }
+
+        return 0;
     }
 
     private function renderNode($currentNode, $table, $spacers = [], $filter = null)

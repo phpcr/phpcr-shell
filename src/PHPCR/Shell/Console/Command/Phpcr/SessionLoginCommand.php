@@ -37,5 +37,7 @@ HERE
         $password = $input->getArgument('password');
         $workspaceName = $input->getArgument('workspaceName');
         $this->get('phpcr.session_manager')->relogin($username, $password, $workspaceName);
+
+        return 0;
     }
 }

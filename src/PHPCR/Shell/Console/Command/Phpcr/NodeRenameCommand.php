@@ -41,5 +41,7 @@ HERE
         $newName = $input->getArgument('newName');
         $currentNode = $session->getNodeByPathOrIdentifier($path);
         $currentNode->rename($newName);
+
+        return 0;
     }
 }

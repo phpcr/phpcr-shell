@@ -33,5 +33,7 @@ HERE
     {
         $session = $this->get('phpcr.session');
         $session->logout();
+
+        return 0;
     }
 }

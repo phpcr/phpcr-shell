@@ -29,5 +29,7 @@ class PathShowCommand extends BaseCommand
         $output->writeln(
             '<comment>'.$this->get('phpcr.session')->getCwd().'</comment>'
         );
+
+        return 0;
     }
 }

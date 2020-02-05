@@ -47,5 +47,7 @@ HERE
 
         $workspace = $session->getWorkspace();
         $workspace->copy($srcAbsPath, $destAbsPath, $srcWorkspace);
+
+        return 0;
     }
 }

@@ -45,5 +45,7 @@ HERE
         foreach ($nodes as $node) {
             $node->removeMixin($mixinName);
         }
+
+        return 0;
     }
 }

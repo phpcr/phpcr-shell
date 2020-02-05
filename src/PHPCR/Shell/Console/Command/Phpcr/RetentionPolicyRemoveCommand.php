@@ -44,5 +44,7 @@ HERE
         } else {
             $output->writeln($policy->remove());
         }
+
+        return 0;
     }
 }

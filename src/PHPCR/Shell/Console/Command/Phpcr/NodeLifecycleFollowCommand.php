@@ -48,5 +48,7 @@ HERE
         $currentNode = $session->getNodeByPathOrIdentifier($path);
         $transition = $input->getArgument('transition');
         $currentNode->followLifecycleTransition($transition);
+
+        return 0;
     }
 }

@@ -47,5 +47,7 @@ HERE
         $destChildRelPath = $input->getArgument('destChildRelPath');
         $node = $session->getNodeByPathOrIdentifier($path);
         $node->orderBefore($srcChildRelPath, $destChildRelPath);
+
+        return 0;
     }
 }

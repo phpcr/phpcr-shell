@@ -41,5 +41,7 @@ HERE
         $destPath = $input->getArgument('destPath');
 
         $session->move($srcPath, $destPath);
+
+        return 0;
     }
 }

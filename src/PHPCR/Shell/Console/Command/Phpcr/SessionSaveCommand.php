@@ -45,5 +45,7 @@ HERE
         $session = $this->get('phpcr.session');
 
         $session->save();
+
+        return 0;
     }
 }

@@ -38,5 +38,7 @@ HERE
 
         $workspace = $session->getWorkspace();
         $workspace->deleteWorkspace($name);
+
+        return 0;
     }
 }

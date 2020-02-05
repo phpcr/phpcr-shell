@@ -51,5 +51,7 @@ HERE
         }
 
         $table->render($output);
+
+        return 0;
     }
 }

@@ -56,5 +56,7 @@ HERE
 
         $cndData = file_get_contents($cndFile);
         $nodeTypeManager->registerNodeTypesCnd($cndData, $update);
+
+        return 0;
     }
 }

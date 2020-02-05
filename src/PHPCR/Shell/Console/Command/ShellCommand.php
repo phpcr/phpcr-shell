@@ -106,7 +106,7 @@ class ShellCommand extends Command
                 $application->run($input, $output);
             }
 
-            return;
+            return 0;
         } else {
             $application = new Shell($this->application);
         }
@@ -116,5 +116,7 @@ class ShellCommand extends Command
         }
 
         $application->run($output);
+
+        return 0;
     }
 }

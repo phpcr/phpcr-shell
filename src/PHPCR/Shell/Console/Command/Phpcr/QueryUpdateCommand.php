@@ -99,5 +99,7 @@ EOT
         $elapsed = microtime(true) - $start;
 
         $output->writeln(sprintf('%s row(s) affected in %ss', $rows, number_format($elapsed, 2)));
+
+        return 0;
     }
 }

@@ -96,5 +96,7 @@ HERE
 
             $node->setProperty($propName, $value, $intType);
         }
+
+        return 0;
     }
 }

@@ -73,5 +73,7 @@ HERE
 
         $workspace = $session->getWorkspace();
         $workspace->cloneFrom($srcWorkspace, $srcAbsPath, $destAbsPath, $removeExisting);
+
+        return 0;
     }
 }

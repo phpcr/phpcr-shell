@@ -49,5 +49,7 @@ HERE
             $lock = $lockManager->getLock($node->getPath());
             $lock->refresh();
         }
+
+        return 0;
     }
 }
