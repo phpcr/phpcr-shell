@@ -13,8 +13,9 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use PHPCR\NodeInterface;
+use PHPUnit\Framework\TestCase;
 
-class NodeHelperTest extends \PHPUnit_Framework_TestCase
+class NodeHelperTest extends TestCase
 {
     protected $nodeHelper;
 
@@ -41,10 +42,10 @@ class NodeHelperTest extends \PHPUnit_Framework_TestCase
     public function testAssertNodeIsVersionable($isVersionable)
     {
         $this->node->getPath()->willReturn('/');
-        $this->node->isNodeType('mix:versionable')->willReturn($isVersionable);
+        $this->node->isNodeType('mix:versionable')->willReturn($isVersionable)->shouldBeCalled();
 
         if (false == $isVersionable) {
-            $this->setExpectedException('\OutOfBoundsException', 'is not versionable');
+            $this->expectException('\OutOfBoundsException', 'is not versionable');
         }
         $this->helper->assertNodeIsVersionable($this->node->reveal());
     }

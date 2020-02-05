@@ -12,7 +12,9 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-class EditorHelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EditorHelperTest extends TestCase
 {
     protected $helper;
 
@@ -40,11 +42,10 @@ EOT
         );
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testFromValueNoEditor()
     {
+        $this->expectException(\RuntimeException::class);
+
         putenv('EDITOR=');
         $res = $this->helper->fromString('asd');
     }

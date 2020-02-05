@@ -13,8 +13,9 @@
 namespace PHPCR\Shell\Phpcr;
 
 use PHPCR\PathNotFoundException;
+use PHPUnit\Framework\TestCase;
 
-class PhpcrSessionTest extends \Phpunit_Framework_TestCase
+class PhpcrSessionTest extends TestCase
 {
     public function setUp()
     {
