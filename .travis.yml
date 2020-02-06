@@ -2,94 +2,37 @@ language: php
 
 matrix:
   include:
-    - php: 5.6
+    - php: 7.2
       env:
         - PREFER="--prefer-lowest"
         - BEHAT_SUITE=standalone
-        - SYMFONY_VERSION=^2.8
-    - php: 5.6
+    - php: 7.2
       env:
         - PREFER="--prefer-lowest"
         - BEHAT_SUITE=embedded
-        - SYMFONY_VERSION=^3.0
-    - php: 5.6
+    - php: 7.2
       env:
         - PREFER="--prefer-lowest"
         - BEHAT_SUITE=cli
-        - SYMFONY_VERSION=^3.0
-    - php: 7.0
+    - php: 7.4
       env:
         - PREFER=""
         - BEHAT_SUITE=standalone
-        - SYMFONY_VERSION=^2.8
-    - php: 7.0
+    - php: 7.4
       env:
         - PREFER=""
         - BEHAT_SUITE=embedded
-        - SYMFONY_VERSION=^3.0
-    - php: 7.0
+    - php: 7.4
       env:
         - PREFER=""
         - BEHAT_SUITE=cli
-        - SYMFONY_VERSION=^3.0
-    - php: 7.1
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=standalone
-        - SYMFONY_VERSION=^2.8
-    - php: 7.1
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=embedded
-        - SYMFONY_VERSION=^3.4
-    - php: 7.1
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=cli
-        - SYMFONY_VERSION=^4.0
-    - php: 7.2
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=standalone
-        - SYMFONY_VERSION=^2.8
-    - php: 7.2
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=embedded
-        - SYMFONY_VERSION=^3.0
-    - php: 7.2
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=cli
-        - SYMFONY_VERSION=^4.0
-    - php: 7.3
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=standalone
-        - SYMFONY_VERSION=^2.8
-    - php: 7.3
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=embedded
-        - SYMFONY_VERSION=^3.0
-    - php: 7.3
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=embedded
-        - SYMFONY_VERSION=^4.0
-    - php: 7.3
-      env:
-        - PREFER=""
-        - BEHAT_SUITE=cli
-        - SYMFONY_VERSION=^5.0
 
 before_script:
     - composer self-update
-    - composer require "symfony/symfony" "$SYMFONY_VERSION" --no-update
     - composer update $PREFER
     - bash tests/bin/travis_jackrabbit.sh
 
-script: 
+script:
   - vendor/bin/simple-phpunit
   - php vendor/bin/phpspec run
   - php vendor/behat/behat/bin/behat --suite=$BEHAT_SUITE
