@@ -18,7 +18,7 @@ class TextHelperTest extends TestCase
 {
     protected $textHelper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->textHelper = new TextHelper();
     }

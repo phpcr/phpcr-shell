@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 
 class PhpcrSessionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->phpcr = $this->prophesize('PHPCR\SessionInterface');
         $this->session = new PhpcrSession($this->phpcr->reveal());

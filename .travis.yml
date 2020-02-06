@@ -33,6 +33,6 @@ before_script:
     - bash tests/bin/travis_jackrabbit.sh
 
 script:
-  - vendor/bin/simple-phpunit
+  - vendor/bin/phpunit
   - php vendor/bin/phpspec run
   - php vendor/behat/behat/bin/behat --suite=$BEHAT_SUITE

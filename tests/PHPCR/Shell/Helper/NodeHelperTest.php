@@ -19,7 +19,7 @@ class NodeHelperTest extends TestCase
 {
     protected $nodeHelper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->session = $this->prophesize('PHPCR\SessionInterface');
         $this->helper = new NodeHelper($this->session->reveal());
