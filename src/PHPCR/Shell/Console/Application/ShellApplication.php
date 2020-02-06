@@ -28,7 +28,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\LegacyEventDispatcherProxy;
 
 /**
  * Main application for PHPCRSH.
@@ -100,7 +99,7 @@ class ShellApplication extends Application
         $this->registerShellCommands();
 
         $event = new ApplicationInitEvent($this);
-        $this->dispatch(PhpcrShellEvents::APPLICATION_INIT, $event);
+        $this->dispatcher->dispatch($event, PhpcrShellEvents::APPLICATION_INIT);
         $this->initialized = true;
     }
 
@@ -247,7 +246,7 @@ class ShellApplication extends Application
         $name = $this->getCommandName($input);
 
         $event = new Event\CommandPreRunEvent($name, $input);
-        $this->dispatch(PhpcrShellEvents::COMMAND_PRE_RUN, $event);
+        $this->dispatcher->dispatch($event, PhpcrShellEvents::COMMAND_PRE_RUN);
         $input = $event->getInput();
 
         if (!$name) {
@@ -257,7 +256,7 @@ class ShellApplication extends Application
         try {
             $exitCode = parent::doRun($input, $output);
         } catch (\Exception $e) {
-            $this->dispatch(PhpcrShellEvents::COMMAND_EXCEPTION, new Event\CommandExceptionEvent($e, $this, $output));
+            $this->dispatcher->dispatch(new Event\CommandExceptionEvent($e, $this, $output), PhpcrShellEvents::COMMAND_EXCEPTION);
 
             return 1;
         }
@@ -297,7 +296,7 @@ class ShellApplication extends Application
     public function dispatchProfileInitEvent(InputInterface $sessionInput, OutputInterface $output)
     {
         $event = new Event\ProfileInitEvent($this->container->get('config.profile'), $sessionInput, $output);
-        $this->dispatch(PhpcrShellEvents::PROFILE_INIT, $event);
+        $this->dispatcher->dispatch($event, PhpcrShellEvents::PROFILE_INIT);
     }
 
     /**
@@ -333,15 +332,5 @@ class ShellApplication extends Application
     public function setDebug($debug)
     {
         $this->debug = $debug;
-    }
-
-    private function dispatch(string $eventName, $event)
-    {
-        // LegacyEventDispatcherProxy exists in Symfony >= 4.3
-        if (class_exists(LegacyEventDispatcherProxy::class)) {
-            return $this->dispatcher->dispatch($event, $eventName);
-        }
-
-        return $this->dispatcher->dispatch($eventName, $event);
     }
 }
