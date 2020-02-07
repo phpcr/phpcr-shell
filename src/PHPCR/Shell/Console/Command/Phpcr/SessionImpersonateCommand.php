@@ -13,7 +13,6 @@
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
 use PHPCR\SimpleCredentials;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -43,5 +42,7 @@ HERE
 
         $credentials = new SimpleCredentials($username, '');
         $session->impersonate($credentials);
+
+        return 0;
     }
 }

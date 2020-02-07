@@ -56,5 +56,7 @@ HERE
             $output->writeln('<pathbold>'.$node->getPath().'</pathbold>');
             $node->update($srcWorkspace);
         }
+
+        return 0;
     }
 }

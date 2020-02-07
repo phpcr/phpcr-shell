@@ -79,5 +79,7 @@ HERE
         $ownerInfo = $input->getOption('owner-info');
 
         $lockManager->lock($path, $isDeep, $isSessionScoped, $timeout, $ownerInfo);
+
+        return 0;
     }
 }

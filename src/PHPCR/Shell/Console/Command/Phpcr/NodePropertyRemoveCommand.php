@@ -44,5 +44,7 @@ HERE
         }
 
         $property->remove();
+
+        return 0;
     }
 }

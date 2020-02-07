@@ -51,5 +51,7 @@ HERE
                 $output->writeln($sharedNode->getPath());
             }
         }
+
+        return 0;
     }
 }

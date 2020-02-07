@@ -15,7 +15,6 @@ namespace PHPCR\Shell\Event;
 use PHPCR\Shell\Config\Profile;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Event that is fired when the Profile needs to be initialized.

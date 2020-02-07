@@ -49,5 +49,7 @@ HERE
         $name = $input->getArgument('name');
 
         $retentionManager->addHold($absPath, $name, $isDeep);
+
+        return 0;
     }
 }

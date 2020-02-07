@@ -48,5 +48,7 @@ HERE
         $uri = $input->getArgument('uri');
 
         $namespaceRegistry->unregisterNamespaceByURI($uri);
+
+        return 0;
     }
 }

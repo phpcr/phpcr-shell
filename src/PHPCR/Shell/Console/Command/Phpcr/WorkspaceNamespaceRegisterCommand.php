@@ -40,5 +40,7 @@ HERE
         $uri = $input->getArgument('uri');
 
         $namespaceRegistry->registerNamespace($prefix, $uri);
+
+        return 0;
     }
 }

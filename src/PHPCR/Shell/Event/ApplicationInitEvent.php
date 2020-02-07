@@ -13,7 +13,6 @@
 namespace PHPCR\Shell\Event;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * This event is fired when the main shell application

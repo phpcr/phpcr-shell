@@ -40,5 +40,7 @@ HERE
         $lockToken = $input->getArgument('lockToken');
 
         $lockManager->removeLockToken($lockToken);
+
+        return 0;
     }
 }

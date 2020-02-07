@@ -12,11 +12,13 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-class TextHelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class TextHelperTest extends TestCase
 {
     protected $textHelper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->textHelper = new TextHelper();
     }
@@ -76,7 +78,7 @@ class TextHelperTest extends \PHPUnit_Framework_TestCase
     public function testTruncate($text, $length, $alignment, $truncateString, $expected, $expectedException = null)
     {
         if ($expectedException) {
-            $this->setExpectedException('InvalidArgumentException', $expectedException);
+            $this->expectException('InvalidArgumentException', $expectedException);
         }
         $res = $this->textHelper->truncate($text, $length, $alignment, $truncateString);
         $this->assertEquals($expected, $res);

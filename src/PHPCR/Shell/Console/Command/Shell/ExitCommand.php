@@ -38,7 +38,7 @@ class ExitCommand extends BaseCommand
             }
 
             if (false === $res) {
-                return;
+                return 0;
             }
         }
 

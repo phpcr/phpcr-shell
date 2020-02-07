@@ -39,5 +39,7 @@ HERE
         $currentNode = $session->getNodeByPathOrIdentifier($path);
         $correspondingPath = $currentNode->getCorrespondingNodePath($workspaceName);
         $output->writeln($correspondingPath);
+
+        return 0;
     }
 }

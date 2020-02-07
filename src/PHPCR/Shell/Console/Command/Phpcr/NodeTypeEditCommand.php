@@ -15,7 +15,6 @@ namespace PHPCR\Shell\Console\Command\Phpcr;
 use PHPCR\NodeType\NoSuchNodeTypeException;
 use PHPCR\Util\CND\Parser\CndParser;
 use PHPCR\Util\CND\Writer\CndWriter;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -116,5 +115,7 @@ EOT;
                 $out = $res;
             }
         } while (false === $valid);
+
+        return 0;
     }
 }

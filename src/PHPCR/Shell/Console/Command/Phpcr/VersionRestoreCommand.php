@@ -54,5 +54,7 @@ HERE
         $workspace = $session->getWorkspace();
         $versionManager = $workspace->getVersionManager();
         $versionManager->restore($removeExisting, $versionName, $node->getPath());
+
+        return 0;
     }
 }

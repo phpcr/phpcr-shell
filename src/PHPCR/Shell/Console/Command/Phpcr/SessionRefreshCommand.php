@@ -43,5 +43,7 @@ HERE
         $keepChanges = $input->getOption('keep-changes');
 
         $session->refresh($keepChanges);
+
+        return 0;
     }
 }

@@ -47,5 +47,7 @@ HERE
         $version = $versionManager->checkpoint($node->getPath());
 
         $output->writeln('Version: '.$version->getName());
+
+        return 0;
     }
 }

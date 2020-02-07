@@ -77,7 +77,7 @@ class ShellCommand extends Command
             new InputOption('--command', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Run the given command'),
 
             new InputArgument('workspace', InputArgument::OPTIONAL, 'Workspace to start with', 'default'),
-    ]);
+        ]);
     }
 
     /**
@@ -106,7 +106,7 @@ class ShellCommand extends Command
                 $application->run($input, $output);
             }
 
-            return;
+            return 0;
         } else {
             $application = new Shell($this->application);
         }
@@ -116,5 +116,7 @@ class ShellCommand extends Command
         }
 
         $application->run($output);
+
+        return 0;
     }
 }

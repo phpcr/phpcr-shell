@@ -12,11 +12,13 @@
 
 namespace PHPCR\Shell\Console\Helper;
 
-class EditorHelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class EditorHelperTest extends TestCase
 {
     protected $helper;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->helper = new EditorHelper();
         putenv('EDITOR=cat');
@@ -40,11 +42,10 @@ EOT
         );
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testFromValueNoEditor()
     {
+        $this->expectException(\RuntimeException::class);
+
         putenv('EDITOR=');
         $res = $this->helper->fromString('asd');
     }
@@ -56,7 +57,7 @@ EOT
                 <<<'EOT'
 This is some text that I want to edit
 EOT
-            ,
+                ,
                 <<<'EOT'
 This is some text that I want the user to see in a commend
 

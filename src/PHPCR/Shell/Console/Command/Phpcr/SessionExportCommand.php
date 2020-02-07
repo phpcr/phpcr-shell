@@ -69,7 +69,7 @@ HERE
             }
 
             if (false === $confirmed) {
-                return;
+                return 0;
             }
         }
 
@@ -102,5 +102,7 @@ HERE
             $xml->formatOutput = true;
             $xml->save($file);
         }
+
+        return 0;
     }
 }

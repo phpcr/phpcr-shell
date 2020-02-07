@@ -15,6 +15,7 @@ namespace PHPCR\Shell\Test;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
+use PHPUnit\Framework\Assert;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -112,6 +113,6 @@ class CliContext implements Context, SnippetAcceptingContext
      */
     public function theCommandShouldNotFail()
     {
-        \PHPUnit_Framework_Assert::assertEquals(0, $this->lastExitCode);
+        Assert::assertEquals(0, $this->lastExitCode);
     }
 }

@@ -12,7 +12,6 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -57,5 +56,7 @@ HERE
 
         $cndData = file_get_contents($cndFile);
         $nodeTypeManager->registerNodeTypesCnd($cndData, $update);
+
+        return 0;
     }
 }

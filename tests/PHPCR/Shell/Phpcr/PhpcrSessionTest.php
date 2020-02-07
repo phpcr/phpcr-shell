@@ -13,10 +13,11 @@
 namespace PHPCR\Shell\Phpcr;
 
 use PHPCR\PathNotFoundException;
+use PHPUnit\Framework\TestCase;
 
-class PhpcrSessionTest extends \Phpunit_Framework_TestCase
+class PhpcrSessionTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->phpcr = $this->prophesize('PHPCR\SessionInterface');
         $this->session = new PhpcrSession($this->phpcr->reveal());

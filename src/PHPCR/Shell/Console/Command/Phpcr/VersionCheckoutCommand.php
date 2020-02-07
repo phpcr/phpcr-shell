@@ -56,5 +56,7 @@ HERE
 
         $versionManager = $workspace->getVersionManager();
         $version = $versionManager->checkout($node->getPath());
+
+        return 0;
     }
 }

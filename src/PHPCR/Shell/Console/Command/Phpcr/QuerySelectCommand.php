@@ -12,7 +12,6 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -48,5 +47,7 @@ EOT
         $elapsed = microtime(true) - $start;
 
         $this->get('helper.result_formatter')->formatQueryResult($result, $output, $elapsed);
+
+        return 0;
     }
 }

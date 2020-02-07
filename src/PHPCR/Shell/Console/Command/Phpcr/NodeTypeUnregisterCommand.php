@@ -40,5 +40,7 @@ HERE
         $nodeTypeManager = $workspace->getNodeTypeManager();
 
         $nodeType = $nodeTypeManager->unregisterNodeTypes([$nodeTypeName]);
+
+        return 0;
     }
 }

@@ -73,5 +73,7 @@ HERE
         foreach ($privileges as $privilege) {
             $table->addRow([$privilege->getName()]);
         }
+
+        return 0;
     }
 }

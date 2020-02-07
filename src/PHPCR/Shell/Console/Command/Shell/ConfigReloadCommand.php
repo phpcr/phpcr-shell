@@ -35,5 +35,7 @@ EOT
         $this->output = $output;
         $config = $this->get('config.manager');
         $config->loadConfig();
+
+        return 0;
     }
 }

@@ -48,5 +48,7 @@ HERE
         $cndWriter = new CndWriter($namespaceRegistry);
         $out = $cndWriter->writeString([$nodeType]);
         $output->writeln(sprintf('<comment>%s</comment>', $out));
+
+        return 0;
     }
 }

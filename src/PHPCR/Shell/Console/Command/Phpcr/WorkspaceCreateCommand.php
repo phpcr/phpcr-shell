@@ -12,7 +12,6 @@
 
 namespace PHPCR\Shell\Console\Command\Phpcr;
 
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -46,5 +45,7 @@ HERE
 
         $workspace = $session->getWorkspace();
         $workspace->createWorkspace($name, $srcWorkspace);
+
+        return 0;
     }
 }
