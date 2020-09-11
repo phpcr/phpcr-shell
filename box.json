@@ -5,6 +5,7 @@
     "files": [
         "LICENSE"
     ],
+    "exclude-dev-files": false,
     "finder": [
         {
             "name": "*.php",
