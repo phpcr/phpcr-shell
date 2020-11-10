@@ -10,7 +10,7 @@
  *
  */
 
-namespace \PHPCR\Shell\Query;
+namespace PHPCR\Shell\Query;
 
 class Validator
 {
