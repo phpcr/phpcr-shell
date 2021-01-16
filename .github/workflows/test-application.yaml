@@ -1,0 +1,83 @@
+name: Test application
+
+on:
+    pull_request:
+    push:
+        branches:
+            - 'master'
+
+jobs:
+    test:
+        name: 'PHP ${{ matrix.php-version }}, Behat Suite ${{ matrix.behat-suite }}, Dependencies ${{ matrix.dependencies }}'
+        runs-on: ubuntu-latest
+
+        env:
+            SYMFONY_DEPRECATIONS_HELPER: ${{ matrix.symfony-deprecation-helper }}
+            BEHAT_SUITE: ${{ matrix.behat-suite }}
+
+        strategy:
+            fail-fast: false
+
+            matrix:
+                include:
+                    - php-version: '7.2'
+                      dependencies: lowest
+                      behat-suite: standalone
+
+                    - php-version: '7.2'
+                      dependencies: lowest
+                      behat-suite: embedded
+
+                    - php-version: '7.2'
+                      dependencies: lowest
+                      behat-suite: cli
+
+                    - php-version: '7.4'
+                      dependencies: highest
+                      behat-suite: standalone
+
+                    - php-version: '7.4'
+                      dependencies: highest
+                      behat-suite: embedded
+
+                    - php-version: '7.4'
+                      dependencies: highest
+                      behat-suite: cli
+
+                    - php-version: '8.0'
+                      dependencies: highest
+                      behat-suite: standalone
+
+                    - php-version: '8.0'
+                      dependencies: highest
+                      behat-suite: embedded
+
+                    - php-version: '8.0'
+                      dependencies: highest
+                      behat-suite: cli
+
+        steps:
+            - name: Checkout project
+              uses: actions/checkout@v2
+
+            - name: Install and configure PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php-version }}
+                  tools: 'composer:v2'
+
+            - name: Install dependencies with Composer
+              uses: ramsey/composer-install@v1
+              with:
+                  dependency-versions: ${{ matrix.dependencies }}
+                  composer-options: ${{ matrix.composer-options }}
+
+            - name: Start Jackrabbit
+              run: |
+                  tests/bin/travis_jackrabbit.sh
+
+            - name: Execute test cases
+              run: |
+                  vendor/bin/phpunit
+                  vendor/bin/phpspec run
+                  vendor/behat/behat/bin/behat --suite=${{ matrix.behat-suite }}
