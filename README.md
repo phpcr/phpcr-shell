@@ -1,7 +1,7 @@
 Shell for PHPCR
 ---------------
 
-[![Test application](https://github.com/phpcr/phpcr-shell/workflows/Test%20application/badge.svg)](https://github.com/phpcr/phpcr-shell/workflows/Test%20application)
+[![Test application](https://github.com/phpcr/phpcr-shell/workflows/Test%20application/badge.svg)](https://github.com/phpcr/phpcr-shell/actions?query=workflow%3A%22Test+application%22)
 
 ## Building
 
