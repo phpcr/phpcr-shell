@@ -29,7 +29,8 @@ class Config implements \ArrayAccess, \Iterator
     {
         throw new \InvalidArgumentException(sprintf(
             'Setting values not permitted on configuration objects (trying to set "%s" to "%s"',
-            $offset, $value
+            $offset,
+            $value
         ));
     }
 
