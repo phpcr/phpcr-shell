@@ -56,6 +56,14 @@ jobs:
                       dependencies: highest
                       behat-suite: cli
 
+        services:
+            jackrabbit:
+                image: sulu/jackrabbit:2.20-tomcat-filesystem
+                env:
+                    LOG_LEVEL: WARN
+                ports:
+                    - 8080:8080
+
         steps:
             - name: Checkout project
               uses: actions/checkout@v2
@@ -71,10 +79,6 @@ jobs:
               with:
                   dependency-versions: ${{ matrix.dependencies }}
                   composer-options: ${{ matrix.composer-options }}
-
-            - name: Start Jackrabbit
-              run: |
-                  tests/bin/travis_jackrabbit.sh
 
             - name: Execute test cases
               run: |
