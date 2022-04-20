@@ -16,7 +16,6 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",
-        "symfony/symfony": "^5.0 || ^6.0",
         "behat/behat": "^3.6",
         "phpspec/phpspec": "^6.0",
         "jackalope/jackalope-doctrine-dbal": "^1.3",
