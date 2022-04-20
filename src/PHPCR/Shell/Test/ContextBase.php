@@ -209,7 +209,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function iShouldSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        Assert::assertContains($string->getRaw(), $output);
+        Assert::assertStringContainsString($string->getRaw(), $output);
     }
 
     /**
@@ -305,7 +305,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function theOutputShouldContain(PyStringNode $string)
     {
         foreach ($string->getStrings() as $line) {
-            Assert::assertContains($line, $this->getOutput());
+            Assert::assertStringContainsString($line, $this->getOutput());
         }
     }
 
