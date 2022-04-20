@@ -68,4 +68,4 @@ jobs:
               run: |
                   vendor/bin/phpunit
                   vendor/bin/phpspec run
-                  vendor/behat/behat/bin/behat --suite=${{ matrix.behat-suite }}
+                  vendor/behat/behat --suite=${{ matrix.behat-suite }}
