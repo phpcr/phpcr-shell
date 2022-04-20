@@ -15,7 +15,7 @@
         "dantleech/glob-finder": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5",
+        "phpunit/phpunit": "^8.5.1",
         "symfony/symfony": "^5.0",
         "behat/behat": "^3.6",
         "phpspec/phpspec": "^6.0",
