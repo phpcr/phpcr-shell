@@ -18,10 +18,11 @@ class Table extends OriginalTable
 {
     private $nbRows = 0;
 
-    public function addRow($row)
+    public function addRow($row): static
     {
         $this->nbRows++;
-        parent::addRow($row);
+
+        return parent::addRow($row);
     }
 
     public function getNumberOfRows()

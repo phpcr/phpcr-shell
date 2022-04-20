@@ -20,30 +20,6 @@ jobs:
 
             matrix:
                 include:
-                    - php-version: '7.2'
-                      dependencies: lowest
-                      behat-suite: standalone
-
-                    - php-version: '7.2'
-                      dependencies: lowest
-                      behat-suite: embedded
-
-                    - php-version: '7.2'
-                      dependencies: lowest
-                      behat-suite: cli
-
-                    - php-version: '7.4'
-                      dependencies: highest
-                      behat-suite: standalone
-
-                    - php-version: '7.4'
-                      dependencies: highest
-                      behat-suite: embedded
-
-                    - php-version: '7.4'
-                      dependencies: highest
-                      behat-suite: cli
-
                     - php-version: '8.0'
                       dependencies: highest
                       behat-suite: standalone
