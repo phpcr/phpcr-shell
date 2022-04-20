@@ -21,15 +21,15 @@ jobs:
             matrix:
                 include:
                     - php-version: '8.0'
-                      dependencies: highest
+                      dependencies: lowest
                       behat-suite: standalone
 
                     - php-version: '8.0'
-                      dependencies: highest
+                      dependencies: lowest
                       behat-suite: embedded
 
                     - php-version: '8.0'
-                      dependencies: highest
+                      dependencies: lowest
                       behat-suite: cli
 
                     - php-version: '8.1'
@@ -55,7 +55,7 @@ jobs:
                   tools: 'composer:v2'
 
             - name: Install dependencies with Composer
-              uses: ramsey/composer-install@v1
+              uses: ramsey/composer-install@v2
               with:
                   dependency-versions: ${{ matrix.dependencies }}
                   composer-options: ${{ matrix.composer-options }}
