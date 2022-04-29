@@ -113,7 +113,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $dom = new \DOMDocument(1.0);
         $dom->load($this->getWorkingFilePath($filename));
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
         return $xpath;
     }
@@ -774,7 +774,8 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $property = $session->getItem($arg1);
         if (!$property instanceof PropertyInterface) {
             throw new \InvalidArgumentException(sprintf(
-                'Item at "%s" is not a property', $arg1
+                'Item at "%s" is not a property',
+                $arg1
             ));
         }
 
@@ -790,7 +791,8 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $property = $session->getItem($arg1);
         if (!$property instanceof PropertyInterface) {
             throw new \InvalidArgumentException(sprintf(
-                'Item at "%s" is not a property', $arg1
+                'Item at "%s" is not a property',
+                $arg1
             ));
         }
 
