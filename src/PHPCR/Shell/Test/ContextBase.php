@@ -218,7 +218,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function iShouldNotSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        Assert::assertNotContains($string->getRaw(), $output);
+        Assert::assertStringNotContainsString($string->getRaw(), $output);
     }
 
     /**
