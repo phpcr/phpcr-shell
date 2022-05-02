@@ -26,19 +26,22 @@ class EditorHelperTest extends TestCase
 
     public function testFromValue()
     {
-        $res = $this->helper->fromString(<<<'EOT'
+        $res = $this->helper->fromString(
+            <<<'EOT'
 One
 Two
 Three
 EOT
         );
 
-        $this->assertEquals(<<<'EOT'
+        $this->assertEquals(
+            <<<'EOT'
 One
 Two
 Three
 EOT
-        , $res
+        ,
+            $res
         );
     }
 

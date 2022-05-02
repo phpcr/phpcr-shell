@@ -24,7 +24,8 @@ class NodeCreateCommand extends BasePhpcrCommand
         $this->setDescription('Create a node at the current path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node to create');
         $this->addArgument('primaryNodeTypeName', InputArgument::OPTIONAL, 'Optional name of primary node type to use');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Creates a new node at the specified <info>path</info>
 
 This is session-write method, meaning that the addition of the new node

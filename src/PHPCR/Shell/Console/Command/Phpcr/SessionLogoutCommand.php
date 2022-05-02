@@ -21,7 +21,8 @@ class SessionLogoutCommand extends BasePhpcrCommand
     {
         $this->setName('session:logout');
         $this->setDescription('Logout of the current session');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Releases all resources associated with this Session.
 
 This command should be called when a Session is no longer needed.

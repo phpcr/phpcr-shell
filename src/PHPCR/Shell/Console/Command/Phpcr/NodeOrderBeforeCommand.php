@@ -25,7 +25,8 @@ class NodeOrderBeforeCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('srcChildRelPath', InputArgument::REQUIRED, 'The relative path to the child node to be moved in the ordering');
         $this->addArgument('destChildRelPath', InputArgument::REQUIRED, 'The relative path to the child before which the node srcChildRelPath will be placed');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 This command is used to change the order of a child node relative to the current node.
 
 For example, given that the node <pathbold>/foobar</pathbold> has the children <node>child2</node> and

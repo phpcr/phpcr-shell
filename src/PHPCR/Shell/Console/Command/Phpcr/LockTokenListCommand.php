@@ -23,7 +23,8 @@ class LockTokenListCommand extends BasePhpcrCommand
     {
         $this->setName('lock:token:list');
         $this->setDescription('List a lock token to the current session');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Show a list of previously registered tokens.
 
 Displays all lock tokens currently held by the

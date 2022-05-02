@@ -24,7 +24,8 @@ class VersionCheckpointCommand extends BasePhpcrCommand
         $this->setName('version:checkpoint');
         $this->setDescription('Checkin and then checkout a node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Performs a <info>version:checkin</info> followed by a <info>version:checkout</info> on the versionable node at
 <info>path</info>
 

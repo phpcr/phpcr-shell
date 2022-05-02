@@ -203,7 +203,8 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         // do not serialize binary objects
         if (false === $this->allowBinary && PropertyType::BINARY == $property->getType()) {
             $this->notes[] = sprintf(
-                'Binary property "%s" has been omitted', $property->getName()
+                'Binary property "%s" has been omitted',
+                $property->getName()
             );
 
             return false;

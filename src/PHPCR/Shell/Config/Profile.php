@@ -44,7 +44,8 @@ class Profile
         if (!array_key_exists($domain, $this->profile)) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown profile domain "%s", can only use one of: %s',
-                $domain, implode(', ', array_keys($this->profile))
+                $domain,
+                implode(', ', array_keys($this->profile))
             ));
         }
     }
@@ -87,7 +88,8 @@ class Profile
         if (!isset($this->profile[$domain][$key])) {
             throw new \InvalidArgumentException(sprintf(
                 'Unknown key "%s" for profile domain "%s"',
-                $key, $domain
+                $key,
+                $domain
             ));
         }
 

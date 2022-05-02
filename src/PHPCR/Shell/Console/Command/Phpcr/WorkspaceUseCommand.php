@@ -24,7 +24,8 @@ class WorkspaceUseCommand extends BasePhpcrCommand
         $this->setDescription('Change the current workspace');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of workspace to use');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, clone from this workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Change the workspace.
 HERE
         );

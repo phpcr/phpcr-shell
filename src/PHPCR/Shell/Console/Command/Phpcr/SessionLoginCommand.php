@@ -25,7 +25,8 @@ class SessionLoginCommand extends BasePhpcrCommand
         $this->addArgument('userId', InputArgument::REQUIRED, 'Unique identifier of user');
         $this->addArgument('password', InputArgument::REQUIRED, 'Password');
         $this->addArgument('workspaceName', InputArgument::OPTIONAL, 'Optional workspace name');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Login to a session.
 HERE
         );

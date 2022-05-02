@@ -22,7 +22,8 @@ class SessionInfoCommand extends BasePhpcrCommand
     {
         $this->setName('session:info');
         $this->setDescription('Display information about current session');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 The command shows some basic information about the current session.
 HERE
         );

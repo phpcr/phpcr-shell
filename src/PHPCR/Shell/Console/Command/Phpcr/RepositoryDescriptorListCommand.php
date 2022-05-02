@@ -22,7 +22,8 @@ class RepositoryDescriptorListCommand extends BasePhpcrCommand
     {
         $this->setName('repository:descriptor:list');
         $this->setDescription('List the descriptors for the current repository');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Repositories indicate support for the JCR specification via. descriptors. This
 command lists all of the descriptor keys and values for the current repository.
 HERE

@@ -24,7 +24,8 @@ class WorkspaceListCommand extends BasePhpcrCommand
         $this->setName('workspace:list');
         $this->setDescription('Lists workspaces in the current repository');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, clone from this workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Lists the workspaces accessible to the current user.
 
 The current workspace is indicated by an asterix (*).

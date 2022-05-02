@@ -22,7 +22,8 @@ class WorkspaceNamespaceListCommand extends BasePhpcrCommand
     {
         $this->setName('workspace:namespace:list');
         $this->setDescription('List all namespace prefix to URI  mappings in current workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 List all namespace prefix to URI mappings in current workspace
 HERE
         );

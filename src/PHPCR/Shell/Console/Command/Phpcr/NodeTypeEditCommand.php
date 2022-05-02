@@ -27,7 +27,8 @@ class NodeTypeEditCommand extends BasePhpcrCommand
         $this->setName('node-type:edit');
         $this->setDescription('Edit or create a node type');
         $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'The name of the node type to edit or create');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Edit the given node type name with the editor defined in the EDITOR environment variable.
 
 If the node type does not exist, it will be created. All node types must be prefixed with

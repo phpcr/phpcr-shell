@@ -57,7 +57,8 @@ class ProfileLoaderSubscriber implements EventSubscriberInterface
 
             if (count($profileNames) === 0) {
                 $output->writeln('<info>No transport specified, and no profiles available.</info>');
-                $output->writeln(<<<'EOT'
+                $output->writeln(
+                    <<<'EOT'
 
 You must specify the connection parameters, for example:
 

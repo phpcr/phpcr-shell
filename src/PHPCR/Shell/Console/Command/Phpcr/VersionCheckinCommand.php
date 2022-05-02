@@ -24,7 +24,8 @@ class VersionCheckinCommand extends BasePhpcrCommand
         $this->setName('version:checkin');
         $this->setDescription('Checkin (commit) a node version');
         $this->addArgument('path', InputArgument::REQUIRED, 'Absolute path to node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Creates for the versionable node at <info>path</info> a new version with a system
 generated version name and returns that version (which will be the new
 base version of this node). Sets the <property>jcr:checkedOut</property> property to false
@@ -52,7 +53,7 @@ the current base version of this node.
 If checkin succeeds, the change to the <property>jcr:isCheckedOut</property> property is
 dispatched immediately.
 HERE
-    );
+        );
 
         $this->requiresDescriptor(RepositoryInterface::OPTION_VERSIONING_SUPPORTED, true);
     }

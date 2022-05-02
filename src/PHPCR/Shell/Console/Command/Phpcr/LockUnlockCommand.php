@@ -24,7 +24,8 @@ class LockUnlockCommand extends BasePhpcrCommand
         $this->setName('lock:unlock');
         $this->setDescription('Unlock the node at the given path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Removes the lock on the node at path.
 
 Also removes the properties jcr:lockOwner and jcr:lockIsDeep from that

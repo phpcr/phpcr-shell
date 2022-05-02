@@ -30,7 +30,9 @@ class ProfileInitEventSpec extends ObjectBehavior
         OutputInterface $output
     ) {
         $this->beConstructedWith(
-            $profile, $input, $output
+            $profile,
+            $input,
+            $output
         );
     }
 

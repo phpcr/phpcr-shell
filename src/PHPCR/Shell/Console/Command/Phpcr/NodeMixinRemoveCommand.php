@@ -24,7 +24,8 @@ class NodeMixinRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove the named mixin to the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcards)');
         $this->addArgument('mixinName', InputArgument::REQUIRED, 'The name of the mixin node type to be removeed');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Removes the specified mixin node type from this node and removes
 mixinName from this node's jcr:mixinTypes property.
 

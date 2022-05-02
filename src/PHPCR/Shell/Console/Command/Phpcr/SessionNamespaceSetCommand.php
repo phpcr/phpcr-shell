@@ -24,7 +24,8 @@ class SessionNamespaceSetCommand extends BasePhpcrCommand
         $this->setDescription('Set a namespace in the current session');
         $this->addArgument('prefix', InputArgument::REQUIRED, 'The namespace prefix to be set as identifier');
         $this->addArgument('uri', InputArgument::REQUIRED, 'The location of the namespace definition (usually a URI');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Sets the name of a namespace prefix.
 
 Within the scope of this Session, this method maps uri to prefix. The

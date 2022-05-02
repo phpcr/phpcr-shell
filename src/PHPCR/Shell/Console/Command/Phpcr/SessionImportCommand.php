@@ -34,7 +34,8 @@ class SessionImportCommand extends BasePhpcrCommand
         $this->addArgument('parentAbsPath', InputArgument::REQUIRED, 'Path of node to export');
         $this->addArgument('file', InputArgument::REQUIRED, 'File to import from');
         $this->addOption('uuid-behavior', null, InputOption::VALUE_REQUIRED, 'UUID behavior', 'create-new');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Import the specified XML document into the current session as a child of the node specified
 by the <info>parentAbsPath</info> argument.
 
@@ -95,7 +96,8 @@ HERE
 
         if (!file_exists($file)) {
             throw new \InvalidArgumentException(sprintf(
-                'The file "%s" does not exist', $file
+                'The file "%s" does not exist',
+                $file
             ));
         }
 

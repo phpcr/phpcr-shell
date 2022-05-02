@@ -24,7 +24,8 @@ class WorkspaceDeleteCommand extends BasePhpcrCommand
         $this->setDescription('Delete a workspace');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of new workspace');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, clone from this workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Deletes the workspace with the specified name from the repository,
 deleting all content within it.
 HERE

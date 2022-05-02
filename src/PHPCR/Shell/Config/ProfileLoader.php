@@ -69,8 +69,10 @@ class ProfileLoader
         $path = $this->getProfilePath($profile->getName());
 
         if (!file_exists($path)) {
-            throw new \InvalidArgumentException(sprintf('Profile "%s" does not exist, expected to find it in "%s"',
-                $profile->getName(), $path
+            throw new \InvalidArgumentException(sprintf(
+                'Profile "%s" does not exist, expected to find it in "%s"',
+                $profile->getName(),
+                $path
             ));
         }
 
@@ -99,7 +101,8 @@ class ProfileLoader
 
         if (false === $overwrite && file_exists($path)) {
             throw new FileExistsException(sprintf(
-                'Profile already exists at "%s"', $path
+                'Profile already exists at "%s"',
+                $path
             ));
         }
 

@@ -63,7 +63,8 @@ class FunctionOperand
 
         $functionName = $this->getFunctionName();
         if (!isset($functionMap[$functionName])) {
-            throw new InvalidQueryException(sprintf('Unknown function "%s", known functions are "%s"',
+            throw new InvalidQueryException(sprintf(
+                'Unknown function "%s", known functions are "%s"',
                 $functionName,
                 implode(', ', array_keys($functionMap))
             ));

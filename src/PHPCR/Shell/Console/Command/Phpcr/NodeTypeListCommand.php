@@ -24,7 +24,8 @@ class NodeTypeListCommand extends BasePhpcrCommand
         $this->setName('node-type:list');
         $this->setDescription('List registered node types');
         $this->addArgument('filter', InputArgument::OPTIONAL, 'Perl regexp pattern');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 List all node types (both primary and mixins) a filter can be optionally passed:
 
     PHPCRSH> node-type:list --filter mix:.*

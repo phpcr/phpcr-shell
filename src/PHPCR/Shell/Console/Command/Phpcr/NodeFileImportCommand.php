@@ -35,7 +35,8 @@ class NodeFileImportCommand extends BasePhpcrCommand
         $this->addOption('mime-type', null, InputOption::VALUE_REQUIRED, 'Mime type (optional, auto-detected)');
         $this->addOption('force', null, InputOption::VALUE_NONE, 'Force overwriting any existing node');
         $this->addOption('no-container', null, InputOption::VALUE_NONE, 'Do not wrap in a JCR nt:file, but write directly to the specified property');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Import an external file into the repository.
 
 The file will be imported as a node of built-in type <comment>nt:file</comment>.

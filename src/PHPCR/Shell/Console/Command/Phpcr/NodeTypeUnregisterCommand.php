@@ -23,7 +23,8 @@ class NodeTypeUnregisterCommand extends BasePhpcrCommand
         $this->setName('node-type:unregister');
         $this->setDescription('Unregister a node type UNSUPPORTED / TODO');
         $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'The name of the node type to unregister');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Unregisters the specified node type
 HERE
         );
