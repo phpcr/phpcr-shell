@@ -14,9 +14,12 @@ namespace PHPCR\Shell\Phpcr;
 
 use PHPCR\PathNotFoundException;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class PhpcrSessionTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function setUp(): void
     {
         $this->phpcr = $this->prophesize('PHPCR\SessionInterface');

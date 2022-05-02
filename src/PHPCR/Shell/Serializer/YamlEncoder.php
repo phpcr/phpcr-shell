@@ -28,7 +28,7 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
      *
      * {@inheritdoc}
      */
-    public function encode($data, $format, array $context = [])
+    public function encode($data, $format, array $context = []): string
     {
         return Yaml::dump($data);
     }
@@ -43,7 +43,7 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsEncoding($format)
+    public function supportsEncoding($format): bool
     {
         return 'yaml' === $format;
     }
@@ -51,7 +51,7 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsDecoding($format)
+    public function supportsDecoding($format): bool
     {
         return 'yaml' === $format;
     }

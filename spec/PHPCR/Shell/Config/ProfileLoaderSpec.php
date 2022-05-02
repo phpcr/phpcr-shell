@@ -33,8 +33,12 @@ class ProfileLoaderSpec extends ObjectBehavior
         $this->shouldHaveType('PHPCR\Shell\Config\ProfileLoader');
     }
 
-    public function it_should_list_profile_names()
-    {
+    public function it_should_list_profile_names(
+        Filesystem $filesystem
+    ) {
+        $filesystem->exists(Argument::any())
+            ->willReturn(true);
+
         $this->getProfileNames()->shouldReturn([
             'one', 'two',
         ]);

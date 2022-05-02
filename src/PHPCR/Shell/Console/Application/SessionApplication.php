@@ -45,7 +45,7 @@ class SessionApplication extends BaseApplication
         $this->add($command);
     }
 
-    public function getDefaultInputDefinition()
+    public function getDefaultInputDefinition(): InputDefinition
     {
         return new InputDefinition([]);
     }
@@ -56,7 +56,7 @@ class SessionApplication extends BaseApplication
      *
      * {@inheritdoc}
      */
-    protected function getCommandName(InputInterface $input)
+    protected function getCommandName(InputInterface $input): string
     {
         return 'phpcr_shell';
     }

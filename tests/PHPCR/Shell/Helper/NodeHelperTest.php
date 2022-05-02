@@ -14,9 +14,12 @@ namespace PHPCR\Shell\Console\Helper;
 
 use PHPCR\NodeInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class NodeHelperTest extends TestCase
 {
+    use ProphecyTrait;
+
     protected $nodeHelper;
 
     public function setUp(): void

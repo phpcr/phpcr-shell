@@ -113,7 +113,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     {
         $dom = new \DOMDocument(1.0);
         $dom->load($this->getWorkingFilePath($filename));
-        $xpath = new \DOMXpath($dom);
+        $xpath = new \DOMXPath($dom);
 
         return $xpath;
     }
@@ -209,7 +209,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function iShouldSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        Assert::assertContains($string->getRaw(), $output);
+        Assert::assertStringContainsString($string->getRaw(), $output);
     }
 
     /**
@@ -218,7 +218,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function iShouldNotSeeTheFollowing(PyStringNode $string)
     {
         $output = $this->getOutput();
-        Assert::assertNotContains($string->getRaw(), $output);
+        Assert::assertStringNotContainsString($string->getRaw(), $output);
     }
 
     /**
@@ -305,7 +305,7 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
     public function theOutputShouldContain(PyStringNode $string)
     {
         foreach ($string->getStrings() as $line) {
-            Assert::assertContains($line, $this->getOutput());
+            Assert::assertStringContainsString($line, $this->getOutput());
         }
     }
 
@@ -774,7 +774,8 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $property = $session->getItem($arg1);
         if (!$property instanceof PropertyInterface) {
             throw new \InvalidArgumentException(sprintf(
-                'Item at "%s" is not a property', $arg1
+                'Item at "%s" is not a property',
+                $arg1
             ));
         }
 
@@ -790,7 +791,8 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
         $property = $session->getItem($arg1);
         if (!$property instanceof PropertyInterface) {
             throw new \InvalidArgumentException(sprintf(
-                'Item at "%s" is not a property', $arg1
+                'Item at "%s" is not a property',
+                $arg1
             ));
         }
 

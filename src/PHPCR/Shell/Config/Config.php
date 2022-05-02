@@ -24,24 +24,29 @@ class Config implements \ArrayAccess, \Iterator
         $this->data = $data;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         throw new \InvalidArgumentException(sprintf(
             'Setting values not permitted on configuration objects (trying to set "%s" to "%s"',
-            $offset, $value
+            $offset,
+            $value
         ));
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->data[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->data[$offset]);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         if (isset($this->data[$offset])) {
@@ -55,26 +60,31 @@ class Config implements \ArrayAccess, \Iterator
         }
     }
 
+    #[\ReturnTypeWillChange]
     public function current()
     {
         return current($this->data);
     }
 
+    #[\ReturnTypeWillChange]
     public function key()
     {
         return key($this->data);
     }
 
+    #[\ReturnTypeWillChange]
     public function next()
     {
         return next($this->data);
     }
 
+    #[\ReturnTypeWillChange]
     public function rewind()
     {
         return reset($this->data);
     }
 
+    #[\ReturnTypeWillChange]
     public function valid()
     {
         return current($this->data);
