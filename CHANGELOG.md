@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.4.0
+-----
+
+- Support Symfony 6, drop PHP 7.4 support #210
+
 1.3.0
 -----
 
