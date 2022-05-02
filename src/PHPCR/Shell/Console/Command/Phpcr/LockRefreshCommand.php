@@ -24,7 +24,8 @@ class LockRefreshCommand extends BasePhpcrCommand
         $this->setName('lock:refresh');
         $this->setDescription('Refresh the TTL of the lock of the node at the given path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node containing the lock to be refreshed');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 If this lock's time-to-live is governed by a timer, this command resets
 that timer so that the lock does not timeout and expire.
 

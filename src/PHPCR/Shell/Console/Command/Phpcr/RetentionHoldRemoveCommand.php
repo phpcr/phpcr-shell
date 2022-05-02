@@ -25,7 +25,8 @@ class RetentionHoldRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Removes a retention hold UNSUPPORTED');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node to which we want to remove a hold');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of hold to remove');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Removes the specified hold from the node at <info>absPath</info>.
 
 The removal does not take effect until a save is performed.
@@ -51,7 +52,9 @@ HERE
         if (!isset($indexed[$name])) {
             throw new \Exception(sprintf(
                 'Unknown hold "%s" for node at path "%s", it currently has: %s',
-                $name, $absPath, implode(', ', array_keys($indexed))
+                $name,
+                $absPath,
+                implode(', ', array_keys($indexed))
             ));
         }
 

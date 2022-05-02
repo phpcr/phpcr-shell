@@ -46,7 +46,8 @@ class NodeListCommand extends BasePhpcrCommand
             'Sort properties, one of: <comment>%s</comment>',
             implode('</comment>, <comment>', $this->sortOptions)
         ), 'asc');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 List both or one of the children and properties of this node.
 
 Multiple levels can be shown by using the <info>--level</info> option.
@@ -123,7 +124,8 @@ HERE
             $this->renderNode($node, $table, [], $filter);
 
             if ($table->getNumberOfRows() > 0) {
-                $output->writeln(sprintf('<pathbold>%s</pathbold> [%s] > %s',
+                $output->writeln(sprintf(
+                    '<pathbold>%s</pathbold> [%s] > %s',
                     $node->getPath(),
                     $node->getPrimaryNodeType()->getName(),
                     implode(', ', $node->getPrimaryNodeType()->getDeclaredSupertypeNames())
@@ -133,11 +135,13 @@ HERE
         }
 
         if ($config['show_execution_time_list']) {
-            $output->writeln(sprintf(
+            $output->writeln(
+                sprintf(
                 '%s nodes, %s properties in set (%s sec)',
                 $this->nbNodes,
                 $this->nbProperties,
-                number_format($this->time, $config['execution_time_expansion']))
+                number_format($this->time, $config['execution_time_expansion'])
+            )
             );
         }
 

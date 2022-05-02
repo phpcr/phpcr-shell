@@ -24,7 +24,8 @@ class NodeMixinAddCommand extends BasePhpcrCommand
         $this->setDescription('Add the named mixin to the node (can include wildcards)');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('mixinName', InputArgument::REQUIRED, 'The name of the mixin node type to be added');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Adds the mixin node type named <info>mixinName</info> to the node(s) inferred by the path.
 
 If this node is already of type <info>mixinName</info> (either due to a previously

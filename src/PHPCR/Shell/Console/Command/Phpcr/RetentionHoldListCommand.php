@@ -25,7 +25,8 @@ class RetentionHoldListCommand extends BasePhpcrCommand
         $this->setName('retention:hold:list');
         $this->setDescription('List retention holds at given absolute path UNSUPPORTED');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node to which we want to add a hold');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Lists all hold object names that have been added to the
 existing node at <info>absPath</info>.
 HERE

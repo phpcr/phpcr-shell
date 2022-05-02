@@ -24,7 +24,8 @@ class NodePropertyShowCommand extends BasePhpcrCommand
         $this->setName('node:property:show');
         $this->setDescription('Show the property at the given path');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to property (can include wildcards)');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Show the full value of a property at the given path
 HERE
         );

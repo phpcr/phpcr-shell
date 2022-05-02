@@ -28,7 +28,8 @@ class QueryUpdateCommand extends BaseQueryCommand
         $this->setName('update');
         $this->setDescription('Execute an UPDATE query (non-standard)');
         $this->addArgument('query');
-        $this->setHelp(<<<'EOT'
+        $this->setHelp(
+            <<<'EOT'
 Execute a PHPCR-Shell JCR-SQL2 update query. You can enter a query literally:
 
      UPDATE [nt:unstructured] AS a SET title = 'foobar' WHERE a.title = 'barfoo';

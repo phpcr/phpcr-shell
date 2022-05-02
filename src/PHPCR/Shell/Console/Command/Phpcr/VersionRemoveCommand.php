@@ -25,7 +25,8 @@ class VersionRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove a node version');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path to node');
         $this->addArgument('versionName', InputArgument::REQUIRED, 'Name of version to remove');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Removes the named version from this version history and automatically
 repairs the version graph.
 

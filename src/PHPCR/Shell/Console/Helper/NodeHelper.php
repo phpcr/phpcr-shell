@@ -39,7 +39,8 @@ class NodeHelper extends Helper
     {
         if (!$this->nodeHasMixinType($node, 'mix:versionable')) {
             throw new \OutOfBoundsException(sprintf(
-                'Node "%s" is not versionable', $node->getPath()
+                'Node "%s" is not versionable',
+                $node->getPath()
             ));
         }
     }

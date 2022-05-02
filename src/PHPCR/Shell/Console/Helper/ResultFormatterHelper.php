@@ -90,10 +90,12 @@ class ResultFormatterHelper extends Helper
         $table->render($output);
 
         if (true === $this->config['show_execution_time_query']) {
-            $output->writeln(sprintf(
+            $output->writeln(
+                sprintf(
                 '%s rows in set (%s sec)',
                 count($result->getRows()),
-                number_format($elapsed, $this->config['execution_time_expansion']))
+                number_format($elapsed, $this->config['execution_time_expansion'])
+            )
             );
         }
     }
@@ -169,7 +171,8 @@ class ResultFormatterHelper extends Helper
         $out = [];
 
         foreach ($node->getProperties() as $property) {
-            $out[] = sprintf('%s: %s',
+            $out[] = sprintf(
+                '%s: %s',
                 $property->getName(),
                 $this->formatValue($property)
             );

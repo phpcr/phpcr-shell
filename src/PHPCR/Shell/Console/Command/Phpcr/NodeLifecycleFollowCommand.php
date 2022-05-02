@@ -25,7 +25,8 @@ class NodeLifecycleFollowCommand extends BasePhpcrCommand
         $this->setDescription('Causes the lifecycle state of this node to undergo the specified transition.');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addArgument('transition', InputArgument::REQUIRED, 'A state transition');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Causes the lifecycle state of the current node to undergo the specified
 transition.
 

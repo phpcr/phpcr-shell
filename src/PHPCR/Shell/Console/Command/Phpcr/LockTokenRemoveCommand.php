@@ -24,7 +24,8 @@ class LockTokenRemoveCommand extends BasePhpcrCommand
         $this->setName('lock:token:remove');
         $this->setDescription('Remove a lock token to the current session');
         $this->addArgument('lockToken', InputArgument::REQUIRED, 'Lock token');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Removes the specified lock token from the current Session.
 HERE
         );

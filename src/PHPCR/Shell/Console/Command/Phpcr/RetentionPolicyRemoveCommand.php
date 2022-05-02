@@ -24,7 +24,8 @@ class RetentionPolicyRemoveCommand extends BasePhpcrCommand
         $this->setName('retention:policy:remove');
         $this->setDescription('Remove a retention policy for specified node UNSUPPORTED');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Removes the retention policy of a node identified by its path.
 HERE
         );

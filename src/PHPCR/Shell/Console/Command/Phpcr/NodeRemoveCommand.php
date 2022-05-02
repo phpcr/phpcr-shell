@@ -25,7 +25,8 @@ class NodeRemoveCommand extends BasePhpcrCommand
         $this->setDescription('Remove the node at path (can include wildcards)');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addOption('shared', null, InputOption::VALUE_NONE, 'Remove nodes in shared set');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Remove the node at the given path.
 
 If the `--shared` option is specified then any nodes within this nodes

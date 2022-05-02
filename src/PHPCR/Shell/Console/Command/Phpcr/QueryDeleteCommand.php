@@ -23,7 +23,8 @@ class QueryDeleteCommand extends BaseQueryCommand
         $this->setName('delete');
         $this->setDescription('Execute a DELETE query (non standard)');
         $this->addArgument('query');
-        $this->setHelp(<<<'EOT'
+        $this->setHelp(
+            <<<'EOT'
 Execute a DELETE query. Unlike other commands you can enter a query literally:
 
      DELETE FROM [nt:unstructured] WHERE title = 'foo';
@@ -42,7 +43,8 @@ EOT
 
         if (!preg_match('{^delete from}', strtolower($sql))) {
             throw new \PHPCR\Query\InvalidQueryException(sprintf(
-                '"FROM" not specified in DELETE query: "%s"', $sql
+                '"FROM" not specified in DELETE query: "%s"',
+                $sql
             ));
         }
 

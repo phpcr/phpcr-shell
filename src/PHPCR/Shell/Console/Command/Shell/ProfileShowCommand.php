@@ -25,7 +25,8 @@ class ProfileShowCommand extends BaseCommand
     {
         $this->setName('shell:profile:show');
         $this->setDescription('Show the current profile configuration');
-        $this->setHelp(<<<'EOT'
+        $this->setHelp(
+            <<<'EOT'
 Display the currently loaded profile configuration
 EOT
         );

@@ -25,7 +25,8 @@ class NodeTypeShowCommand extends BasePhpcrCommand
         $this->setName('node-type:show');
         $this->setDescription('Show the CND of a node type');
         $this->addArgument('nodeTypeName', InputArgument::REQUIRED, 'The name of the node type to show');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Show the CND (Compact Node Definition) of a given node type.
 HERE
         );
@@ -43,7 +44,9 @@ HERE
             $nodeType = $nodeTypeManager->getNodeType($nodeTypeName);
         } catch (NoSuchNodeTypeException $e) {
             throw new \Exception(sprintf(
-                'The node type "%s" does not exist', $nodeTypeName));
+                'The node type "%s" does not exist',
+                $nodeTypeName
+            ));
         }
         $cndWriter = new CndWriter($namespaceRegistry);
         $out = $cndWriter->writeString([$nodeType]);

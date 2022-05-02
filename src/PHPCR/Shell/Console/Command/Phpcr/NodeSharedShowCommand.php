@@ -24,7 +24,8 @@ class NodeSharedShowCommand extends BasePhpcrCommand
         $this->setName('node:shared:show');
         $this->setDescription('Show all the nodes are in the shared set of this node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Lists all nodes that are in the shared set of this node.
 
 Shareable nodes are analagous to symbolic links in a linux filesystem and can

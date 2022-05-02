@@ -25,7 +25,8 @@ class NodeTypeLoadCommand extends BasePhpcrCommand
         $this->setDescription('Load or create a node type');
         $this->addOption('update', null, InputOption::VALUE_NONE, 'Update existing node type');
         $this->addArgument('cndFile', InputArgument::REQUIRED, 'The name file containing the CND data');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 This command allows to register node types in the repository that are defined
 in a CND (Compact Namespace and Node Type Definition) file as used by jackrabbit.
 
@@ -50,7 +51,8 @@ HERE
 
         if (!file_exists($cndFile)) {
             throw new \InvalidArgumentException(sprintf(
-                'The CND file "%s" does not exist.', $cndFile
+                'The CND file "%s" does not exist.',
+                $cndFile
             ));
         }
 

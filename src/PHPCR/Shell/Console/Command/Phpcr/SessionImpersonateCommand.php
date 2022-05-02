@@ -24,7 +24,8 @@ class SessionImpersonateCommand extends BasePhpcrCommand
         $this->setName('session:impersonate');
         $this->setDescription('Impersonate the given user');
         $this->addArgument('username', InputArgument::REQUIRED, 'Username of user to impersonate');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Note: This command is not implemented by any of the transports currently.
 
 Returns a new session in accordance with the specified (new)

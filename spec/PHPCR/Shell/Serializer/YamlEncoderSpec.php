@@ -24,12 +24,13 @@ class YamlEncoderSpec extends ObjectBehavior
     public function it_should_encode_to_yaml()
     {
         $data = ['foobar' => 'barfoo', 'barfoo' => 'foobar'];
-        $this->encode($data, 'yaml')->shouldReturn(<<<'EOT'
+        $this->encode($data, 'yaml')->shouldReturn(
+            <<<'EOT'
 foobar: barfoo
 barfoo: foobar
 
 EOT
-    );
+        );
     }
 
     public function is_should_decode_yaml()

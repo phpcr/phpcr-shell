@@ -23,7 +23,8 @@ class SessionRefreshCommand extends BasePhpcrCommand
         $this->setName('session:refresh');
         $this->setDescription('Refresh the current session');
         $this->addOption('keep-changes', null, InputOption::VALUE_NONE, 'Keep any changes that have been made in this session');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Reloads the current session.
 
 If the <info>--keep-changes</info> option is not given then this command discards

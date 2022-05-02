@@ -24,7 +24,8 @@ class NodeUpdateCommand extends BasePhpcrCommand
         $this->setDescription('Updates a node corresponding to the given path in the given workspace');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcards)');
         $this->addArgument('srcWorkspace', InputArgument::REQUIRED, 'The name of the source workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Updates a node corresponding to the current one in the given workspace.
 
 If this node does have a corresponding node in the workspace

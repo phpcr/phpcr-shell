@@ -27,7 +27,8 @@ class AccessControlPrivilegeListCommand extends BasePhpcrCommand
         $this->setDescription('List the privileges of the repository or a specific node');
         $this->addArgument('absPath', InputArgument::OPTIONAL, 'Absolute path for node, optional.');
         $this->addOption('supported', null, InputOption::VALUE_NONE, 'List privileges supported by repository rather than current session.');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 NOTE: This command is not supported by Jackrabbit.
 
 List the privileges of the current session or the node at the given path.
@@ -49,7 +50,7 @@ If the <info>--supported</info> option is supplied then the command does not
 list the privileges held by the current session, but rather the privileges
 supported by the repository.
 HERE
-    );
+        );
 
         $this->requiresDescriptor(RepositoryInterface::OPTION_ACCESS_CONTROL_SUPPORTED, true);
     }

@@ -24,7 +24,8 @@ class NodePropertyRemoveCommand extends BasePhpcrCommand
         $this->setName('node:property:remove');
         $this->setDescription('Remove the property at the given absolute path');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to property');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Remove the property from the current session at the given path
 HERE
         );
@@ -39,7 +40,8 @@ HERE
             $property = $session->getProperty($absPath);
         } catch (PathNotFoundException $e) {
             throw new \Exception(sprintf(
-                'Could not find a property at "%s"', $absPath
+                'Could not find a property at "%s"',
+                $absPath
             ));
         }
 

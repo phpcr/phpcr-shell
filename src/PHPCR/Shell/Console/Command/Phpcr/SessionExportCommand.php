@@ -31,7 +31,8 @@ class SessionExportCommand extends BasePhpcrCommand
         $this->addOption('skip-binary', null, InputOption::VALUE_NONE, 'Skip binary properties');
         $this->addOption('document', null, InputOption::VALUE_NONE, 'Export the document view');
         $this->addOption('pretty', null, InputOption::VALUE_NONE, 'Export in human readable format');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Export the node at the given path to the named XML file.
 
 By default the entire subgraph of the node will be exported unless the <info>--no-recurse</info> option

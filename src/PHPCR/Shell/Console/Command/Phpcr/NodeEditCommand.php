@@ -31,7 +31,8 @@ class NodeEditCommand extends BasePhpcrCommand
         $this->setDescription('Edit the given node in the EDITOR configured by the system');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Optional type to use when creating new nodes', 'nt:unstructured');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Edit or create a node at the given path using the default editor as defined by the EDITOR environment variable.
 
 When you invoke the command a temporary file in YAML format will be created on the filesystem. This file will

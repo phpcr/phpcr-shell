@@ -24,7 +24,8 @@ class NodeLifecycleListCommand extends BasePhpcrCommand
         $this->setName('node:lifecycle:list');
         $this->setDescription('Returns the list of valid state transitions for this node.');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Returns the list of valid state transitions for this node.
 HERE
         );

@@ -24,7 +24,8 @@ class LockTokenAddCommand extends BasePhpcrCommand
         $this->setName('lock:token:add');
         $this->setDescription('Add a lock token to the current session');
         $this->addArgument('lockToken', InputArgument::REQUIRED, 'Lock token');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Adds the specified lock token to the current Session.
 
 Holding a lock token makes the current Session the owner of the lock

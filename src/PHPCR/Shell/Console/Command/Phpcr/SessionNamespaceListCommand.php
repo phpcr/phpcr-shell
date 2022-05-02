@@ -22,7 +22,8 @@ class SessionNamespaceListCommand extends BasePhpcrCommand
     {
         $this->setName('session:namespace:list');
         $this->setDescription('List all namespace prefix to URI  mappings in current session');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 List all namespace prefix to URI  mappings in current session
 HERE
         );

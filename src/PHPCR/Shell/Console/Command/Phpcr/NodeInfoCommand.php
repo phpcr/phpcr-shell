@@ -24,7 +24,8 @@ class NodeInfoCommand extends BasePhpcrCommand
         $this->setName('node:info');
         $this->setDescription('Show information about the current node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Show information about the node(s) at the given path:
 
     PHPCRSH> node:info path/to/node

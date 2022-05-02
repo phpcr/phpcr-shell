@@ -25,7 +25,8 @@ class NodeCopyCommand extends BasePhpcrCommand
         $this->addArgument('srcPath', InputArgument::REQUIRED, 'Path to source node');
         $this->addArgument('destPath', InputArgument::REQUIRED, 'Path to destination node');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, copy from this workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Copies a Node including its children to a new location to the given workspace.
 
 This method copies the subgraph rooted at, and including, the node at

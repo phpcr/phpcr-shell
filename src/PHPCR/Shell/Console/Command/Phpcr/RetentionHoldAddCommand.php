@@ -27,7 +27,8 @@ class RetentionHoldAddCommand extends BasePhpcrCommand
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node to which we want to add a hold');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of hold to add');
         $this->addOption('deep', null, InputOption::VALUE_NONE, 'Apply hold also to the children of specified node.');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Places a hold on the existing node at <info>absPath</info>.
 
 If the <info>is-deep</info> is true the hold applies to this node and its

@@ -24,7 +24,8 @@ class WorkspaceCreateCommand extends BasePhpcrCommand
         $this->setDescription('Create a new workspace');
         $this->addArgument('name', InputArgument::REQUIRED, 'Name of new workspace');
         $this->addArgument('srcWorkspace', InputArgument::OPTIONAL, 'If specified, clone from this workspace');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Creates a new Workspace with the specified name. The new workspace is
 empty, meaning it contains only root node.
 

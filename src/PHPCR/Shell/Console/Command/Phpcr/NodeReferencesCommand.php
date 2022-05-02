@@ -25,7 +25,8 @@ class NodeReferencesCommand extends BasePhpcrCommand
         $this->setDescription('Returns all REFERENCE properties that refer to this node');
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node (can include wildcard)');
         $this->addArgument('name', InputArgument::OPTIONAL, 'Limit references to given name');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 This command returns all REFERENCE properties that refer to this node,
 have the specified name and that are accessible through the current
 Session.
@@ -33,7 +34,7 @@ Session.
 If the <info>name</info> parameter is null then all referring REFERENCES are returned
 regardless of name.
 HERE
-    );
+        );
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

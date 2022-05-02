@@ -29,7 +29,8 @@ class NodePropertySetCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of property - parent path can include wildcards');
         $this->addArgument('value', InputArgument::OPTIONAL, 'Value for named property');
         $this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of named property');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Defines or set a value for a property identified by its name.
 
     PHPCRSH> node:property:set . propname "some value" --type="String"

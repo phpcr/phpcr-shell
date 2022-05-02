@@ -24,7 +24,8 @@ class RetentionPolicyGetCommand extends BasePhpcrCommand
         $this->setName('retention:policy:get');
         $this->setDescription('Get a retention policy for specified node UNSUPPORTED');
         $this->addArgument('absPath', InputArgument::REQUIRED, 'Absolute path to node');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Gets the retention policy of a node identified by its path.
 HERE
         );

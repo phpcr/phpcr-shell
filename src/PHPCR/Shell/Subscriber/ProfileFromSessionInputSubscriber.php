@@ -60,7 +60,9 @@ class ProfileFromSessionInputSubscriber implements EventSubscriberInterface
                     case 'db-path':
                         if (!file_exists($value)) {
                             throw new \InvalidArgumentException(sprintf(
-                                'DB file "%s" does not exist.', $value));
+                                'DB file "%s" does not exist.',
+                                $value
+                            ));
                         }
 
                         $value = realpath(dirname($value)).DIRECTORY_SEPARATOR.basename($value);

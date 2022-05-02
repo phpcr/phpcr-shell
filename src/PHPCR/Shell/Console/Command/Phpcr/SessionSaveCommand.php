@@ -21,7 +21,8 @@ class SessionSaveCommand extends BasePhpcrCommand
     {
         $this->setName('session:save');
         $this->setDescription('Save the current session');
-        $this->setHelp(<<<'HERE'
+        $this->setHelp(
+            <<<'HERE'
 Validates all pending changes currently recorded in this Session.
 
 If validation of all pending changes succeeds, then this change
