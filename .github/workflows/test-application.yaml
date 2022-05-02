@@ -14,6 +14,7 @@ jobs:
         env:
             SYMFONY_DEPRECATIONS_HELPER: ${{ matrix.symfony-deprecation-helper }}
             BEHAT_SUITE: ${{ matrix.behat-suite }}
+            COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         strategy:
             fail-fast: false
