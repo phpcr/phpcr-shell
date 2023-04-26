@@ -158,7 +158,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         if (count($errors) > 0) {
             throw new InvalidArgumentException(sprintf(
                 'Errors encountered during denormalization: %s',
-                implode($errors, "\n")
+                implode("\n", $errors)
             ));
         }
     }
