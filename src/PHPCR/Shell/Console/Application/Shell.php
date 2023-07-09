@@ -41,9 +41,19 @@ class Shell
     {
         $this->hasReadline = function_exists('readline');
         $this->application = $application;
-        $this->history = getenv('HOME').'/.history_'.$application->getName();
+        $this->history = $this->getHistoryDirectory();
         $this->output = new ConsoleOutput();
         $this->prompt = $application->getName().' > ';
+    }
+
+    public function getHistoryDirectory(): string
+    {
+        $dataDirectory = getenv('XDG_DATA_HOME');
+        if ($dataDirectory !== '') {
+            return $dataDirectory.'/'.$this->application->getName();
+        }
+
+        return getenv('HOME').'/.history_'.$this->application->getName();
     }
 
     /**
