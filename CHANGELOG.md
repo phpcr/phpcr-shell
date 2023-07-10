@@ -1,6 +1,12 @@
 Changelog
 =========
 
+1.5.0
+-----
+
+- If `XDG_DATA_HOME` is defined, it is now used as location where to store the history.
+  If you have set `XDG_DATA_HOME` to something else than `HOME`, you can preserve your phpcr-shell history by moving the directory `~/.history_PHPCRSH` to `$XDB_DATA_HOME/.history_PHPCRSH`.
+
 1.4.0
 -----
 
@@ -44,7 +50,7 @@ beta4
 - [node:property:show] Text fields are truncated
 - [profile] Workspace given from CLI does not override profile workspace
 - [command] Removed node:definition command: Jackalope now supports this, and
-  this command would never have worked, see: 
+  this command would never have worked, see:
 
 beta2
 -----
