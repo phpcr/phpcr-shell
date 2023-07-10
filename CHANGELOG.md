@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.5.0
+-----
+
+- Moving the history file from the home directory to the `XDG_DATA_HOME` directory #217
+
 1.4.0
 -----
 
@@ -44,7 +49,7 @@ beta4
 - [node:property:show] Text fields are truncated
 - [profile] Workspace given from CLI does not override profile workspace
 - [command] Removed node:definition command: Jackalope now supports this, and
-  this command would never have worked, see: 
+  this command would never have worked, see:
 
 beta2
 -----
