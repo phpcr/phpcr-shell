@@ -4,7 +4,8 @@ Changelog
 1.5.0
 -----
 
-- Moving the history file from the home directory to the `XDG_DATA_HOME` directory #217
+- If `XDG_DATA_HOME` is defined, it is now used as location where to store the history.
+  If you have set `XDG_DATA_HOME` to something else than `HOME`, you can preserve your phpcr-shell history by moving the directory `~/.history_PHPCRSH` to `$XDB_DATA_HOME/.history_PHPCRSH`.
 
 1.4.0
 -----
