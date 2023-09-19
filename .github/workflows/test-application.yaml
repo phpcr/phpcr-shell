@@ -59,11 +59,11 @@ jobs:
 
         steps:
             - name: Checkout project
-              uses: actions/checkout@v2
+              uses: actions/checkout@v4
 
             # default java installation not able to run jackrabbit. use same as jackalope-jackrabbit action
             - name: Install and configure Java
-              uses: actions/setup-java@v3
+              uses: actions/setup-java@v4
               with:
                   distribution: temurin
                   java-version: '8'
@@ -82,7 +82,7 @@ jobs:
 
             - name: Cache Jackrabbit
               id: cache-jackrabbit
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                 path: vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit-standalone-*
                 key: jackrabbit
