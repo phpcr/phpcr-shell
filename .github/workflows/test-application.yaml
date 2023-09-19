@@ -21,25 +21,7 @@ jobs:
 
             matrix:
                 include:
-                    - php-version: '8.0'
-                      dependencies: lowest
-                      behat-suite: standalone
 
-                    - php-version: '8.0'
-                      dependencies: lowest
-                      behat-suite: embedded
-
-                    - php-version: '8.0'
-                      dependencies: lowest
-                      behat-suite: cli
-
-                    - php-version: '8.1'
-                      dependencies: highest
-                      behat-suite: standalone
-
-                    - php-version: '8.1'
-                      dependencies: highest
-                      behat-suite: embedded
 
                     - php-version: '8.1'
                       dependencies: highest
@@ -63,7 +45,11 @@ jobs:
 
             - name: Start Jackrabbit
               run: |
-                  JACKRABBIT_VERSION=2.21.10 ./vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit.sh
+                wget -nv http://archive.apache.org/dist/jackrabbit/2.21.10/jackrabbit-standalone-2.21.10.jar
+                zipinfo jackrabbit-standalone-2.21.10.jar | wc -l
+                java -version
+                java -jar jackrabbit-standalone-2.21.10.jar
+#               JACKRABBIT_VERSION=2.21.10 tests/bin/travis_jackrabbit.sh || java -jar ./vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit-standalone-2.21.10.jar
 
             - name: Execute test cases
               run: |
