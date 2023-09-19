@@ -53,8 +53,8 @@ class Profile
     /**
      * Set a domain configuration.
      *
-     * @param string $domain
-     * @param $key
+     * @param string     $domain
+     * @param            $key
      * @param array|null $value
      */
     public function set($domain, $key, $value = null)
