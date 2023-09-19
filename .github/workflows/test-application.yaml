@@ -63,7 +63,7 @@ jobs:
 
             - name: Start Jackrabbit
               run: |
-                  JACKRABBIT_VERSION=2.21.10 tests/bin/travis_jackrabbit.sh
+                  JACKRABBIT_VERSION=2.21.10 ./vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit.sh
 
             - name: Execute test cases
               run: |
