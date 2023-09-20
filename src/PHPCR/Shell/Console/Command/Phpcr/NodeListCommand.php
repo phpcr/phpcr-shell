@@ -137,11 +137,11 @@ HERE
         if ($config['show_execution_time_list']) {
             $output->writeln(
                 sprintf(
-                '%s nodes, %s properties in set (%s sec)',
-                $this->nbNodes,
-                $this->nbProperties,
-                number_format($this->time, $config['execution_time_expansion'])
-            )
+                    '%s nodes, %s properties in set (%s sec)',
+                    $this->nbNodes,
+                    $this->nbProperties,
+                    number_format($this->time, $config['execution_time_expansion'])
+                )
             );
         }
 

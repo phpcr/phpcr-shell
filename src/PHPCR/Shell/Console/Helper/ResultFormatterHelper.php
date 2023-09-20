@@ -92,10 +92,10 @@ class ResultFormatterHelper extends Helper
         if (true === $this->config['show_execution_time_query']) {
             $output->writeln(
                 sprintf(
-                '%s rows in set (%s sec)',
-                count($result->getRows()),
-                number_format($elapsed, $this->config['execution_time_expansion'])
-            )
+                    '%s rows in set (%s sec)',
+                    count($result->getRows()),
+                    number_format($elapsed, $this->config['execution_time_expansion'])
+                )
             );
         }
     }

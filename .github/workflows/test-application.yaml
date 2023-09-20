@@ -49,6 +49,13 @@ jobs:
             - name: Checkout project
               uses: actions/checkout@v2
 
+            # default java installation not able to run jackrabbit. use same as jackalope-jackrabbit action
+            - name: Install and configure Java
+              uses: actions/setup-java@v3
+              with:
+                  distribution: temurin
+                  java-version: '8'
+
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
               with:
@@ -60,6 +67,13 @@ jobs:
               with:
                   dependency-versions: ${{ matrix.dependencies }}
                   composer-options: ${{ matrix.composer-options }}
+
+            - name: Cache Jackrabbit
+              id: cache-jackrabbit
+              uses: actions/cache@v3
+              with:
+                path: vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit-standalone-*
+                key: jackrabbit
 
             - name: Start Jackrabbit
               run: |
