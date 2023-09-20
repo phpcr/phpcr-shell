@@ -21,7 +21,25 @@ jobs:
 
             matrix:
                 include:
+                    - php-version: '8.0'
+                      dependencies: lowest
+                      behat-suite: standalone
 
+                    - php-version: '8.0'
+                      dependencies: lowest
+                      behat-suite: embedded
+
+                    - php-version: '8.0'
+                      dependencies: lowest
+                      behat-suite: cli
+
+                    - php-version: '8.1'
+                      dependencies: highest
+                      behat-suite: standalone
+
+                    - php-version: '8.1'
+                      dependencies: highest
+                      behat-suite: embedded
 
                     - php-version: '8.1'
                       dependencies: highest
@@ -30,6 +48,13 @@ jobs:
         steps:
             - name: Checkout project
               uses: actions/checkout@v2
+
+            # default java installation not able to run jackrabbit. use same as jackalope-jackrabbit action
+            - name: Install and configure Java
+              uses: actions/setup-java@v3
+              with:
+                  distribution: temurin
+                  java-version: '8'
 
             - name: Install and configure PHP
               uses: shivammathur/setup-php@v2
@@ -43,13 +68,16 @@ jobs:
                   dependency-versions: ${{ matrix.dependencies }}
                   composer-options: ${{ matrix.composer-options }}
 
+            - name: Cache Jackrabbit
+              id: cache-jackrabbit
+              uses: actions/cache@v3
+              with:
+                path: vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit-standalone-*
+                key: jackrabbit
+
             - name: Start Jackrabbit
               run: |
-                wget -nv http://archive.apache.org/dist/jackrabbit/2.21.10/jackrabbit-standalone-2.21.10.jar
-                zipinfo jackrabbit-standalone-2.21.10.jar | wc -l
-                java -version
-                java -jar jackrabbit-standalone-2.21.10.jar
-#               JACKRABBIT_VERSION=2.21.10 tests/bin/travis_jackrabbit.sh || java -jar ./vendor/jackalope/jackalope-jackrabbit/bin/jackrabbit-standalone-2.21.10.jar
+                  JACKRABBIT_VERSION=2.21.10 tests/bin/travis_jackrabbit.sh
 
             - name: Execute test cases
               run: |
