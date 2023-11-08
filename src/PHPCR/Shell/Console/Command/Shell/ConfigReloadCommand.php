@@ -20,7 +20,7 @@ class ConfigReloadCommand extends BaseCommand
 {
     protected $output;
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('shell:config:reload');
         $this->setDescription('Reload the configuration');

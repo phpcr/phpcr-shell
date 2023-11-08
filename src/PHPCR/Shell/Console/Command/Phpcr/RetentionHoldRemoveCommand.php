@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionHoldRemoveCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('retention:hold:remove');
         $this->setDescription('Removes a retention hold UNSUPPORTED');

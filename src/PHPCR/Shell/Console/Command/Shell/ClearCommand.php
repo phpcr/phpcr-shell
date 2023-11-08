@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ClearCommand extends BaseCommand
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('shell:clear');
         $this->setDescription('Clear the screen');

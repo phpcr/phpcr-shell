@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionRemoveCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('version:remove');
         $this->setDescription('Remove a node version');

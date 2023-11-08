@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeRemoveCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:remove');
         $this->setDescription('Remove the node at path (can include wildcards)');

@@ -22,7 +22,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodePropertySetCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:property:set');
         $this->setDescription('Rename the node at the current path');

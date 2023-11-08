@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeLifecycleFollowCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:lifecycle:follow');
         $this->setDescription('Causes the lifecycle state of this node to undergo the specified transition.');

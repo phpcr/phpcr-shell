@@ -20,7 +20,7 @@ class ConfigInitCommand extends BaseCommand
 {
     protected $output;
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('shell:config:init');
         $this->setDescription('Initialize a local configuration with default values');

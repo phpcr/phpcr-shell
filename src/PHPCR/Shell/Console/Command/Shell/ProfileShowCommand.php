@@ -21,7 +21,7 @@ class ProfileShowCommand extends BaseCommand
 {
     protected $output;
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('shell:profile:show');
         $this->setDescription('Show the current profile configuration');

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionImpersonateCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:impersonate');
         $this->setDescription('Impersonate the given user');

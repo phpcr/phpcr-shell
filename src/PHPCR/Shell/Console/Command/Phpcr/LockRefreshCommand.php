@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LockRefreshCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('lock:refresh');
         $this->setDescription('Refresh the TTL of the lock of the node at the given path');

@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AccessControlPrivilegeListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('access-control:privilege:list');
         $this->setDescription('List the privileges of the repository or a specific node');

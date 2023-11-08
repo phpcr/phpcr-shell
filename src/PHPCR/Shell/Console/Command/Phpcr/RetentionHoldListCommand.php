@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionHoldListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('retention:hold:list');
         $this->setDescription('List retention holds at given absolute path UNSUPPORTED');

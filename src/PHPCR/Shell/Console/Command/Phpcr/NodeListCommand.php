@@ -33,7 +33,7 @@ class NodeListCommand extends BasePhpcrCommand
     protected $nbNodes = 0;
     protected $nbProperties = 0;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:list');
         $this->setDescription('List the children / properties of this node at the given path or with the given UUID');

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceUseCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('workspace:use');
         $this->setDescription('Change the current workspace');

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AliasListCommand extends BaseCommand
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('shell:alias:list');
         $this->setDescription('List all the registered aliases');

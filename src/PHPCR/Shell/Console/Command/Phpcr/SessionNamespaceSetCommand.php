@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionNamespaceSetCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:namespace:set');
         $this->setDescription('Set a namespace in the current session');

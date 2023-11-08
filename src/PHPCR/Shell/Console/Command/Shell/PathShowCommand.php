@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PathShowCommand extends BaseCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('shell:path:show');
         $this->setDescription('Print Working Directory (or path)');

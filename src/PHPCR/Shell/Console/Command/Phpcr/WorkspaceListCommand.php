@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('workspace:list');
         $this->setDescription('Lists workspaces in the current repository');

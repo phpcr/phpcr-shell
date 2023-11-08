@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionCheckinCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('version:checkin');
         $this->setDescription('Checkin (commit) a node version');

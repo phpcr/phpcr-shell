@@ -21,7 +21,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class SessionExportCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:export');
         $this->setDescription('Export the session to XML');

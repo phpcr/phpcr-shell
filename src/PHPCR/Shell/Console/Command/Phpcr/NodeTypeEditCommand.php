@@ -22,7 +22,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class NodeTypeEditCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node-type:edit');
         $this->setDescription('Edit or create a node type');

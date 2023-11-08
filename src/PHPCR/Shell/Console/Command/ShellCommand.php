@@ -49,7 +49,7 @@ class ShellCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function configure()
+    public function configure(): void
     {
         $this->setName('phpcr_shell');
         $this->setDefinition([

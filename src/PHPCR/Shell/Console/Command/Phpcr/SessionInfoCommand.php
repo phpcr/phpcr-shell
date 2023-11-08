@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionInfoCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:info');
         $this->setDescription('Display information about current session');

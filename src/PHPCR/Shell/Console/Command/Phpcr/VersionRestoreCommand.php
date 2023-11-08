@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionRestoreCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('version:restore');
         $this->setDescription('Restore a node version');

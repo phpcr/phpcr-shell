@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RepositoryDescriptorListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('repository:descriptor:list');
         $this->setDescription('List the descriptors for the current repository');
