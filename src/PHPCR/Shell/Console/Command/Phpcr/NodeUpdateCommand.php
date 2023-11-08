@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeUpdateCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:update');
         $this->setDescription('Updates a node corresponding to the given path in the given workspace');

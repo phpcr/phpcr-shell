@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionCheckpointCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('version:checkpoint');
         $this->setDescription('Checkin and then checkout a node');

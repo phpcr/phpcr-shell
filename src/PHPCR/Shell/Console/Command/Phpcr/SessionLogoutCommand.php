@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionLogoutCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:logout');
         $this->setDescription('Logout of the current session');

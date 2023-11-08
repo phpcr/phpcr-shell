@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeMixinRemoveCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:mixin:remove');
         $this->setDescription('Remove the named mixin to the current node');

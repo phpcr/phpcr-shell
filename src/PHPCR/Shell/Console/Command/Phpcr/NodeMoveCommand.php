@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeMoveCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:move');
         $this->setDescription('Move a node in the current session');

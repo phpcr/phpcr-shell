@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class QueryCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('query');
         $this->setDescription('Execute a SELECT query (advanced)');

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceNamespaceListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('workspace:namespace:list');
         $this->setDescription('List all namespace prefix to URI  mappings in current workspace');

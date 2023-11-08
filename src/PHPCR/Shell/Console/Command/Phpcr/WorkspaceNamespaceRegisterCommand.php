@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceNamespaceRegisterCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('workspace:namespace:register');
         $this->setDescription('Sets a one-to-one mapping between prefix and uri in the global namespace');

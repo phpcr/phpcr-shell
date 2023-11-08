@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LockLockCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('lock:lock');
         $this->setDescription('Lock the node at the given path');

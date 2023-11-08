@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionHoldAddCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('retention:hold:add');
         $this->setDescription('Adds a retention hold UNSUPPORTED');

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeCorrespondingCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:corresponding');
         $this->setDescription('Show the path for the current nodes corresponding path in named workspace');

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeOrderBeforeCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:order-before');
         $this->setDescription('Reorder a child node of the current node');

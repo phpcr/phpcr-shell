@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionHistoryCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('version:history');
         $this->setDescription('Show version history of node at given absolute path');

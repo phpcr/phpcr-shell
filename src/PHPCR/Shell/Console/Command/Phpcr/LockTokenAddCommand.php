@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LockTokenAddCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('lock:token:add');
         $this->setDescription('Add a lock token to the current session');

@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class LockInfoCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('lock:info');
         $this->setDescription('Show details of the lock that applies to the specified node path');

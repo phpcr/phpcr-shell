@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeTypeShowCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node-type:show');
         $this->setDescription('Show the CND of a node type');

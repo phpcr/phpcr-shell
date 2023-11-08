@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeLifecycleListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:lifecycle:list');
         $this->setDescription('Returns the list of valid state transitions for this node.');

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeReferencesCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:references');
         $this->setDescription('Returns all REFERENCE properties that refer to this node');

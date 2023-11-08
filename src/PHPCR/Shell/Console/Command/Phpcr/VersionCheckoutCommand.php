@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class VersionCheckoutCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('version:checkout');
         $this->setDescription('Checkout a node version and enable changes to be made');

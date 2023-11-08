@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionLoginCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:login');
         $this->setDescription('Login or (relogin) to a session');

@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceDeleteCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('workspace:delete');
         $this->setDescription('Delete a workspace');

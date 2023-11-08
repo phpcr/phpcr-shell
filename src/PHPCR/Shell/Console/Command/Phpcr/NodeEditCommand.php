@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class NodeEditCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:edit');
         $this->setDescription('Edit the given node in the EDITOR configured by the system');

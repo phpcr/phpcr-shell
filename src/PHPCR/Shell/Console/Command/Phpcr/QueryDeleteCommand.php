@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class QueryDeleteCommand extends BaseQueryCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('delete');
         $this->setDescription('Execute a DELETE query (non standard)');

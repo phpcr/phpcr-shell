@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class WorkspaceNamespaceUnregisterCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('workspace:namespace:unregister');
         $this->setDescription('Unregister a namespace');

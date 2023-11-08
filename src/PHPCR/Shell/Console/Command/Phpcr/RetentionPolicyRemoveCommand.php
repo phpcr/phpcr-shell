@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionPolicyRemoveCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('retention:policy:remove');
         $this->setDescription('Remove a retention policy for specified node UNSUPPORTED');

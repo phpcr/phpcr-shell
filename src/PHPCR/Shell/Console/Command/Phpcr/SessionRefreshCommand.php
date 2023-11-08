@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionRefreshCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:refresh');
         $this->setDescription('Refresh the current session');

@@ -19,7 +19,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class ExitCommand extends BaseCommand
 {
-    public function configure()
+    public function configure(): void
     {
         $this->setName('shell:exit');
         $this->setDescription('Logout and quit the shell');

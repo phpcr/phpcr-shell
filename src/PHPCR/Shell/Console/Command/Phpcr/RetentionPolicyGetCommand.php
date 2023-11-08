@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RetentionPolicyGetCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('retention:policy:get');
         $this->setDescription('Get a retention policy for specified node UNSUPPORTED');

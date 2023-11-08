@@ -26,7 +26,7 @@ class NodeFileImportCommand extends BasePhpcrCommand
      */
     protected $session;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('file:import');
         $this->setDescription('Import a file at the given path');

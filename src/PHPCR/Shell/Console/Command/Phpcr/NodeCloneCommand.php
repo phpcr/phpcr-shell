@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeCloneCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node:clone');
         $this->setDescription('Clone a node (immediate)');

@@ -27,7 +27,7 @@ class SessionImportCommand extends BasePhpcrCommand
         'collision-throw',
     ];
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:import');
         $this->setDescription('Import content from an XML file');

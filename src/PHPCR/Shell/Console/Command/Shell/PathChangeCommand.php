@@ -19,7 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class PathChangeCommand extends BaseCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('shell:path:change');
         $this->setDescription('Change the current path');

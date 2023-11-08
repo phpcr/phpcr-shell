@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SessionNamespaceListCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('session:namespace:list');
         $this->setDescription('List all namespace prefix to URI  mappings in current session');

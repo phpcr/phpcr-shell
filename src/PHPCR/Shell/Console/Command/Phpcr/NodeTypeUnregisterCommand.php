@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class NodeTypeUnregisterCommand extends BasePhpcrCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('node-type:unregister');
         $this->setDescription('Unregister a node type UNSUPPORTED / TODO');

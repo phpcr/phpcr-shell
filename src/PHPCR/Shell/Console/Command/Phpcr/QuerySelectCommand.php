@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class QuerySelectCommand extends BaseQueryCommand
 {
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('select');
         $this->setDescription('Execute a SELECT query (JCR-SQL2)');

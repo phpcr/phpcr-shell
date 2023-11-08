@@ -23,7 +23,7 @@ class QueryUpdateCommand extends BaseQueryCommand
      */
     protected $output;
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('update');
         $this->setDescription('Execute an UPDATE query (non-standard)');
