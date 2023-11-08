@@ -32,7 +32,7 @@ HERE
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $username = $input->getArgument('userId');
         $password = $input->getArgument('password');

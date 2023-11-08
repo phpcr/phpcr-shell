@@ -55,7 +55,7 @@ HERE
         $this->requiresDescriptor(RepositoryInterface::OPTION_ACCESS_CONTROL_SUPPORTED, true);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $session = $this->get('phpcr.session');
         $supported = $input->getOption('supported');

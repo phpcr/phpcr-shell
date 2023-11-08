@@ -32,7 +32,7 @@ HERE
         $this->dequiresDescriptor('jackalope.not_implemented.node_type.unregister');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $session = $this->get('phpcr.session');
         $nodeTypeName = $input->getArgument('nodeTypeName');

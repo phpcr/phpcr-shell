@@ -39,7 +39,7 @@ HERE
         $this->dequiresDescriptor('jackalope.not_implemented.get_lock');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $session = $this->get('phpcr.session');
         $path = $session->getAbsPath($input->getArgument('path'));

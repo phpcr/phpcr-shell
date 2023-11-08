@@ -36,7 +36,7 @@ HERE
         $this->requiresDescriptor(RepositoryInterface::OPTION_RETENTION_SUPPORTED, true);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $session = $this->get('phpcr.session');
         $retentionManager = $session->getRetentionManager();

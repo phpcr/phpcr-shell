@@ -32,7 +32,7 @@ EOT
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $profile = $this->get('config.profile');

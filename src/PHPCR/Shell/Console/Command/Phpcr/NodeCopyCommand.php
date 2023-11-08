@@ -39,7 +39,7 @@ HERE
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $session = $this->get('phpcr.session');
         $srcAbsPath = $session->getAbsPath($input->getArgument('srcPath'));

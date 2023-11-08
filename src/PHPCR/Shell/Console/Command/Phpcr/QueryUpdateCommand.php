@@ -66,7 +66,7 @@ EOT
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $sql = $this->getQuery($input);

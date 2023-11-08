@@ -24,7 +24,7 @@ class PathShowCommand extends BaseCommand
         $this->setDescription('Print Working Directory (or path)');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln(
             '<comment>'.$this->get('phpcr.session')->getCwd().'</comment>'

@@ -65,7 +65,7 @@ HERE
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $globHelper = $this->get('dtl.glob.helper');
         $this->formatter = $this->get('helper.result_formatter');
