@@ -38,7 +38,7 @@ EOT
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $language = $input->getOption('language');
         $limit = $input->getOption('limit');

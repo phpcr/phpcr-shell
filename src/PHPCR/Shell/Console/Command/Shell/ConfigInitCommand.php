@@ -31,7 +31,7 @@ EOT
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = $output;
         $configHelper = $this->get('config.manager');

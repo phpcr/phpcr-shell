@@ -36,7 +36,7 @@ HERE
         $this->dequiresDescriptor('jackalope.not_implemented.session.impersonate');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $session = $this->get('phpcr.session');
         $username = $input->getArgument('username');

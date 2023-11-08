@@ -31,7 +31,7 @@ HERE
         );
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $workspaceName = $input->getArgument('name');
         $this->get('phpcr.session_manager')->changeWorkspace($workspaceName);

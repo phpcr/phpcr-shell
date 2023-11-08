@@ -25,7 +25,7 @@ class ExitCommand extends BaseCommand
         $this->setDescription('Logout and quit the shell');
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $dialog = $this->get('helper.question');
         $session = $this->get('phpcr.session');

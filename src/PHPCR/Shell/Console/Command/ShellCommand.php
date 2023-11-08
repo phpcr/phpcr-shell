@@ -83,7 +83,7 @@ class ShellCommand extends Command
     /**
      * {@inheritdoc}
      */
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function execute(InputInterface $input, OutputInterface $output): int
     {
         $showUnspported = $input->getOption('unsupported');
 
