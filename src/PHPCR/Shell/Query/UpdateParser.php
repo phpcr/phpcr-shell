@@ -13,6 +13,8 @@
 namespace PHPCR\Shell\Query;
 
 use PHPCR\Query\InvalidQueryException;
+use PHPCR\Query\QOM\ConstraintInterface;
+use PHPCR\Query\QOM\QueryObjectModelInterface;
 use PHPCR\Query\QOM\SourceInterface;
 use PHPCR\Util\QOM\Sql2Scanner;
 use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
@@ -27,14 +29,6 @@ use PHPCR\Util\QOM\Sql2ToQomQueryConverter;
  */
 class UpdateParser extends Sql2ToQomQueryConverter
 {
-    public function parse($sql2)
-    {
-        $this->scanner = new Sql2Scanner($sql2);
-        $this->sql2 = $sql2;
-
-        return $this->doParse($sql2);
-    }
-
     /**
      * Parse an "SQL2" UPDATE statement and construct a query builder
      * for selecting the rows and build a field => value mapping for the
@@ -42,12 +36,14 @@ class UpdateParser extends Sql2ToQomQueryConverter
      *
      * @param string $sql2
      *
-     * @return array($query, $updates)
+     * @return \ArrayObject{1: QueryObjectModelInterface, 2: array, 3: ?ConstraintInterface, 4: array}
      */
-    private function doParse($sql2)
+    public function parseUpdate($sql2): \ArrayObject
     {
-        $this->implicitSelectorName = null;
+        $this->scanner = new Sql2Scanner($sql2);
         $this->sql2 = $sql2;
+
+        $this->implicitSelectorName = null;
         $source = null;
         $constraint = null;
         $updates = [];
@@ -82,9 +78,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
         $query = $this->factory->createQuery($source, $constraint);
 
-        $res = new \ArrayObject([$query, $updates, $constraint, $applies]);
-
-        return $res;
+        return new \ArrayObject([$query, $updates, $constraint, $applies]);
     }
 
     /**
@@ -92,15 +86,9 @@ class UpdateParser extends Sql2ToQomQueryConverter
      * an array containing the property names (<selectorName.propertyName)
      * as keys and an array.
      *
-     * array(
-     *     'selector' => <selector>,
-     *     'name' => <name>,
-     *     '<value>' => <property value>,
-     * )
-     *
-     * @return array
+     * @return array{'selector': string, 'name': string, 'value': mixed}
      */
-    private function parseUpdates()
+    private function parseUpdates(): array
     {
         $updates = [];
 
@@ -132,9 +120,9 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
             $next = $this->scanner->lookupNextToken();
 
-            if ($next == ',') {
+            if (',' === $next) {
                 $next = $this->scanner->fetchNextToken();
-            } elseif (strtolower($next) == 'where' || !$next) {
+            } elseif (strtolower($next) === 'where' || !$next) {
                 break;
             }
         }
@@ -144,11 +132,13 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
     private function isLiteral($token)
     {
-        if (substr($token, 0, 1) === '\'') {
+        if (str_starts_with($token, '\'')) {
             return true;
-        } elseif (is_numeric($token)) {
+        }
+        if (is_numeric($token)) {
             return true;
-        } elseif (substr($token, 0, 1) === '"') {
+        }
+        if (str_starts_with($token, '"')) {
             return true;
         }
 
@@ -159,7 +149,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
     {
         $token = strtoupper($this->scanner->lookupNextToken());
 
-        if ($this->scanner->lookupNextToken(1) == '(') {
+        if ($this->scanner->lookupNextToken(1) === '(') {
             $functionData = $this->parseFunction();
 
             return new FunctionOperand($functionData[0], $functionData[1]);
@@ -187,7 +177,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
         while (true) {
             $token = strtoupper($this->scanner->lookupNextToken());
 
-            if ($this->scanner->lookupNextToken(1) == '(') {
+            if ($this->scanner->lookupNextToken(1) === '(') {
                 $functionData = $this->parseFunction();
 
                 $functions[] = new FunctionOperand($functionData[0], $functionData[1]);
@@ -195,9 +185,9 @@ class UpdateParser extends Sql2ToQomQueryConverter
 
             $next = $this->scanner->lookupNextToken();
 
-            if ($next == ',') {
+            if (',' === $next) {
                 $next = $this->scanner->fetchNextToken();
-            } elseif (strtolower($next) == 'where' || !$next) {
+            } elseif (strtolower($next) === 'where' || !$next) {
                 break;
             }
         }

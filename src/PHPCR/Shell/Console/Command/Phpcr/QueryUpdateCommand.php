@@ -75,7 +75,7 @@ EOT
         $qm = $session->getWorkspace()->getQueryManager();
 
         $updateParser = new UpdateParser($qm->getQOMFactory());
-        $res = $updateParser->parse($sql);
+        $res = $updateParser->parseUpdate($sql);
         $query = $res->offsetGet(0);
         $updates = $res->offsetGet(1);
         $applies = $res->offsetGet(3);

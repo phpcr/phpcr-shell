@@ -189,12 +189,12 @@ abstract class ContextBase implements Context, SnippetAcceptingContext
                         continue;
                     }
 
-                    if (false !== strpos($line, $cell)) {
+                    if (str_contains($line, $cell)) {
                         $foundCells++;
                     }
                 }
 
-                if ($foundCells == count($row)) {
+                if ($foundCells === count($row)) {
                     $foundRows++;
                 }
             }

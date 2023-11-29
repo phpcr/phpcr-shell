@@ -31,7 +31,7 @@ class TextHelper extends Helper
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'text';
     }
@@ -43,17 +43,15 @@ class TextHelper extends Helper
      * @param int    $length      Truncate to this length
      * @param string $alignment   Align to the "left" or the "right"
      * @param string $delimString String to use to use to indicate the truncation
-     *
-     * @return string
      */
-    public function truncate($string, $length = null, $alignment = null, $delimString = null)
+    public function truncate($string, $length = null, $alignment = null, $delimString = null): string
     {
         if (null === $length) {
             $length = $this->truncateLength;
         }
 
-        $alignment = $alignment === null ? 'left' : $alignment;
-        $delimString = $delimString === null ? '...' : $delimString;
+        $alignment = $alignment ?? 'left';
+        $delimString = $delimString ?? '...';
         $delimLen = strlen($delimString);
 
         if (!in_array($alignment, ['left', 'right'])) {

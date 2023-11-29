@@ -57,6 +57,21 @@ jobs:
                       dependencies: highest
                       behat-suite: cli
 
+                    - php-version: '8.3'
+                      dependencies: highest
+                      behat-suite: standalone
+                      composer-stability: 'dev'
+
+                    - php-version: '8.3'
+                      dependencies: highest
+                      behat-suite: embedded
+                      composer-stability: 'dev'
+
+                    - php-version: '8.3'
+                      dependencies: highest
+                      behat-suite: cli
+                      composer-stability: 'dev'
+
         steps:
             - name: Checkout project
               uses: actions/checkout@v4
@@ -73,6 +88,10 @@ jobs:
               with:
                   php-version: ${{ matrix.php-version }}
                   tools: 'composer:v2'
+
+            - name: Set composer stability
+              if: ${{ matrix.composer-stability }}
+              run: composer config minimum-stability ${{ matrix.composer-stability }}
 
             - name: Install dependencies with Composer
               uses: ramsey/composer-install@v2
@@ -95,4 +114,4 @@ jobs:
               run: |
                   vendor/bin/phpunit
                   vendor/bin/phpspec run
-                  vendor/bin/behat --suite=${{ matrix.behat-suite }}
+                  vendor/bin/behat -vv --suite=${{ matrix.behat-suite }}

@@ -122,14 +122,12 @@ class PhpcrSession implements SessionInterface
             return $this->getCwd();
         }
 
-        if (substr($path, 0, 1) == '/') {
+        if (str_starts_with($path, '/')) {
             $absPath = $path;
+        } elseif ('/' === $this->cwd) {
+            $absPath = sprintf('/%s', $path);
         } else {
-            if ($this->cwd == '/') {
-                $absPath = sprintf('/%s', $path);
-            } else {
-                $absPath = sprintf('%s/%s', $this->getCwd(), $path);
-            }
+            $absPath = sprintf('%s/%s', $this->getCwd(), $path);
         }
 
         return $absPath;

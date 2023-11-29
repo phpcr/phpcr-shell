@@ -13,6 +13,7 @@
 namespace PHPCR\Shell\Console\Helper;
 
 use PHPCR\Shell\Phpcr\SessionManager;
+use PHPCR\Util\Console\Helper\PhpcrHelper;
 use Symfony\Component\Console\Helper\Helper;
 
 class RepositoryHelper extends Helper
@@ -80,7 +81,7 @@ class RepositoryHelper extends Helper
         }
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'repository';
     }

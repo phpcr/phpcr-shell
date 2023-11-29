@@ -15,18 +15,19 @@ namespace PHPCR\Shell\Console\Application;
 use PHPCR\Shell\Console\Command\Phpcr as CommandPhpcr;
 use PHPCR\Shell\Console\Command\Phpcr\BasePhpcrCommand;
 use PHPCR\Shell\Console\Command\Shell as CommandShell;
+use PHPCR\Shell\DependencyInjection\ContainerAwareInterface;
 use PHPCR\Shell\Event;
 use PHPCR\Shell\Event\ApplicationInitEvent;
 use PHPCR\Shell\Event\PhpcrShellEvents;
 use PHPCR\Shell\PhpcrShell;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -42,7 +43,7 @@ class ShellApplication extends Application
     protected $showUnsupported = false;
 
     /**
-     * @var Symfony\Component\DependencyInjection\ContainerBuilder
+     * @var ContainerBuilder
      */
     protected $container;
 
@@ -200,7 +201,7 @@ class ShellApplication extends Application
     /**
      * Configure the output formatter.
      */
-    private function configureFormatter(OutputFormatter $formatter)
+    private function configureFormatter(OutputFormatterInterface $formatter)
     {
         $style = new OutputFormatterStyle('yellow', null, ['bold']);
         $formatter->setStyle('pathbold', $style);
@@ -233,10 +234,7 @@ class ShellApplication extends Application
         $formatter->setStyle('exception', $style);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         $this->init();
 
@@ -278,19 +276,19 @@ class ShellApplication extends Application
      *
      * {@inheritdoc}
      */
-    public function add(Command $command)
+    public function add(Command $command): ?Command
     {
         if ($command instanceof ContainerAwareInterface) {
             $command->setContainer($this->container);
         }
 
-        if ($command instanceof BasePhpcrCommand) {
-            if ($this->showUnsupported || $command->isSupported()) {
-                parent::add($command);
-            }
-        } else {
-            parent::add($command);
+        if ($command instanceof BasePhpcrCommand
+            && ($this->showUnsupported || $command->isSupported())
+        ) {
+            return parent::add($command);
         }
+
+        return parent::add($command);
     }
 
     public function dispatchProfileInitEvent(InputInterface $sessionInput, OutputInterface $output)
@@ -306,7 +304,7 @@ class ShellApplication extends Application
      *
      * {@inheritdoc}
      */
-    public function all($namespace = null)
+    public function all($namespace = null): array
     {
         $this->init();
 

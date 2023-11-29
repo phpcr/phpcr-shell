@@ -19,7 +19,7 @@ use PHPCR\Query\QOM\LiteralInterface;
 use PHPCR\Query\QOM\PropertyValueInterface;
 use PHPCR\Query\QOM\QueryObjectModelConstantsInterface;
 use PHPCR\Query\QOM\QueryObjectModelFactoryInterface;
-use PHPCR\Query\QOM\SourceInterface;
+use PHPCR\Query\QOM\SelectorInterface;
 use PHPCR\Query\QueryInterface;
 use PhpSpec\ObjectBehavior;
 
@@ -42,17 +42,17 @@ class UpdateParserSpec extends ObjectBehavior
         QueryObjectModelFactoryInterface $qomf,
         ChildNodeJoinConditionInterface $joinCondition,
         JoinInterface $join,
-        SourceInterface $parentSource,
-        SourceInterface $childSource,
+        SelectorInterface $parentSelector,
+        SelectorInterface $childSelector,
         PropertyValueInterface $childValue,
         LiteralInterface $literalValue,
         ComparisonInterface $comparison,
         QueryInterface $query
     ) {
-        $qomf->selector('parent', 'mgnl:page')->willReturn($parentSource);
-        $qomf->selector('child', 'mgnl:metaData')->willReturn($childSource);
+        $qomf->selector('parent', 'mgnl:page')->willReturn($parentSelector);
+        $qomf->selector('child', 'mgnl:metaData')->willReturn($childSelector);
         $qomf->childNodeJoinCondition('child', 'parent')->willReturn($joinCondition);
-        $qomf->join($parentSource, $childSource, QueryObjectModelConstantsInterface::JCR_JOIN_TYPE_INNER, $joinCondition)->willReturn($join);
+        $qomf->join($parentSelector, $childSelector, QueryObjectModelConstantsInterface::JCR_JOIN_TYPE_INNER, $joinCondition)->willReturn($join);
         $qomf->propertyValue('child', 'mgnl:template')->willReturn($childValue);
         $qomf->literal('standard-templating-kit:stkNews')->willReturn($literalValue);
         $qomf->comparison($childValue, QueryObjectModelConstantsInterface::JCR_OPERATOR_EQUAL_TO, $literalValue)->willReturn($comparison);
@@ -68,9 +68,9 @@ UPDATE [mgnl:page] AS parent
     WHERE
         child.[mgnl:template] = 'standard-templating-kit:stkNews'
 EOT;
-        $res = $this->parse($sql);
+        $res = $this->parseUpdate($sql);
 
-        $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
+        $res->offsetGet(0)->shouldHaveType(QueryInterface::class);
         $res->offsetGet(1)->shouldReturn([
             [
                 'selector' => 'parent',
@@ -87,7 +87,7 @@ EOT;
 
     public function it_should_parse_functions(
         QueryObjectModelFactoryInterface $qomf,
-        SourceInterface $source,
+        SelectorInterface $source,
         QueryInterface $query
     ) {
         $qomf->selector('a', 'dtl:article')->willReturn($source);
@@ -96,14 +96,14 @@ EOT;
         $sql = <<<'EOT'
 UPDATE [dtl:article] AS a SET a.tags = array_replace(a.tags, 'asd', 'dsa')
 EOT;
-        $res = $this->parse($sql);
+        $res = $this->parseUpdate($sql);
 
         $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
     }
 
     public function it_should_parse_apply(
         QueryObjectModelFactoryInterface $qomf,
-        SourceInterface $source,
+        SelectorInterface $source,
         QueryInterface $query
     ) {
         $qomf->selector('a', 'dtl:article')->willReturn($source);
@@ -112,7 +112,7 @@ EOT;
         $sql = <<<'EOT'
 UPDATE [dtl:article] AS a APPLY nodetype_add('nt:barbar')
 EOT;
-        $res = $this->parse($sql);
+        $res = $this->parseUpdate($sql);
 
         $res->offsetGet(0)->shouldHaveType('PHPCR\Query\QueryInterface');
     }

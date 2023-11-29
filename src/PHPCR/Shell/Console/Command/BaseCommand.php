@@ -12,15 +12,18 @@
 
 namespace PHPCR\Shell\Console\Command;
 
+use PHPCR\Shell\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BaseCommand extends Command implements ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null): void
     {
         $this->container = $container;
     }

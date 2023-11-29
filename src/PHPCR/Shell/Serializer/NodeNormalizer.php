@@ -39,14 +39,21 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         return $this->notes;
     }
 
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            NodeInterface::class => true,
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function normalize($node, $format = null, array $context = [])
+    public function normalize($object, $format = null, array $context = []): array
     {
         $res = [];
 
-        foreach ($node->getProperties() as $property) {
+        foreach ($object->getProperties() as $property) {
             if (false === $this->isPropertyEditable($property)) {
                 continue;
             }
@@ -85,7 +92,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function supportsNormalization($data, $format = null)
+    public function supportsNormalization($data, $format = null, array $context = []): bool
     {
         return is_object($data) && $data instanceof NodeInterface;
     }
@@ -93,7 +100,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, $class, $format = null, array $context = [])
+    public function denormalize($data, $class, $format = null, array $context = []): mixed
     {
         if (!$data) {
             throw new \InvalidArgumentException(
@@ -147,7 +154,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         // Add new properties
         foreach ($data as $pName => $datum) {
             $datum = $this->normalizeDatum($datum);
-            $pValue = isset($datum['value']) ? $datum['value'] : null;
+            $pValue = $datum['value'] ?? null;
             $pType = isset($datum['type']) ? PropertyType::valueFromName($datum['type']) : null;
 
             if ($pValue !== null) {
@@ -161,12 +168,14 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
                 implode("\n", $errors)
             ));
         }
+
+        return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function supportsDenormalization($data, $type, $format = null)
+    public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
     {
         return $type === 'PHPCR\NodeInterface';
     }
