@@ -45,6 +45,18 @@ jobs:
                       dependencies: highest
                       behat-suite: cli
 
+                    - php-version: '8.2'
+                      dependencies: highest
+                      behat-suite: standalone
+
+                    - php-version: '8.2'
+                      dependencies: highest
+                      behat-suite: embedded
+
+                    - php-version: '8.2'
+                      dependencies: highest
+                      behat-suite: cli
+
         steps:
             - name: Checkout project
               uses: actions/checkout@v2
