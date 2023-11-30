@@ -42,7 +42,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($node, $format = null, array $context = [])
+    public function normalize($node, $format = null, array $context = []): ArrayObject|array|string|int|float|bool|null
     {
         $res = [];
 
