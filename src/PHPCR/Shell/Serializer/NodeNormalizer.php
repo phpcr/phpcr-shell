@@ -82,6 +82,13 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         return $res;
     }
 
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            NodeInterface::class => true,
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
