@@ -48,14 +48,26 @@ jobs:
                     - php-version: '8.2'
                       dependencies: highest
                       behat-suite: standalone
-                      composer-stability: 'dev'
 
                     - php-version: '8.2'
                       dependencies: highest
                       behat-suite: embedded
-                      composer-stability: 'dev'
 
                     - php-version: '8.2'
+                      dependencies: highest
+                      behat-suite: cli
+
+                    - php-version: '8.3'
+                      dependencies: highest
+                      behat-suite: standalone
+                      composer-stability: 'dev'
+
+                    - php-version: '8.3'
+                      dependencies: highest
+                      behat-suite: embedded
+                      composer-stability: 'dev'
+
+                    - php-version: '8.3'
                       dependencies: highest
                       behat-suite: cli
                       composer-stability: 'dev'
