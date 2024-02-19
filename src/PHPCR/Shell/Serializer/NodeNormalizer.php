@@ -93,7 +93,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function denormalize($data, $class, $format = null, array $context = [])
+    public function denormalize($data, $class, $format = null, array $context = []): mixed
     {
         if (!$data) {
             throw new \InvalidArgumentException(
