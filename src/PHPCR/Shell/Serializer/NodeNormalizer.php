@@ -39,14 +39,21 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         return $this->notes;
     }
 
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            NodeInterface::class => true,
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
-    public function normalize($node, $format = null, array $context = []): ArrayObject|array|string|int|float|bool|null
+    public function normalize($object, $format = null, array $context = []): array
     {
         $res = [];
 
-        foreach ($node->getProperties() as $property) {
+        foreach ($object->getProperties() as $property) {
             if (false === $this->isPropertyEditable($property)) {
                 continue;
             }
@@ -80,13 +87,6 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
         }
 
         return $res;
-    }
-
-    public function getSupportedTypes(?string $format): array
-    {
-        return [
-            NodeInterface::class => true,
-        ];
     }
 
     /**
