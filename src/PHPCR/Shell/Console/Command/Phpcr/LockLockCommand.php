@@ -27,7 +27,7 @@ class LockLockCommand extends BasePhpcrCommand
         $this->addArgument('path', InputArgument::REQUIRED, 'Path of node to be locked');
         $this->addOption('deep', null, InputOption::VALUE_NONE, 'If given this lock will apply to this node and all its descendants; if not, it applies only to this node.');
         $this->addOption('session-scoped', null, InputOption::VALUE_NONE, 'If given, this lock expires with the current session; if not it expires when explicitly or automatically unlocked for some other reason');
-        $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Desired lock timeout in seconds (servers are free to ignore this value). If not used lock will not timeout');
+        $this->addOption('timeout', null, InputOption::VALUE_REQUIRED, 'Desired lock timeout in seconds (servers are free to ignore this value). If not used lock will not timeout', PHP_INT_MAX);
         $this->addOption('owner-info', null, InputOption::VALUE_REQUIRED, ' string containing owner information supplied by the client; servers are free to ignore this value. If none is specified, the implementation chooses one (i.e. user name of current backend authentication credentials');
         $this->setHelp(
             <<<'HERE'

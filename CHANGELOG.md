@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.6.0
+-----
+
+- Work with Jackalope 2.*.
+
 1.5.0
 -----
 
