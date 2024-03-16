@@ -33,7 +33,7 @@ class YamlEncoder implements EncoderInterface, DecoderInterface
         return Yaml::dump($data);
     }
 
-    public function decode($data, $format, array $context = [])
+    public function decode($data, $format, array $context = []): mixed
     {
         $arr = Yaml::parse($data);
 

@@ -100,12 +100,13 @@ HERE
             if (!$globHelper->isGlobbed($session->getAbsPath($path))) {
                 throw $e;
             }
+            $path = $session->getAbsPath($path);
 
             $parentPath = $this->get('helper.path')->getParentPath($path);
 
             $filter = substr($path, strlen($parentPath));
 
-            if ($filter[0] == '/') {
+            if ('/' === $filter[0]) {
                 $filter = substr($filter, 1);
             }
 

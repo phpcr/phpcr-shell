@@ -38,10 +38,7 @@ class PathHelper extends Helper
         return StaticPathHelper::getNodeName($path);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'path';
     }

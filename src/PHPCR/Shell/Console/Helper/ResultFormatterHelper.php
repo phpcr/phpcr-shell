@@ -36,10 +36,7 @@ class ResultFormatterHelper extends Helper
         $this->config = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'result_formatter';
     }

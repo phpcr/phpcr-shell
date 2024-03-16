@@ -85,7 +85,7 @@ class EditorHelper extends Helper
 
         $line = current($res);
 
-        while (0 === strpos($line, $messagePrefix)) {
+        while (str_starts_with($line, $messagePrefix)) {
             $line = next($res);
         }
 
@@ -99,7 +99,7 @@ class EditorHelper extends Helper
         return implode("\n", $out);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'editor';
     }

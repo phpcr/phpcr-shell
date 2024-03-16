@@ -33,17 +33,17 @@ class StringInput extends BaseInput
     {
         $this->rawCommand = trim($command);
 
-        if (strpos(strtolower($this->rawCommand), 'select') === 0) {
+        if (stripos($this->rawCommand, 'select') === 0) {
             $command = 'select'.substr($command, 6);
             $this->isQuery = true;
         }
 
-        if (strpos(strtolower($this->rawCommand), 'update') === 0) {
+        if (stripos($this->rawCommand, 'update') === 0) {
             $command = 'update'.substr($command, 6);
             $this->isQuery = true;
         }
 
-        if (strpos(strtolower($this->rawCommand), 'delete') === 0) {
+        if (stripos($this->rawCommand, 'delete') === 0) {
             $command = 'delete'.substr($command, 6);
             $this->isQuery = true;
         }
@@ -63,10 +63,10 @@ class StringInput extends BaseInput
         return $this->rawCommand;
     }
 
-    public function validate()
+    public function validate(): void
     {
         if (false === $this->isQuery()) {
-            return parent::validate();
+            parent::validate();
         }
     }
 
@@ -75,10 +75,10 @@ class StringInput extends BaseInput
      *
      * {@inheritdoc}
      */
-    protected function parse()
+    protected function parse(): void
     {
         if (false === $this->isQuery()) {
-            return parent::parse();
+            parent::parse();
         }
     }
 
@@ -87,7 +87,7 @@ class StringInput extends BaseInput
      * allowed by the default StringInput and we require
      * it for the "alias" feature.
      */
-    protected function setTokens(array $tokens)
+    protected function setTokens(array $tokens): void
     {
         $this->tokens = $tokens;
         parent::setTokens($tokens);

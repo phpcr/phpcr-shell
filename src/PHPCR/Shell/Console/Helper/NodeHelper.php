@@ -45,7 +45,7 @@ class NodeHelper extends Helper
         }
     }
 
-    public function getName()
+    public function getName(): string
     {
         return 'node';
     }
