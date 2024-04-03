@@ -12,38 +12,38 @@
 
 namespace PHPCR\Shell\DependencyInjection;
 
-use PHPCR\Shell\PhpcrShell;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use PHPCR\Shell\Transport\Transport\DoctrineDbal;
-use PHPCR\Shell\Transport\Transport\Jackrabbit;
-use PHPCR\Shell\Transport\Transport\JackalopeFs;
-use PHPCR\Shell\Query\UpdateProcessor;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
-use PHPCR\Shell\Console\Input\AutoComplete;
+use DTL\Glob\GlobHelper;
+use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Config\ConfigManager;
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Config\ProfileLoader;
 use PHPCR\Shell\Console\Application\EmbeddedApplication;
 use PHPCR\Shell\Console\Application\ShellApplication;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use PHPCR\Shell\Subscriber\ExceptionSubscriber;
+use PHPCR\Shell\Console\Helper\EditorHelper;
+use PHPCR\Shell\Console\Helper\NodeHelper;
+use PHPCR\Shell\Console\Helper\PathHelper;
+use PHPCR\Shell\Console\Helper\RepositoryHelper;
+use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
+use PHPCR\Shell\Console\Helper\TextHelper;
+use PHPCR\Shell\Console\Input\AutoComplete;
+use PHPCR\Shell\Phpcr\SessionManager;
+use PHPCR\Shell\PhpcrShell;
+use PHPCR\Shell\Query\UpdateProcessor;
 use PHPCR\Shell\Subscriber\AliasSubscriber;
 use PHPCR\Shell\Subscriber\ConfigInitSubscriber;
-use PHPCR\Shell\Subscriber\ProfileWriterSubscriber;
-use PHPCR\Shell\Subscriber\ProfileLoaderSubscriber;
+use PHPCR\Shell\Subscriber\ExceptionSubscriber;
 use PHPCR\Shell\Subscriber\ProfileFromSessionInputSubscriber;
-use DTL\Glob\GlobHelper;
-use PHPCR\Shell\Phpcr\SessionManager;
+use PHPCR\Shell\Subscriber\ProfileLoaderSubscriber;
+use PHPCR\Shell\Subscriber\ProfileWriterSubscriber;
+use PHPCR\Shell\Transport\Transport\DoctrineDbal;
+use PHPCR\Shell\Transport\Transport\JackalopeFs;
+use PHPCR\Shell\Transport\Transport\Jackrabbit;
 use PHPCR\Shell\Transport\TransportRegistry;
-use PHPCR\Shell\Config\Config;
-use PHPCR\Shell\Config\ProfileLoader;
-use PHPCR\Shell\Config\Profile;
-use PHPCR\Shell\Config\ConfigManager;
-use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
-use PHPCR\Shell\Console\Helper\NodeHelper;
-use PHPCR\Shell\Console\Helper\TextHelper;
-use PHPCR\Shell\Console\Helper\RepositoryHelper;
-use PHPCR\Shell\Console\Helper\PathHelper;
-use PHPCR\Shell\Console\Helper\EditorHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class Container extends ContainerBuilder
 {

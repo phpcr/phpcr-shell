@@ -99,7 +99,7 @@ class PhpcrSession implements SessionInterface
                 $newPath = $path;
             } elseif ($path === '..') {
                 $newPath = dirname($cwd);
-            } else if ($this->cwd === '/') {
+            } elseif ($this->cwd === '/') {
                 $newPath = sprintf('/%s', $path);
             } else {
                 $newPath = sprintf('%s/%s', $cwd, $path);
