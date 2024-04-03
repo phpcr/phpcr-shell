@@ -13,6 +13,7 @@
 namespace PHPCR\Shell;
 
 use PHPCR\SessionInterface;
+use PHPCR\Shell\Console\Application\EmbeddedApplication;
 use PHPCR\Shell\Console\Application\SessionApplication;
 use PHPCR\Shell\Console\Application\Shell;
 use PHPCR\Shell\DependencyInjection\Container;
@@ -60,9 +61,8 @@ class PhpcrShell
     {
         $container = new Container(self::MODE_EMBEDDED_COMMAND);
         $container->get('phpcr.session_manager')->setSession(new PhpcrSession($session));
-        $application = $container->get('application');
 
-        return $application;
+        return $container->get('application');
     }
 
     /**

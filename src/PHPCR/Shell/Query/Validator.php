@@ -21,7 +21,7 @@ class Validator
      */
     public static function validateQuery($sql2)
     {
-        if (substr($sql2, -1) !== ';') {
+        if (!str_ends_with($sql2, ';')) {
             throw new \InvalidArgumentException(
                 'Queries must be terminated with ";"'
             );

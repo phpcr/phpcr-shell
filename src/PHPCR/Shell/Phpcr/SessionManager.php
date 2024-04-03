@@ -12,6 +12,7 @@
 
 namespace PHPCR\Shell\Phpcr;
 
+use PHPCR\RepositoryInterface;
 use PHPCR\SessionInterface;
 use PHPCR\Shell\Config\Profile;
 use PHPCR\Shell\Transport\TransportRegistryInterface;
@@ -27,7 +28,7 @@ class SessionManager
     /**
      * Active PHPCR session.
      *
-     * @var \PHPCR\SessionInterface
+     * @var SessionInterface
      */
     protected $session;
 
@@ -123,7 +124,7 @@ class SessionManager
      * Return the current PHPCR session. We lazy call
      * initialize.
      *
-     * @return \PHPCR\SessionInterface
+     * @return SessionInterface
      */
     public function getSession()
     {
@@ -135,7 +136,7 @@ class SessionManager
     /**
      * Proxy for getting the repository (make mocking easier).
      *
-     * @return \PHPCR\RepositoryInterface
+     * @return RepositoryInterface
      */
     public function getRepository()
     {

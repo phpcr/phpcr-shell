@@ -28,7 +28,7 @@ class BaseCommand extends Command implements ContainerAwareInterface
         $this->container = $container;
     }
 
-    protected function get($serviceId)
+    public function get($serviceId)
     {
         if (null === $this->container) {
             throw new \RuntimeException(

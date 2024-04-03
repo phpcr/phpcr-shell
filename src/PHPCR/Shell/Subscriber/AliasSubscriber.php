@@ -47,7 +47,7 @@ class AliasSubscriber implements EventSubscriberInterface
      * Check for an alias and replace the input with a new string command
      * if the alias exists.
      *
-     * @return string New command string (for testing purposes)
+     * @return string|null New command string (for testing purposes)
      */
     public function handleAlias(CommandPreRunEvent $event)
     {
@@ -58,7 +58,7 @@ class AliasSubscriber implements EventSubscriberInterface
         $aliasConfig = $this->configManager->getConfig('alias');
 
         if (!isset($aliasConfig[$commandName])) {
-            return;
+            return null;
         }
 
         $command = $aliasConfig[$commandName];

@@ -26,7 +26,7 @@ class DoctrineDbal implements TransportInterface
 
     public function getRepository(Config $config)
     {
-        $connection = DriverManager::getConnection($ops = [
+        $connection = DriverManager::getConnection([
             'user'     => $config['db_username'],
             'password' => $config['db_password'],
             'host'     => $config['db_host'],

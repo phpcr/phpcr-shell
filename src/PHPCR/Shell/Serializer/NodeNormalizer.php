@@ -186,7 +186,7 @@ class NodeNormalizer implements NormalizerInterface, DenormalizerInterface
      *
      * @param mixed
      *
-     * @return string
+     * @return string[]
      */
     private function normalizeDatum($value)
     {

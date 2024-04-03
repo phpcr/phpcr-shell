@@ -29,8 +29,7 @@ class Jackrabbit implements TransportInterface
             'jackalope.jackrabbit_uri'  => $config['repo_url'],
         ];
         $factory = new RepositoryFactoryJackrabbit();
-        $repository = $factory->getRepository($params);
 
-        return $repository;
+        return $factory->getRepository($params);
     }
 }

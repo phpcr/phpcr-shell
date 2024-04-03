@@ -74,9 +74,8 @@ class FunctionOperand
         $args = $this->getArguments();
         array_unshift($args, $row);
         array_unshift($args, $this);
-        $value = call_user_func_array($callable, $args);
 
-        return $value;
+        return call_user_func_array($callable, $args);
     }
 
     /**
@@ -84,7 +83,7 @@ class FunctionOperand
      *
      * @param array Array of values which must be scalars
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function validateScalarArray($array)
     {

@@ -15,6 +15,35 @@ namespace PHPCR\Shell\DependencyInjection;
 use PHPCR\Shell\PhpcrShell;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use PHPCR\Shell\Transport\Transport\DoctrineDbal;
+use PHPCR\Shell\Transport\Transport\Jackrabbit;
+use PHPCR\Shell\Transport\Transport\JackalopeFs;
+use PHPCR\Shell\Query\UpdateProcessor;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use PHPCR\Shell\Console\Input\AutoComplete;
+use PHPCR\Shell\Console\Application\EmbeddedApplication;
+use PHPCR\Shell\Console\Application\ShellApplication;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use PHPCR\Shell\Subscriber\ExceptionSubscriber;
+use PHPCR\Shell\Subscriber\AliasSubscriber;
+use PHPCR\Shell\Subscriber\ConfigInitSubscriber;
+use PHPCR\Shell\Subscriber\ProfileWriterSubscriber;
+use PHPCR\Shell\Subscriber\ProfileLoaderSubscriber;
+use PHPCR\Shell\Subscriber\ProfileFromSessionInputSubscriber;
+use DTL\Glob\GlobHelper;
+use PHPCR\Shell\Phpcr\SessionManager;
+use PHPCR\Shell\Transport\TransportRegistry;
+use PHPCR\Shell\Config\Config;
+use PHPCR\Shell\Config\ProfileLoader;
+use PHPCR\Shell\Config\Profile;
+use PHPCR\Shell\Config\ConfigManager;
+use PHPCR\Shell\Console\Helper\ResultFormatterHelper;
+use PHPCR\Shell\Console\Helper\NodeHelper;
+use PHPCR\Shell\Console\Helper\TextHelper;
+use PHPCR\Shell\Console\Helper\RepositoryHelper;
+use PHPCR\Shell\Console\Helper\PathHelper;
+use PHPCR\Shell\Console\Helper\EditorHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
 
 class Container extends ContainerBuilder
 {
@@ -24,9 +53,9 @@ class Container extends ContainerBuilder
      * @var array Transports
      */
     protected $transports = [
-        'transport.transport.doctrinedbal' => 'PHPCR\Shell\Transport\Transport\DoctrineDbal',
-        'transport.transport.jackrabbit'   => 'PHPCR\Shell\Transport\Transport\Jackrabbit',
-        'transport.transport.fs'           => 'PHPCR\Shell\Transport\Transport\JackalopeFs',
+        'transport.transport.doctrinedbal' => DoctrineDbal::class,
+        'transport.transport.jackrabbit'   => Jackrabbit::class,
+        'transport.transport.fs'           => JackalopeFs::class,
     ];
 
     public function __construct($mode = PhpcrShell::MODE_STANDALONE)
@@ -46,27 +75,27 @@ class Container extends ContainerBuilder
 
     public function registerHelpers()
     {
-        $this->register('helper.question', 'Symfony\Component\Console\Helper\QuestionHelper');
-        $this->register('helper.editor', 'PHPCR\Shell\Console\Helper\EditorHelper');
-        $this->register('helper.path', 'PHPCR\Shell\Console\Helper\PathHelper');
-        $this->register('helper.repository', 'PHPCR\Shell\Console\Helper\RepositoryHelper')
+        $this->register('helper.question', QuestionHelper::class);
+        $this->register('helper.editor', EditorHelper::class);
+        $this->register('helper.path', PathHelper::class);
+        $this->register('helper.repository', RepositoryHelper::class)
             ->addArgument(new Reference('phpcr.session_manager'));
-        $this->register('helper.text', 'PHPCR\Shell\Console\Helper\TextHelper');
-        $this->register('helper.node', 'PHPCR\Shell\Console\Helper\NodeHelper');
-        $this->register('helper.result_formatter', 'PHPCR\Shell\Console\Helper\ResultFormatterHelper')
+        $this->register('helper.text', TextHelper::class);
+        $this->register('helper.node', NodeHelper::class);
+        $this->register('helper.result_formatter', ResultFormatterHelper::class)
             ->addArgument(new Reference('helper.text'))
             ->addArgument(new Reference('config.config.phpcrsh'));
     }
 
     public function registerConfig()
     {
-        $this->register('config.manager', 'PHPCR\Shell\Config\ConfigManager')
+        $this->register('config.manager', ConfigManager::class)
             ->addArgument(new Reference('helper.question'));
 
-        $this->register('config.profile', 'PHPCR\Shell\Config\Profile');
-        $this->register('config.profile_loader', 'PHPCR\Shell\Config\ProfileLoader')
+        $this->register('config.profile', Profile::class);
+        $this->register('config.profile_loader', ProfileLoader::class)
             ->addArgument(new Reference('config.manager'));
-        $this->register('config.config.phpcrsh', 'PHPCR\Shell\Config\Config')
+        $this->register('config.config.phpcrsh', Config::class)
             ->setFactory([new Reference('config.manager'), 'getPhpcrshConfig']);
     }
 
@@ -77,17 +106,17 @@ class Container extends ContainerBuilder
             $this->register($id, $class)->addArgument(new Reference('config.profile'));
         }
 
-        $registry = $this->register('phpcr.transport_registry', 'PHPCR\Shell\Transport\TransportRegistry');
+        $registry = $this->register('phpcr.transport_registry', TransportRegistry::class);
 
         foreach (array_keys($this->transports) as $transportId) {
             $registry->addMethodCall('register', [new Reference($transportId)]);
         }
 
-        $this->register('phpcr.session_manager.active', 'PHPCR\Shell\Phpcr\SessionManager')
+        $this->register('phpcr.session_manager.active', SessionManager::class)
             ->addArgument(new Reference('phpcr.transport_registry'))
             ->addArgument(new Reference('config.profile'));
 
-        $this->register('phpcr.session_manager.passive', 'PHPCR\Shell\Phpcr\SessionManager')
+        $this->register('phpcr.session_manager.passive', SessionManager::class)
             ->addArgument(new Reference('phpcr.transport_registry'))
             ->addArgument(new Reference('config.profile'));
 
@@ -99,7 +128,7 @@ class Container extends ContainerBuilder
         $repositoryDefinition->setFactory([new Reference('phpcr.session_manager'), 'getRepository']);
         $sessionDefinition->setFactory([new Reference('phpcr.session_manager'), 'getSession']);
 
-        $this->register('dtl.glob.helper', 'DTL\Glob\GlobHelper');
+        $this->register('dtl.glob.helper', GlobHelper::class);
     }
 
     public function registerEvent()
@@ -107,12 +136,12 @@ class Container extends ContainerBuilder
         if ($this->mode === PhpcrShell::MODE_STANDALONE) {
             $this->register(
                 'event.subscriber.profile_from_session_input',
-                'PHPCR\Shell\Subscriber\ProfileFromSessionInputSubscriber'
+                ProfileFromSessionInputSubscriber::class
             )->addTag('event.subscriber');
 
             $this->register(
                 'event.subscriber.profile_loader',
-                'PHPCR\Shell\Subscriber\ProfileLoaderSubscriber'
+                ProfileLoaderSubscriber::class
             )
                 ->addArgument(new Reference('config.profile_loader'))
                 ->addArgument(new Reference('helper.question'))
@@ -120,7 +149,7 @@ class Container extends ContainerBuilder
 
             $this->register(
                 'event.subscriber.profile_writer',
-                'PHPCR\Shell\Subscriber\ProfileWriterSubscriber'
+                ProfileWriterSubscriber::class
             )
                 ->addArgument(new Reference('config.profile_loader'))
                 ->addArgument(new Reference('helper.question'))
@@ -128,7 +157,7 @@ class Container extends ContainerBuilder
 
             $this->register(
                 'event.subscriber.config_init',
-                'PHPCR\Shell\Subscriber\ConfigInitSubscriber'
+                ConfigInitSubscriber::class
             )
                 ->addArgument(new Reference('config.manager'))
                 ->addTag('event.subscriber');
@@ -136,17 +165,17 @@ class Container extends ContainerBuilder
 
         $this->register(
             'event.subscriber.alias',
-            'PHPCR\Shell\Subscriber\AliasSubscriber'
+            AliasSubscriber::class
         )
             ->addArgument(new Reference('config.manager'))
             ->addTag('event.subscriber');
 
         $this->register(
             'event.subscriber.exception',
-            'PHPCR\Shell\Subscriber\ExceptionSubscriber'
+            ExceptionSubscriber::class
         )->addTag('event.subscriber');
 
-        $dispatcher = $this->register('event.dispatcher', 'Symfony\Component\EventDispatcher\EventDispatcher');
+        $dispatcher = $this->register('event.dispatcher', EventDispatcher::class);
 
         foreach (array_keys($this->findTaggedServiceIds('event.subscriber')) as $id) {
             $dispatcher->addMethodCall('addSubscriber', [new Reference($id)]);
@@ -156,22 +185,22 @@ class Container extends ContainerBuilder
     public function registerConsole()
     {
         if ($this->mode === PhpcrShell::MODE_STANDALONE) {
-            $this->register('application', 'PHPCR\Shell\Console\Application\ShellApplication')
+            $this->register('application', ShellApplication::class)
                 ->addArgument(new Reference('container'));
         } else {
-            $this->register('application', 'PHPCR\Shell\Console\Application\EmbeddedApplication')
+            $this->register('application', EmbeddedApplication::class)
                 ->addArgument(new Reference('container'));
         }
 
-        $this->register('console.input.autocomplete', 'PHPCR\Shell\Console\Input\AutoComplete')
+        $this->register('console.input.autocomplete', AutoComplete::class)
             ->addArgument(new Reference('application'))
             ->addArgument(new Reference('phpcr.session'));
     }
 
     public function registerQuery()
     {
-        $this->register('query.update.expression_language', 'Symfony\Component\ExpressionLanguage\ExpressionLanguage');
-        $this->register('query.update.processor', 'PHPCR\Shell\Query\UpdateProcessor')
+        $this->register('query.update.expression_language', ExpressionLanguage::class);
+        $this->register('query.update.processor', UpdateProcessor::class)
             ->addArgument(new Reference('query.update.expression_language'));
     }
 

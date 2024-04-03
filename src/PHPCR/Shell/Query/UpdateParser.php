@@ -162,7 +162,7 @@ class UpdateParser extends Sql2ToQomQueryConverter
         if ($token === 'NULL') {
             $this->scanner->fetchNextToken();
 
-            return;
+            return null;
         }
 
         $columnData = $this->scanColumn();

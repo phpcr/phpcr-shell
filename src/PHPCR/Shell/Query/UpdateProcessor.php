@@ -27,6 +27,16 @@ class UpdateProcessor
      */
     private $functionMap = [];
 
+    /**
+     * @var \Closure[]
+     */
+    private array $functionMapApply;
+
+    /**
+     * @var \Closure[]
+     */
+    private array $functionMapSet;
+
     public function __construct(ExpressionLanguage $expressionLanguage)
     {
         $this->functionMapApply = [
@@ -113,16 +123,18 @@ class UpdateProcessor
     /**
      * Update a node indicated in $propertyData in $row.
      *
-     * @param PHPCR\Query\RowInterface
+     * @param RowInterface
      * @param array
      */
     public function updateNodeSet(RowInterface $row, $propertyData)
     {
         $node = $row->getNode($propertyData['selector']);
+        if (!$node) {
+            throw new \InvalidArgumentException('Row was expected to contain a node at '.$propertyData['selector']);
+        }
         $value = $propertyData['value'];
 
         if ($value instanceof FunctionOperand) {
-            $value = $propertyData['value'];
             $value = $value->execute($this->functionMapSet, $row);
         }
 
@@ -131,17 +143,6 @@ class UpdateProcessor
 
     public function updateNodeApply(RowInterface $row, FunctionOperand $apply)
     {
-        if (!$apply instanceof FunctionOperand) {
-            throw new \InvalidArgumentException(
-                'Was expecting a function operand but got something else'
-            );
-        }
-
         $apply->execute($this->functionMapApply, $row);
-    }
-
-    private function handleFunction($row, $propertyData)
-    {
-        return $value;
     }
 }

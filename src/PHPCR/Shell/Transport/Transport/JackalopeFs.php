@@ -29,8 +29,7 @@ class JackalopeFs implements TransportInterface
             'path'  => $config['repo_path'],
         ];
         $factory = new RepositoryFactoryFilesystem();
-        $repository = $factory->getRepository($params);
 
-        return $repository;
+        return $factory->getRepository($params);
     }
 }

@@ -33,8 +33,14 @@ class AutoSaveSubscriber implements EventSubscriberInterface
     public function handleTerminate(ConsoleTerminateEvent $event)
     {
         $command = $event->getCommand();
+        if (!$command) {
+            return;
+        }
         $output = $event->getOutput();
         $session = $command->get('phpcr.session');
+        if (!$session) {
+            throw new \InvalidArgumentException('expected phpcr.session to exist');
+        }
 
         if ($session->hasPendingChanges()) {
             $output->writeln('<info>Auto-saving session</info>');

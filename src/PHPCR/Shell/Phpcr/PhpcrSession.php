@@ -14,6 +14,8 @@ namespace PHPCR\Shell\Phpcr;
 
 use DTL\Glob\Finder\PhpcrTraversalFinder;
 use PHPCR\CredentialsInterface;
+use PHPCR\ItemNotFoundException;
+use PHPCR\NodeInterface;
 use PHPCR\PathNotFoundException;
 use PHPCR\SessionInterface;
 use PHPCR\Util\UUIDHelper;
@@ -93,16 +95,14 @@ class PhpcrSession implements SessionInterface
             $newPath = $node->getPath();
         } else {
             // absolute path
-            if (substr($path, 0, 1) == '/') {
+            if (str_starts_with($path, '/')) {
                 $newPath = $path;
-            } elseif ($path == '..') {
+            } elseif ($path === '..') {
                 $newPath = dirname($cwd);
+            } else if ($this->cwd === '/') {
+                $newPath = sprintf('/%s', $path);
             } else {
-                if ($this->cwd == '/') {
-                    $newPath = sprintf('/%s', $path);
-                } else {
-                    $newPath = sprintf('%s/%s', $cwd, $path);
-                }
+                $newPath = sprintf('%s/%s', $cwd, $path);
             }
 
             if ($newPath !== '/') {
@@ -238,54 +238,54 @@ class PhpcrSession implements SessionInterface
         return $this->session->getNodesByIdentifier($ids);
     }
 
-    public function getItem($path)
+    public function getItem($absPath)
     {
-        return $this->session->getItem($this->getAbsPath($path));
+        return $this->session->getItem($this->getAbsPath($absPath));
     }
 
-    public function getNode($path, $depthHint = -1)
+    public function getNode($absPath, $depthHint = -1)
     {
-        return $this->session->getNode($this->getAbsPath($path), $depthHint);
+        return $this->session->getNode($this->getAbsPath($absPath), $depthHint);
     }
 
-    public function getNodes($paths)
+    public function getNodes($absPaths)
     {
-        return $this->session->getNodes($this->getAbsPaths($paths));
+        return $this->session->getNodes($this->getAbsPaths($absPaths));
     }
 
-    public function getProperty($path)
+    public function getProperty($absPath)
     {
-        return $this->session->getProperty($this->getAbsPath($path));
+        return $this->session->getProperty($this->getAbsPath($absPath));
     }
 
-    public function getProperties($paths)
+    public function getProperties($absPaths)
     {
-        return $this->session->getProperties($this->getAbsPaths($paths));
+        return $this->session->getProperties($this->getAbsPaths($absPaths));
     }
 
-    public function itemExists($path)
+    public function itemExists($absPath)
     {
-        return $this->session->itemExists($this->getAbsPath($path));
+        return $this->session->itemExists($this->getAbsPath($absPath));
     }
 
-    public function nodeExists($path)
+    public function nodeExists($absPath)
     {
-        return $this->session->nodeExists($this->getAbsPath($path));
+        return $this->session->nodeExists($this->getAbsPath($absPath));
     }
 
-    public function propertyExists($path)
+    public function propertyExists($absPath)
     {
-        return $this->session->propertyExists($this->getAbsPath($path));
+        return $this->session->propertyExists($this->getAbsPath($absPath));
     }
 
-    public function move($srcPath, $destPath)
+    public function move($srcAbsPath, $destAbsPath)
     {
-        return $this->session->move($this->getAbsPath($srcPath), $this->getAbsTargetPath($srcPath, $destPath));
+        return $this->session->move($this->getAbsPath($srcAbsPath), $this->getAbsTargetPath($srcAbsPath, $destAbsPath));
     }
 
-    public function removeItem($path)
+    public function removeItem($absPath)
     {
-        return $this->session->removeItem($this->getAbsPath($path));
+        return $this->session->removeItem($this->getAbsPath($absPath));
     }
 
     public function save()
@@ -303,19 +303,19 @@ class PhpcrSession implements SessionInterface
         return $this->session->hasPendingChanges();
     }
 
-    public function hasPermission($path, $actions)
+    public function hasPermission($absPath, $actions)
     {
-        return $this->session->hasPermission($this->getAbsPath($path), $actions);
+        return $this->session->hasPermission($this->getAbsPath($absPath), $actions);
     }
 
-    public function checkPermission($path, $actions)
+    public function checkPermission($absPath, $actions)
     {
-        return $this->session->checkPermission($this->getAbsPath($path), $actions);
+        return $this->session->checkPermission($this->getAbsPath($absPath), $actions);
     }
 
-    public function hasCapability($methodNames, $target, array $arguments)
+    public function hasCapability($methodName, $target, array $arguments)
     {
-        return $this->session->hasCapability($methodNames, $target, $arguments);
+        return $this->session->hasCapability($methodName, $target, $arguments);
     }
 
     public function importXML($parentAbsPath, $uri, $uuidBehavior)
@@ -323,14 +323,14 @@ class PhpcrSession implements SessionInterface
         return $this->session->importXML($this->getAbsPath($parentAbsPath), $uri, $uuidBehavior);
     }
 
-    public function exportSystemView($path, $stream, $skipBinary, $noRecurse)
+    public function exportSystemView($absPath, $stream, $skipBinary, $noRecurse)
     {
-        return $this->session->exportSystemView($this->getAbsPath($path), $stream, $skipBinary, $noRecurse);
+        return $this->session->exportSystemView($this->getAbsPath($absPath), $stream, $skipBinary, $noRecurse);
     }
 
-    public function exportDocumentView($path, $stream, $skipBinary, $noRecurse)
+    public function exportDocumentView($absPath, $stream, $skipBinary, $noRecurse)
     {
-        return $this->session->exportDocumentView($this->getAbsPath($path), $stream, $skipBinary, $noRecurse);
+        return $this->session->exportDocumentView($this->getAbsPath($absPath), $stream, $skipBinary, $noRecurse);
     }
 
     public function setNamespacePrefix($prefix, $uri)
@@ -379,8 +379,6 @@ class PhpcrSession implements SessionInterface
             return $this->getNodeByIdentifier($patternOrId);
         }
 
-        $res = $this->finder->find($this->getAbsPath($patternOrId));
-
-        return $res;
+        return $this->finder->find($this->getAbsPath($patternOrId));
     }
 }
