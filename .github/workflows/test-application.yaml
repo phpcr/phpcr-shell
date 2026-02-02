@@ -71,6 +71,16 @@ jobs:
                       dependencies: highest
                       behat-suite: cli
                       composer-stability: 'dev'
+                      
+                    - php-version: '8.4'
+                      dependencies: highest
+                      behat-suite: cli
+                      composer-stability: 'dev'
+                      
+                    - php-version: '8.5'
+                      dependencies: highest
+                      behat-suite: cli
+                      composer-stability: 'dev'
 
         steps:
             - name: Checkout project
