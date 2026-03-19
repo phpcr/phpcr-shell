@@ -24,7 +24,7 @@ class ProfileLoader
     protected $config;
     protected $filesystem;
 
-    public function __construct(ConfigManager $config, Filesystem $filesystem = null)
+    public function __construct(ConfigManager $config, ?Filesystem $filesystem = null)
     {
         $this->config = $config;
         $this->filesystem = $filesystem ?: new Filesystem();

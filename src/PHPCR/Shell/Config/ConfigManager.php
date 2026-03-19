@@ -60,7 +60,7 @@ class ConfigManager
      * @param QuestionHelper|DialogHelper $questionHelper
      * @param Filesystem                  $filesystem
      */
-    public function __construct($questionHelper, Filesystem $filesystem = null)
+    public function __construct($questionHelper, ?Filesystem $filesystem = null)
     {
         if (null === $filesystem) {
             $filesystem = new Filesystem();
@@ -174,7 +174,7 @@ class ConfigManager
     /**
      * Initialize a configuration files.
      */
-    public function initConfig(OutputInterface $output = null)
+    public function initConfig(?OutputInterface $output = null)
     {
         $log = function ($message) use ($output) {
             if ($output) {
