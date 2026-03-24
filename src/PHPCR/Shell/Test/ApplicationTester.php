@@ -43,7 +43,7 @@ class ApplicationTester
      *
      * @param Application $application An Application instance to test.
      */
-    public function __construct(Application $application, ShellApplication $shellApplication = null)
+    public function __construct(Application $application, ?ShellApplication $shellApplication = null)
     {
         $this->output = new StreamOutput(fopen('php://memory', 'w', false));
 
