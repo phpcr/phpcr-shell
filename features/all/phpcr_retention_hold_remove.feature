@@ -9,6 +9,8 @@ Feature: Remove retention hold
 
     Scenario: List retention holds
         Given I execute the "retention:hold:remove /tests_general_base foobar" command
+        Then the command should fail
+        And I should see the following:
         """
         Unsupported repository operation
         """
