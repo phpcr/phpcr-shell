@@ -10,6 +10,7 @@ Feature: Remove a retention policy for a given node
     Scenario: Remove the retention policy on a given node
         Given I execute the "retention:policy:remove /tests_general_base" command
         Then the command should fail
+        And I should see the following:
         """
         Unsupported repository operation
         """

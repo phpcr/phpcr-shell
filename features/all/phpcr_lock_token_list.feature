@@ -9,6 +9,7 @@ Feature: List the lock tokens registered with the current session
     Scenario: List lock tokens
         Given I execute the "lock:token:add foobar" command
         Then the command should fail
+        Then I should see the following:
         """
         Not implemented
         """
